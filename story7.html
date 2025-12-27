@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>第7話「全部は試せない、という優しさ」</title>
     <link rel="stylesheet" href="pop3_style.css">
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 </head>
 <body>
 
@@ -33,243 +32,158 @@
         第7話「全部は試せない、という優しさ」
     </header>
 
-    <div class="story-container">
-        <div class="summary-box">
+    <div class="container">
+        <div class="section">
             <h2>◆前回までのあらすじ</h2>
-            <p>魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》で、新人テストエンジニアとして働き始めた結城ユイ──ユイリアは、場当たり運営で炎上しかけたオープン初夜を、伝説のテストアーキテクト・神崎ナギに救われる。クレームを「三つの客パターン」に整理してみせたナギに、「テストは世界の見方を設計する仕事」と教えられ、その背中に強く憧れる。</p>
-            <p>その後、店先で通行人を観察し「世界 W は仕様書の外側まで含む」と知り、イベント準備ではばらばらに見える客たちを同値クラスとしてまとめる感覚を掴む。社畜救済イベントの失敗からは「人にもテストにも境界がある」と学び、割引条件が爆発したときは決定表で「分岐の森」の地図を描く術を教わる。常連カズマとの関係の揺れを状態遷移図として眺めることで、人間関係にも構造があると知り、ユイは少しずつ世界を図にして扱えるテスト屋として歩き始めている。</p>
+            <p>魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》で、新人テストエンジニアとして働き始めた結城ユイ──ユイリアは、炎上しかけたオープン初夜を伝説のテストアーキテクト・神崎ナギに救われ、「テストは世界の見方を設計する仕事」と教わる。その後、世界 <span class="katex">W</span> が仕様書の外側まで広がること、同値クラスでばらばらの客をまとめられること、境界値分析で踏み込み方を調整できること、決定表で分岐を地図にできること、状態遷移図で関係の変化を見通せることを少しずつ身に付け、図で世界を扱う感覚を育てている。</p>
         </div>
 
-        <h1>第7話「全部は試せない、という優しさ」</h1>
+        <div class="section">
+            <h2>◆本編</h2>
+            <p>「――じゃ、今度の《魔界横断オールナイトフェス》のテスト計画、ユイリアちゃんに任せたわよん♪」</p>
+            <p>オーナーのバルハが、ぎっしり書き込みだらけの企画書を置いた。BGM３種、コスチューム３種、限定メニュー３種、席配置３パターン、客層４パターン。</p>
 
-        <p>「――じゃ、今度の《魔界横断オールナイトフェス》のテスト計画、ユイリアちゃんに任せたわよん♪」</p>
-        <p>オーナーのバルハが、ぎっしり書き込みだらけの企画書を置いた。</p>
-        <p>BGM３種、コスチューム３種、限定メニュー３種、席配置３パターン、客層４パターン。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「……多くないですか？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">バルハ</span>
-            「魔界の夜は盛りだくさんが正義よ☆　じゃ、よろしく～」
-        </div>
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「……多くないですか？」
+            </div>
 
-        <p>カウンターの端で、ユイはノートを開く。</p>
-        <p>BGM × コスチューム × メニュー × 席配置 × 客層……。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「全部試そうとすると、3×3×3×3×4で……」
-        </div>
-        
-        <p>数字を書きかけたペン先が止まる。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「私、こんなにテストケース作る時間、ない……」
-        </div>
-        
-        <p>前に教わった決定表を真似してみるが、マス目はすぐ真っ黒になり、頭の中の IF 文も一緒に爆発した。</p>
-        <p>気づけば、ノートに額をつけていた。</p>
+            <div class="dialogue">
+                <span class="character-name">バルハ</span>
+                「魔界の夜は盛りだくさんが正義よ☆　じゃ、よろしく～」
+            </div>
 
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「ユイ、寝落ち？」
-        </div>
-        
-        <p>ふわりと影が差し、聞き慣れた声がした。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「な、ナギ先輩……」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「テストケースに轢かれた顔してるね」
-        </div>
-        
-        <p>ナギはノートを覗き込み、びっしりの×印を見る。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「全部の組合せを、全部試そうとしてる？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「だって……どれか取りこぼしたところでバグったら、私のせいでイベントが壊れるかもって思ったら……全部やらなきゃって」
-        </div>
-        
-        <p>自分でも情けなくて、声が小さくなる。</p>
+            <p>カウンターの端で、ユイはノートを開く。BGM × コスチューム × メニュー × 席配置 × 客層……。</p>
 
-        <p>ナギは少しだけ考える顔をしてから、ペンを取る。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「ユイ、山で鉱物採集したことある？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「ないです」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「じゃあ、想像だけ。山全部に鉱石があるとして、プロは山を全部掘らない」
-        </div>
-        
-        <p>紙の端に、小さな山の断面図が描かれる。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「地層を見て、『ここ、筋が良さそう』って場所だけ掘る。そこを"代表"にするんだ」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「代表……」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「前に同値クラスで"同じ扱いにできる塊"を見つけたでしょ。今度は、その塊同士の"組み合わせ"を見る番」
-        </div>
-        
-        <p>ナギは因子を１列に並べる。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「BGM、コスチューム、メニュー、客層。この四つが、今回の主役かな」
-        </div>
-        
-        <p>席配置がするりと外されただけで、ページの圧迫感が少し薄れた。</p>
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「全部試そうとすると、3×3×3×3×4で……」
+            </div>
 
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「でね、全部の組み合わせは追わない。その代わり、<span class="highlight">二つずつの組み合わせ</span>が一度は出てくるように、テストケースを選ぶ」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「二つずつ？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「うん。BGM×コスチューム、BGM×メニュー、メニュー×客層……って、全部のペアを一度はカバーする。これを"ペアワイズテスト"って呼ぶよ」
-        </div>
-        
-        <p>小さな表のいくつかのマスだけに印がつき、その行だけを抜き出していく。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「全部の掛け算は無理。だからこそ、"起きやすい問題の多く"を拾ってくれる、筋の良いポイントを押さえる」
-        </div>
-        
-        <p>数十行になりかけていたテストケースが、数行にまとまっていく。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「……こんなに減っちゃって、大丈夫なんですか？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「全部試さないのは、怠けじゃないよ」
-        </div>
-        
-        <p>ナギは、穏やかな声で言う。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「限られた時間と体力で、"できるだけ多くの誰か"を守るための、賢い諦め方。私たちは世界 W 全部を守るヒーローじゃないけど、ちゃんと考えて選んだテストは、その夜《∞》に来る誰かの、がっかりする未来を一つ消してくれる」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「……賢い、諦め方……」
-        </div>
-        
-        <p>胸の重さが少し軽くなった。</p>
+            <p>数字を書きかけたペン先が止まる。</p>
 
-        <p>――イベント当日。</p>
-        <p>ユイが組んだペアワイズのテストケースで事前リハを回すと、</p>
-        
-        <div class="math-box">
-            「トランス系BGM × 覚醒エナドリ × 社畜客」
-        </div>
-        
-        <p>の組み合わせだけ、キッチンのオーダーが異常に詰まることが分かった。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「ここ、本番ではメニュー数を絞って、声かけ増やそう」
-        </div>
-        
-        <p>ナギの一言で、運営がさっと書き換えられる。</p>
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「私、こんなにテストケース作る時間、ない……」
+            </div>
 
-        <p>夜になり、フェスが始まる。</p>
-        <p>静かなBGMのカウンター席で、社畜たちがほっと肩の力を抜いている。</p>
-        <p>派手な衣装に目を輝かせる観光客。</p>
-        <p>いつものカズマも、ハーブティーを片手に穏やかに笑っていた。</p>
-        <p>どのテーブルでも、致命的な詰まりは起きない。</p>
-        <p>（全部は試せなかった。でも――）</p>
-        <p>もしあの地獄コンボを放置していたら、と想像して、ユイは背筋をひやりとさせた。</p>
+            <p>前に教わった決定表を真似してみるが、マス目はすぐ真っ黒になり、頭の中の IF 文も一緒に爆発した。気づけば、ノートに額をつけていた。</p>
 
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「ありがと、ユイ」
-        </div>
-        
-        <p>営業後、片付けをしながらナギが言う。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「今日、助かった人、きっとたくさんいるよ。気づいてないだけで」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「……私のテストで、ですか？」
-        </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「うん。『全部は無理』って認めて、それでも"ここだけは守る"って選んでくれたから」
-        </div>
-        
-        <p>その言葉が、ゆっくり胸の奥に沈んでいく。</p>
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「ユイ、寝落ち？」
+            </div>
 
-        <p>（全部は守れない。けど、私が選んだこのいくつかは、ちゃんと守れた）</p>
-        <p>そう思えたとき、ユイは初めて、自分のテストが誰かの笑顔を支えている光景を、はっきり思い描けた。</p>
+            <p>ふわりと影が差し、聞き慣れた声がした。</p>
 
-        <p>閉店後のフロアに、まだ微かな音楽が残っている。</p>
-        <p>その音に耳を澄ませながら、ユイはペンを握り直した。</p>
-        
-        <div class="dialogue">
-            <span class="character-name">ユイ</span>
-            「……次のイベントも、"筋の良いポイント"、一緒に探してくれますか？」
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「な、ナギ先輩……」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「テストケースに轢かれた顔してるね」
+            </div>
+
+            <p>ナギはノートを覗き込み、びっしりの×印を見る。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「全部の組合せを、全部試そうとしてる？」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「だって……どれか取りこぼしたところでバグったら、私のせいでイベントが壊れるかもって思ったら……全部やらなきゃって」
+            </div>
+
+            <p>自分でも情けなくて、声が小さくなる。ナギは少しだけ考える顔をしてから、ペンを取った。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「ユイ、山で鉱物採集したことある？」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「ないです」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「山って、全部の石を拾うんじゃなくて、“ここらへんに石英が多い層がある”とか“ここの斜面は崩れやすい”ってポイントを押さえるの。テストも同じ。全部は試せないからこそ、『代表』に絞る」
+            </div>
+
+            <p>ナギは紙に小さな表を描く。BGM・コスチューム・メニュー・席配置・客層。それぞれの組み合わせを均等に拾う直交表ができあがっていく。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「これはペアワイズとか直交表って呼ぶやり方。二つずつの組合せが漏れなく入るように、最小限のケースを選ぶんだ」
+            </div>
+
+            <p>並んだ数字が、さっきまでの 3×3×3×3×4 の暴力から一気に少なくなる。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「……ほんとだ。全部じゃないのに、ちゃんと“組み合わせを見る”って感じが残ってる」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「全部を試せないって、諦めじゃなくて優しさなんだよ。限られた時間で、壊れやすいところをちゃんと見るための優先順位付け」
+            </div>
+
+            <p>ナギは最後に、空欄にいくつかのリスクメモを書き込む。「深夜帯×ハイヒール→滑りリスク」「辛メニュー×未成年→要注意」。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「直交表は“平均的な組合せ”を見るのが得意。でも、人が滑りやすいところ、燃えやすいところは意識的に足しておくといい」
+            </div>
+
+            <p>ユイは深呼吸し、重かった肩が少し軽くなるのを感じた。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「……全部はできない、って決めるのって怖かったけど、ちゃんと理由があれば、むしろ守りになるんですね」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「そう。“優しく選ぶ”ってこと。ユイが選んだケースで、当日のお客さんが安全に楽しめるようにしよう」
+            </div>
+
+            <p>フェス当日、ユイは直交表で選んだ組み合わせを丁寧に試し、リスクメモのケースを重点的に確認した。終電を逃した社畜がハイヒールのサキュバスに絡みそうになる場面も、事前に想定していた導線チェックのおかげで大きな事故にはならなかった。</p>
+            <p>閉店後、バルハが冷蔵庫のドアに直交表を貼りながら笑う。</p>
+
+            <div class="dialogue">
+                <span class="character-name">バルハ</span>
+                「全部は試せない、けど、この表があればみんなで迷子にならないね」
+            </div>
+
+            <p>ユイも笑う。全部を抱え込まなくてもいい。優しく選んだ少ないケースが、確かに世界 <span class="katex">W</span> の安全を守っている手応えがあった。</p>
         </div>
-        
-        <div class="dialogue">
-            <span class="character-name">ナギ</span>
-            「もちろん」
-        </div>
-        
-        <p>ナギの笑顔は、少し遠くて、でも前よりずっと近く感じられた。</p>
     </div>
   </main>
 
     <div class="footer">
-        &copy; 魔界歓楽街 サキュバスメイド喫茶《∞（インフィニティ）》
+        © 魔界歓楽街 サキュバスメイド喫茶《∞（インフィニティ）》
     </div>
 
     <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+        });
+    </script>
 </body>
 </html>

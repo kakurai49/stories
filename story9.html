@@ -4,21 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>第9話「ログは、システムからのラブレター」</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFbsHchigvm" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
-                ]
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="pop3_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 </head>
 <body>
 
@@ -46,134 +33,127 @@
     </header>
 
     <div class="container">
-        <div class="character">
+        <div class="section">
             <h2>◆前回までのあらすじ</h2>
-            <p>魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》で、新人テストエンジニアとして働く結城ユイ──源氏名ユイリア。場当たり運営で炎上しかけたオープン初夜に伝説のテストアーキテクト神崎ナギと出会い、「テストは世界 W の見方を設計する仕事」だと知る。以来、仕様書の外側まで含めた世界 W を意識しながら、客を同値クラスで捉え、人とテストの境界値にぶつかり、割引ロジックを決定表で地図にし、常連カズマとの関係を状態遷移図として眺めてきた。</p>
-            <p>大イベント前には全組合せを試そうとして倒れかけるが、ペアワイズで「筋のいい組合せ」だけを選ぶことで「全部は試せない」という賢いあきらめ方を学ぶ。第8話では様々な観点のカバレッジを虹のように見える化し、「足りない」だけでなく「ここまでは届いた」と自分の仕事を肯定できるようになったところである。</p>
+            <p>新人テストエンジニア・結城ユイ（源氏名ユイリア）は、伝説のテストアーキテクト神崎ナギに導かれながら、サキュバスメイド喫茶《∞（インフィニティ）》で世界 <span class="katex">W</span> の見方を学び続けている。客を同値クラスで捉え、境界値で踏み込み方を調整し、決定表で分岐を地図にし、状態遷移図で関係の揺れを眺め、ペアワイズで筋の良い組合せを選び、カバレッジの虹で自分のテストの濃淡を確かめるようになった。</p>
         </div>
 
-        <div class="scene-change">◇</div>
+        <div class="section">
+            <h2>◆本編</h2>
+            <p>金曜の夜。《∞》は社畜救済ナイトとハーフアニバーサリー割引が重なり、開店直後から満席だった。</p>
 
-        <h2>第9話「ログは、システムからのラブレター」</h2>
+            <div class="dialogue">
+                <span class="character-name">メイドたち</span>
+                「ユイリアさーん！　会計が通りません！」
+            </div>
 
-        <p>金曜の夜。《∞》は社畜救済ナイトとハーフアニバーサリー割引が重なり、開店直後から満席だった。</p>
+            <div class="dialogue">
+                <span class="character-name">メイドたち</span>
+                「ドリンクだけ永遠に『処理中』です！」
+            </div>
 
-        <p>「ユイリアさーん！　会計が通りません！」<br>
-        「ドリンクだけ永遠に『処理中』です！」<br>
-        「レシート、古代語みたいになってるんですけど！」</p>
+            <div class="dialogue">
+                <span class="character-name">メイドたち</span>
+                「レシート、古代語みたいになってるんですけど！」
+            </div>
 
-        <p>新人メイドたちの悲鳴が一斉に飛んできて、ユイは固まる。</p>
+            <p>新人メイドたちの悲鳴が一斉に飛んできて、ユイは固まる。頭の中で IF 文が暴走し始めたそのとき、カウンターの端から落ち着いた声がした。</p>
 
-        <div class="quote">
-            （さっきカバレッジの虹まで描いて準備したのに……なんで今！？）
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「深呼吸、ユイリア。まずは、世界で何が起きてるかを見よっか」
+            </div>
+
+            <p>ナギはバックヤードの端末を指さす。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「ナギ先輩！？」「カズマくんが『今日は地獄だ』って騒いでたからね」
+            </div>
+
+            <p>画面にはタイムスタンプやエラーコードの並んだログがびっしりと流れていた。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「うっ……ログって、やっぱり怖いです。怒られてるみたいで」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「怒ってるんじゃなくて、“苦しかった場所”を教えてくれてるだけだよ」
+            </div>
+
+            <p>ナギはスクロールを止め、一行を指でなぞる。</p>
+            <pre>WARN discount-rule-07 condition overflow for pattern[社畜救済×ハーフアニバ×深夜延長]</pre>
+
+            <p>それはユイが決定表の空いていたマスに勢いで書き足した新コンボだった。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「WARN は『ここ、ちょっとしんどかったよ』っていう弱めの悲鳴。世界 <span class="katex">W</span> から届いた、“ここが痛い”っていうラブレターだね」
+            </div>
+
+            <p>客席を振り返ると、奥のボックス席でスーツ姿のグループが会計を待ちながら伝票の山とにらめっこしていた。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「このコンボのときだけ、料金計算を何度もやり直してる。だから端末がタイムアウトして、レシートもぐちゃぐちゃになる」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「じゃあ、このコンボだけ一時的に止めれば……？」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「そう。世界 <span class="katex">W</span> 全体を止める必要はない。“痛がってる同値クラス”だけをそっと保護する」
+            </div>
+
+            <p>二人でオーナーのバルハに状況を説明すると、バルハは肩をすくめて笑った。</p>
+
+            <div class="dialogue">
+                <span class="character-name">バルハ</span>
+                「OK。そのコンボは今夜だけ封印ね。『悪魔的負荷のため、社畜救済とハーフアニバの同時適用は停止中』ってポップ書いとくわ」
+            </div>
+
+            <p>対応後、ラッシュは戻ってきたが、端末の悲鳴はぴたりと止んだ。</p>
+
+            <div class="scene-break">＊　＊　＊</div>
+
+            <p>営業終了後。ユイはバックヤードで改めてログを眺める。イベントの時間帯、席の組み合わせ、特定のメニュー。赤い文字が集まる場所は、今日の世界 <span class="katex">W</span> が痛んでいた場所そのものだ。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「……ラブレター、ですね。本当に」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「でしょ？　『ここ、もっと優しくして』『この組合せ、重すぎる』って、システムがちゃんと教えてくれる」
+            </div>
+
+            <p>ユイはラブレターを丁寧にノートへ貼り付け、次のテスト計画のページに矢印を引いた。ログの文字列が、少しだけ温かく見えた。</p>
         </div>
-
-        <p>頭の中で IF 文が暴走し始めたそのとき、カウンターの端から落ち着いた声がした。</p>
-
-        <p>「深呼吸、ユイリア。まずは、世界で何が起きてるかを見よっか。」</p>
-
-        <p>「ナギ先輩！？」<br>
-        「カズマくんが『今日は地獄だ』って騒いでたからね。」</p>
-
-        <p>ナギはバックヤードの端末を指さす。</p>
-
-        <p>「ほら。システムはもう、ちゃんと喋ってくれてる。」</p>
-
-        <p>画面には細かい文字列がびっしりと流れていた。<br>
-        タイムスタンプ、エラーコード、謎の英数字。</p>
-
-        <p>「うっ……ログって、やっぱり怖いです。怒られてるみたいで。」<br>
-        「怒ってるんじゃなくて、“苦しかった場所”を教えてくれてるだけだよ。」</p>
-
-        <p>ナギはスクロールを止め、一行を指でなぞる。</p>
-
-        <pre>WARN discount-rule-07 condition overflow for pattern[社畜救済×ハーフアニバ×深夜延長]</pre>
-
-        <p>「……あ。」</p>
-
-        <p>さっきユイが決定表の空いていたマスに、勢いで書き足した新コンボだった。</p>
-
-        <p>「WARN は『ここ、ちょっとしんどかったよ』っていう弱めの悲鳴。」ナギが言う。<br>
-        「世界 W から届いた、“ここが痛い”っていうラブレターだね。」</p>
-
-        <p>口では「ドライすぎます」と返しながら、ユイは客席を振り返る。<br>
-        奥のボックス席で、スーツ姿のグループが会計を待ちながら、伝票の山とにらめっこしていた。</p>
-
-        <div class="quote">
-            （あのパターンだけ、やたら時間がかかってた……。）
-        </div>
-
-        <p>ナギは簡単なフィルタで同じ WARN が出ているログだけを一覧にする。</p>
-
-        <p>「ほら、このコンボのときだけ、料金計算を何度もやり直してる。だから端末がタイムアウトして、レシートもぐちゃぐちゃになる。」</p>
-
-        <p>「じゃあ、このコンボだけ一時的に止めれば……？」<br>
-        「そう。世界 W 全体を止める必要はない。“痛がってる同値クラス”だけをそっと保護する。」</p>
-
-        <p>二人でオーナーのバルハに状況を説明すると、バルハは肩をすくめて笑った。</p>
-
-        <p>「OK。そのコンボは今夜だけ封印ね。『悪魔的負荷のため、社畜救済とハーフアニバの同時適用は停止中』ってポップ書いとくわ。」</p>
-
-        <p>対応後、ラッシュは戻ってきたが、端末の悲鳴はぴたりと止んだ。</p>
-
-        <div class="scene-change">◇</div>
-
-        <p>営業終了後。静かな店内で、ユイはさっきのログ画面をもう一度開く。</p>
-
-        <p>「……思ったより、優しいんですね、ログって。」</p>
-
-        <p>「お、さっきは『怖い』って言ってたのに。」ナギがマグカップを片手に微笑む。</p>
-
-        <p>「失敗の記録ばっかりで『ここダメ』って責めてくるものだと思ってました。でも時間順に追っていくと、客席で何が起きてたかが、ちゃんと見えてきて……。」<br>
-        ユイは画面を指さす。<br>
-        「私が見てなかった時間の《∞》の様子まで、『ここで詰まってたよ』『ここはスムーズだったよ』って教えてくれてる感じがして。」</p>
-
-        <p>「うん。観測データってそういうもの。世界 W をそのまま見るんじゃなくて、“切り取って届けてくれるポストカード”みたいなものかな。」</p>
-
-        <p>ナギはメモ帳にさらさらと式を書く。</p>
-
-        <p>\[ W \rightarrow \text{（観測）} \rightarrow D\text{（ログ・メトリクス）} \rightarrow \text{変わる} S \]</p>
-
-        <p>「世界 W を観測してデータ D をもらうたびに、私たちの観点 S が少しずつ変わる。今日は『あのコンボは要注意』っていう新しい S を手に入れたわけだ。」</p>
-
-        <p>「……じゃあ私、ちょっとだけバージョンアップしたってことですね。」<br>
-        「うん。“ユイリア 0.9.2-log-friendly”。」</p>
-
-        <p>「マイナーバージョンアップ……。」</p>
-
-        <p>苦笑しながらも、胸の奥は少し温かかった。</p>
-
-        <div class="quote">
-            （ログを見るの、前よりちょっと楽しいかも。）
-        </div>
-
-        <p>ホワイトボードの虹色のカバレッジ図を思い浮かべる。<br>
-        そこに、さっきの WARN の山を示す細い線が、そっと一本描き足されるイメージが浮かんだ。</p>
-
-        <p>「テストって、『動かす前に考える』だけじゃなくて、『動いたあとに世界の声を聞く』ことでもあるんですね。」<br>
-        「そう。ログは、システムからのラブレターであり、世界 W からの手紙でもある。」</p>
-
-        <p>バックヤードの隅で、ログサーバーの小さなランプが点滅を続けている。</p>
-
-        <p>それはまるで、《∞》からユイへ届き続ける、少し不器用なラブレターのように見えた。</p>
     </div>
   </main>
 
     <div class="footer">
-        &copy; 魔界歓楽街のサキュバスメイド喫茶《∞》シリーズ
+        © 魔界歓楽街 サキュバスメイド喫茶《∞（インフィニティ）》
     </div>
 
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
     <script>
-        // KaTeXの自動レンダリングを有効化
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
                 delimiters: [
-                    {left: "$$", right: "$$", display: true},
-                    {left: "$", right: "$", display: false},
-                    {left: "\\(", right: "\\)", display: false},
-                    {left: "\\[", right: "\\]", display: true}
-                ],
-                throwOnError: false
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
             });
         });
     </script>
