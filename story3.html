@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3話「同値クラスという、お守りの石」</title>
+    <link rel="stylesheet" href="pop3_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <style>
+        /* 追加スタイル: コントラスト強化 & カラフルな要素 */
+        .content {
+            margin-bottom: 30px;
+            border: 3px solid #ff4081;
+            padding: 20px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffdd57, #ffcc00);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .content:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #ffcc00, #ffaa00);
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        pre {
+            background-color: #2d2d2d !important; /* ダーク背景 */
+            color: #f8f8f2 !important; /* 明るい文字色 */
+            border: 2px solid #ff4081;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+            max-width: 100%;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .katex {
+            font-size: 1.1em !important;
+            color: #d33682 !important; /* 数式の文字色をピンクに */
+        }
+        .highlight {
+            background-color: #ff4081;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .quote {
+            border-left: 5px solid #1e90ff;
+            padding-left: 15px;
+            margin: 10px 0;
+            font-style: italic;
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        第3話「同値クラスという、お守りの石」
+    </header>
+    <div class="container">
+        <section class="content">
+            <h2>前回までのあらすじ</h2>
+            <p>魔界歓楽街にオープンしたサキュバスメイド喫茶《∞（インフィニティ）》。新人メイド・ユイリアこと結城ユイは、“なんでも屋のダメダメテストエンジニア”として場当たりでイベントを回し、オープン初夜にクレーム祭りを引き起こしてしまう。</p>
+            <p>そこへ現れたのが、伝説級テストアーキテクト・神崎ナギ。山のようなクレームログを一瞥しただけで客を三つのパターンに整理し、状況を一気に見える化してしまう。その背中に憧れたユイは、翌日ナギに連れられて《∞》の前に立ち、店の外を歩く人々を観察することに。</p>
+            <p>「誰が店に入りそうか？」という問いにことごとく外れ続けたユイは、世界 <span class="katex">W</span> が仕様書の外側――時間帯、天気、SNS、そして人の気分まで含んでいると知らされる。けれどナギは「見ようとした瞬間から、もうテスターだよ」と笑い、ユイは少しだけ胸を張れるようになったのだった。</p>
+        </section>
+
+        <section class="content">
+            <h2>第3話「同値クラスという、お守りの石」</h2>
+            <p>「社畜客」「観光客」「カップル」「ぼっち」――<br>
+            ホワイトボード一面の付箋を前に、ユイは頭を抱えていた。</p>
+            
+            <p>「イベント仕様：残業明け社畜救済ナイト。対象客層、多すぎでは…？」<br>
+            自分で書いた仕様書（という名の殴り書き）を読み上げて、ため息をつく。<br>
+            バルハからのミッションは、《∞》に来るどんな客にも「癒やされた」と言わせるイベントを設計すること。</p>
+            
+            <p>「社畜にもブラックとホワイトがいて、観光客も陽キャと陰キャがいて…<br>
+            　これ全部別々にテストしてたら、一生終わらないんだけど…」</p>
+            
+            <p>カウンターの上では、オーナー・バルハが黄金の瞳でその様子を眺めている。助け舟は、期待できそうにない。</p>
+            
+            <div class="quote">
+                <p>「行き詰まった顔してるね」<br>
+                背後から聞き慣れた声。振り向けば、神崎ナギが立っていた。</p>
+                
+                <p>「せ、先輩！　このカオス見ないでください…」<br>
+                「ううん、いいカオスだよ」</p>
+            </div>
+            
+            <p>ナギはくすりと笑い、ポケットから小さなガラス瓶を取り出した。</p>
+            <p>中には、色も形も違う小さな鉱石がぎゅっと詰まっている。</p>
+            
+            <div class="quote">
+                <p>「綺麗ですけど？」<br>
+                「全部、石英（クォーツ）だよ」<br>
+                「え、全部同じなんですか？」<br>
+                「うん。見た目は違っても、“この観点から見ると同じ”ってことはよくある」</p>
+            </div>
+            
+            <p>ナギは瓶を軽く振ってから、ホワイトボードの前に立つ。</p>
+            
+            <div class="quote">
+                <p>「今ユイが困ってるのは、“全部違って見えるお客さん”でしょ？」<br>
+                「はい…。バリエーション多すぎて、テストパターンが宇宙の端まで増えそうで…」</p>
+                
+                <p>「じゃあ、“お守りの石”を信じてみようか」<br>
+                ナギはマーカーを手に取った。</p>
+                
+                <p>「今日のイベントで一番守りたい観点 <span class="katex">S</span> は？」<br>
+                「えっと…『ここに来てよかった』…ですか？」<br>
+                「その中でも、残業明け社畜救済なんだから？」<br>
+                「――“限界の社畜さんが、少しでも呼吸を取り戻せるか”」</p>
+            </div>
+            
+            <p>ナギは真ん中に大きな丸を描き、「<span class="katex">S</span>：限界社畜の呼吸ポイント」と書き込む。</p>
+            
+            <div class="quote">
+                <p>「じゃあ、この <span class="katex">S</span> から見て“同じ扱いでよさそうな人たち”を探そう」<br>
+                「同じ扱い…？」</p>
+            </div>
+            
+            <p>ナギは付箋を二枚はがす。<br>
+            《社畜：三日徹夜、今にも倒れそう》<br>
+            《社畜：殘業続き、今日は上司に怒鳴られてきた》</p>
+            
+            <div class="quote">
+                <p>「この二人にとって一番大事なのは？」<br>
+                「体力ゼロと、心がズタボロ…」<br>
+                「どっちも“今すぐ難しい話を聞かされると死ぬ”って意味では同じだよね」<br>
+                「あ、たしかに」</p>
+                
+                <p>「じゃあこの二人は、<span class="katex">S</span> の観点では同じ“限界社畜クラス”」<br>
+                ナギは二枚を丸で囲み、「<span class="katex">A_1</span>：限界社畜」とラベルをつけた。</p>
+            </div>
+            
+            <p>次にナギがつまんだのは、<br>
+            《社畜：普段は激務だが今日は奇跡の有給》<br>
+            《観光客：魔界出張のついでに寄った》の二枚。</p>
+            
+            <div class="quote">
+                <p>「一見違うけど、“今日の気分”は似てない？」<br>
+                「どっちも、ちょっと浮かれてる感じ…」<br>
+                「そう。“今日は特別な一日”クラスだね」</p>
+            </div>
+            
+            <p>新しい丸に「<span class="katex">A_2</span>：特別デー満喫」と書き込む。</p>
+            <p>さっきまでバラバラだった客たちが、観点 <span class="katex">S</span> を通してふわっと集まり始める。</p>
+            
+            <div class="quote">
+                <p>「え、じゃあ…このカップルと、このぼっちさんも…」<br>
+                ユイは自分で付箋を動かし、ラブラブ観光カップルと、スマホを握りしめてそわそわしている青年を同じ丸に入れた。</p>
+                
+                <p>「どっちも“誰かに見せたい特別な夜”クラス…かも」<br>
+                「うん、その分け方はユイの <span class="katex">W</span> の見方から出てきたものだよ」</p>
+            </div>
+            
+            <p>ナギはホワイトボードの端に小さく書き添える。</p>
+            
+            <div class="quote">
+                <p>「世界 <span class="katex">W</span> のお客さんを、観点 <span class="katex">S</span> から見て“同じ息の仕方かどうか”で分けたグループ。<br>
+                　それがテストでいう同値クラス <span class="katex">A(S)</span>」</p>
+                
+                <p>「同値クラス…用語としてしか知らなかったです」<br>
+                「名前だけ知ってても、こうやって <span class="katex">W</span> の上に描いてみると、ちょっと身近になるでしょ？」</p>
+            </div>
+            
+            <p>ユイはうなずき、ノートを開いた。<br>
+            丸と矢印が増えるたび、混沌だった世界が少しだけ整っていく。</p>
+            
+            <div class="quote">
+                <p>「じゃあ、それぞれのクラスから代表を一人決めて、その人の一晩を徹底的にシミュレーションしよう」<br>
+                「<span class="katex">A_1</span> は三日徹夜さん。寝落ちさせない導線と、脳に優しいメニューを…」<br>
+                「<span class="katex">A_2</span> は有給社畜さん。“頑張ってる自分”を労えるサプライズを入れたいです」</p>
+            </div>
+            
+            <p>客の名前の代わりに、「<span class="katex">A_1</span>」「<span class="katex">A_2</span>」の記号がノートの上を跳ね回る。<br>
+            さっきまで怖かったバリエーションが、「塊」として手のひらに乗る感覚。</p>
+            
+            <div class="quote">
+                <p>「ね、全部バラバラに見えてた世界が、“同じ扱いでよくなる塊”に見えてきたでしょ？」<br>
+                「はい…。世界がちょっと優しくなった気がします」<br>
+                「それが、同値クラスのお守り効果」</p>
+            </div>
+            
+            <p>ナギは瓶から小さな透明な石を一つ取り出した。<br>
+            「今日からユイのお守り。困ったら、この石を見て考えてみて。<br>
+            　“この子と同じように扱える仲間、いないかな？”って」</p>
+            
+            <p>ユイはそっと石を握りしめる。<br>
+            冷たい感触が、少しずつ手の中で温度を帯びていく。</p>
+            
+            <p>――いつか自分も、ナギみたいに。<br>
+            バラバラな世界を、やさしい丸で包んであげられる先輩になれたら。</p>
+            
+            <p>石英のかすかなきらめきが、ホワイトボードに映る。<br>
+            そこにはもう、“なんでも屋のダメダメテストエンジニア”ではなく、<br>
+            同値クラスという小さな石を手に入れた、一人のテスト屋の地図が描かれ始めていた。</p>
+        </section>
+    </div>
+
+    <footer class="footer">
+        © 2024 テストエンジニア物語
+    </footer>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</body>
+</html>

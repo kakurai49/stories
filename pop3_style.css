@@ -1,0 +1,155 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffdd57; /* Bold pop art colors */
+    color: #333;
+}
+
+header {
+    background-color: #ff4081;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 2.5rem;
+    animation: glow 1.5s infinite alternate;
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 1.8rem; /* Smaller font for mobile devices */
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081;
+    }
+    to {
+        text-shadow: 0 0 30px #ff4081, 0 0 40px #ff4081;
+    }
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    animation: popEffect 1s ease-in-out;
+}
+
+@keyframes popEffect {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+h2 {
+    color: #ff4081;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+    color: #1e90ff;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #ff4081;
+    text-shadow: 0 0 5px #ff4081;
+}
+
+img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    max-width: 100%; /* Ensure it fits within the container */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #ff4081;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.character {
+    margin-bottom: 30px;
+    border: 3px solid #ff4081;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffdd57;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.character:hover {
+    transform: scale(1.05);
+    background-color: #ffcc00;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+}
+
+/* KaTeXの数式がはみ出ないようにするためのスタイル */
+.katex {
+    font-size: 1.1em !important; /* 数式のフォントサイズを調整 */
+    overflow-x: auto; /* 横スクロールを許可 */
+    overflow-y: hidden; /* 縦スクロールは不要 */
+    max-width: 100%; /* コンテナ幅に合わせる */
+    white-space: nowrap; /* 数式が折り返されないようにする */
+}
+
+.katex-display {
+    margin: 0.5em 0; /* 数式の上下の余白を調整 */
+    overflow-x: auto; /* 横スクロールを許可 */
+    max-width: 100%; /* コンテナ幅に合わせる */
+}

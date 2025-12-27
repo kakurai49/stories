@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魔界歓楽街のサキュバスメイド喫茶《∞》 第10話</title>
+    <link rel="stylesheet" href="pop3_style.css">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <style>
+        /* 追加スタイル：コントラスト強化とカラフルな要素 */
+        body {
+            background: linear-gradient(135deg, #ffdd57 0%, #ff9a57 100%);
+            color: #222;
+        }
+        
+        .story-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 8px solid #ff4081;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .dialogue {
+            background-color: #f0f8ff;
+            border-left: 5px solid #1e90ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: #ff4081;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .thought {
+            background-color: #fff8dc;
+            border-left: 5px solid #ffcc00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            color: #666;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ff4081;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        
+        .formula {
+            background-color: #e6f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px dashed #1e90ff;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        
+        .highlight {
+            background-color: #ffff00;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .scene-break {
+            text-align: center;
+            margin: 30px 0;
+            color: #ff4081;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        魔界歓楽街のサキュバスメイド喫茶《∞》 第10話「魔導書と職人の手、Fθと G」
+    </header>
+
+    <div class="container">
+        <section class="story-section">
+            <h2>◆前回までのあらすじ</h2>
+            <p>魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》で、新人テストエンジニアとして働く結城ユイ──源氏名ユイリアは、場当たり運営で炎上しかけたオープン初夜に、伝説のテストアーキテクト神崎ナギと出会う。「テストは世界 W の見方を設計する仕事」という言葉に胸を撃たれ、世界 W と制約 E を意識しながら、客を同値クラスでまとめ、心の境界値を探り、割引ロジックを決定表に描き、常連カズマとの関係を状態遷移図として眺めてきた。</p>
+            <p>大イベント前には全組合せテストで倒れかけるが、ナギからペアワイズで「筋のいい組合せ」だけを選ぶ賢いあきらめ方を教わる。さらに、仕様ベースや構造ベースなど様々なカバレッジを虹のように見上げ、「足りない」ではなく「ここまでは届いた」と自分の仕事を認められるようになる。</p>
+            <p>直近の第9話では、イベント中のトラブルをきっかけにログ解析に向き合い、「ログはシステムからのラブレター」とナギに教えられる。無機質だと思っていたログの行が、客の行動と結びついた瞬間に世界 W の新しい一面として立ち上がり、ユイは「観測することでしか見えない世界」があると知ったところである。</p>
+        </section>
+
+        <div class="scene-break">● ● ●</div>
+
+        <section class="story-section">
+            <h2>第10話「魔導書と職人の手、Fθと G」</h2>
+            
+            <div class="dialogue">
+                <span class="character-name">バルハ:</span>「ねえユイリア。"頭数勝負"じゃないやり方、試してみない？」
+            </div>
+            
+            <p>営業後のカウンターで、バルハが分厚い黒い本を置いた。表紙には銀色で《汎用魔導書 Fθ》。</p>
+            
+            <p>「仕様書もログも食べさせると、勝手にテスト案を吐く魔導書さ。最近の魔界テックの流行り。」</p>
+            
+            <div class="thought">
+                （……もしかして、わたしの仕事、なくなるやつ？）
+            </div>
+            
+            <p>不安を飲み込みつつ、ユイはナギと三人で実験することになった。</p>
+            
+            <div class="scene-break">● ● ●</div>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「この前の社畜救済イベントの仕様とログ、流してみようか。」
+            </div>
+            
+            <p>ナギが端末から魔導書へ魔力ケーブルを繋ぐと、黒いページが勝手にめくれ、光る文字が浮かぶ。</p>
+            
+            <pre>&lt;テスト案候補：
+　1. 残業時間 0〜100 時間の全範囲で割引率が正しいこと
+　2. 客の職種ごとに専用セリフが表示されること
+　3. ログイン失敗時に励ましメッセージが表示されること
+　……（以下 120 件）&gt;</pre>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「ひゃ、百二十件！？」
+            </div>
+            
+            <p>どれも「それっぽい」。細かな抜けまで突いてくる。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「すごい……わたし、一晩中がんばっても半分出せるかどうか。」
+            </div>
+            
+            <p>思わず漏らすと、バルハが笑う。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">バルハ:</span>「だったら、この中から次のイベント用に良さげなやつ、片っ端から採用してみな。」
+            </div>
+            
+            <div class="scene-break">● ● ●</div>
+            
+            <p>数日後。《∞》では「超・社畜完全救済祭」が開催されていた。</p>
+            
+            <p>魔導書のテスト案どおり、画面のセリフもメニュー文言も細かくチューニングされている。残業時間の入力欄も職種リストも、テストで隙なく埋められていた。</p>
+            
+            <p>――はず、なのに。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">カズマ:</span>「なんか、全部"正しい"んだけどさ。」
+            </div>
+            
+            <p>常連のカズマが、ランチプレートをつついて言う。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">カズマ:</span>「励ましメッセージも、テンプレ感あるっていうか……フォーム埋められてる感じ？」
+            </div>
+            
+            <p>客席を見回すと、誰も怒ってはいないし、バグも出ていない。それでも空気は薄く、笑い声は小さい。</p>
+            
+            <p>イベント後、ログ画面には緑の「成功」が並び、バグ件数ゼロのグラフが誇らしげに光っていた。だが売上と満足度だけが、じわりと落ち込んでいる。</p>
+            
+            <div class="thought">
+                （全部テストしたのに。どうして、誰も救われてないの……？）
+            </div>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「……やっぱり、魔導書に任せた方が良かったのかな。」
+            </div>
+            
+            <p>つぶやくユイに、ナギは静かに首を振った。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「いい実験だったよ。少し外で、世界 W を見ながら話そうか。」
+            </div>
+            
+            <div class="scene-break">● ● ●</div>
+            
+            <p>裏路地のネオンを背に、ナギは小さなホワイトボードを取り出す。</p>
+            
+            <p>真ん中に丸を描き、「Fθ」と書く。その横にもう一つ丸を描き、「G」。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「さっきの魔導書を、研究者たちはだいたいこう置く。Fθ は、仕様やログから"世界の写し絵"を描く魔法。」
+            </div>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「写し絵……。」
+            </div>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「うん。バラバラな文章や数字から、『たぶんこういう世界なんでしょ？』ってモデルを作る。今日みたいに、"残業時間"や"職種"をちゃんと整理してくれる。」
+            </div>
+            
+            <p>ナギは、二つの丸を矢印で結ぶ。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「でも、その絵から『どの一点を触るか』『どの線をまたぐか』を決めるのは、別の魔法なんだ。それが、私たちテスト屋の写像 G。」
+            </div>
+            
+            <p>G の横に、小さく「職人の手」と書き足す。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「世界 W と制約 E を眺めて、観点 S と、その代表 A(S) を選び抜く仕事。そこには、この店のポリシーも、予算も、"誰も壊さない"って約束も乗っかる。」
+            </div>
+            
+            <p>ユイは黙って聞きながら、今日の客たちの顔を思い出す。限界まで疲れた目。何かを諦めた笑い。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ナギ:</span>「魔導書は、"それっぽいテスト"を山ほど出してくれる。でも、『この店で、この夜、この客たちを守る』テストを選ぶのは、Fθ じゃなくて G の仕事なんだ。」
+            </div>
+            
+            <p>胸の中で、言葉が静かにかみ合う。</p>
+            
+            <div class="scene-break">● ● ●</div>
+            
+            <p>店に戻ると、ユイは魔導書のテスト案リストを開き、隣に自分のノートを広げた。</p>
+            
+            <p>「世界 W：魔界歓楽街に迷い込んだ社畜たち」<br>
+            「制約 E：予算、時間、《∞》の"誰も壊さない"ポリシー」<br>
+            「観点 S："ここだけは安全地帯だと思えるか"」</p>
+            
+            <p>震えるペンで、「A(S)：最低限守りたい代表シナリオ」を書く。</p>
+            
+            <pre>&lt;会社の愚痴を一言だけ吐いて、あとは黙っていてもいい席&gt;
+&lt;何も話せない人の隣に、ただ座っているだけのメニュー&gt;</pre>
+            
+            <p>どちらも、魔導書のリストには載っていなかった。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「……Fθ が描いてくれた写し絵の上に、わたしなりの G を重ねる。」
+            </div>
+            
+            <p>そう呟いた瞬間、胸の奥がじんわり熱くなる。</p>
+            
+            <p>バルハがカウンター越しに顔を出す。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">バルハ:</span>「どうだい、魔導書に仕事取られそうかい？」
+            </div>
+            
+            <p>ユイは顔を上げた。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「ううん。"いい道具"がひとつ増えただけ。どの一点を触るか決めるのは――」
+            </div>
+            
+            <p>自分の手のひらを見つめる。</p>
+            
+            <div class="dialogue">
+                <span class="character-name">ユイ:</span>「テスト屋の、わたしたちだから。」
+            </div>
+            
+            <p>ホワイトボードの片隅に、ユイは小さく式を書く。</p>
+            
+            <div class="formula">
+                Fθ：仕様・ログ → モデル<br>
+                G ：(W, E) → (S, A(S))
+            </div>
+            
+            <p>その文字は、どこかナギの字に少しだけ似ていた。</p>
+        </section>
+    </div>
+
+    <div class="footer">
+        © 魔界歓楽街のサキュバスメイド喫茶《∞》 第10話
+    </div>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

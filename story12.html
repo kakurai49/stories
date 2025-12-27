@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第12話「次の子に渡す、G の地図」</title>
+    <link rel="stylesheet" href="pop3_style.css">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <style>
+        /* 追加スタイル: preタグ内の表示バグ修正とコントラスト強化 */
+        pre {
+            background-color: #f8f8f8;
+            color: #333;
+            border: 2px solid #ff4081;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+            max-width: 100%;
+            box-shadow: inset 0 0 10px rgba(255, 64, 129, 0.2);
+        }
+        
+        /* 数式スタイルの追加 */
+        .math-container {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #ffeb3b;
+            border-radius: 8px;
+            border: 2px dashed #ff4081;
+            text-align: center;
+        }
+        
+        /* 会話スタイル */
+        .dialogue {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        
+        /* 強調テキスト */
+        .highlight {
+            background-color: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        /* セクション見出し */
+        .section-title {
+            color: #ff4081;
+            border-bottom: 3px solid #ff4081;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        第12話「次の子に渡す、G の地図」
+    </header>
+    
+    <div class="container">
+        <section class="character">
+            <h2 class="section-title">前回までのあらすじ</h2>
+            <p>サキュバスメイド喫茶《∞（インフィニティ）》で新人テストエンジニアとして働き始めたユイリア。場当たり運営でオープン初夜を炎上させかけた彼女は、伝説のテストアーキテクト神崎ナギと出会う。「テストは世界 <span class="highlight">W</span> の見方を設計する仕事」という言葉に導かれ、仕様書の外に広がる世界 <span class="highlight">W</span> と制約 <span class="highlight">E</span> を意識しながら、客を同値クラスでまとめ、心の境界値を探り、複雑な割引ロジックを決定表という地図に描いてきた。</p>
+            
+            <p>常連カズマとの距離感に迷っては状態遷移図に落とし込み、全組合せテストで倒れそうになってはペアワイズで「賢いあきらめ方」を学び、カバレッジという虹を見上げて「ここまで届いた自分」を少しずつ認められるようになる。イベントトラブルではログ解析に挑み、「ログはシステムからのラブレター」だと知る。</p>
+            
+            <p>さらに魔導書（LLM）と向き合う中で、「世界の写し絵 <span class="highlight">Fθ</span>」と、どこを触るか選ぶ写像 <span class="highlight">G</span> は別物だと理解する。だが最終イベント設計では再び迷子になり、ナギのボロボロの昔のノートに自分と同じぐちゃぐちゃの図を見つける。憧れの先輩もかつては世界 <span class="highlight">W</span> が見えない新人だったと知り、「自分も、あの背中に向かって歩いていい」と胸の奥でそっと決めたところまでが前回。</p>
+        </section>
+        
+        <section class="character">
+            <h2 class="section-title">第12話「次の子に渡す、G の地図」</h2>
+            
+            <p>最終イベントの朝、まだ客のいない《∞》は、壁一面のホワイトボードで白く光っていた。</p>
+            <p>同値クラスで色分けされた客の分類、境界値の付箋、決定表、状態遷移図、ログのグラフ。十一話分の失敗と発見が、層になって張りついている。</p>
+            
+            <div class="dialogue">
+                <p>「……すごいカオス。でも、今日はここから一本の線を引く日」</p>
+            </div>
+            
+            <p>ユイはマーカーを握り、中央に縦線を引いた。その左に大きく「<span class="highlight">W</span>」。</p>
+            
+            <div class="dialogue">
+                <p>「この店の世界 <span class="highlight">W</span> は、ここに来る人たちの人生全部」</p>
+            </div>
+            
+            <p>夜勤明けの社畜、ふらっと寄る観光客、逃げ場所としての常連カズマ。天気、給料日、SNS、その日の気分。第二話でナギと眺めた昼の通りが胸に返ってくる。</p>
+            
+            <p>右側には「<span class="highlight">E</span>」と書き、四角で囲う。</p>
+            
+            <div class="dialogue">
+                <p>「<span class="highlight">E</span> は、ルールとお金と、誰も壊さないって約束」</p>
+            </div>
+            
+            <p>予算、魔力制限、メイドの体力、法律、赤字禁止のオーナーの一言、サーバ負荷の限界値。世界 <span class="highlight">W</span> と制約 <span class="highlight">E</span> を括弧でくくり、「<span class="highlight">(W, E)</span>」と記す。</p>
+            
+            <p>その下に矢印を引き、先に「<span class="highlight">S</span>」「<span class="highlight">A(S)</span>」と小さく書き込む。</p>
+            
+            <div class="dialogue">
+                <p>「<span class="highlight">S</span> は、“うれしい・来てよかった・また来たい”っていう観点」</p>
+            </div>
+            
+            <p>踏み込みすぎて泣かせた社畜の客、距離を取りすぎて「冷たい」と言われた夜。河川敷で聞いた「人にも境界があるんだよ」というナギの声が、<span class="highlight">S</span> を形作る。</p>
+            
+            <div class="dialogue">
+                <p>「<span class="highlight">A(S)</span> は、その <span class="highlight">S</span> を確かめるために選んだ代表パターンたち」</p>
+            </div>
+            
+            <p>同値クラスでまとめた客タイプ、決定表で選んだ席と割引の組合せ、ペアワイズで削りながら守った「筋の良い組合せ」。</p>
+            
+            <p>ユイは最後に、式を一気に書き上げた。</p>
+            
+            <div class="dialogue">
+                <p>「<span class="highlight">G : (W, E) → (S, A(S))</span>……これが、今のわたしの <span class="highlight">G</span>」</p>
+            </div>
+            
+            <div class="math-container">
+                <!-- KaTeXで数式を表示 -->
+                G : (W, E) \rightarrow (S, A(S))
+            </div>
+            
+            <div class="dialogue">
+                <p>「いい式だね」</p>
+            </div>
+            
+            <p>振り向くと、出入口にもたれてナギが笑っていた。</p>
+            
+            <div class="dialogue">
+                <p>「先輩、いつの間に」</p>
+                <p>「ログの匂いがしたからね。――続き、見せてくれる？」</p>
+            </div>
+            
+            <p>促され、ユイは新しいボードを引き寄せる。</p>
+            
+            <div class="dialogue">
+                <p>「多腕バンディットで試したイベント構成、覚えてますか？」</p>
+                <p>「山ほどシミュレーションしたあれね」</p>
+                <p>「今日はあれを、この <span class="highlight">G</span> に通します」</p>
+            </div>
+            
+            <p>ユイは丸を三つ描き、「<span class="highlight">S1</span>：限界社畜を休ませる」「<span class="highlight">S2</span>：観光客にここだけの一枚」「<span class="highlight">S3</span>：常連に物語の続き」と書き込んだ。</p>
+            
+            <div class="dialogue">
+                <p>「それぞれの <span class="highlight">S</span> ごとに、<span class="highlight">A(S)</span> を一本だけ代表で選びます」</p>
+            </div>
+            
+            <ul>
+                <li>静かな個室＋安眠魔法＋最低限の会話。</li>
+                <li>写真映えメニュー＋派手な演出＋短時間滞在。</li>
+                <li>ストーリー仕立てのクエスト席＋長居前提のドリンクセット。</li>
+            </ul>
+            
+            <div class="dialogue">
+                <p>「全部は試せないからこそ、今日はこの <span class="highlight">G</span> を信じてみる」</p>
+            </div>
+            
+            <p>言い切ると、ナギは目を細めた。</p>
+            
+            <div class="dialogue">
+                <p>「うん。“なんでも屋”の顔じゃない。ちゃんと選んでる顔だ」</p>
+            </div>
+            
+            <p>夜。最終フェスが始まる。</p>
+            <p>社畜席では「無音コース」が静かに人気を集め、メイドたちは境界値を越えない距離でそっと毛布をかける。観光席では、決定表で選んだ時間帯と演出がぴたりとはまり、SNS には《∞》の写真が次々と流れた。常連テーブルでは、カズマがクエストカードを手に、少し照れながらも笑っている。</p>
+            
+            <p>バックヤードでは、モニタのログが滑らかに流れていた。</p>
+            
+            <div class="dialogue">
+                <p>「負荷、安定してる……エラーも想定内」</p>
+            </div>
+            
+            <p>かつて黒い塊にしか見えなかった文字列が、今は世界 <span class="highlight">W</span> からの実況中継のようだ。</p>
+            
+            <div class="dialogue">
+                <p>「ちゃんと“ここまで届いたよ”って教えてくれてるね」</p>
+                <p>「はい。ラブレター、だいぶ読めるようになりました」</p>
+            </div>
+            
+            <p>閉店後。売上表示の魔導端末を見たバルハが、口笛を鳴らす。</p>
+            
+            <div class="dialogue">
+                <p>「黒字、クレームゼロ。最高の締めね。――うちのテスト屋、よくやったわ」</p>
+            </div>
+            
+            <p>軽く手を振って奥に消えていくオーナーを見送り、店内には二人だけが残った。</p>
+            
+            <div class="dialogue">
+                <p>「さっきの <span class="highlight">G</span>、ユイの言葉で説明してみて？」</p>
+            </div>
+            
+            <p>椅子に腰かけたナギが、静かに尋ねる。</p>
+            <p>ユイはホワイトボードを見つめ、少しだけ息を吸った。</p>
+            
+            <div class="dialogue">
+                <p>「<span class="highlight">G</span> は……今目の前にある世界 <span class="highlight">W</span> と制約 <span class="highlight">E</span> をちゃんと見て、“誰をどんな観点 <span class="highlight">S</span> で幸せにしたいか”を決めて、そのために試す代表パターン <span class="highlight">A(S)</span> を選び出す地図、です」</p>
+            </div>
+            
+            <p>自分でも少し照れるくらい、まっすぐな定義だった。</p>
+            
+            <div class="dialogue">
+                <p>「うん。もう大丈夫」</p>
+            </div>
+            
+            <p>ナギは立ち上がり、ユイの頭を軽くぽんと叩く。</p>
+            
+            <div class="dialogue">
+                <p>「ユイは、自分の <span class="highlight">G</span> を持ったテスト屋になったよ。あとはいつか、次の子にその地図を渡してあげて」</p>
+            </div>
+            
+            <p>ナギから一本のマーカーを受け取った瞬間、ユイの胸の奥で、小さく何かがカチリとはまった気がした。</p>
+            
+            <p class="text-center">＊　＊　＊</p>
+            
+            <p>数年後の《∞》。</p>
+            
+            <div class="dialogue">
+                <p>「え、テストって、バグ探しだけじゃないんですか？」</p>
+            </div>
+            
+            <p>おずおずと尋ねる新人サキュバス・ミナに、ユイは笑う。髪を後ろでまとめた背中には、黒いエプロンと、ホワイトボードの粉が少しだけ。</p>
+            
+            <div class="dialogue">
+                <p>「うん。“世界の見方”を一緒に設計する仕事だよ」</p>
+            </div>
+            
+            <p>ボードには、ゆっくりと「<span class="highlight">W</span>」と「<span class="highlight">E</span>」が書き込まれていく。</p>
+            
+            <div class="dialogue">
+                <p>「ここから先は、ミナと一緒に考えよっか」</p>
+            </div>
+            
+            <p>そう言ってマーカーを差し出すユイの背中は、どこか昔のナギに、少しだけ似ていた。</p>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        © 2024 サキュバスメイド喫茶《∞（インフィニティ）》
+    </footer>
+
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ]
+        });">
+    </script>
+</body>
+</html>

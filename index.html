@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>結城ユイの成長物語｜瑠璃の宝石スタイル</title>
+  <meta name="description" content="サキュバスメイド喫茶《∞》を舞台に、結城ユイが“世界の見方”を磨いていく12話の成長物語。各話リンクとキャラクター紹介。" />
+  <meta property="og:title" content="結城ユイの成長物語｜瑠璃の宝石スタイル" />
+  <meta property="og:description" content="12話のリンクと、ネタバレしない紹介＆キャラクター紹介。" />
+  <meta property="og:type" content="website" />
+  <style>
+    /* =========
+       Theme: "Ruri Gem"
+       ========= */
+    :root{
+      --bg0:#050814;     /* deep night */
+      --bg1:#08102a;     /* lapis night */
+      --card:#0c1736cc;  /* glass */
+      --card2:#0b1430b3;
+      --text:#eaf1ff;
+      --muted:#b9c7ea;
+      --muted2:#9ab0e8;
+
+      --lapis:#2d63ff;
+      --lapis2:#1f3bb5;
+      --teal:#32e3d6;
+      --gold:#ffd37a;
+      --pink:#ff4d8d;
+
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --shadow2: 0 10px 24px rgba(0,0,0,.35);
+      --radius: 22px;
+      --radius2: 16px;
+      --stroke: 1px solid rgba(255,255,255,.10);
+
+      --container: min(1100px, 92vw);
+      --safeTop: env(safe-area-inset-top);
+      --safeBottom: env(safe-area-inset-bottom);
+      --font: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(45, 99, 255, .20), transparent 55%),
+        radial-gradient(900px 700px at 80% 20%, rgba(50, 227, 214, .16), transparent 55%),
+        radial-gradient(900px 700px at 70% 85%, rgba(255, 77, 141, .12), transparent 55%),
+        radial-gradient(900px 700px at 15% 90%, rgba(255, 211, 122, .10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .skip{
+      position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip:focus{
+      position:fixed; left:12px; top:12px; width:auto; height:auto; padding:10px 12px;
+      background:#000; border:1px solid rgba(255,255,255,.2); border-radius:12px; z-index:9999;
+    }
+
+    /* --- Top Nav --- */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding: calc(10px + var(--safeTop)) 0 10px;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(6,10,26,.80), rgba(6,10,26,.55));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner{
+      width: var(--container);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 210px;
+    }
+    .mark{
+      width:38px; height:38px; flex:0 0 38px;
+      border-radius: 14px;
+      background:
+        radial-gradient(14px 14px at 30% 35%, rgba(255,255,255,.50), transparent 55%),
+        conic-gradient(from 160deg, rgba(50,227,214,.95), rgba(45,99,255,.95), rgba(255,77,141,.85), rgba(255,211,122,.90), rgba(50,227,214,.95));
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .mark::after{
+      content:"";
+      position:absolute; inset:-60%;
+      background: radial-gradient(circle, rgba(255,255,255,.22), transparent 55%);
+      transform: rotate(25deg);
+      animation: shimmer 6.5s linear infinite;
+    }
+
+    @keyframes shimmer{
+      0%{ transform: translate(-18%, -18%) rotate(25deg); }
+      100%{ transform: translate(18%, 18%) rotate(25deg); }
+    }
+
+    .brand-title{
+      display:flex; flex-direction:column;
+      line-height:1.15;
+    }
+    .brand-title b{
+      font-size: 14px;
+      letter-spacing:.04em;
+      opacity:.95;
+    }
+    .brand-title span{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .nav{
+      margin-left:auto;
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      font-size: 13px;
+      color: var(--muted);
+      padding:10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      will-change: transform;
+    }
+    .nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.16);
+    }
+    .nav a.cta{
+      color: #051022;
+      border: none;
+      background:
+        linear-gradient(90deg, rgba(255,211,122,.95), rgba(50,227,214,.90));
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+      font-weight: 700;
+    }
+
+    /* --- Hero --- */
+    .hero{
+      width: var(--container);
+      margin: 18px auto 0;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      align-items: stretch;
+      position:relative;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-left{
+      padding: 26px 26px 22px;
+      min-height: 330px;
+    }
+    .hero-kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 40%, transparent 70%),
+                  linear-gradient(90deg, var(--teal), var(--lapis));
+      box-shadow: 0 0 18px rgba(50,227,214,.45);
+    }
+    h1{
+      margin: 10px 0 10px;
+      font-size: clamp(26px, 4.2vw, 44px);
+      letter-spacing: .01em;
+      line-height: 1.12;
+    }
+    .sub{
+      margin:0 0 16px;
+      color: var(--muted);
+      font-size: clamp(14px, 2.0vw, 16px);
+      line-height:1.8;
+      max-width: 60ch;
+    }
+
+    .badge-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin: 16px 0 18px;
+    }
+    .badge{
+      font-size: 12px;
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(11,20,48,.45);
+      box-shadow: 0 8px 20px rgba(0,0,0,.22);
+    }
+    .badge strong{ color: var(--gold); font-weight: 800; }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 14px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      font-weight: 700;
+      min-height: 44px;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.20);
+    }
+    .btn.primary{
+      color:#061022;
+      border:none;
+      background:
+        linear-gradient(90deg, rgba(45,99,255,.95), rgba(50,227,214,.92));
+      box-shadow: 0 18px 36px rgba(0,0,0,.45);
+    }
+    .btn .arrow{
+      width: 18px; height: 18px;
+      display:inline-block;
+      transform: translateY(1px);
+    }
+
+    /* Hero right: gem illustration */
+    .hero-right{
+      min-height: 330px;
+      display:grid;
+      place-items:center;
+      padding: 14px;
+    }
+    .gem-wrap{
+      width: min(360px, 92%);
+      aspect-ratio: 1 / 1;
+      position:relative;
+      filter: drop-shadow(0 22px 60px rgba(0,0,0,.55));
+    }
+    .glow{
+      position:absolute; inset:-18%;
+      background: radial-gradient(circle at 40% 30%, rgba(255,255,255,.16), transparent 45%),
+                  radial-gradient(circle at 55% 65%, rgba(45,99,255,.22), transparent 55%),
+                  radial-gradient(circle at 35% 75%, rgba(50,227,214,.18), transparent 55%),
+                  radial-gradient(circle at 75% 35%, rgba(255,77,141,.16), transparent 55%);
+      filter: blur(6px);
+      opacity:.9;
+      animation: pulse 5.8s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity:.85; }
+      50%{ transform: scale(1.03); opacity:1; }
+    }
+
+    svg.gem{
+      width:100%;
+      height:100%;
+      display:block;
+      animation: floaty 7.6s ease-in-out infinite;
+      transform-origin: 50% 55%;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0) rotate(-1.2deg); }
+      50%{ transform: translateY(-8px) rotate(1.6deg); }
+    }
+
+    /* Sparkles */
+    .sparkles{ pointer-events:none; position:absolute; inset:0; overflow:hidden; }
+    .sparkles i{
+      position:absolute;
+      width: 2px; height: 2px;
+      background: rgba(255,255,255,.85);
+      border-radius: 999px;
+      box-shadow:
+        0 0 10px rgba(255,255,255,.55),
+        0 0 24px rgba(50,227,214,.20);
+      opacity:.0;
+      animation: twinkle 2.8s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity: 0; transform: scale(.7); }
+      50%{ opacity: .95; transform: scale(1.3); }
+    }
+
+    /* --- Sections --- */
+    main{
+      width: var(--container);
+      margin: 18px auto 70px;
+      padding-bottom: calc(14px + var(--safeBottom));
+    }
+    section{
+      margin-top: 18px;
+    }
+    .section-title{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+      margin: 26px 6px 12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: clamp(18px, 2.5vw, 24px);
+      letter-spacing:.02em;
+    }
+    .section-title p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      max-width: 62ch;
+    }
+
+    /* --- Episode Grid --- */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .episode{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(12,23,54,.72), rgba(9,16,40,.55));
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      min-height: 158px;
+    }
+    .episode:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(14,28,68,.74), rgba(9,16,40,.55));
+    }
+    .episode a{
+      display:block;
+      padding: 16px 16px 14px;
+      height:100%;
+    }
+    .ep-top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 10px;
+    }
+    .ep-no{
+      font-weight: 900;
+      letter-spacing:.14em;
+      font-size: 12px;
+      color: rgba(234,241,255,.92);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+    .ep-gem{
+      font-size: 12px;
+      color: var(--muted);
+      display:flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .mini{
+      width: 10px; height:10px;
+      border-radius: 3px;
+      background: conic-gradient(from 90deg, rgba(50,227,214,.95), rgba(45,99,255,.95), rgba(255,77,141,.85), rgba(255,211,122,.90));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 0 14px rgba(45,99,255,.25);
+    }
+    .ep-title{
+      font-size: 15px;
+      margin: 0 0 8px;
+      line-height: 1.45;
+      letter-spacing:.01em;
+    }
+    .ep-tease{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .episode::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 48%),
+        radial-gradient(circle at 75% 55%, rgba(50,227,214,.10), transparent 55%),
+        radial-gradient(circle at 20% 85%, rgba(255,77,141,.08), transparent 55%);
+      filter: blur(10px);
+      opacity: .9;
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+    .episode::after{
+      content:"";
+      position:absolute; inset:-2px;
+      border-radius: var(--radius);
+      padding: 1px;
+      background: linear-gradient(90deg, rgba(45,99,255,.55), rgba(50,227,214,.35), rgba(255,211,122,.30), rgba(255,77,141,.35));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    /* --- About / Characters --- */
+    .two-col{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(12,23,54,.70), rgba(9,16,40,.55));
+      box-shadow: var(--shadow2);
+      padding: 16px 16px 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing:.01em;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .chip{
+      font-size: 12px;
+      color: rgba(5,16,34,.96);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,211,122,.92), rgba(50,227,214,.88));
+      font-weight: 900;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+    .card .meta{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .tag{
+      font-size: 12px;
+      color: var(--muted2);
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .card::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.10), transparent 52%),
+        radial-gradient(circle at 80% 30%, rgba(45,99,255,.12), transparent 55%),
+        radial-gradient(circle at 40% 90%, rgba(255,211,122,.08), transparent 55%);
+      filter: blur(10px);
+      opacity: .9;
+      transform: rotate(-8deg);
+      pointer-events:none;
+    }
+
+    /* --- Reveal Animations --- */
+    .reveal{ opacity: 0; transform: translateY(10px); }
+    .reveal.is-in{ opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease; }
+
+    /* --- Footer --- */
+    footer{
+      width: var(--container);
+      margin: 20px auto 26px;
+      color: rgba(234,241,255,.70);
+      font-size: 12px;
+      line-height:1.8;
+      padding-bottom: calc(10px + var(--safeBottom));
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 14px;
+    }
+    .foot-links{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .foot-links a{
+      color: rgba(234,241,255,.75);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .foot-links a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.07);
+    }
+
+    /* Back-to-top */
+    .topbtn{
+      position: fixed;
+      right: 14px;
+      bottom: calc(14px + var(--safeBottom));
+      z-index: 60;
+      border-radius: 999px;
+      padding: 12px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(6,10,26,.68);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
+      color: rgba(234,241,255,.92);
+      display:flex; align-items:center; gap:10px;
+      cursor:pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .2s ease, transform .2s ease, background .18s ease;
+    }
+    .topbtn.show{ opacity: 1; transform: translateY(0); }
+    .topbtn:hover{ background: rgba(6,10,26,.82); }
+    .topbtn span{ font-size: 12px; font-weight: 800; letter-spacing:.08em; }
+    .topbtn svg{ width:18px; height:18px; }
+
+    /* --- Responsive --- */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+      .hero-right{ min-height: 280px; }
+      .episode{ grid-column: span 6; }
+      .two-col{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .topbar-inner{ gap:10px; }
+      .brand-title span{ display:none; }
+      .nav a{ padding:10px 10px; }
+      .hero-left{ padding: 20px 18px 18px; }
+      .episode{ grid-column: span 12; }
+      .section-title{ flex-direction:column; align-items:flex-start; }
+      .section-title p{ max-width: unset; }
+      footer{ justify-content:flex-start; }
+      .topbtn span{ display:none; }
+    }
+
+    /* --- Reduced motion --- */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+      .sparkles{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip" href="#content">本文へスキップ</a>
+
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <a class="brand" href="#" aria-label="トップへ">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="brand-title">
+          <b>結城ユイの成長物語</b>
+          <span>瑠璃の宝石スタイル｜サキュバスメイド喫茶《∞》</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="ページ内ナビゲーション">
+        <a href="#about">紹介</a>
+        <a href="#episodes">12話</a>
+        <a href="#characters">キャラクター</a>
+        <a class="cta" href="story1.html" aria-label="第1話を読む">第1話へ</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero" id="top">
+    <div class="panel hero-left reveal">
+      <div class="sparkles" aria-hidden="true" id="sparkles"></div>
+
+      <div class="hero-kicker">
+        <span class="dot" aria-hidden="true"></span>
+        <span>RURI GEM STORY • 12 EPISODES</span>
+      </div>
+
+      <h1>
+        “世界の見方”は、拾い集めた小さな宝石で磨かれていく。
+      </h1>
+
+      <p class="sub">
+        サキュバスメイド喫茶《∞》を舞台に、新人テストエンジニア・結城ユイが、
+        伝説的な大先輩と出会い、迷いながらも視点を研いでいく成長物語。
+        ここでは<strong>ネタバレなし</strong>で、12話への入口だけをきらめかせます。
+      </p>
+
+      <div class="badge-row" aria-label="作品の雰囲気">
+        <div class="badge"><strong>舞台</strong>：喫茶《∞》の夜</div>
+        <div class="badge"><strong>テイスト</strong>：瑠璃 × 宝石 × ほの甘</div>
+        <div class="badge"><strong>読み味</strong>：1話1粒の気づき</div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="story1.html">
+          物語をひらく
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="btn" href="#episodes">12話を選ぶ</a>
+        <a class="btn" href="#characters">登場人物</a>
+      </div>
+    </div>
+
+    <div class="panel hero-right reveal" aria-label="瑠璃の宝石イラスト">
+      <div class="gem-wrap" role="img" aria-label="瑠璃色の宝石（装飾）">
+        <div class="glow" aria-hidden="true"></div>
+        <svg class="gem" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g0" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#32e3d6" stop-opacity="0.95"/>
+              <stop offset="0.55" stop-color="#2d63ff" stop-opacity="0.95"/>
+              <stop offset="1" stop-color="#1f3bb5" stop-opacity="0.95"/>
+            </linearGradient>
+            <linearGradient id="g1" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffd37a" stop-opacity="0.85"/>
+              <stop offset="0.5" stop-color="#ff4d8d" stop-opacity="0.65"/>
+              <stop offset="1" stop-color="#2d63ff" stop-opacity="0.85"/>
+            </linearGradient>
+            <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feColorMatrix in="blur" type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 0.55 0" result="colored"/>
+              <feMerge>
+                <feMergeNode in="colored"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer facet -->
+          <path d="M150 18
+                   L236 70
+                   L278 160
+                   L214 252
+                   L150 282
+                   L86 252
+                   L22 160
+                   L64 70 Z"
+                fill="url(#g0)" filter="url(#softGlow)" opacity="0.98"/>
+
+          <!-- Inner facets -->
+          <path d="M150 28 L214 74 L246 154 L196 232 L150 258 L104 232 L54 154 L86 74 Z"
+                fill="rgba(255,255,255,.08)" />
+          <path d="M150 28 L214 74 L150 154 L86 74 Z" fill="rgba(255,255,255,.10)"/>
+          <path d="M86 74 L150 154 L54 154 Z" fill="rgba(255,255,255,.06)"/>
+          <path d="M214 74 L246 154 L150 154 Z" fill="rgba(255,255,255,.06)"/>
+          <path d="M150 154 L246 154 L196 232 Z" fill="rgba(255,255,255,.05)"/>
+          <path d="M54 154 L150 154 L104 232 Z" fill="rgba(255,255,255,.05)"/>
+
+          <!-- Highlight -->
+          <path d="M92 88 C120 62, 168 55, 204 78
+                   C168 92, 134 112, 118 142
+                   C106 118, 96 100, 92 88 Z"
+                fill="rgba(255,255,255,.18)"/>
+          <circle cx="98" cy="82" r="10" fill="rgba(255,255,255,.20)"/>
+          <circle cx="108" cy="74" r="6" fill="rgba(255,255,255,.22)"/>
+
+          <!-- Rim shimmer -->
+          <path d="M150 18
+                   L236 70
+                   L278 160
+                   L214 252
+                   L150 282
+                   L86 252
+                   L22 160
+                   L64 70 Z"
+                fill="none" stroke="url(#g1)" stroke-width="3.2" opacity="0.85"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <main id="content" role="main">
+    <!-- About -->
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <h2>紹介（ネタバレなし）</h2>
+        <p>
+          これは「正解を当てる話」ではなく、<strong>見え方が変わっていく話</strong>。
+          失敗も、迷いも、誰かの言葉も、全部“瑠璃の欠片”みたいに光っていきます。
+        </p>
+      </div>
+
+      <div class="two-col">
+        <article class="card">
+          <h3>
+            <span class="chip">世界観</span>
+            サキュバスメイド喫茶《∞》の、きらめく現場
+          </h3>
+          <p>
+            甘い匂いとネオンの間で、ユイは“なんとなく”から抜け出したいと思い始める。
+            目の前の出来事に名前がつき、線が引けるようになったとき、世界は少しだけ優しくなる。
+          </p>
+          <div class="meta" aria-label="キーワード">
+            <span class="tag">観察</span>
+            <span class="tag">分類</span>
+            <span class="tag">境界</span>
+            <span class="tag">地図</span>
+            <span class="tag">ログ</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>
+            <span class="chip">読みどころ</span>
+            1話1粒、“宝石みたいな気づき”
+          </h3>
+          <p>
+            各話は短編のように読めて、でも繋がっている。
+            何かを学ぶというより、<strong>見える範囲が広がる</strong>感覚を楽しむ物語です。
+          </p>
+          <div class="meta" aria-label="雰囲気">
+            <span class="tag">成長</span>
+            <span class="tag">師弟</span>
+            <span class="tag">やさしい刺さり</span>
+            <span class="tag">夜の余韻</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Episodes -->
+    <section id="episodes" class="reveal">
+      <div class="section-title">
+        <h2>12話リンク</h2>
+        <p>気になる“石（テーマ）”から選んでもOK。もちろん第1話からでも。</p>
+      </div>
+
+      <div class="grid" role="list">
+        <!-- 1 -->
+        <article class="episode" role="listitem">
+          <a href="story1.html" aria-label="第1話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 01</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>はじまりの欠片</div>
+            </div>
+            <h3 class="ep-title">キラキラした背中と、ダメ出しの夜</h3>
+            <p class="ep-tease">同じ景色なのに、切り取り方が違う——その差に、胸が鳴る。</p>
+          </a>
+        </article>
+
+        <!-- 2 -->
+        <article class="episode" role="listitem">
+          <a href="story2.html" aria-label="第2話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 02</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>世界の輪郭</div>
+            </div>
+            <h3 class="ep-title">世界 W は、仕様書の外に広がってる</h3>
+            <p class="ep-tease">画面の外へ。現場と人の温度が、物語の色を変えていく。</p>
+          </a>
+        </article>
+
+        <!-- 3 -->
+        <article class="episode" role="listitem">
+          <a href="story3.html" aria-label="第3話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 03</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>束ねる石</div>
+            </div>
+            <h3 class="ep-title">同値クラスという、お守りの石</h3>
+            <p class="ep-tease">ばらばらに見えるものが、観点ひとつで“同じ”になる瞬間。</p>
+          </a>
+        </article>
+
+        <!-- 4 -->
+        <article class="episode" role="listitem">
+          <a href="story4.html" aria-label="第4話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 04</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>境界の光</div>
+            </div>
+            <h3 class="ep-title">境界線を、一緒に歩いた夜</h3>
+            <p class="ep-tease">近づく優しさと、踏み込みすぎる痛み。その線を探しに行く。</p>
+          </a>
+        </article>
+
+        <!-- 5 -->
+        <article class="episode" role="listitem">
+          <a href="story5.html" aria-label="第5話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 05</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>分岐の地図</div>
+            </div>
+            <h3 class="ep-title">分岐の森と、先輩の地図</h3>
+            <p class="ep-tease">増え続ける条件の森。迷いを“見える形”にしていく一歩。</p>
+          </a>
+        </article>
+
+        <!-- 6 -->
+        <article class="episode" role="listitem">
+          <a href="story6.html" aria-label="第6話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 06</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>変化の矢印</div>
+            </div>
+            <h3 class="ep-title">関係は、状態遷移で語れる</h3>
+            <p class="ep-tease">時間で変わるものには、ちゃんと“状態”と“遷移”がある。</p>
+          </a>
+        </article>
+
+        <!-- 7 -->
+        <article class="episode" role="listitem">
+          <a href="story7.html" aria-label="第7話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 07</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>選ぶ勇気</div>
+            </div>
+            <h3 class="ep-title">全部は試せない、という優しさ</h3>
+            <p class="ep-tease">全部を抱えない。“守るために選ぶ”という、やさしい決断。</p>
+          </a>
+        </article>
+
+        <!-- 8 -->
+        <article class="episode" role="listitem">
+          <a href="story8.html" aria-label="第8話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 08</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>虹の目盛り</div>
+            </div>
+            <h3 class="ep-title">カバレッジの虹を見上げて</h3>
+            <p class="ep-tease">足りないより、届いたところを見ていい——色を塗り分ける夜。</p>
+          </a>
+        </article>
+
+        <!-- 9 -->
+        <article class="episode" role="listitem">
+          <a href="story9.html" aria-label="第9話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 09</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>手紙の音</div>
+            </div>
+            <h3 class="ep-title">ログは、システムからのラブレター</h3>
+            <p class="ep-tease">沈黙のデータが、ふいに語りはじめる。気づきはそこにある。</p>
+          </a>
+        </article>
+
+        <!-- 10 -->
+        <article class="episode" role="listitem">
+          <a href="story10.html" aria-label="第10話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 10</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>魔導書と手</div>
+            </div>
+            <h3 class="ep-title">魔導書と職人の手、Fθと G</h3>
+            <p class="ep-tease">便利さの向こう側。最後に“触る一点”を決めるのは誰？</p>
+          </a>
+        </article>
+
+        <!-- 11 -->
+        <article class="episode" role="listitem">
+          <a href="story11.html" aria-label="第11話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 11</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>迷いの証</div>
+            </div>
+            <h3 class="ep-title">先輩も、迷っていた</h3>
+            <p class="ep-tease">憧れの背中にも、消しては書いた線がある。その温度を知る。</p>
+          </a>
+        </article>
+
+        <!-- 12 -->
+        <article class="episode" role="listitem">
+          <a href="story12.html" aria-label="第12話へ">
+            <div class="ep-top">
+              <div class="ep-no">EP 12</div>
+              <div class="ep-gem"><span class="mini" aria-hidden="true"></span>地図を渡す</div>
+            </div>
+            <h3 class="ep-title">次の子に渡す、G の地図</h3>
+            <p class="ep-tease">最後の夜、ユイは“自分の言葉”を探す。受け取るのは、あなた。</p>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Characters -->
+    <section id="characters" class="reveal">
+      <div class="section-title">
+        <h2>キャラクター紹介</h2>
+        <p>“誰が、どんな背中を見せるのか”。ここでは輪郭だけをそっと。</p>
+      </div>
+
+      <div class="two-col">
+        <article class="card">
+          <h3><span class="chip">主人公</span> 結城ユイ（ユイリア）</h3>
+          <p>
+            サキュバスメイド喫茶《∞》で働く新人テストエンジニア。<br />
+            知っているのは用語だけ。いつも場当たり的で、でも——だからこそ、伸びしろが眩しい。
+          </p>
+          <div class="meta">
+            <span class="tag">新人</span>
+            <span class="tag">まっすぐ</span>
+            <span class="tag">学びが体温</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3><span class="chip">大先輩</span> 神崎ナギ（かんざき・ナギ）</h3>
+          <p>
+            魔界テック界隈で伝説的なテストアーキテクト。<br />
+            落ち着いた笑顔で、核心をすっと差し出す。“こうなりたい”と思わせる背中。
+          </p>
+          <div class="meta">
+            <span class="tag">静かな強さ</span>
+            <span class="tag">言葉が地図</span>
+            <span class="tag">穏やかに刺す</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3><span class="chip">オーナー</span> バルハ</h3>
+          <p>
+            喫茶《∞》のオーナー。二人の成長を少し離れた場所から見つめる存在。<br />
+            舞台の空気を整え、物語の火種をそっと置く。
+          </p>
+          <div class="meta">
+            <span class="tag">黒幕ポジ（やさしめ）</span>
+            <span class="tag">場を作る</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3><span class="chip">舞台</span> サキュバスメイド喫茶《∞》</h3>
+          <p>
+            きらめく夜の“現場”。<br />
+            人が集まり、気分が揺れ、選択が生まれる場所。ユイの学びは、いつもここから始まる。
+          </p>
+          <div class="meta">
+            <span class="tag">夜のネオン</span>
+            <span class="tag">現場の温度</span>
+            <span class="tag">∞の余白</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <button class="topbtn" id="topbtn" type="button" aria-label="ページ上部へ戻る">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5l-7 7m7-7l7 7M12 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>TOP</span>
+  </button>
+
+  <footer role="contentinfo">
+    <div>
+      © <span id="year"></span> サキュバスメイド喫茶《∞》｜瑠璃の宝石スタイル<br />
+      <span style="color:rgba(234,241,255,.58)">※このページはネタバレを避けた“入口”です。各話は story1.html〜story12.html に配置してください。</span>
+    </div>
+    <div class="foot-links">
+      <a href="#episodes">12話へ</a>
+      <a href="#characters">キャラクター</a>
+      <a href="story1.html">第1話を読む</a>
+    </div>
+  </footer>
+
+  <script>
+    // ---- sparkles placement (deterministic-ish) ----
+    (function(){
+      const root = document.getElementById("sparkles");
+      if(!root) return;
+      const count = 18;
+      for(let i=0;i<count;i++){
+        const s = document.createElement("i");
+        const x = (Math.random()*96)+2;
+        const y = (Math.random()*72)+6;
+        const d = (Math.random()*2.2)+1.8;
+        const delay = Math.random()*2.2;
+        s.style.left = x + "%";
+        s.style.top = y + "%";
+        s.style.animationDuration = d + "s";
+        s.style.animationDelay = delay + "s";
+        root.appendChild(s);
+      }
+    })();
+
+    // ---- intersection reveal ----
+    (function(){
+      const els = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver((entries)=>{
+        for(const e of entries){
+          if(e.isIntersecting){
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.12 });
+      els.forEach(el=>io.observe(el));
+    })();
+
+    // ---- back to top ----
+    (function(){
+      const btn = document.getElementById("topbtn");
+      const onScroll = () => {
+        if(window.scrollY > 520) btn.classList.add("show");
+        else btn.classList.remove("show");
+      };
+      window.addEventListener("scroll", onScroll, { passive:true });
+      onScroll();
+      btn?.addEventListener("click", ()=> window.scrollTo({ top:0, behavior:"smooth" }));
+    })();
+
+    // ---- year ----
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
