@@ -7,157 +7,28 @@
     <link rel="stylesheet" href="pop3_style.css">
     <!-- KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <style>
-        /* 追加スタイル: コントラスト強化とカラフルな要素 */
-        body {
-            background: linear-gradient(135deg, #ffdd57 0%, #ff4081 50%, #1e90ff 100%);
-            background-attachment: fixed;
-        }
-        
-        .story-container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 30px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .story-container::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, #ff4081, #1e90ff, #ffdd57, #ff4081);
-            z-index: -1;
-            border-radius: 20px;
-            animation: borderGlow 3s infinite linear;
-        }
-        
-        @keyframes borderGlow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-        
-        h1 {
-            color: #ff4081;
-            text-align: center;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            text-shadow: 3px 3px 0 #ffdd57;
-            margin-bottom: 30px;
-            position: relative;
-            display: inline-block;
-            padding: 0 20px;
-        }
-        
-        h1::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 10%;
-            width: 80%;
-            height: 5px;
-            background: linear-gradient(to right, #ff4081, #1e90ff, #ffdd57);
-            border-radius: 5px;
-        }
-        
-        .summary-box {
-            background: linear-gradient(135deg, #ffdd57 0%, #ffcc00 100%);
-            border: 3px dashed #ff4081;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 5px 5px 0 #ff4081;
-        }
-        
-        .summary-box h2 {
-            color: #ff4081;
-            margin-top: 0;
-            font-size: 1.8rem;
-            text-shadow: 2px 2px 0 white;
-        }
-        
-        .dialogue {
-            background-color: #f0f8ff;
-            border-left: 5px solid #1e90ff;
-            padding: 15px 20px;
-            margin: 15px 0;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
-        }
-        
-        .character-name {
-            font-weight: bold;
-            color: #ff4081;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-        
-        .math-box {
-            background-color: #f8f8f8;
-            border: 2px solid #1e90ff;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .highlight {
-            background-color: #ffdd57;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-        
-        /* preコード内のバグ修正 */
-        pre {
-            background-color: #2d2d2d !important;
-            color: #f8f8f2 !important;
-            border: 2px solid #ff4081 !important;
-            padding: 15px !important;
-            border-radius: 10px !important;
-            overflow-x: auto !important;
-            white-space: pre-wrap !important;
-            word-wrap: break-word !important;
-            font-family: 'Courier New', Courier, monospace !important;
-            max-width: 100% !important;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
-            margin: 20px 0 !important;
-        }
-        
-        /* フッタースタイル調整 */
-        .footer {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #ff4081 0%, #1e90ff 100%);
-            color: white;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            margin-top: 40px;
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* レスポンシブ調整 */
-        @media (max-width: 768px) {
-            .story-container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
 </head>
 <body>
+
+<a class="skip" href="#content">本文へスキップ</a>
+<header class="topbar" role="banner">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="トップページへ">
+      <div class="mark" aria-hidden="true"></div>
+      <div class="brand-title">
+        <b>結城ユイの成長物語</b>
+        <span>瑠璃の宝石スタイル｜サキュバスメイド喫茶《∞》</span>
+      </div>
+    </a>
+    <nav class="nav" aria-label="関連ナビゲーション">
+      <a href="index.html#episodes">12話一覧</a>
+      <a href="index.html#about">紹介</a>
+      <a class="cta" href="index.html">トップへ戻る</a>
+    </nav>
+  </div>
+</header>
+  <main id="content">
+
     <header>
         第7話「全部は試せない、という優しさ」
     </header>
@@ -391,6 +262,7 @@
         
         <p>ナギの笑顔は、少し遠くて、でも前よりずっと近く感じられた。</p>
     </div>
+  </main>
 
     <div class="footer">
         &copy; 魔界歓楽街 サキュバスメイド喫茶《∞（インフィニティ）》

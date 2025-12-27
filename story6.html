@@ -5,186 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>第6話「関係は、状態遷移で語れる」</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffdd57;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #ff4081;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 2.5rem;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                font-size: 1.8rem;
-            }
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081;
-            }
-            to {
-                text-shadow: 0 0 30px #ff4081, 0 0 40px #ff4081;
-            }
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            animation: popEffect 1s ease-in-out;
-        }
-
-        @keyframes popEffect {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.6;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        h1, h2 {
-            color: #ff4081;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        a {
-            text-decoration: none;
-            color: #1e90ff;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #ff4081;
-            text-shadow: 0 0 5px #ff4081;
-        }
-
-        img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            display: block;
-            margin: 10px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 2px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-
-        pre {
-            background-color: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'Courier New', Courier, monospace;
-            max-width: 100%;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #ff4081;
-            margin: 15px 0;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #ff4081;
-            color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .character {
-            margin-bottom: 30px;
-            border: 3px solid #ff4081;
-            padding: 20px;
-            border-radius: 10px;
-            background: #ffdd57;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .character:hover {
-            transform: scale(1.05);
-            background-color: #ffcc00;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-        }
-
-        .katex {
-            font-size: 1.1em !important;
-            overflow-x: auto;
-            overflow-y: hidden;
-            max-width: 100%;
-            white-space: nowrap;
-        }
-
-        .katex-display {
-            margin: 0.5em 0;
-            overflow-x: auto;
-            max-width: 100%;
-        }
-
-        .state-diagram {
-            background: #1e1e1e;
-            color: #00ff00;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            border: 2px solid #00ff00;
-            margin: 15px 0;
-        }
-
-        .highlight {
-            background: linear-gradient(45deg, #ff4081, #1e90ff);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
+
+<a class="skip" href="#content">本文へスキップ</a>
+<header class="topbar" role="banner">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="トップページへ">
+      <div class="mark" aria-hidden="true"></div>
+      <div class="brand-title">
+        <b>結城ユイの成長物語</b>
+        <span>瑠璃の宝石スタイル｜サキュバスメイド喫茶《∞》</span>
+      </div>
+    </a>
+    <nav class="nav" aria-label="関連ナビゲーション">
+      <a href="index.html#episodes">12話一覧</a>
+      <a href="index.html#about">紹介</a>
+      <a class="cta" href="index.html">トップへ戻る</a>
+    </nav>
+  </div>
+</header>
+  <main id="content">
+
     <header>
         第6話「関係は、状態遷移で語れる」
     </header>
@@ -288,6 +130,7 @@
 
         <p>立ちのぼる湯気の向こうで、ユイリアの小さな決意が、静かに新しい状態へと遷移していった。</p>
     </div>
+  </main>
 
     <div class="footer">
         © 2023 テストエンジニア物語
