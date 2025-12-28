@@ -1,5 +1,5 @@
 // Lightweight beat sequencer for story1.html
-// Mix graph: sources -> musicBus -> autoGain -> duckGain -> limiter -> destination
+// Mix graph: sources -> musicBus -> autoGain -> duckGain -> analyser -> limiter -> masterGain -> destination
 // AutoMix lifts/attenuates toward target dB (idle/speech) + user trim; duck() toggles speechActive.
 // Tunables: idleTargetDb / speechTargetDb below, userTrim via setVolume(), duckLevel option. Limiter prevents clipping.
 
@@ -67,6 +67,7 @@ export function initBeatController({
   let autoGain = null;
   let duckGain = null;
   let limiter = null;
+  let masterGain = null;
   let analyser = null;
   let analyserBuffer = null;
   let monitorTimer = null;
@@ -125,6 +126,9 @@ export function initBeatController({
     limiter.attack.value = 0.003;
     limiter.release.value = 0.12;
 
+    masterGain = ctx.createGain();
+    masterGain.gain.value = 1;
+
     analyser = ctx.createAnalyser();
     analyser.fftSize = 1024;
     analyserBuffer = new Float32Array(analyser.fftSize);
@@ -133,7 +137,8 @@ export function initBeatController({
     autoGain.connect(duckGain);
     duckGain.connect(analyser);
     analyser.connect(limiter);
-    limiter.connect(ctx.destination);
+    limiter.connect(masterGain);
+    masterGain.connect(ctx.destination);
     return ctx;
   }
 
@@ -391,7 +396,14 @@ export function initBeatController({
     unduck,
     setPreset: applyPreset,
     setVolume: updateVolume, // maps slider 0..1 to trim dB (-12..+12)
+    setMasterVolume: (vol) => {
+      ensureAudio();
+      const clamped = clamp(Number(vol) || 0, 0, 1);
+      masterGain.gain.setTargetAtTime(clamped, ctx.currentTime, 0.02);
+      return clamped;
+    },
     getPreset: () => currentPreset,
+    getBpm: () => model.bpm,
     getVolume: () => userVolumeSlider,
   };
 }
