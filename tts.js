@@ -5,6 +5,8 @@ export function initStoryTTS({
   statusId = "speechStatus",
   rateId = "speechRate",
   rateValueId = "speechRateValue",
+  volumeId = "speechVolume",
+  volumeValueId = "speechVolumeValue",
   voiceSelectId = "ttsVoice",
   voiceLabelId = "voiceSelectionStatus",
   presetId = "ttsPreset",
@@ -19,6 +21,8 @@ export function initStoryTTS({
   const statusElement = document.getElementById(statusId);
   const rateInput = document.getElementById(rateId);
   const rateValue = document.getElementById(rateValueId);
+  const volumeInput = document.getElementById(volumeId);
+  const volumeValue = document.getElementById(volumeValueId);
   const voiceSelect = document.getElementById(voiceSelectId);
   const voiceLabel = document.getElementById(voiceLabelId);
   const presetSelect = document.getElementById(presetId);
@@ -34,6 +38,8 @@ export function initStoryTTS({
     !statusElement ||
     !rateInput ||
     !rateValue ||
+    !volumeInput ||
+    !volumeValue ||
     !voiceSelect ||
     !voiceLabel ||
     !presetSelect
@@ -49,16 +55,25 @@ export function initStoryTTS({
   let isPaused = false;
   let rate = parseFloat(rateInput.value) || 1.0;
   let pitch = 1.0;
-  let volume = 1.0;
+  let volume = Math.min(Math.max(parseFloat(volumeInput.value) || 0.85, parseFloat(volumeInput.min) || 0.6), parseFloat(volumeInput.max) || 1.0);
   let pendingTimeout = null;
   const storageKeys = {
     voice: "story-tts-voice",
     preset: "story-tts-preset",
+    volume: "story-tts-volume",
   };
+  const storedVolume = parseFloat(localStorage.getItem(storageKeys.volume));
+  if (!Number.isNaN(storedVolume)) {
+    volume = Math.min(
+      Math.max(storedVolume, parseFloat(volumeInput.min) || 0.6),
+      parseFloat(volumeInput.max) || 1.0
+    );
+    volumeInput.value = volume;
+  }
   let currentPreset = localStorage.getItem(storageKeys.preset) || "calmFemale";
   const presets = {
-    default: { label: "通常", rate: 1.0, pitch: 1.0, volume: 1.0 },
-    calmFemale: { label: "落ち着いた女性ナレーション", rate: 0.9, pitch: 1.14, volume: 1.0 },
+    default: { label: "通常", rate: 1.0, pitch: 1.0, volume: 0.85 },
+    calmFemale: { label: "落ち着いた女性ナレーション", rate: 0.9, pitch: 1.14, volume: 0.85 },
     custom: { label: "カスタム", rate: rate, pitch: pitch, volume: volume },
   };
 
@@ -70,17 +85,21 @@ export function initStoryTTS({
       pitch = preset.pitch ?? pitch;
       volume = preset.volume ?? volume;
       rateInput.value = rate;
+      volumeInput.value = volume;
     } else {
       rate = preset.rate;
       pitch = preset.pitch;
       volume = preset.volume;
       rateInput.value = preset.rate;
+      volumeInput.value = preset.volume;
     }
     updateRateDisplay();
+    updateVolumeDisplay();
     if (updateSelect) {
       presetSelect.value = name;
     }
     localStorage.setItem(storageKeys.preset, name);
+    localStorage.setItem(storageKeys.volume, volume.toString());
   }
 
   function markCustomPreset() {
@@ -88,6 +107,7 @@ export function initStoryTTS({
     presets.custom = { ...presets.custom, rate, pitch, volume };
     presetSelect.value = "custom";
     localStorage.setItem(storageKeys.preset, "custom");
+    localStorage.setItem(storageKeys.volume, volume.toString());
   }
 
   function setStatus(text) {
@@ -107,6 +127,10 @@ export function initStoryTTS({
 
   function updateRateDisplay() {
     rateValue.textContent = Number(rateInput.value).toFixed(1);
+  }
+
+  function updateVolumeDisplay() {
+    volumeValue.textContent = Number(volumeInput.value).toFixed(2);
   }
 
   function setVoiceLabel(text) {
@@ -482,6 +506,7 @@ export function initStoryTTS({
     setVoiceLabel("このブラウザでは読み上げが利用できません");
     setStatus("このブラウザでは読み上げが利用できません");
     updateRateDisplay();
+    updateVolumeDisplay();
     return;
   }
 
@@ -495,6 +520,15 @@ export function initStoryTTS({
     updateRateDisplay();
     markCustomPreset();
   });
+  volumeInput.addEventListener("input", () => {
+    volume = Math.min(
+      Math.max(parseFloat(volumeInput.value) || 0.85, parseFloat(volumeInput.min) || 0.6),
+      parseFloat(volumeInput.max) || 1.0
+    );
+    updateVolumeDisplay();
+    localStorage.setItem(storageKeys.volume, volume.toString());
+    markCustomPreset();
+  });
   voiceSelect.addEventListener("change", handleVoiceChange);
   presetSelect.addEventListener("change", (event) => {
     applyPreset(event.target.value, { updateSelect: false });
@@ -504,6 +538,7 @@ export function initStoryTTS({
   setStatus("準備OK");
   setPauseState(false, false);
   updateRateDisplay();
+  updateVolumeDisplay();
 
   function setRateExternal(newRate) {
     const clamped = Math.min(Math.max(newRate, parseFloat(rateInput.min) || 0.5), parseFloat(rateInput.max) || 2);
