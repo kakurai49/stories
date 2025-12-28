@@ -50,6 +50,19 @@
             <input type="range" id="speechRate" name="speechRate" min="0.7" max="1.3" step="0.1" value="1">
             <span id="speechRateValue">1.0</span>
         </label>
+        <div class="tts-beat-row">
+            <label for="beatPreset">ビート:
+                <select id="beatPreset" name="beatPreset">
+                    <option value="calm">明るい・落ち着く</option>
+                    <option value="hype">テンション上げる</option>
+                    <option value="neutral">当たり障りない（人ビート）</option>
+                </select>
+            </label>
+            <label for="beatVolume">ビート音量:
+                <input type="range" id="beatVolume" name="beatVolume" min="0" max="1" step="0.05" value="0.5">
+            </label>
+        </div>
+        <div class="tts-beat-note">読み上げを開始するとビートが同時に鳴り、停止すると止まります。</div>
         <div id="speechStatus" role="status" aria-live="polite">準備中...</div>
     </section>
 
@@ -149,8 +162,15 @@
     </script>
     <script type="module">
         import { initStoryTTS } from "./tts.js";
+        import { initBeatController } from "./beat.js";
 
         document.addEventListener("DOMContentLoaded", () => {
+            const beatController = initBeatController({
+                presetSelectId: "beatPreset",
+                volumeSliderId: "beatVolume",
+                duckLevel: 0.72,
+            });
+
             initStoryTTS({
                 storySelector: "#story",
                 toggleId: "speechToggle",
@@ -160,7 +180,17 @@
                 rateValueId: "speechRateValue",
                 voiceSelectId: "ttsVoice",
                 voiceLabelId: "voiceSelectionStatus",
-                presetId: "ttsPreset"
+                presetId: "ttsPreset",
+                onStart: () => {
+                    beatController.start();
+                    beatController.duck();
+                },
+                onStop: () => {
+                    beatController.stop();
+                    beatController.unduck();
+                },
+                onPause: () => beatController.unduck(),
+                onResume: () => beatController.duck(),
             });
         });
     </script>
