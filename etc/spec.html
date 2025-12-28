@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14">
+  <meta name="color-scheme" content="dark">
+  <title>BEAT楽器 — 動く仕様書（Responsive / WebAudio）</title>
+  <link rel="stylesheet" href="vega_theme.css">
+
+  <style>
+    :root { --stepSize: 34px; }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card .hd {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card .hd h2 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+
+    .card .bd { padding: 14px; }
+
+    .muted { color: var(--muted); }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans Mono", "Liberation Mono", monospace;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, rgba(124, 247, 255, 0.16), rgba(167, 139, 250, 0.12));
+      border: 1px solid rgba(124, 247, 255, 0.35);
+      padding: 10px 12px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      min-width: 260px;
+    }
+
+    .badge .row { display: flex; justify-content: space-between; gap: 10px; }
+    .badge .k { color: var(--muted); font-size: 12px; }
+    .badge .v { font-weight: 650; font-size: 12px; color: var(--text); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .ctrl {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .ctrl label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, rgba(124, 247, 255, 0.22), rgba(167, 139, 250, 0.16));
+      border-color: rgba(124, 247, 255, 0.35);
+    }
+
+    button.danger {
+      background: linear-gradient(135deg, rgba(255, 94, 94, 0.25), rgba(255, 94, 168, 0.14));
+      border-color: rgba(255, 94, 94, 0.38);
+    }
+
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .gridWrap { display: flex; flex-direction: column; gap: 10px; }
+
+    .trackRow {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .trackLabel {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .trackLabel strong { color: var(--text); font-size: 13px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(16, var(--stepSize));
+      gap: 6px;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .step {
+      width: var(--stepSize);
+      height: var(--stepSize);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      user-select: none;
+      cursor: pointer;
+      position: relative;
+      touch-action: manipulation;
+      color: var(--text);
+    }
+
+    .step.on {
+      background: linear-gradient(135deg, rgba(124, 247, 255, 0.28), rgba(167, 139, 250, 0.18));
+      border-color: rgba(124, 247, 255, 0.45);
+    }
+
+    .step.playhead::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+      box-shadow: 0 0 0 4px rgba(124, 247, 255, 0.15);
+    }
+
+    .spec {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .chip {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      overflow: auto;
+      font-size: 12px;
+      color: #dbe7f2;
+    }
+
+    .status {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .dot.ok { background: rgba(124, 247, 255, 0.85); }
+    .dot.bad { background: rgba(255, 94, 94, 0.85); }
+
+    canvas { max-width: 100%; }
+
+    @media (max-width: 960px) {
+      .spec-grid { grid-template-columns: 1fr; }
+      .trackRow { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 540px) {
+      :root { --stepSize: 40px; }
+      .controls { grid-template-columns: 1fr; }
+      .btns { width: 100%; }
+      button { width: 100%; padding: 12px 14px; }
+      .card .hd { align-items: stretch; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip" href="#main">本文へスキップ</a>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="course-header">
+    <div class="wrap">
+      <div class="nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>Python Training</h1>
+            <p>VEGA Course | WebAudio Spec</p>
+          </div>
+        </div>
+        <nav aria-label="VEGAコースナビゲーション">
+          <div class="navlinks">
+            <a href="../index.html">トップページ</a>
+            <a href="./index.html">VEGAホーム</a>
+            <a href="./overview.html">概要</a>
+            <a href="./scope.html">スコープ</a>
+            <a href="./spec.html">仕様</a>
+          </div>
+          <div class="cta">
+            <a class="btn primary" href="../index.html#courses"><span class="dot" aria-hidden="true"></span>コース一覧</a>
+            <a class="btn" href="./index.html"><span class="dot" aria-hidden="true"></span>Issue Backlog</a>
+          </div>
+          <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="メニューを開く">
+            <span aria-hidden="true"></span>
+          </button>
+        </nav>
+      </div>
+    </div>
+    <div class="mobile" id="mobile">
+      <div class="mobilePanel" role="dialog" aria-label="モバイルメニュー">
+        <a href="../index.html">トップページ</a>
+        <a href="./index.html">VEGAホーム</a>
+        <a href="./overview.html">概要</a>
+        <a href="./scope.html">スコープ</a>
+        <a href="./spec.html">仕様</a>
+        <div class="row">
+          <a class="btn primary" href="../index.html#courses"><span class="dot" aria-hidden="true"></span>コース一覧</a>
+          <a class="btn" href="./scope.html"><span class="dot" aria-hidden="true"></span>1週間メニュー</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap flow">
+      <section class="panel course-hero">
+        <div class="page-header">
+          <p class="eyebrow">VEGA COURSE</p>
+          <h1>BEAT楽器 — 動く仕様書</h1>
+          <p class="lede">Web Audio API でブラウザ上にビートマシンを実装し、トップページの宇宙感に合わせたダークテーマへ統一しました。</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="./index.html"><span class="dot" aria-hidden="true"></span>Issue Backlog</a>
+          <a class="btn" href="./overview.html"><span class="dot" aria-hidden="true"></span>観点設計</a>
+          <a class="btn" href="./scope.html"><span class="dot" aria-hidden="true"></span>1週間スコープ</a>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-card">
+            <strong>Audio</strong>
+            <span class="mono" id="audioState">off</span>
+          </div>
+          <div class="meta-card">
+            <strong>BPM</strong>
+            <span class="mono" id="bpmView">120</span>
+          </div>
+          <div class="meta-card">
+            <strong>Step</strong>
+            <span class="mono" id="stepView">-</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="spec-grid">
+      <!-- left -->
+      <section class="card">
+        <div class="hd">
+          <h2>① 楽器（編集・再生）</h2>
+          <div class="btns">
+            <button class="primary" id="audioToggleBtn" aria-pressed="false">🔇 ブラウザ音声: OFF</button>
+            <button class="primary" id="playBtn" disabled>▶ Play</button>
+            <button class="danger" id="stopBtn" disabled>■ Stop</button>
+            <button id="clearBtn">Clear</button>
+            <button id="demoBtn">Load Demo</button>
+          </div>
+        </div>
+
+        <div class="bd">
+          <div class="controls">
+            <div class="ctrl">
+              <label><span>BPM</span><span class="mono" id="bpmLabel">120</span></label>
+              <input id="bpm" type="range" min="60" max="180" value="120" />
+              <div class="muted" style="margin-top:6px;font-size:12px;">16分音符（16ステップ）として再生</div>
+            </div>
+            <div class="ctrl">
+              <label><span>Master</span><span class="mono" id="gainLabel">0.80</span></label>
+              <input id="gain" type="range" min="0" max="1" step="0.01" value="0.80" />
+              <div class="muted" style="margin-top:6px;font-size:12px;">スマホは音量を小さめから推奨</div>
+            </div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="gridWrap" aria-label="step sequencer">
+            <div class="trackRow">
+              <div class="trackLabel"><strong>K</strong><span class="muted">Kick</span></div>
+              <div class="steps" id="stepsK"></div>
+            </div>
+            <div class="trackRow">
+              <div class="trackLabel"><strong>S</strong><span class="muted">Snare</span></div>
+              <div class="steps" id="stepsS"></div>
+            </div>
+            <div class="trackRow">
+              <div class="trackLabel"><strong>H</strong><span class="muted">Hat</span></div>
+              <div class="steps" id="stepsH"></div>
+            </div>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div class="status">
+            <span class="dot" id="dot"></span>
+            <span class="muted" id="statusText">ブラウザ音声をONにしてから Play をタップしてください。</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- right -->
+      <aside class="card">
+        <div class="hd">
+          <h2>② 仕様（型を選ぶ工学）</h2>
+          <div class="muted mono" style="font-size:12px;">v1.1</div>
+        </div>
+        <div class="bd spec">
+          <div>
+            <span class="chip">InputType</span>
+            <span class="chip">ModelType</span>
+            <span class="chip">ProcessType</span>
+            <span class="chip">OutputType</span>
+          </div>
+
+          <div>
+            <div class="muted" style="margin-bottom:6px;">現在の入力（UI）→ 内部モデル（JSON）</div>
+            <pre id="modelDump">{}</pre>
+          </div>
+
+          <div>
+            <div class="muted" style="margin-bottom:6px;">変換パイプライン（仕様）</div>
+            <pre class="mono">
+Input(UI)
+  ├─ bpm: number
+  └─ tracks: {K,S,H} each 16 steps boolean
+Model(Song)
+  ├─ bpm: number
+  └─ tracks: Record&lt;Instrument, boolean[16]&gt;
+Process
+  ├─ schedule: step→time (16th note)
+  ├─ synth: Hit→sound (osc + envelope / noise)
+  └─ mix: sum + limiter
+Output
+  ├─ audio: WebAudio playback
+  └─ report: ASCII + JSON dump
+            </pre>
+          </div>
+
+          <div>
+            <div class="muted" style="margin-bottom:6px;">ASCII表示（出力の一種）</div>
+            <pre id="asciiDump">K: ----------------
+S: ----------------
+H: ----------------</pre>
+          </div>
+
+          <div class="muted" style="font-size:12px;">
+            メモ：このページは「動く仕様書」です。UIを変える＝入力型が変わる → モデル/処理/出力が更新されます。
+          </div>
+        </div>
+      </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="footer">
+    BEAT楽器 — WebAudio仕様 | トップページと調和したダークテーマ
+  </div>
+
+  <script src="vega_shared.js"></script>
+  <script>
+    // -----------------------------
+    // Model
+    // -----------------------------
+    const N_STEPS = 16;
+    const instruments = ["K","S","H"];
+
+    const model = {
+      bpm: 120,
+      master: 0.80,
+      tracks: {
+        K: Array(N_STEPS).fill(false),
+        S: Array(N_STEPS).fill(false),
+        H: Array(N_STEPS).fill(false),
+      }
+    };
+
+    const demo = {
+      bpm: 120,
+      master: 0.80,
+      tracks: {
+        K: "x---x---x---x---",
+        S: "----x-------x---",
+        H: "x-x-x-x-x-x-x-x-",
+      }
+    };
+
+    function parsePattern(s){
+      const out = Array(N_STEPS).fill(false);
+      for(let i=0;i<N_STEPS;i++){
+        const ch = (s[i] || "-");
+        out[i] = (ch.toLowerCase() === "x");
+      }
+      return out;
+    }
+
+    function toPattern(arr){
+      return arr.map(v => v ? "x" : "-").join("");
+    }
+
+    // -----------------------------
+    // View helpers
+    // -----------------------------
+    const el = (id) => document.getElementById(id);
+
+    const bpmRange = el("bpm");
+    const bpmLabel = el("bpmLabel");
+    const bpmView  = el("bpmView");
+    const gainRange = el("gain");
+    const gainLabel = el("gainLabel");
+
+    const audioToggleBtn = el("audioToggleBtn");
+    const playBtn = el("playBtn");
+    const stopBtn = el("stopBtn");
+    const clearBtn = el("clearBtn");
+    const demoBtn = el("demoBtn");
+
+    const modelDump = el("modelDump");
+    const asciiDump = el("asciiDump");
+    const stepView = el("stepView");
+    const audioState = el("audioState");
+    const dot = el("dot");
+    const statusText = el("statusText");
+
+    const stepsEl = {
+      K: el("stepsK"),
+      S: el("stepsS"),
+      H: el("stepsH"),
+    };
+
+    function renderGrid(){
+      for(const inst of instruments){
+        stepsEl[inst].innerHTML = "";
+        for(let i=0;i<N_STEPS;i++){
+          const d = document.createElement("div");
+          d.className = "step" + (model.tracks[inst][i] ? " on" : "");
+          d.textContent = (i % 4 === 0) ? "|" : "•";
+          d.setAttribute("role","button");
+          d.setAttribute("aria-label", `${inst} step ${i+1}`);
+          d.addEventListener("click", () => {
+            model.tracks[inst][i] = !model.tracks[inst][i];
+            renderAll();
+          }, {passive:true});
+          stepsEl[inst].appendChild(d);
+        }
+      }
+    }
+
+    function renderAscii(){
+      const lines = instruments.map(inst => `${inst}: ${toPattern(model.tracks[inst])}`);
+      asciiDump.textContent = lines.join("\n");
+    }
+
+    function renderModelDump(){
+      const dump = {
+        bpm: model.bpm,
+        tracks: {
+          K: toPattern(model.tracks.K),
+          S: toPattern(model.tracks.S),
+          H: toPattern(model.tracks.H),
+        }
+      };
+      modelDump.textContent = JSON.stringify(dump, null, 2);
+    }
+
+    function renderControls(){
+      bpmRange.value = String(model.bpm);
+      bpmLabel.textContent = String(model.bpm);
+      bpmView.textContent = String(model.bpm);
+
+      gainRange.value = String(model.master);
+      gainLabel.textContent = model.master.toFixed(2);
+    }
+
+    function clearPlayhead(){
+      for(const inst of instruments){
+        const nodes = stepsEl[inst].children;
+        for(let i=0;i<nodes.length;i++){
+          nodes[i].classList.remove("playhead");
+        }
+      }
+      stepView.textContent = "-";
+    }
+
+    function setPlayhead(step){
+      for(const inst of instruments){
+        const nodes = stepsEl[inst].children;
+        for(let i=0;i<nodes.length;i++){
+          nodes[i].classList.toggle("playhead", i === step);
+        }
+      }
+      stepView.textContent = String(step+1);
+    }
+
+    function renderAll(){
+      renderControls();
+      renderGrid();
+      renderAscii();
+      renderModelDump();
+    }
+
+    // -----------------------------
+    // Audio ON/OFF (ブラウザ音声のオン/オフ)
+    //  - ON: AudioContext生成してresume
+    //  - OFF: stopしてAudioContextをclose（完全停止）
+    // -----------------------------
+    let audioEnabled = false;
+
+    let ctx = null;
+    let masterGain = null;
+    let limiter = null;
+
+    let isPlaying = false;
+    let timerId = null;
+    let currentStep = 0;
+    let nextTime = 0;
+
+    function updateUIRuntime(){
+      // Audio badge + dot
+      if(!audioEnabled){
+        audioState.textContent = "off";
+        dot.className = "dot";
+        statusText.textContent = "ブラウザ音声をONにしてから Play をタップしてください。";
+      } else if(!ctx){
+        audioState.textContent = "locked";
+        dot.className = "dot";
+        statusText.textContent = "音声はONです。Playで再生します（スマホは最初の操作が必要）。";
+      } else {
+        audioState.textContent = ctx.state; // running/suspended/closed
+        dot.className = "dot " + (ctx.state === "running" ? "ok" : "");
+        statusText.textContent = (ctx.state === "running")
+          ? "再生中。Stopで停止します。"
+          : "音声はONです。Playで再生します。";
+      }
+
+      audioToggleBtn.textContent = audioEnabled ? "🔊 ブラウザ音声: ON" : "🔇 ブラウザ音声: OFF";
+      audioToggleBtn.setAttribute("aria-pressed", audioEnabled ? "true" : "false");
+
+      playBtn.disabled = !audioEnabled || isPlaying;
+      stopBtn.disabled = !isPlaying;
+    }
+
+    function ensureAudio(){
+      if(!ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        ctx = new AC();
+
+        masterGain = ctx.createGain();
+        masterGain.gain.value = model.master;
+
+        limiter = ctx.createDynamicsCompressor();
+        limiter.threshold.value = -12;
+        limiter.knee.value = 18;
+        limiter.ratio.value = 6;
+        limiter.attack.value = 0.003;
+        limiter.release.value = 0.12;
+
+        masterGain.connect(limiter);
+        limiter.connect(ctx.destination);
+      }
+      return ctx;
+    }
+
+    async function enableAudio(){
+      audioEnabled = true;
+      ensureAudio();
+      // mobile: must be called from user gesture (button click)
+      try { await ctx.resume(); } catch(e) {}
+      updateUIRuntime();
+    }
+
+    async function disableAudio(){
+      stop(); // stop scheduler
+      audioEnabled = false;
+
+      // close context for "complete OFF"
+      if(ctx){
+        try { await ctx.close(); } catch(e) {}
+      }
+      ctx = null;
+      masterGain = null;
+      limiter = null;
+
+      updateUIRuntime();
+    }
+
+    // -----------------------------
+    // Synth
+    // -----------------------------
+    function playKick(time){
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "sine";
+      o.frequency.setValueAtTime(140, time);
+      o.frequency.exponentialRampToValueAtTime(55, time + 0.10);
+
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.exponentialRampToValueAtTime(0.9, time + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
+
+      o.connect(g);
+      g.connect(masterGain);
+
+      o.start(time);
+      o.stop(time + 0.20);
+    }
+
+    function makeNoiseBuffer(durationSec){
+      const length = Math.max(1, Math.floor(ctx.sampleRate * durationSec));
+      const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for(let i=0;i<length;i++){
+        data[i] = (Math.random()*2 - 1);
+      }
+      return buffer;
+    }
+
+    function playSnare(time){
+      const noise = ctx.createBufferSource();
+      noise.buffer = makeNoiseBuffer(0.12);
+
+      const noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = "highpass";
+      noiseFilter.frequency.value = 900;
+
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.0001, time);
+      noiseGain.gain.exponentialRampToValueAtTime(0.7, time + 0.003);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.12);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(masterGain);
+
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "triangle";
+      o.frequency.setValueAtTime(180, time);
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.exponentialRampToValueAtTime(0.25, time + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, time + 0.08);
+
+      o.connect(g);
+      g.connect(masterGain);
+
+      noise.start(time);
+      noise.stop(time + 0.13);
+      o.start(time);
+      o.stop(time + 0.10);
+    }
+
+    function playHat(time){
+      const noise = ctx.createBufferSource();
+      noise.buffer = makeNoiseBuffer(0.05);
+
+      const hp = ctx.createBiquadFilter();
+      hp.type = "highpass";
+      hp.frequency.value = 6000;
+
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.exponentialRampToValueAtTime(0.45, time + 0.001);
+      g.gain.exponentialRampToValueAtTime(0.0001, time + 0.03);
+
+      noise.connect(hp);
+      hp.connect(g);
+      g.connect(masterGain);
+
+      noise.start(time);
+      noise.stop(time + 0.06);
+    }
+
+    function trigger(inst, time){
+      if(inst === "K") return playKick(time);
+      if(inst === "S") return playSnare(time);
+      if(inst === "H") return playHat(time);
+    }
+
+    // -----------------------------
+    // Scheduler
+    // -----------------------------
+    function stepDurationSec(){
+      return (60 / model.bpm) / 4; // 16th note
+    }
+
+    function scheduleAhead(){
+      if(!isPlaying) return;
+      const lookAhead = 0.12;
+      const interval = stepDurationSec();
+
+      while(nextTime < ctx.currentTime + lookAhead){
+        for(const inst of instruments){
+          if(model.tracks[inst][currentStep]){
+            trigger(inst, nextTime);
+          }
+        }
+        const stepToShow = currentStep;
+        const showAt = nextTime - ctx.currentTime;
+        setTimeout(() => setPlayhead(stepToShow), Math.max(0, showAt*1000));
+
+        nextTime += interval;
+        currentStep = (currentStep + 1) % N_STEPS;
+      }
+
+      timerId = setTimeout(scheduleAhead, 25);
+    }
+
+    async function start(){
+      if(!audioEnabled) return;
+
+      ensureAudio();
+      try { await ctx.resume(); } catch(e) {}
+      if(masterGain) masterGain.gain.value = model.master;
+
+      isPlaying = true;
+      currentStep = 0;
+      nextTime = ctx.currentTime + 0.03;
+      clearPlayhead();
+
+      updateUIRuntime();
+      scheduleAhead();
+    }
+
+    function stop(){
+      isPlaying = false;
+      if(timerId) clearTimeout(timerId);
+      timerId = null;
+      clearPlayhead();
+      updateUIRuntime();
+    }
+
+    // -----------------------------
+    // UI wiring
+    // -----------------------------
+    bpmRange.addEventListener("input", () => {
+      model.bpm = Number(bpmRange.value);
+      bpmLabel.textContent = String(model.bpm);
+      bpmView.textContent  = String(model.bpm);
+      renderModelDump();
+    }, {passive:true});
+
+    gainRange.addEventListener("input", () => {
+      model.master = Number(gainRange.value);
+      gainLabel.textContent = model.master.toFixed(2);
+      if(masterGain) masterGain.gain.value = model.master;
+    }, {passive:true});
+
+    audioToggleBtn.addEventListener("click", async () => {
+      if(audioEnabled) await disableAudio();
+      else await enableAudio();
+    });
+
+    playBtn.addEventListener("click", () => start(), {passive:true});
+    stopBtn.addEventListener("click", () => stop(), {passive:true});
+
+    clearBtn.addEventListener("click", () => {
+      for(const inst of instruments) model.tracks[inst] = Array(N_STEPS).fill(false);
+      renderAll();
+    }, {passive:true});
+
+    demoBtn.addEventListener("click", () => {
+      model.bpm = demo.bpm;
+      model.master = demo.master;
+      model.tracks.K = parsePattern(demo.tracks.K);
+      model.tracks.S = parsePattern(demo.tracks.S);
+      model.tracks.H = parsePattern(demo.tracks.H);
+      renderAll();
+    }, {passive:true});
+
+    // initial paint
+    renderAll();
+    updateUIRuntime();
+  </script>
+</body>
+</html>
