@@ -27,50 +27,67 @@ export function initStoryTTS({
   const voiceLabel = document.getElementById(voiceLabelId);
   const presetSelect = document.getElementById(presetId);
 
+  // 必須要素（他は任意）
+  if (!toggleButton || !statusElement || !storyElement) {
+    return;
+  }
+
   const speechSupported =
     typeof window !== "undefined" &&
     "speechSynthesis" in window &&
     "SpeechSynthesisUtterance" in window;
 
-  if (
-    !toggleButton ||
-    !pauseButton ||
-    !statusElement ||
-    !rateInput ||
-    !rateValue ||
-    !volumeInput ||
-    !volumeValue ||
-    !voiceSelect ||
-    !voiceLabel ||
-    !presetSelect
-  ) {
-    return;
-  }
-
   const synth = speechSupported ? window.speechSynthesis : null;
-  let selectedVoice = null;
-  let chunks = [];
-  let currentIndex = 0;
-  let isReading = false;
-  let isPaused = false;
-  let rate = parseFloat(rateInput.value) || 1.0;
-  let pitch = 1.0;
-  let volume = Math.min(Math.max(parseFloat(volumeInput.value) || 0.85, parseFloat(volumeInput.min) || 0.6), parseFloat(volumeInput.max) || 1.0);
-  let pendingTimeout = null;
+
   const storageKeys = {
     voice: "story-tts-voice",
     preset: "story-tts-preset",
     volume: "story-tts-volume",
   };
-  const storedVolume = parseFloat(localStorage.getItem(storageKeys.volume));
+
+  const safeStorage = {
+    get: (key) => {
+      try {
+        return localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    },
+    set: (key, value) => {
+      try {
+        localStorage.setItem(key, value);
+      } catch {
+        /* noop */
+      }
+    },
+  };
+
+  const defaultRate = parseFloat(rateInput?.value) || 1.0;
+  const defaultVolume = Math.min(
+    Math.max(parseFloat(volumeInput?.value) || 0.85, parseFloat(volumeInput?.min) || 0.6),
+    parseFloat(volumeInput?.max) || 1.0
+  );
+
+  let selectedVoice = null;
+  let chunks = [];
+  let currentIndex = 0;
+  let isReading = false;
+  let isPaused = false;
+  let rate = defaultRate;
+  let pitch = 1.0;
+  let volume = defaultVolume;
+  let pendingTimeout = null;
+  const storedVolume = parseFloat(safeStorage.get(storageKeys.volume));
   if (!Number.isNaN(storedVolume)) {
     volume = Math.min(
-      Math.max(storedVolume, parseFloat(volumeInput.min) || 0.6),
-      parseFloat(volumeInput.max) || 1.0
+      Math.max(storedVolume, parseFloat(volumeInput?.min) || 0.6),
+      parseFloat(volumeInput?.max) || 1.0
     );
-    volumeInput.value = volume;
+    if (volumeInput) {
+      volumeInput.value = volume;
+    }
   }
-  let currentPreset = localStorage.getItem(storageKeys.preset) || "calmFemale";
+  let currentPreset = safeStorage.get(storageKeys.preset) || "calmFemale";
   const presets = {
     default: { label: "通常", rate: 1.0, pitch: 1.0, volume: 0.85 },
     calmFemale: { label: "落ち着いた女性ナレーション", rate: 0.9, pitch: 1.14, volume: 0.85 },
@@ -84,30 +101,32 @@ export function initStoryTTS({
       rate = preset.rate ?? rate;
       pitch = preset.pitch ?? pitch;
       volume = preset.volume ?? volume;
-      rateInput.value = rate;
-      volumeInput.value = volume;
+      if (rateInput) rateInput.value = rate;
+      if (volumeInput) volumeInput.value = volume;
     } else {
       rate = preset.rate;
       pitch = preset.pitch;
       volume = preset.volume;
-      rateInput.value = preset.rate;
-      volumeInput.value = preset.volume;
+      if (rateInput) rateInput.value = preset.rate;
+      if (volumeInput) volumeInput.value = preset.volume;
     }
     updateRateDisplay();
     updateVolumeDisplay();
-    if (updateSelect) {
+    if (updateSelect && presetSelect) {
       presetSelect.value = name;
     }
-    localStorage.setItem(storageKeys.preset, name);
-    localStorage.setItem(storageKeys.volume, volume.toString());
+    safeStorage.set(storageKeys.preset, name);
+    safeStorage.set(storageKeys.volume, volume.toString());
   }
 
   function markCustomPreset() {
     currentPreset = "custom";
     presets.custom = { ...presets.custom, rate, pitch, volume };
-    presetSelect.value = "custom";
-    localStorage.setItem(storageKeys.preset, "custom");
-    localStorage.setItem(storageKeys.volume, volume.toString());
+    if (presetSelect) {
+      presetSelect.value = "custom";
+    }
+    safeStorage.set(storageKeys.preset, "custom");
+    safeStorage.set(storageKeys.volume, volume.toString());
   }
 
   function setStatus(text) {
@@ -120,21 +139,28 @@ export function initStoryTTS({
   }
 
   function setPauseState(enabled, paused) {
+    if (!pauseButton) return;
     pauseButton.disabled = !enabled;
     pauseButton.textContent = paused ? "再開" : "一時停止";
     pauseButton.setAttribute("aria-pressed", paused ? "true" : "false");
   }
 
   function updateRateDisplay() {
-    rateValue.textContent = Number(rateInput.value).toFixed(1);
+    if (rateValue && rateInput) {
+      rateValue.textContent = Number(rateInput.value).toFixed(1);
+    }
   }
 
   function updateVolumeDisplay() {
-    volumeValue.textContent = Number(volumeInput.value).toFixed(2);
+    if (volumeValue && volumeInput) {
+      volumeValue.textContent = Number(volumeInput.value).toFixed(2);
+    }
   }
 
   function setVoiceLabel(text) {
-    voiceLabel.textContent = text || "音声を取得中...";
+    if (voiceLabel) {
+      voiceLabel.textContent = text || "音声を取得中...";
+    }
   }
 
   function clearPendingTimeout() {
@@ -204,81 +230,177 @@ export function initStoryTTS({
     return finalChunks;
   }
 
-  function isJapaneseVoice(voice) {
-    return voice.lang && voice.lang.toLowerCase().startsWith("ja");
-  }
+  function createVoiceManager({
+    synth: synthInstance,
+    voiceSelectEl,
+    voiceLabelEl,
+    storageKey = storageKeys.voice,
+  }) {
+    let voicesCache = [];
+    let selected = null;
+    let bootstrapStarted = false;
+    let bootstrapTimer = null;
+    let loggedSelection = false;
 
-  function includesKeyword(voice, keywords) {
-    const lowerName = voice.name.toLowerCase();
-    return keywords.some((kw) => lowerName.includes(kw.toLowerCase()));
-  }
-
-  function chooseVoice(voices) {
-    const savedVoiceId = localStorage.getItem(storageKeys.voice);
-    const femaleKeywords = ["female", "女性", "女", "kyoko", "haruka", "ayumi", "nanami", "mizuki", "sayaka", "hikari"];
+    const preferredNames = ["sherry", "kyoko", "haruka", "ayumi", "nanami", "mizuki", "sayaka", "hikari", "siri"];
     const maleKeywords = ["male", "男性", "男", "otoya", "ichiro", "hiroshi", "takeo"];
+    const femaleKeywords = ["female", "女性", "女"];
 
-    if (savedVoiceId) {
-      const saved = voices.find((voice) => voice.voiceURI === savedVoiceId);
-      if (saved) return saved;
+    function isJapaneseVoice(voice) {
+      const lang = (voice.lang || "").toLowerCase();
+      if (!lang) return false;
+      if (lang.startsWith("ja") || lang.startsWith("jp")) return true;
+      return lang.includes("ja-jp") || (lang[0] === "j" && lang.includes("p"));
     }
 
-    const jaVoices = voices.filter(isJapaneseVoice);
-    const targetList = jaVoices.length ? jaVoices : voices;
-    const femaleCandidates = targetList.filter(
-      (voice) => includesKeyword(voice, femaleKeywords) && !includesKeyword(voice, maleKeywords)
-    );
-    if (femaleCandidates.length) {
-      return femaleCandidates[0];
+    function includesKeyword(name, keywords) {
+      const lowerName = (name || "").toLowerCase();
+      return keywords.some((kw) => lowerName.includes(kw.toLowerCase()));
     }
-    const nonMale = targetList.filter((voice) => !includesKeyword(voice, maleKeywords));
-    if (nonMale.length) {
-      return nonMale[0];
+
+    function scoreVoice(voice) {
+      let score = 0;
+      const name = voice.name || "";
+      if (isJapaneseVoice(voice)) score += 100;
+      if (includesKeyword(name, preferredNames)) score += 40;
+      if (includesKeyword(name, femaleKeywords)) score += 12;
+      if (!includesKeyword(name, maleKeywords)) score += 4;
+      if (includesKeyword(name, maleKeywords)) score -= 25;
+      return score;
     }
-    return targetList[0] || null;
+
+    function chooseBestVoice(voices) {
+      if (!voices || !voices.length) return null;
+      const savedVoiceId = safeStorage.get(storageKey);
+      if (savedVoiceId) {
+        const saved = voices.find((voice) => voice.voiceURI === savedVoiceId);
+        if (saved) return saved;
+      }
+
+      const japaneseVoices = voices.filter((v) => isJapaneseVoice(v));
+      const target = japaneseVoices.length ? japaneseVoices : voices;
+
+      const sorted = [...target].sort((a, b) => scoreVoice(b) - scoreVoice(a));
+      const best = sorted[0];
+      if (best) return best;
+
+      const nonMale = voices.filter((voice) => !includesKeyword(voice.name, maleKeywords));
+      if (nonMale.length) return nonMale[0];
+      return voices[0] || null;
+    }
+
+    function updateVoiceLabel(text) {
+      if (!voiceLabelEl) return;
+      voiceLabelEl.textContent = text;
+    }
+
+    function updateVoiceSelectOptions(voices) {
+      if (!voiceSelectEl) return;
+      voiceSelectEl.innerHTML = "";
+      if (!voices.length) {
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "音声を準備中...";
+        voiceSelectEl.appendChild(placeholder);
+        updateVoiceLabel("音声を取得中...");
+        return;
+      }
+
+      voices.forEach((voice) => {
+        const option = document.createElement("option");
+        option.value = voice.voiceURI;
+        option.textContent = `${voice.name} (${voice.lang || "unknown"})`;
+        voiceSelectEl.appendChild(option);
+      });
+    }
+
+    function refreshVoicesSync() {
+      if (!synthInstance) return [];
+      voicesCache = synthInstance.getVoices() || [];
+      updateVoiceSelectOptions(voicesCache);
+      selected = chooseBestVoice(voicesCache);
+      if (selected) {
+        if (voiceSelectEl) {
+          voiceSelectEl.value = selected.voiceURI;
+        }
+        updateVoiceLabel(`${selected.name} / ${selected.lang || "lang不明"}`);
+        safeStorage.set(storageKey, selected.voiceURI);
+      } else if (voicesCache.length) {
+        updateVoiceLabel("音声が見つからない（デフォルト音声で再生します）");
+      }
+
+      if (!loggedSelection) {
+        console.info(
+          "[TTS] voices=%d, selected=%s (%s) / %s",
+          voicesCache.length,
+          selected?.name || "default",
+          selected?.lang || "unknown",
+          selected?.voiceURI || "no-voiceURI"
+        );
+        loggedSelection = true;
+      }
+
+      return voicesCache;
+    }
+
+    function scheduleVoiceBootstrap() {
+      if (bootstrapStarted || !synthInstance) return;
+      bootstrapStarted = true;
+      const delays = [0, 200, 800, 1500];
+
+      const attempt = (index) => {
+        const voices = refreshVoicesSync();
+        if (voices.length || index >= delays.length - 1) {
+          if (bootstrapTimer) {
+            clearTimeout(bootstrapTimer);
+            bootstrapTimer = null;
+          }
+          return;
+        }
+        bootstrapTimer = setTimeout(() => attempt(index + 1), delays[index + 1] - delays[index]);
+      };
+
+      attempt(0);
+    }
+
+    function handleUIChange(event) {
+      if (!synthInstance) return;
+      const voices = synthInstance.getVoices();
+      const nextVoice = voices.find((voice) => voice.voiceURI === event.target.value);
+      if (nextVoice) {
+        selected = nextVoice;
+        safeStorage.set(storageKey, nextVoice.voiceURI);
+        updateVoiceLabel(`${nextVoice.name} / ${nextVoice.lang || "lang不明"}`);
+      }
+    }
+
+    function bindUIEvents() {
+      if (!voiceSelectEl) return;
+      voiceSelectEl.addEventListener("change", handleUIChange);
+    }
+
+    function listenVoicesChanged() {
+      if (!synthInstance) return;
+      const handler = () => refreshVoicesSync();
+      synthInstance.addEventListener("voiceschanged", handler, { once: false });
+    }
+
+    return {
+      refreshVoicesSync,
+      scheduleVoiceBootstrap,
+      chooseBestVoice,
+      getSelectedVoice: () => selected,
+      bindUIEvents,
+      listenVoicesChanged,
+      setVoiceLabel: updateVoiceLabel,
+    };
   }
 
-  function buildVoiceOptions() {
-    if (!speechSupported) return;
-    const voices = synth.getVoices();
-    voiceSelect.innerHTML = "";
-    const prioritized = voices.filter(isJapaneseVoice);
-    const remainder = voices.filter((v) => !isJapaneseVoice(v));
-    const orderedVoices = [...prioritized, ...remainder];
-    if (!orderedVoices.length) {
-      const placeholder = document.createElement("option");
-      placeholder.value = "";
-      placeholder.textContent = "音声を準備中...";
-      voiceSelect.appendChild(placeholder);
-      setVoiceLabel("音声を取得中...");
-      return;
-    }
-
-    orderedVoices.forEach((voice) => {
-      const option = document.createElement("option");
-      option.value = voice.voiceURI;
-      option.textContent = `${voice.name} (${voice.lang || "unknown"})`;
-      voiceSelect.appendChild(option);
-    });
-
-    selectedVoice = chooseVoice(orderedVoices);
-    if (selectedVoice) {
-      voiceSelect.value = selectedVoice.voiceURI;
-      setVoiceLabel(`${selectedVoice.name} / ${selectedVoice.lang || "lang不明"}`);
-      localStorage.setItem(storageKeys.voice, selectedVoice.voiceURI);
-    }
-  }
-
-  function handleVoiceChange() {
-    if (!speechSupported) return;
-    const voices = synth.getVoices();
-    const nextVoice = voices.find((voice) => voice.voiceURI === voiceSelect.value);
-    if (nextVoice) {
-      selectedVoice = nextVoice;
-      localStorage.setItem(storageKeys.voice, nextVoice.voiceURI);
-      setVoiceLabel(`${nextVoice.name} / ${nextVoice.lang || "lang不明"}`);
-    }
-  }
+  const voiceManager = createVoiceManager({
+    synth,
+    voiceSelectEl: voiceSelect,
+    voiceLabelEl: voiceLabel,
+  });
 
   function pauseDurationFromText(chunk, fallback = 250) {
     if (chunk && typeof chunk.pauseAfter === "number") return chunk.pauseAfter;
@@ -390,6 +512,7 @@ export function initStoryTTS({
     }
 
     const chunk = chunks[currentIndex];
+    selectedVoice = voiceManager.getSelectedVoice();
     if (chunk.pauseOnly) {
       setStatus(`読み上げ中 ${Math.min(currentIndex + 1, chunks.length)}/${chunks.length}`);
       pendingTimeout = setTimeout(() => {
@@ -432,9 +555,9 @@ export function initStoryTTS({
   function startSpeech() {
     if (!speechSupported) return;
     clearPendingTimeout();
-    if (!selectedVoice) {
-      buildVoiceOptions();
-    }
+    voiceManager.refreshVoicesSync();
+    voiceManager.scheduleVoiceBootstrap();
+    selectedVoice = voiceManager.getSelectedVoice();
     const items = speechItemsFromStory();
     chunks = expandQueue(items);
     if (!chunks.length) {
@@ -500,39 +623,46 @@ export function initStoryTTS({
 
   if (!speechSupported) {
     toggleButton.disabled = true;
-    pauseButton.disabled = true;
-    voiceSelect.disabled = true;
-    presetSelect.disabled = true;
-    setVoiceLabel("このブラウザでは読み上げが利用できません");
+    if (pauseButton) pauseButton.disabled = true;
+    if (voiceSelect) voiceSelect.disabled = true;
+    if (presetSelect) presetSelect.disabled = true;
+    voiceManager.setVoiceLabel("このブラウザでは読み上げが利用できません");
     setStatus("このブラウザでは読み上げが利用できません");
     updateRateDisplay();
     updateVolumeDisplay();
     return;
   }
 
-  buildVoiceOptions();
-  synth.addEventListener("voiceschanged", buildVoiceOptions);
+  voiceManager.refreshVoicesSync();
+  voiceManager.scheduleVoiceBootstrap();
+  voiceManager.bindUIEvents();
+  voiceManager.listenVoicesChanged();
 
   toggleButton.addEventListener("click", toggleSpeech);
-  pauseButton.addEventListener("click", togglePause);
-  rateInput.addEventListener("input", () => {
-    rate = parseFloat(rateInput.value) || 1.0;
-    updateRateDisplay();
-    markCustomPreset();
-  });
-  volumeInput.addEventListener("input", () => {
-    volume = Math.min(
-      Math.max(parseFloat(volumeInput.value) || 0.85, parseFloat(volumeInput.min) || 0.6),
-      parseFloat(volumeInput.max) || 1.0
-    );
-    updateVolumeDisplay();
-    localStorage.setItem(storageKeys.volume, volume.toString());
-    markCustomPreset();
-  });
-  voiceSelect.addEventListener("change", handleVoiceChange);
-  presetSelect.addEventListener("change", (event) => {
-    applyPreset(event.target.value, { updateSelect: false });
-  });
+  if (pauseButton) pauseButton.addEventListener("click", togglePause);
+  if (rateInput) {
+    rateInput.addEventListener("input", () => {
+      rate = parseFloat(rateInput.value) || 1.0;
+      updateRateDisplay();
+      markCustomPreset();
+    });
+  }
+  if (volumeInput) {
+    volumeInput.addEventListener("input", () => {
+      volume = Math.min(
+        Math.max(parseFloat(volumeInput.value) || 0.85, parseFloat(volumeInput.min) || 0.6),
+        parseFloat(volumeInput.max) || 1.0
+      );
+      updateVolumeDisplay();
+      safeStorage.set(storageKeys.volume, volume.toString());
+      markCustomPreset();
+    });
+  }
+  if (presetSelect) {
+    presetSelect.addEventListener("change", (event) => {
+      applyPreset(event.target.value, { updateSelect: false });
+    });
+  }
   document.addEventListener("visibilitychange", handleVisibilityChange);
 
   setStatus("準備OK");
@@ -541,9 +671,13 @@ export function initStoryTTS({
   updateVolumeDisplay();
 
   function setRateExternal(newRate) {
-    const clamped = Math.min(Math.max(newRate, parseFloat(rateInput.min) || 0.5), parseFloat(rateInput.max) || 2);
+    const minVal = parseFloat(rateInput?.min) || 0.5;
+    const maxVal = parseFloat(rateInput?.max) || 2;
+    const clamped = Math.min(Math.max(newRate, minVal), maxVal);
     rate = clamped;
-    rateInput.value = clamped;
+    if (rateInput) {
+      rateInput.value = clamped;
+    }
     updateRateDisplay();
     markCustomPreset();
   }
