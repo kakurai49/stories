@@ -8,6 +8,10 @@ export function initStoryTTS({
   voiceSelectId = "ttsVoice",
   voiceLabelId = "voiceSelectionStatus",
   presetId = "ttsPreset",
+  onStart,
+  onStop,
+  onPause,
+  onResume,
 } = {}) {
   const storyElement = document.querySelector(storySelector);
   const toggleButton = document.getElementById(toggleId);
@@ -349,6 +353,9 @@ export function initStoryTTS({
     setToggleState(false);
     setPauseState(false, false);
     setStatus(reason);
+    if (typeof onStop === "function") {
+      onStop(reason);
+    }
   }
 
   function speakNext() {
@@ -415,6 +422,9 @@ export function initStoryTTS({
     currentIndex = 0;
     setToggleState(true);
     setPauseState(true, false);
+    if (typeof onStart === "function") {
+      onStart();
+    }
     speakNext();
   }
 
@@ -434,6 +444,9 @@ export function initStoryTTS({
       isPaused = true;
       setPauseState(true, true);
       setStatus("一時停止中");
+      if (typeof onPause === "function") {
+        onPause();
+      }
     } else {
       synth.resume();
       isPaused = false;
@@ -442,6 +455,9 @@ export function initStoryTTS({
         speakNext();
       } else {
         setStatus(`読み上げ中 ${currentIndex + 1}/${chunks.length}`);
+      }
+      if (typeof onResume === "function") {
+        onResume();
       }
     }
   }
@@ -488,4 +504,22 @@ export function initStoryTTS({
   setStatus("準備OK");
   setPauseState(false, false);
   updateRateDisplay();
+
+  function setRateExternal(newRate) {
+    const clamped = Math.min(Math.max(newRate, parseFloat(rateInput.min) || 0.5), parseFloat(rateInput.max) || 2);
+    rate = clamped;
+    rateInput.value = clamped;
+    updateRateDisplay();
+    markCustomPreset();
+  }
+
+  return {
+    start: startSpeech,
+    stop: () => stopSpeech("停止"),
+    toggle: toggleSpeech,
+    pause: togglePause,
+    isReading: () => isReading,
+    setRate: setRateExternal,
+    getRate: () => rate,
+  };
 }
