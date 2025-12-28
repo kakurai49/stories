@@ -74,12 +74,13 @@ export function initStoryTTS({
   const defaultVoicePresets =
     voicePresets ||
     {
-      calmFemale: { label: "落ち着いた女性", preferNames: ["Kyoko", "Mizuki", "Sayaka", "Nanami"], lang: "ja", pitch: 1.08, rateMul: 0.95 },
-      brightFemale: { label: "明るめ女性", preferNames: ["Hikari", "Haruka", "Ayumi"], lang: "ja", pitch: 1.05, rateMul: 1.02 },
-      calmMale: { label: "落ち着いた男性", preferNames: ["Ichiro", "Otoya"], lang: "ja", pitch: 0.95, rateMul: 0.98 },
-      auto: { label: "おまかせ", preferNames: [], lang: "ja", pitch: 1.0, rateMul: 1.0 },
+      auto: { label: "自動（おすすめ）", preferNames: [], lang: "ja", pitch: 1.0, rateMul: 1.0 },
+      calmFemale: { label: "落ち着いた女性", preferNames: ["Kyoko", "Mizuki", "Sayaka", "Nanami"], lang: "ja", pitch: 1.04, rateMul: 0.96 },
+      brightFemale: { label: "明るい女性", preferNames: ["Hikari", "Haruka", "Ayumi"], lang: "ja", pitch: 1.05, rateMul: 1.05 },
+      maleLow: { label: "低めの男性", preferNames: ["Ichiro", "Otoya"], lang: "ja", pitch: 0.92, rateMul: 0.98 },
+      narrator: { label: "ナレーター（中立）", preferNames: [], lang: "ja", pitch: 1.0, rateMul: 1.0 },
     };
-  let currentVoicePreset = safeStorage.get(storageKeys.voicePreset) || "calmFemale";
+  let currentVoicePreset = safeStorage.get(storageKeys.voicePreset) || "auto";
 
   function setStatus(text) {
     statusElement.textContent = text;
@@ -176,6 +177,7 @@ export function initStoryTTS({
     let bootstrapStarted = false;
     let bootstrapTimer = null;
     let loggedSelection = false;
+    let voicesChangedHandler = null;
 
     const maleKeywords = ["male", "男性", "男", "otoya", "ichiro", "hiroshi", "takeo"];
     const femaleKeywords = ["female", "女性", "女"];
@@ -249,7 +251,7 @@ export function initStoryTTS({
       });
     }
 
-    function refreshVoicesSync(preset) {
+    function refreshVoicesSync(preset, { showDefaultNotice = false } = {}) {
       if (!synthInstance) return [];
       voicesCache = synthInstance.getVoices() || [];
       updateVoiceSelectOptions(voicesCache);
@@ -262,6 +264,8 @@ export function initStoryTTS({
         safeStorage.set(storageKey, selected.voiceURI);
       } else if (voicesCache.length) {
         updateVoiceLabel("音声が見つからない（デフォルト音声で再生します）");
+      } else if (showDefaultNotice) {
+        updateVoiceLabel("音声が取得できないためデフォルト音声で再生します");
       }
 
       if (!loggedSelection) {
@@ -316,8 +320,11 @@ export function initStoryTTS({
 
     function listenVoicesChanged(preset) {
       if (!synthInstance) return;
-      const handler = () => refreshVoicesSync(preset);
-      synthInstance.addEventListener("voiceschanged", handler, { once: false });
+      if (voicesChangedHandler) {
+        synthInstance.removeEventListener("voiceschanged", voicesChangedHandler);
+      }
+      voicesChangedHandler = () => refreshVoicesSync(preset);
+      synthInstance.addEventListener("voiceschanged", voicesChangedHandler, { once: false });
     }
 
     return {
@@ -338,11 +345,12 @@ export function initStoryTTS({
   });
   setVoiceLabel("音声を取得中...");
 
-  function applyVoicePreset(name) {
-    const preset = defaultVoicePresets[name] || defaultVoicePresets.calmFemale;
-    currentVoicePreset = name;
-    safeStorage.set(storageKeys.voicePreset, name);
-    voiceManager.refreshVoicesSync(preset);
+  function applyVoicePreset(name, { showDefaultNotice = false } = {}) {
+    const presetId = defaultVoicePresets[name] ? name : "auto";
+    const preset = defaultVoicePresets[presetId] || defaultVoicePresets.auto || defaultVoicePresets.calmFemale;
+    currentVoicePreset = presetId;
+    safeStorage.set(storageKeys.voicePreset, presetId);
+    voiceManager.refreshVoicesSync(preset, { showDefaultNotice });
     voiceManager.scheduleVoiceBootstrap(preset);
     const chosen = voiceManager.getSelectedVoice();
     if (chosen) {
@@ -509,7 +517,7 @@ export function initStoryTTS({
   function startSpeech() {
     if (!speechSupported) return;
     clearPendingTimeout();
-    applyVoicePreset(currentVoicePreset);
+    applyVoicePreset(currentVoicePreset, { showDefaultNotice: true });
     selectedVoice = voiceManager.getSelectedVoice();
     const items = speechItemsFromStory();
     chunks = expandQueue(items);
@@ -568,12 +576,6 @@ export function initStoryTTS({
     }
   }
 
-  if (!presets[currentPreset]) {
-    currentPreset = "calmFemale";
-  }
-  applyPreset(currentPreset);
-  setVoiceLabel("音声を取得中...");
-
   if (!speechSupported) {
     toggleButton.disabled = true;
     if (pauseButton) pauseButton.disabled = true;
@@ -585,15 +587,22 @@ export function initStoryTTS({
   }
 
   if (voicePresetSelect) {
-    voicePresetSelect.innerHTML = "";
-    Object.entries(defaultVoicePresets).forEach(([id, preset]) => {
-      const opt = document.createElement("option");
-      opt.value = id;
-      opt.textContent = preset.label;
-      voicePresetSelect.appendChild(opt);
-    });
+    if (voicePresetSelect.options.length === 0) {
+      Object.entries(defaultVoicePresets).forEach(([id, preset]) => {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = preset.label;
+        voicePresetSelect.appendChild(opt);
+      });
+    } else {
+      Array.from(voicePresetSelect.options).forEach((opt) => {
+        if (defaultVoicePresets[opt.value]) {
+          opt.textContent = defaultVoicePresets[opt.value].label;
+        }
+      });
+    }
     if (!defaultVoicePresets[currentVoicePreset]) {
-      currentVoicePreset = "calmFemale";
+      currentVoicePreset = "auto";
     }
     voicePresetSelect.value = currentVoicePreset;
     voicePresetSelect.addEventListener("change", (event) => {

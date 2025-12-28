@@ -38,7 +38,9 @@
           <button type="button" id="speechPause" disabled aria-pressed="false">一時停止</button>
         </div>
         <label for="voicePreset">音声プリセット
-            <select id="voicePreset" name="voicePreset"></select>
+            <select id="voicePreset" name="voicePreset">
+                <option value="auto">自動（おすすめ）</option>
+            </select>
         </label>
         <label for="beatPreset">ビート
             <select id="beatPreset" name="beatPreset">
@@ -314,11 +316,6 @@
             });
         });
     </script>
-        <script type="module">
-        import { initNarration } from "./narration.js";
-        document.addEventListener("DOMContentLoaded", () => {
-            initNarration();
-        });
-    </script>
+        <script type="module" src="./narration-init.js"></script>
 </body>
 </html>
