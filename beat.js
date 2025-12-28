@@ -1,6 +1,7 @@
 // Lightweight beat sequencer for story1.html
-// Extracted from etc/spec.html: AudioContext + scheduler + simple 808-ish synths
-// UI wiring is provided by the caller via element IDs.
+// Mix graph: sources -> musicBus -> autoGain -> duckGain -> limiter -> destination
+// AutoMix lifts/attenuates toward target dB (idle/speech) + user trim; duck() toggles speechActive.
+// Tunables: idleTargetDb / speechTargetDb below, userTrim via setVolume(), duckLevel option. Limiter prevents clipping.
 
 const PRESETS = {
   calm: {
@@ -51,14 +52,33 @@ export function initBeatController({
   const instruments = ["K", "S", "H"];
   let currentPreset = "calm";
 
+  // Mix tuning: target dBFS for AutoMix (speech toggles lower target), userTrimDb from slider, limiter as safety.
+  // Adjust idleTargetDb/speechTargetDb for baseline loudness, userTrimDb via setVolume (beat slider), duckLevel via init option.
+  const idleTargetDb = -18;
+  const speechTargetDb = -24;
+  let userVolumeSlider = volumeSlider ? Number(volumeSlider.value) || 0.35 : 0.35;
+  let userTrimDb = 0;
+  let autoGainDb = 0;
+  let measuredDb = -120;
+  let speechActive = false;
+
   let ctx = null;
-  let masterGain = null;
+  let musicBus = null;
+  let autoGain = null;
+  let duckGain = null;
   let limiter = null;
+  let analyser = null;
+  let analyserBuffer = null;
+  let monitorTimer = null;
   let isPlaying = false;
   let currentStep = 0;
   let nextTime = 0;
   let timerId = null;
-  let baseVolume = volumeSlider ? Number(volumeSlider.value) || 0.35 : 0.35;
+
+  const MIX_UPDATE_MS = 100;
+  const MIN_MEASURE_DB = -60;
+  const TARGET_SLEW_SEC = 0.08;
+  const mixStatusEl = document.getElementById("mixStatus");
 
   const model = {
     bpm: PRESETS[currentPreset].bpm,
@@ -70,13 +90,33 @@ export function initBeatController({
     },
   };
 
+  // Utilities ---------------------------------------------------------
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function dbToGain(db) {
+    return Math.pow(10, db / 20);
+  }
+
+  // Audio wiring ------------------------------------------------------
   function ensureAudio() {
     if (ctx) return ctx;
     const AC = window.AudioContext || window.webkitAudioContext;
     ctx = new AC();
 
-    masterGain = ctx.createGain();
-    masterGain.gain.value = model.master * baseVolume;
+    musicBus = ctx.createGain();
+    musicBus.gain.value = model.master;
+
+    autoGain = ctx.createGain();
+    autoGain.gain.value = dbToGain(autoGainDb);
+
+    duckGain = ctx.createGain();
+    duckGain.gain.value = 1;
 
     limiter = ctx.createDynamicsCompressor();
     limiter.threshold.value = -12;
@@ -85,17 +125,27 @@ export function initBeatController({
     limiter.attack.value = 0.003;
     limiter.release.value = 0.12;
 
-    masterGain.connect(limiter);
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 1024;
+    analyserBuffer = new Float32Array(analyser.fftSize);
+
+    musicBus.connect(autoGain);
+    autoGain.connect(duckGain);
+    duckGain.connect(analyser);
+    analyser.connect(limiter);
     limiter.connect(ctx.destination);
     return ctx;
   }
 
+  function targetDb() {
+    return (speechActive ? speechTargetDb : idleTargetDb) + userTrimDb;
+  }
+
   function updateVolume(vol) {
-    baseVolume = Math.min(Math.max(vol, 0), 1);
-    if (masterGain) {
-      masterGain.gain.cancelScheduledValues(0);
-      masterGain.gain.setTargetAtTime(model.master * baseVolume, ctx.currentTime, 0.01);
-    }
+    userVolumeSlider = clamp(vol, 0, 1);
+    // Beat slider now acts as trim: 0..1 -> -12..+12 dB offset to target level.
+    userTrimDb = lerp(-12, 12, userVolumeSlider);
+    updateMixStatus();
   }
 
   function applyPreset(name) {
@@ -107,16 +157,16 @@ export function initBeatController({
     for (const inst of instruments) {
       model.tracks[inst] = parsePattern(p.tracks[inst]).slice(0, N_STEPS);
     }
-    updateVolume(baseVolume);
+    if (musicBus && ctx) {
+      musicBus.gain.setTargetAtTime(model.master, ctx.currentTime, 0.05);
+    }
   }
 
   function setPresetFromSelect(value) {
     applyPreset(value);
   }
 
-  // -----------------------------
-  // Synths
-  // -----------------------------
+  // Synths ------------------------------------------------------------
   function playKick(time) {
     const o = ctx.createOscillator();
     const g = ctx.createGain();
@@ -130,7 +180,7 @@ export function initBeatController({
     g.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
 
     o.connect(g);
-    g.connect(masterGain);
+    g.connect(musicBus);
 
     o.start(time);
     o.stop(time + 0.2);
@@ -161,7 +211,7 @@ export function initBeatController({
 
     noise.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
-    noiseGain.connect(masterGain);
+    noiseGain.connect(musicBus);
 
     const o = ctx.createOscillator();
     const g = ctx.createGain();
@@ -172,7 +222,7 @@ export function initBeatController({
     g.gain.exponentialRampToValueAtTime(0.0001, time + 0.08);
 
     o.connect(g);
-    g.connect(masterGain);
+    g.connect(musicBus);
 
     noise.start(time);
     noise.stop(time + 0.13);
@@ -195,7 +245,7 @@ export function initBeatController({
 
     noise.connect(hp);
     hp.connect(g);
-    g.connect(masterGain);
+    g.connect(musicBus);
 
     noise.start(time);
     noise.stop(time + 0.06);
@@ -208,9 +258,7 @@ export function initBeatController({
     return undefined;
   }
 
-  // -----------------------------
-  // Scheduler
-  // -----------------------------
+  // Scheduler ---------------------------------------------------------
   function stepDurationSec() {
     return 60 / model.bpm / 4; // 16th note
   }
@@ -241,32 +289,74 @@ export function initBeatController({
     } catch (e) {
       // ignore resume errors
     }
-    updateVolume(baseVolume);
     isPlaying = true;
     currentStep = 0;
     nextTime = ctx.currentTime + 0.03;
     scheduleAhead();
+    startMonitor();
   }
 
   function stop() {
     isPlaying = false;
     if (timerId) clearTimeout(timerId);
     timerId = null;
+    stopMonitor();
   }
 
   function duck() {
-    if (!masterGain || !ctx) return;
-    masterGain.gain.setTargetAtTime(model.master * baseVolume * duckLevel, ctx.currentTime, 0.02);
+    if (!duckGain || !ctx) return;
+    speechActive = true;
+    duckGain.gain.setTargetAtTime(duckLevel, ctx.currentTime, 0.05);
   }
 
   function unduck() {
-    if (!masterGain || !ctx) return;
-    masterGain.gain.setTargetAtTime(model.master * baseVolume, ctx.currentTime, 0.05);
+    if (!duckGain || !ctx) return;
+    speechActive = false;
+    duckGain.gain.setTargetAtTime(1, ctx.currentTime, 0.12);
   }
 
-  // -----------------------------
-  // UI binding
-  // -----------------------------
+  // AutoMix ----------------------------------------------------------
+  function updateMixStatus() {
+    if (!mixStatusEl) return;
+    mixStatusEl.textContent = `Beat mix: ${measuredDb.toFixed(1)} dBFS -> target ${targetDb().toFixed(1)} dB (trim ${userTrimDb.toFixed(1)} dB, auto ${autoGainDb.toFixed(1)} dB)`;
+  }
+
+  function monitorMix() {
+    if (!analyser || !isPlaying) return;
+    analyser.getFloatTimeDomainData(analyserBuffer);
+    let sum = 0;
+    for (let i = 0; i < analyserBuffer.length; i += 1) {
+      const v = analyserBuffer[i];
+      sum += v * v;
+    }
+    const rms = Math.sqrt(sum / analyserBuffer.length) || 0;
+    const EPS = 1e-8;
+    measuredDb = 20 * Math.log10(Math.max(rms, EPS));
+    if (measuredDb < MIN_MEASURE_DB) {
+      updateMixStatus();
+      return;
+    }
+
+    const error = targetDb() - measuredDb;
+    const delta = clamp(error * 0.3, -1.5, 1.5);
+    autoGainDb = clamp(autoGainDb + delta, -12, 24);
+    autoGain.gain.setTargetAtTime(dbToGain(autoGainDb), ctx.currentTime, TARGET_SLEW_SEC);
+    updateMixStatus();
+  }
+
+  function startMonitor() {
+    if (monitorTimer) return;
+    monitorTimer = setInterval(monitorMix, MIX_UPDATE_MS);
+  }
+
+  function stopMonitor() {
+    if (monitorTimer) {
+      clearInterval(monitorTimer);
+      monitorTimer = null;
+    }
+  }
+
+  // UI binding -------------------------------------------------------
   if (presetSelect) {
     presetSelect.innerHTML = "";
     Object.entries(PRESETS).forEach(([key, preset]) => {
@@ -291,14 +381,17 @@ export function initBeatController({
     );
   }
 
+  // initialize trim from slider value so AutoMix target is consistent
+  updateVolume(userVolumeSlider);
+
   return {
     start,
     stop,
     duck,
     unduck,
     setPreset: applyPreset,
-    setVolume: updateVolume,
+    setVolume: updateVolume, // maps slider 0..1 to trim dB (-12..+12)
     getPreset: () => currentPreset,
-    getVolume: () => baseVolume,
+    getVolume: () => userVolumeSlider,
   };
 }

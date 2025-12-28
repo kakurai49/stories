@@ -27,6 +27,11 @@
         color: #555;
         margin-top: 6px;
       }
+      #mixStatus {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+      }
     </style>
 </head>
 <body>
@@ -72,6 +77,10 @@
             <input type="range" id="speechRate" name="speechRate" min="0.8" max="1.4" step="0.05" value="1">
             <span id="speechRateValue">1.0</span>
         </label>
+        <label for="speechVolume">読み上げ音量:
+            <input type="range" id="speechVolume" name="speechVolume" min="0.6" max="1.0" step="0.05" value="0.85">
+            <span id="speechVolumeValue">0.85</span>
+        </label>
         <div class="tts-beat-row">
             <label for="beatPreset">ビート:
                 <select id="beatPreset" name="beatPreset">
@@ -81,11 +90,12 @@
                 </select>
             </label>
             <label for="beatVolume">ビート音量:
-                <input type="range" id="beatVolume" name="beatVolume" min="0" max="1" step="0.05" value="0.35">
+                <input type="range" id="beatVolume" name="beatVolume" min="0" max="1" step="0.05" value="0.5">
             </label>
         </div>
         <div class="tts-beat-note">読み上げを開始するとビートが同時に鳴り、停止すると止まります。</div>
         <div id="speechStatus" role="status" aria-live="polite">準備中...</div>
+        <div id="mixStatus" aria-live="polite"></div>
     </section>
     
     <div class="container" id="story">
