@@ -2,21 +2,42 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <title>magazine | Home</title>
-    <link rel="stylesheet" href="../assets/tokens.css">
-    <link rel="stylesheet" href="../assets/components.css">
+    <title>{{ experience.name }} | Home</title>
+    <link rel="stylesheet" href="./assets/tokens.css">
+    <link rel="stylesheet" href="./assets/components.css">
   </head>
   <body class="sg-surface">
+    <a class="sg-skip" href="#content">メインコンテンツへスキップ</a>
     <header class="sg-header">
+      <nav
+        class="sg-nav"
+        data-experience="{{ experience.key }}"
+        data-page-type="home"
+        data-routes-href="{{ routes_href }}"
+      >
+        <ul class="sg-nav-links">
+          {% for link in nav_links %}
+          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+          {% endfor %}
+        </ul>
+        <button type="button" class="sg-toggle" aria-pressed="false">切替</button>
+      </nav>
       <p class="sg-eyebrow">Experience</p>
-      <h1>magazine ホーム</h1>
-      <p class="sg-lede">テンプレートの起点となるシンプルなページです。</p>
+      <h1>{{ experience.name }} ホーム</h1>
+      {% if experience.description %}
+      <p class="sg-lede">{{ experience.description }}</p>
+      {% else %}
+      <p class="sg-lede">{{ experience.key }} テンプレートの起点となるシンプルなページです。</p>
+      {% endif %}
     </header>
-    <main class="sg-main">
+    <main id="content" class="sg-main">
       <section class="sg-card">
         <h2>最新コンテンツ</h2>
         <p>TODO: コンテンツ一覧をここにレンダリングします。</p>
       </section>
     </main>
+    <footer class="sg-footer">
+      <p>&copy; {{ experience.name }}</p>
+    </footer>
   </body>
 </html>

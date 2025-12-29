@@ -25,6 +25,69 @@ a {
   border-bottom: 1px solid var(--sg-border);
 }
 
+.sg-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sg-gap);
+  margin-bottom: var(--sg-gap);
+}
+
+.sg-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.sg-nav-links a {
+  color: var(--sg-text);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.sg-nav-links a:hover,
+.sg-nav-links a:focus-visible {
+  background: var(--sg-border);
+  outline: none;
+}
+
+.sg-toggle {
+  background: var(--sg-panel);
+  color: var(--sg-text);
+  border: 1px solid var(--sg-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.sg-toggle:focus-visible {
+  outline: 2px solid var(--sg-accent);
+  outline-offset: 2px;
+}
+
+.sg-skip {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.sg-skip:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  background: var(--sg-panel);
+  border: 2px solid var(--sg-accent);
+  border-radius: var(--sg-radius);
+}
+
 .sg-eyebrow {
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -72,4 +135,13 @@ a {
   margin-top: var(--sg-gap);
   color: var(--sg-muted);
   font-size: 14px;
+}
+
+.sg-footer {
+  max-width: 960px;
+  margin: var(--sg-gap) auto 0 auto;
+  padding: 16px 0 var(--sg-gap) 0;
+  border-top: 1px solid var(--sg-border);
+  color: var(--sg-muted);
+  text-align: center;
 }
