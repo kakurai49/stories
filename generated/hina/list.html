@@ -13,24 +13,19 @@
       <p class="sg-lede">カード型でタイトルと要約をざっくり眺められるシンプルなリスト。</p>
       <nav>
         <ul class="sg-nav">
-          {% for link in nav_links %}
-          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
-          {% endfor %}
+          <li><a href="/hina/">ホーム</a></li>
+          <li><a href="/hina/list">一覧</a></li>
         </ul>
       </nav>
     </header>
-    <main class="sg-main" data-template="list" data-experience="{{ experience.key }}">
+    <main class="sg-main" data-template="list" data-experience="hina">
       <ul class="sg-list card-grid">
-        {% for entry in items %}
         <li class="sg-card">
           <p class="sg-eyebrow">Episode</p>
-          <h2><a href="{{ entry.detail_href }}">{{ entry.content.title }}</a></h2>
-          {% if entry.content.summary %}
-          <p class="sg-lede">{{ entry.content.summary }}</p>
-          {% endif %}
-          <p class="sg-meta">#{{ entry.content.content_id }}</p>
+          <h2><a href="posts/ep01.html">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a></h2>
+          <p class="sg-lede">新人サキュバス兼なんでも屋テストエンジニア、ユイリアの初日を描く本編エピソード。</p>
+          <p class="sg-meta">#ep01</p>
         </li>
-        {% endfor %}
       </ul>
     </main>
   </body>

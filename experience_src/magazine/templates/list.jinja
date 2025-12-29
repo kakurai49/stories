@@ -10,19 +10,27 @@
     <header class="sg-header">
       <p class="sg-eyebrow">Listing</p>
       <h1>magazine コンテンツ一覧</h1>
-      <p class="sg-lede">カード一覧でコンテンツを紹介するページです。</p>
+      <p class="sg-lede">棚に並べるように横スクロールで見せるマガジン風。</p>
+      <nav>
+        <ul class="sg-nav">
+          {% for link in nav_links %}
+          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
     </header>
-    <main class="sg-main">
-      <ul class="sg-list">
-        <li class="sg-card">
-          <h2>サンプルタイトル</h2>
-          <p>ここにサマリーが入ります。</p>
-        </li>
-        <li class="sg-card">
-          <h2>次のコンテンツ</h2>
-          <p>TODO: ループでデータを差し込みます。</p>
-        </li>
-      </ul>
+    <main class="sg-main" data-template="list" data-experience="{{ experience.key }}">
+      <div class="magazine-shelf">
+        {% for entry in items %}
+        <article class="sg-card magazine-tile">
+          <h2><a href="{{ entry.detail_href }}">{{ entry.content.title }}</a></h2>
+          {% if entry.content.summary %}
+          <p class="sg-lede">{{ entry.content.summary }}</p>
+          {% endif %}
+          <p class="sg-meta">タグ: {{ entry.content.tags | join(', ') }}</p>
+        </article>
+        {% endfor %}
+      </div>
     </main>
   </body>
 </html>

@@ -9,7 +9,13 @@ from typing import Any, Iterable, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from .build import BuildContext, build_home
+from .build import (
+    BuildContext,
+    build_detail,
+    build_home,
+    build_list,
+    load_content_items,
+)
 from .models import (
     ContentItem,
     ExperienceSpec,
@@ -467,12 +473,14 @@ def _handle_build(args: argparse.Namespace) -> None:
     experiences_path = Path(args.experiences)
     src_root = Path(args.src)
     out_root = Path(args.out)
+    content_dir = Path(args.content)
     ctx = BuildContext(
         src_root=src_root,
         out_root=out_root,
         routes_filename=args.routes_filename,
     )
 
+    items = load_content_items(content_dir)
     experiences = _load_experiences(experiences_path)
     generated = [exp for exp in experiences if exp.kind == "generated"]
     if not generated:
@@ -482,6 +490,9 @@ def _handle_build(args: argparse.Namespace) -> None:
     written: list[Path] = []
     for exp in generated:
         written.extend(build_home(exp, ctx))
+        written.extend(build_list(exp, ctx, items))
+        for item in items:
+            written.extend(build_detail(exp, ctx, item))
 
     print(f"Built {len(written)} file(s) for {len(generated)} experience(s) into {out_root}.")
 
@@ -665,6 +676,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--out",
         default="generated",
         help="Directory to write rendered output.",
+    )
+    build_parser.add_argument(
+        "--content",
+        default="content/posts",
+        help="Directory containing content JSON files.",
     )
     build_parser.add_argument(
         "--routes-filename",
