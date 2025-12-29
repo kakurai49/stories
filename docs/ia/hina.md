@@ -2,64 +2,64 @@
 
 # Hina (hina)
 
-Light storytelling frame with quick scannability.
+軽量なストーリーテリング枠組みで、素早く全体像を掴める構成。
 
 ## home
 
-Story-forward landing with immediate engagement.
+即時にエンゲージメントを生むストーリー主導のランディング。
 
 ### Hero headline
 
-Single key story with supporting dek and CTA.
+主要な 1 本のストーリーにデックと CTA を添える。
 
 ### Fresh drops
 
-Horizontal cards highlighting latest entries.
+最新の投稿を強調する横並びカード。
 
 ### Category sampler
 
-Trio of featured topics with compact blurbs.
+コンパクトな説明付きで注目トピックを 3 つ並べる。
 
 ### Footer CTA
 
-Low-friction signup or follow action.
+負担の少ないサインアップまたはフォローの動線。
 
 ## list
 
-Browsable catalog for repeat visitors.
+リピート訪問者向けのブラウズ可能なカタログ。
 
 ### Page heading
 
-Context line with optional count and filter chips.
+件数やフィルタチップを任意で含めるコンテキスト行。
 
 ### Filter rail
 
-Sort, tags, and time-range selectors.
+並べ替え、タグ、期間セレクター。
 
 ### Story grid
 
-Two-column cards with thumbnail, title, and tag pill.
+サムネイル・タイトル・タグピル付きの 2 カラムカード。
 
 ### Pagination
 
-Numbered pagination plus next/previous links.
+番号付きページネーションと次/前リンク。
 
 ## detail
 
-Article detail tuned for quick read-through.
+素早い読了に最適化した記事詳細。
 
 ### Title + dek
 
-Clear promise with social proof metadata.
+明確な約束とソーシャルプルーフのメタデータ。
 
 ### Feature visual
 
-Lead image or embed with caption.
+キャプション付きのリード画像または埋め込み。
 
 ### Body
 
-Sectioned narrative with pull quotes.
+プルクオートを交えたセクション構成のナラティブ。
 
 ### Related stories
 
-Inline cluster to jump deeper.
+深堀りのためのインラインな関連記事クラスター。

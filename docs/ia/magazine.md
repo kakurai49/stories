@@ -2,64 +2,64 @@
 
 # Magazine (magazine)
 
-Editorial grid suited to feature packages.
+特集パッケージに適した編集型グリッド。
 
 ## home
 
-Package hub with multiple entry points.
+複数の導線を持つパッケージハブ。
 
 ### Cover stack
 
-Lead story with supporting secondary stack.
+リードストーリーと補足するセカンダリースタック。
 
 ### Rubric columns
 
-Multi-column mix of departments.
+複数のコラムを並べたセクション構成。
 
 ### Newsletter module
 
-Opt-in with promise of cadence.
+配信頻度を約束するオプトイン導線。
 
 ## list
 
-Section landing tailored for skim.
+流し読み向けに調整したセクションランディング。
 
 ### Section masthead
 
-Section label and synopsis.
+セクションラベルと概要。
 
 ### Featured lead
 
-Highlight article with deck and byline.
+デックと署名付きで記事を強調。
 
 ### Card river
 
-Dense cards with bylines and tags.
+署名とタグを備えた密度の高いカード群。
 
 ### Archive pagination
 
-Jump to older issues via numbered pages.
+番号ページで過去号へ遷移。
 
 ## detail
 
-Feature article layout.
+特集記事レイアウト。
 
 ### Masthead
 
-Title, dek, author, and publish metadata.
+タイトル、デック、著者、公開メタデータ。
 
 ### Lead visual
 
-Prominent image with credit.
+クレジット付きの印象的な画像。
 
 ### Body
 
-Rich text with inline pull quotes.
+インラインのプルクオートを含むリッチテキスト。
 
 ### Sidebar
 
-Sticky references, links, or footnotes.
+スティッキーな参考情報、リンク、脚注。
 
 ### Suggested reads
 
-Curated links to sibling pieces.
+関連する記事へのキュレーションリンク。

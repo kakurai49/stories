@@ -1,51 +1,51 @@
-# Experiment Plan: Template Experiment Plan
+# 実験計画: テンプレート実験計画
 
-Experiments across story templates to compare engagement and completion performance.
+ストーリーテンプレート全体でエンゲージメントと完読パフォーマンスを比較する実験。
 
 ## hina – Hina Story
 
-AI-hosted persona narrative tailored for new visitors.
+新規訪問者向けに調整された、AI ホストのペルソナナラティブ。
 
-### Metrics
-- **completion_rate**: Percentage of sessions reaching the final Hina card. | Target: Increase completions relative to control.
-- **avg_dwell_time**: Average seconds spent on the Hina story page. | Target: Lift time-on-page for narrative-driven sessions.
+### 指標
+- **completion_rate**: Hina の最終カードに到達したセッションの割合。 | 目標: コントロールより完了数を増やす。
+- **avg_dwell_time**: Hina ストーリーページでの平均滞在秒数。 | 目標: ナラティブ主導セッションの滞在時間を向上。
 
-### Events
+### イベント
 - **story_load**
-  - When: When a Hina story page is shown.
-  - Properties: story_id, template, traffic_source
+  - 発生タイミング: Hina ストーリーページが表示されたとき。
+  - プロパティ: story_id, template, traffic_source
 - **story_complete**
-  - When: When a user finishes the Hina narrative.
-  - Properties: story_id, template, duration_seconds
+  - 発生タイミング: ユーザーが Hina のナラティブを完了したとき。
+  - プロパティ: story_id, template, duration_seconds
 
 ## immersive – Immersive Panel
 
-Swipeable immersive reading flow for engaged users.
+エンゲージ度の高いユーザー向けのスワイプ可能な没入型リーディングフロー。
 
-### Metrics
-- **scroll_depth**: Median scroll depth across immersive panels. | Target: Reach 75% median scroll depth.
-- **interaction_rate**: Share of users interacting with swipe or tap actions. | Target: Improve gesture interactions session-over-session.
+### 指標
+- **scroll_depth**: 没入型パネル全体の中央値スクロール深度。 | 目標: 中央値 75% まで到達。
+- **interaction_rate**: スワイプやタップ操作に参加したユーザーの割合。 | 目標: セッションごとのジェスチャー操作率を改善。
 
-### Events
+### イベント
 - **panel_swipe**
-  - When: On each swipe between immersive panels.
-  - Properties: story_id, panel_index, direction, template
+  - 発生タイミング: 没入型パネル間の各スワイプ時。
+  - プロパティ: story_id, panel_index, direction, template
 - **cta_click**
-  - When: When the immersive CTA is clicked.
-  - Properties: story_id, cta_destination, template
+  - 発生タイミング: 没入型 CTA がクリックされたとき。
+  - プロパティ: story_id, cta_destination, template
 
 ## magazine – Magazine Layout
 
-Editorial-style layout for users browsing multiple articles.
+複数記事を閲覧するユーザー向けの編集レイアウト。
 
-### Metrics
-- **article_click_through**: Click-through rate from magazine grid to articles. | Target: Lift CTR compared to classic listing.
-- **session_pages_viewed**: Average articles opened per session. | Target: Reach 2.0+ articles per session.
+### 指標
+- **article_click_through**: マガジングリッドから記事へのクリック率。 | 目標: 従来リストと比較して CTR を向上。
+- **session_pages_viewed**: セッションあたりに開かれた記事数の平均。 | 目標: 1 セッション 2.0 記事以上。
 
-### Events
+### イベント
 - **grid_impression**
-  - When: When the magazine grid loads.
-  - Properties: section, template, story_count
+  - 発生タイミング: マガジングリッドが読み込まれたとき。
+  - プロパティ: section, template, story_count
 - **article_open**
-  - When: When a user opens an article from the grid.
-  - Properties: story_id, position, template
+  - 発生タイミング: ユーザーがグリッドから記事を開いたとき。
+  - プロパティ: story_id, position, template
