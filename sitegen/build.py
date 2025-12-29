@@ -23,6 +23,7 @@ class BuildContext:
     src_root: Path
     out_root: Path
     routes_filename: str = "routes.json"
+    shared_init_features: Path | None = None
     _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
     def templates_dir(self, experience: ExperienceSpec) -> Path:
@@ -228,6 +229,11 @@ def build_detail(
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
     ctx.copy_assets(experience)
     asset_prefix = _relative_href(output_dir, output_file.parent)
+    features_init_href = (
+        _relative_href(ctx.shared_init_features, output_file.parent)
+        if ctx.shared_init_features
+        else None
+    )
 
     env = ctx.jinja_env(experience)
     template = env.get_template("detail.jinja")
@@ -236,6 +242,7 @@ def build_detail(
         content=item,
         routes_href=routes_href,
         asset_prefix=asset_prefix,
+        features_init_href=features_init_href,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},
