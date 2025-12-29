@@ -1,0 +1,21 @@
+{
+  "id": "immersive",
+  "label": "Immersive Generated Experience",
+  "supports": {
+    "pageTypes": [
+      "story"
+    ],
+    "features": [
+      "full-bleed"
+    ],
+    "renderKinds": [],
+    "locales": [
+      "ja-JP"
+    ]
+  },
+  "routes": {
+    "home": "/immersive/",
+    "list": "/immersive/list",
+    "detail": "/immersive/{slug}"
+  }
+}

@@ -430,6 +430,38 @@ def _handle_scaffold(args: argparse.Namespace) -> None:
     )
 
 
+def _handle_gen_manifests(args: argparse.Namespace) -> None:
+    experiences_path = Path(args.experiences)
+    src_root = Path(args.src)
+
+    experiences = _load_experiences(experiences_path)
+    generated = [exp for exp in experiences if exp.kind == "generated"]
+    if not generated:
+        print("No generated experiences found; nothing to write.")
+        return
+
+    for exp in generated:
+        manifest = {
+            "id": exp.key,
+            "label": exp.name,
+            "supports": exp.supports.model_dump(
+                by_alias=True, exclude_none=True
+            ),
+            "routes": {
+                "home": exp.route_patterns.home,
+                "list": exp.route_patterns.list,
+                "detail": exp.route_patterns.detail,
+            },
+        }
+        manifest_path = ensure_dir(src_root / exp.key) / "manifest.json"
+        write_text(
+            manifest_path,
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        )
+
+    print(f"Wrote {len(generated)} manifest(s) to {src_root}.")
+
+
 def _render_section(section: IASection, level: int) -> list[str]:
     heading_prefix = "#" * min(level, 6)
     lines: list[str] = ["", f"{heading_prefix} {section.title}"]
@@ -572,6 +604,23 @@ def build_parser() -> argparse.ArgumentParser:
         help="Root directory for generated output folders.",
     )
     scaffold_parser.set_defaults(func=_handle_scaffold)
+
+    manifest_parser = subparsers.add_parser(
+        "gen-manifests",
+        help="Generate manifest.json files for generated experiences.",
+        description="Write manifest.json into experience source directories.",
+    )
+    manifest_parser.add_argument(
+        "--experiences",
+        required=True,
+        help="Path to experiences.yaml",
+    )
+    manifest_parser.add_argument(
+        "--src",
+        required=True,
+        help="Base directory containing experience source folders.",
+    )
+    manifest_parser.set_defaults(func=_handle_gen_manifests)
 
     return parser
 

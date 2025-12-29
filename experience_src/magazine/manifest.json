@@ -1,0 +1,21 @@
+{
+  "id": "magazine",
+  "label": "Magazine Generated Experience",
+  "supports": {
+    "pageTypes": [
+      "story"
+    ],
+    "features": [
+      "grid-list"
+    ],
+    "renderKinds": [],
+    "locales": [
+      "ja-JP"
+    ]
+  },
+  "routes": {
+    "home": "/magazine/",
+    "list": "/magazine/list",
+    "detail": "/magazine/{slug}"
+  }
+}
