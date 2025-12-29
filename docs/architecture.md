@@ -1,26 +1,26 @@
-# Architecture Overview
+# アーキテクチャ概要
 
-This document outlines the foundational terms for the site generator:
+このドキュメントは、サイトジェネレーターにおける基本用語をまとめています。
 
-- **experience**: A collection of pages or flows that share a common goal.
-- **pageType**: A category describing the layout or purpose of a page within an experience.
-- **contentId**: An identifier used to locate or reference specific content assets.
-- **routes.json**: A manifest describing the routes available in an experience.
+- **experience**: 共通の目的を持つページやフローの集合。
+- **pageType**: エクスペリエンス内でページのレイアウトや目的を表すカテゴリ。
+- **contentId**: 特定のコンテンツアセットを見つけたり参照したりするための識別子。
+- **routes.json**: エクスペリエンスで利用可能なルートを記述したマニフェスト。
 
-## Data attribute contract
+## データ属性の取り決め
 
-Markup rendered by the generator is annotated with data attributes so that hydration and
-client-side navigation can resolve the correct assets:
+ジェネレーターが生成するマークアップにはデータ属性が付与され、ハイドレーションや
+クライアントサイドのナビゲーションが正しいアセットを解決できるようになっています。
 
-- `data-experience`: The experience key (e.g., `blog`) that owns the current DOM tree.
-- `data-page-type`: The page type used to select a template (e.g., `post`).
-- `data-content-id`: The stable `contentId` for the bound content item.
-- `data-routes-href`: An absolute or relative path to a `routes.json` payload.
-  This JSON follows the `RouteMap` schema and lists each route with its `href`,
-  `pageType`, `contentId`, and optional `dataHref`. Client code can dereference the
-  attribute to prefetch or hydrate navigation models without hard-coding URLs.
+- `data-experience`: 現在の DOM ツリーを所有するエクスペリエンスキー（例: `blog`）。
+- `data-page-type`: テンプレートを選択するためのページタイプ（例: `post`）。
+- `data-content-id`: バインドされたコンテンツ項目の安定した `contentId`。
+- `data-routes-href`: `routes.json` ペイロードへの絶対または相対パス。
+  この JSON は `RouteMap` スキーマに従い、各ルートの `href`、`pageType`、`contentId`、
+  任意の `dataHref` を列挙します。クライアントコードはこの属性を参照して、URL を
+  ハードコードせずにナビゲーションモデルをプリフェッチまたはハイドレートできます。
 
-Example linkage in markup:
+マークアップでの紐づけ例:
 
 ```html
 <nav
@@ -33,7 +33,7 @@ Example linkage in markup:
 </nav>
 ```
 
-The referenced `routes.json` would look like:
+参照される `routes.json` の例:
 
 ```json
 {
@@ -50,5 +50,5 @@ The referenced `routes.json` would look like:
 }
 ```
 
-These conventions ensure that runtime components can discover routing metadata
-without coupling to build-time file layouts.
+これらの取り決めにより、ランタイムコンポーネントはビルド時のファイル構成に依存せずに
+ルーティングメタデータを発見できます。

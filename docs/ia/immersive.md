@@ -2,56 +2,56 @@
 
 # Immersive (immersive)
 
-Full-bleed, cinematic reading path.
+フルブリードで映画的な読書体験。
 
 ## home
 
-Visually rich teaser surface.
+ビジュアルが豊富なティーザー面。
 
 ### Cover mosaic
 
-Full-width cards with parallax image focus.
+パララックスで際立たせる全幅カード。
 
 ### Timeline rail
 
-Scroll-linked preview of longform drops.
+ロングフォームの投稿をスクロール連動でプレビュー。
 
 ### Creator spotlight
 
-Bio snippet and latest feature for anchor author.
+主要オーサーの略歴スニペットと最新記事。
 
 ## list
 
-Longform queue with context.
+文脈付きのロングフォームキュー。
 
 ### Context banner
 
-Series description and reading time range.
+シリーズ説明と読了時間の目安。
 
 ### Immersive list
 
-Tall cards with hero media and key pull quote.
+ヒーローメディアと主要プルクオートを備えた縦長カード。
 
 ### Continue reading
 
-Sticky prompt to jump back into last read piece.
+最後に読んだ記事へ戻るためのスティッキープロンプト。
 
 ## detail
 
-Deep storytelling canvas.
+深いストーリーテリングのキャンバス。
 
 ### Cinematic lead
 
-Full-bleed hero with overlay headline.
+オーバーレイ見出し付きのフルブリードヒーロー。
 
 ### Narrative flow
 
-Chapters marked by scrolly waypoints.
+スクロールの到達点で区切られた章構成。
 
 ### Media interludes
 
-Inline galleries and clips for pacing.
+リズムを整えるためのインラインギャラリーやクリップ。
 
 ### End slate
 
-Series navigation and share block.
+シリーズナビゲーションとシェアブロック。

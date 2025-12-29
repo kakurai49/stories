@@ -1,11 +1,11 @@
-# Template Pack Checklist
+# テンプレートパックのチェックリスト
 
-Use this checklist to evaluate template packs across key categories:
+テンプレートパックを主要なカテゴリで評価するためのチェックリストです。
 
-- **A11y**: Accessibility requirements and best practices.
-- **CSS**: Styling structure, variables, and theming considerations.
-- **切替**: Locale, theme, or layout switching behaviors.
-- **SEO**: Metadata, structured data, and search index readiness.
-- **機能フック**: Extension points for custom logic and integrations.
+- **A11y**: アクセシビリティ要件とベストプラクティス。
+- **CSS**: スタイル構造、変数、テーマ適用の考慮事項。
+- **切替**: ロケール、テーマ、レイアウトの切り替え挙動。
+- **SEO**: メタデータ、構造化データ、検索インデックス準備。
+- **機能フック**: カスタムロジックや統合のための拡張ポイント。
 
-Expand each category with detailed items as the project progresses.
+各カテゴリは、プロジェクトの進行に合わせて詳細項目を追加してください。
