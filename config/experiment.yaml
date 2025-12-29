@@ -1,0 +1,54 @@
+name: "Template Experiment Plan"
+description: "Experiments across story templates to compare engagement and completion performance."
+templates:
+  - key: hina
+    template_name: "Hina Story"
+    summary: "AI-hosted persona narrative tailored for new visitors."
+    metrics:
+      - name: completion_rate
+        description: "Percentage of sessions reaching the final Hina card."
+        target: "Increase completions relative to control."
+      - name: avg_dwell_time
+        description: "Average seconds spent on the Hina story page."
+        target: "Lift time-on-page for narrative-driven sessions."
+    events:
+      - name: story_load
+        when: "When a Hina story page is shown."
+        properties: ["story_id", "template", "traffic_source"]
+      - name: story_complete
+        when: "When a user finishes the Hina narrative."
+        properties: ["story_id", "template", "duration_seconds"]
+  - key: immersive
+    template_name: "Immersive Panel"
+    summary: "Swipeable immersive reading flow for engaged users."
+    metrics:
+      - name: scroll_depth
+        description: "Median scroll depth across immersive panels."
+        target: "Reach 75% median scroll depth."
+      - name: interaction_rate
+        description: "Share of users interacting with swipe or tap actions."
+        target: "Improve gesture interactions session-over-session."
+    events:
+      - name: panel_swipe
+        when: "On each swipe between immersive panels."
+        properties: ["story_id", "panel_index", "direction", "template"]
+      - name: cta_click
+        when: "When the immersive CTA is clicked."
+        properties: ["story_id", "cta_destination", "template"]
+  - key: magazine
+    template_name: "Magazine Layout"
+    summary: "Editorial-style layout for users browsing multiple articles."
+    metrics:
+      - name: article_click_through
+        description: "Click-through rate from magazine grid to articles."
+        target: "Lift CTR compared to classic listing."
+      - name: session_pages_viewed
+        description: "Average articles opened per session."
+        target: "Reach 2.0+ articles per session."
+    events:
+      - name: grid_impression
+        when: "When the magazine grid loads."
+        properties: ["section", "template", "story_count"]
+      - name: article_open
+        when: "When a user opens an article from the grid."
+        properties: ["story_id", "position", "template"]
