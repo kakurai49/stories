@@ -1,297 +1,241 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第1話「キラキラした背中と、ダメ出しの夜」</title>
-    <link rel="stylesheet" href="pop3_style.css">
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-</head>
-<body>
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>第1話「キラキラした背中と、ダメ出しの夜」</title>
+<link href="pop3_style.css" rel="stylesheet"/>
+<!-- KaTeX CSS -->
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" rel="stylesheet"/>
+<link href="shared/switcher.css" rel="stylesheet" type="text/css"/><script defer="defer" src="shared/switcher.js"></script></head>
+<body data-content-id="ep01" data-experience="ruri" data-routes-href="routes.json" data-template="detail">
 <a class="skip" href="#content">本文へスキップ</a>
-<header class="topbar" role="banner" data-tts="ignore">
-  <div class="topbar-inner">
-    <a class="brand" href="index.html" aria-label="トップページへ">
-      <div class="mark" aria-hidden="true"></div>
-      <div class="brand-title">
-        <b>結城ユイの成長物語</b>
-        <span>瑠璃の宝石スタイル｜サキュバスメイド喫茶《∞》</span>
-      </div>
-    </a>
-    <nav class="nav" aria-label="関連ナビゲーション">
-      <a href="index.html#episodes">12話一覧</a>
-      <a href="index.html#about">紹介</a>
-      <a class="cta" href="index.html">トップへ戻る</a>
-    </nav>
-  </div>
+<header class="topbar" data-tts="ignore" role="banner">
+<div class="topbar-inner">
+<a aria-label="トップページへ" class="brand" href="index.html">
+<div aria-hidden="true" class="mark"></div>
+<div class="brand-title">
+<b>結城ユイの成長物語</b>
+<span>瑠璃の宝石スタイル｜サキュバスメイド喫茶《∞》</span>
+</div>
+</a>
+<nav aria-label="関連ナビゲーション" class="nav">
+<a href="index.html#episodes">12話一覧</a>
+<a href="index.html#about">紹介</a>
+<a class="cta" href="index.html">トップへ戻る</a>
+<button class="view-switcher" data-action="switch-experience" type="button">体験を切り替える</button></nav>
+</div>
 </header>
-  <main id="content">
-
-    <header>
+<main id="content">
+<header>
         第1話「キラキラした背中と、<span class="sparkle">ダメ出しの夜</span>」
     </header>
-
-    <section class="tts-controls" aria-label="読み上げコントロール" data-tts="ignore">
-        <div class="tts-row buttons">
-          <button type="button" id="speechToggle" aria-pressed="false">読み上げ OFF</button>
-          <button type="button" id="speechPause" disabled aria-pressed="false">一時停止</button>
-        </div>
-        <label for="voicePreset">音声プリセット
+<section aria-label="読み上げコントロール" class="tts-controls" data-tts="ignore">
+<div class="tts-row buttons">
+<button aria-pressed="false" id="speechToggle" type="button">読み上げ OFF</button>
+<button aria-pressed="false" disabled="" id="speechPause" type="button">一時停止</button>
+</div>
+<label for="voicePreset">音声プリセット
             <select id="voicePreset" name="voicePreset">
-                <option value="auto">自動（おすすめ）</option>
-            </select>
-        </label>
-        <label for="beatPreset">ビート
+<option value="auto">自動（おすすめ）</option>
+</select>
+</label>
+<label for="beatPreset">ビート
             <select id="beatPreset" name="beatPreset">
-                <option value="calm">明るい・落ち着く</option>
-                <option value="hype">テンション上げる</option>
-                <option value="neutral">当たり障りない（人ビート）</option>
-            </select>
-        </label>
-        <label for="masterVolume">音量 VOL
-            <input type="range" id="masterVolume" name="masterVolume" min="0" max="1" step="0.01" value="0.85">
-            <span id="masterVolumeValue">0.85</span>
-        </label>
-        <div class="tts-note">読み上げを開始するとビートが同時に鳴り、停止すると止まります。</div>
-        <div class="tts-status">
-          <span id="speechStatus" role="status" aria-live="polite">準備中...</span>
-          <span id="tempoStatus" aria-live="polite"></span>
-          <span id="mixStatus" aria-live="polite"></span>
-          <span id="voiceSelectionStatus" aria-live="polite" class="voice-status"></span>
-        </div>
-    </section>
-    
-    <div class="container" id="story">
-        <div class="section">
-            <h2>◆前回までのあらすじ</h2>
-            <p>舞台は魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》。</p>
-            <p>新人サキュバスで"なんでも屋のダメダメテストエンジニア"結城ユイ（源氏名ユイリア）が、</p>
-            <p>伝説級テストアーキテクトの神崎ナギ、オーナーのバルハと共に成長していく物語です。</p>
-        </div>
-        
-        <div class="section">
-            <h2>◆本編</h2>
-            <p>魔界歓楽街の外れに、無限大マークのネオンサインが灯る。</p>
-            <p>サキュバスメイド喫茶《∞（インフィニティ）》――今夜がグランドオープンだ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">バルハ</span>
+<option value="calm">明るい・落ち着く</option>
+<option value="hype">テンション上げる</option>
+<option value="neutral">当たり障りない（人ビート）</option>
+</select>
+</label>
+<label for="masterVolume">音量 VOL
+            <input id="masterVolume" max="1" min="0" name="masterVolume" step="0.01" type="range" value="0.85"/>
+<span id="masterVolumeValue">0.85</span>
+</label>
+<div class="tts-note">読み上げを開始するとビートが同時に鳴り、停止すると止まります。</div>
+<div class="tts-status">
+<span aria-live="polite" id="speechStatus" role="status">準備中...</span>
+<span aria-live="polite" id="tempoStatus"></span>
+<span aria-live="polite" id="mixStatus"></span>
+<span aria-live="polite" class="voice-status" id="voiceSelectionStatus"></span>
+</div>
+</section>
+<div class="container" id="story">
+<div class="section">
+<h2>◆前回までのあらすじ</h2>
+<p>舞台は魔界歓楽街のサキュバスメイド喫茶《∞（インフィニティ）》。</p>
+<p>新人サキュバスで"なんでも屋のダメダメテストエンジニア"結城ユイ（源氏名ユイリア）が、</p>
+<p>伝説級テストアーキテクトの神崎ナギ、オーナーのバルハと共に成長していく物語です。</p>
+</div>
+<div class="section">
+<h2>◆本編</h2>
+<p>魔界歓楽街の外れに、無限大マークのネオンサインが灯る。</p>
+<p>サキュバスメイド喫茶《∞（インフィニティ）》――今夜がグランドオープンだ。</p>
+<div class="dialogue">
+<span class="character-name">バルハ</span>
                 「ユイリア！　フロア A、もう一回転いける？　"社畜応援ショット"がバカ売れよ！」
             </div>
-            
-            <p>カウンターからオーナーのバルハが翼をばさっと広げる。</p>
-            <p>私は結城ユイ、源氏名ユイリア。新人サキュバスにして、《∞》のなんでも屋テストエンジニアだ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<p>カウンターからオーナーのバルハが翼をばさっと広げる。</p>
+<p>私は結城ユイ、源氏名ユイリア。新人サキュバスにして、《∞》のなんでも屋テストエンジニアだ。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「は、はいっ！　来た順で煽ってみます！」
             </div>
-            
-            <p>本当は「来た順」なんてテキトーなこと、言っちゃいけない。</p>
-            <p>でも今日の私は、朝からずっと場当たりだった。</p>
-            
-            <p>開店直前に突貫で詰め込んだキャンペーン。</p>
-            <p>SNS 限定割引、社畜救済ハグプラン、ワンドリンク無料クーポン……。</p>
-            <p>面白そうだからと全部オンにした結果、レジの魔導端末は何度もフリーズし、</p>
-            <p>ポイントは二重加算、席の予約は上書きされ、店内のあちこちからクレームが飛んだ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">客A</span>
+<p>本当は「来た順」なんてテキトーなこと、言っちゃいけない。</p>
+<p>でも今日の私は、朝からずっと場当たりだった。</p>
+<p>開店直前に突貫で詰め込んだキャンペーン。</p>
+<p>SNS 限定割引、社畜救済ハグプラン、ワンドリンク無料クーポン……。</p>
+<p>面白そうだからと全部オンにした結果、レジの魔導端末は何度もフリーズし、</p>
+<p>ポイントは二重加算、席の予約は上書きされ、店内のあちこちからクレームが飛んだ。</p>
+<div class="dialogue">
+<span class="character-name">客A</span>
                 「このクーポン、二重に効いてるんだけど？」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">客B</span>
+<div class="dialogue">
+<span class="character-name">客B</span>
                 「残業証明書なんて持ち歩かないよ！」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">客C</span>
+<div class="dialogue">
+<span class="character-name">客C</span>
                 「癒やされに来たのに、アンケートばっかりは違う！」
             </div>
-            
-            <p>謝って魔力でレシートを焼き直し、割引率を場当たりに変え、</p>
-            <p>私はなんとか炎上だけは避けた……つもりだった。</p>
-            
-            <div class="scene-break">＊　＊　＊</div>
-            
-            <p>――深夜。シャッターを下ろした店内に、ようやく静けさが降りる。</p>
-            
-            <p>テーブルにはアンケート用紙の山と、</p>
-            <p>魔導レジから吐き出されたログの束。</p>
-            <p>私は赤ペン片手に、うつぶせになっていた。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<p>謝って魔力でレシートを焼き直し、割引率を場当たりに変え、</p>
+<p>私はなんとか炎上だけは避けた……つもりだった。</p>
+<div class="scene-break">＊　＊　＊</div>
+<p>――深夜。シャッターを下ろした店内に、ようやく静けさが降りる。</p>
+<p>テーブルにはアンケート用紙の山と、</p>
+<p>魔導レジから吐き出されたログの束。</p>
+<p>私は赤ペン片手に、うつぶせになっていた。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「"クーポン二重適用"……"ショット提供遅延"……"強引なアンケート"……」
             </div>
-            
-            <p>バグみたいに列挙しても、ただの愚痴のリストだ。</p>
-            <p>どこから手をつければいいのか、さっぱり分からない。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>バグみたいに列挙しても、ただの愚痴のリストだ。</p>
+<p>どこから手をつければいいのか、さっぱり分からない。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「ログ、見せてもらっていい？」
             </div>
-            
-            <p>不意に声がして、私は飛び上がった。</p>
-            <p>振り向くと、カウンター席に一人の女性が座っていた。</p>
-            
-            <p>黒髪をゆるく束ねた、シンプルなジャケット姿。</p>
-            <p>地味なのに、視線を吸い込むような琥珀色の瞳。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<p>不意に声がして、私は飛び上がった。</p>
+<p>振り向くと、カウンター席に一人の女性が座っていた。</p>
+<p>黒髪をゆるく束ねた、シンプルなジャケット姿。</p>
+<p>地味なのに、視線を吸い込むような琥珀色の瞳。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「あ、あの、もう閉店で……」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「オーナーに合鍵、預かってるから」
             </div>
-            
-            <p>女性はマグカップを揺らしながら、ふわりと笑う。</p>
-            <p>カップから立ちのぼるのは湯気ではなく、細い魔力の糸だった。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>女性はマグカップを揺らしながら、ふわりと笑う。</p>
+<p>カップから立ちのぼるのは湯気ではなく、細い魔力の糸だった。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「神崎ナギ。テストアーキテクト。今はフリーで、ちょっとだけこの店に関わってる」
             </div>
-            
-            <p>その名前に、私は思わず息を呑んだ。</p>
-            <p>魔界テック板で伝説みたいに語られる、大先輩の名前だ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
-                「き、今日のログ、一応全部出したんですけど……。<br>
+<p>その名前に、私は思わず息を呑んだ。</p>
+<p>魔界テック板で伝説みたいに語られる、大先輩の名前だ。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
+                「き、今日のログ、一応全部出したんですけど……。<br/>
                 クレームもメモったんですが、整理が全然できなくて」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「うん、ちょっと貸して」
             </div>
-            
-            <p>ナギさんはログとメモをぱらぱらとめくり、ホワイトボードの前に立つ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>ナギさんはログとメモをぱらぱらとめくり、ホワイトボードの前に立つ。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「客の種類は、ざっくりこの三パターンだね」
             </div>
-            
-            <p>縦に三本線を引き、左から順に「限界社畜」「癒やされたい勢」「冷やかし・観光客」と書く。</p>
-            <p>そこへ、さっきまで紙の海だったクレームが、迷いなく分類されていく。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「"クーポン二重適用"で損したって怒ってたのは、ここ。<br>
-                "残業証明書なんて持ってない"って人も、こっち。<br>
+<p>縦に三本線を引き、左から順に「限界社畜」「癒やされたい勢」「冷やかし・観光客」と書く。</p>
+<p>そこへ、さっきまで紙の海だったクレームが、迷いなく分類されていく。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
+                「"クーポン二重適用"で損したって怒ってたのは、ここ。<br/>
+                "残業証明書なんて持ってない"って人も、こっち。<br/>
                 アンケートにキレてたのは、たぶんこの列の人たち」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「えっ、そんなにキレイに分かるものなんですか？」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「本当はもっと細かいけどね。まずはざっくりで十分」
             </div>
-            
-            <p>ナギさんは「限界社畜」の列を丸で囲んだ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>ナギさんは「限界社畜」の列を丸で囲んだ。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「今日、いちばん大事にしたかったのは？」
             </div>
-            
-            <p>私の頭に、クマを作りながら笑っていたお客さんたちの顔が浮かぶ。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<p>私の頭に、クマを作りながら笑っていたお客さんたちの顔が浮かぶ。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「……社畜さん、たちです」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「だよね。<br>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
+                「だよね。<br/>
                 だったら、"社畜をどう見るか"っていうレンズから世界を切り分けたほうがいい」
             </div>
-            
-            <p>ペン先が、三つの列をぐるりとなぞる。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「テストってさ、バグを片っ端から刺す仕事じゃない。<br>
+<p>ペン先が、三つの列をぐるりとなぞる。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
+                「テストってさ、バグを片っ端から刺す仕事じゃない。<br/>
                 "世界の見方"を設計する仕事なんだよ」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
                 「世界の、見方……」
             </div>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「どんな種類の客がいて、何を期待して来て、<br>
-                何が壊れると一番つらいか。<br>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
+                「どんな種類の客がいて、何を期待して来て、<br/>
+                何が壊れると一番つらいか。<br/>
                 その切り取り方を決めるのが、テストの最初の一歩」
             </div>
-            
-            <p>私は自分のメモ帳を見下ろす。</p>
-            <p>時系列に並んだクレームと、その場しのぎの対応が、</p>
-            <p>ただぎゅうぎゅうに詰め込まれているだけの紙切れ。</p>
-            
-            <p>同じ一日を見ているはずなのに――。</p>
-            
-            <p>顔を上げると、ホワイトボードには三つの列と矢印と丸だけの、</p>
-            <p>シンプルな地図ができあがっていた。</p>
-            <p>そこには、さっきまでカオスだったオープン初日の夜が、</p>
-            <p>嘘みたいに整然と並んでいる。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">ユイリア</span>
-                「同じ世界を見てるのに、<br>
+<p>私は自分のメモ帳を見下ろす。</p>
+<p>時系列に並んだクレームと、その場しのぎの対応が、</p>
+<p>ただぎゅうぎゅうに詰め込まれているだけの紙切れ。</p>
+<p>同じ一日を見ているはずなのに――。</p>
+<p>顔を上げると、ホワイトボードには三つの列と矢印と丸だけの、</p>
+<p>シンプルな地図ができあがっていた。</p>
+<p>そこには、さっきまでカオスだったオープン初日の夜が、</p>
+<p>嘘みたいに整然と並んでいる。</p>
+<div class="dialogue">
+<span class="character-name">ユイリア</span>
+                「同じ世界を見てるのに、<br/>
                 先輩には、全然違う形に見えてる……」
             </div>
-            
-            <p>思わずこぼした言葉に、ナギさんは少しだけ目を細めた。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>思わずこぼした言葉に、ナギさんは少しだけ目を細めた。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「その違いに気づけたなら、もう半分はテスト屋だよ」
             </div>
-            
-            <p>そう言って、ペンのキャップを閉め、私に放ってよこす。</p>
-            
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
+<p>そう言って、ペンのキャップを閉め、私に放ってよこす。</p>
+<div class="dialogue">
+<span class="character-name">神崎ナギ</span>
                 「ほら。次はユイちゃんが、世界の線を引いてみな？」
             </div>
-            
-            <p>ペンを握った指先が、じんわりと熱くなる。</p>
-            <p>胸の奥で、小さな灯りがぱっとともった気がした。</p>
-            
-            <p>いつか私も、この人みたいに、</p>
-            <p>世界をすっと三本の線で切り取れるようになりたい――。</p>
-            
-            <p>カウンターの影で、バルハがにやりと笑いながらこちらを見ていることに、</p>
-            <p>そのときの私はまだ気づいていなかった。</p>
-        </div>
-    </div>
-  </main>
-
-    <div class="footer">
+<p>ペンを握った指先が、じんわりと熱くなる。</p>
+<p>胸の奥で、小さな灯りがぱっとともった気がした。</p>
+<p>いつか私も、この人みたいに、</p>
+<p>世界をすっと三本の線で切り取れるようになりたい――。</p>
+<p>カウンターの影で、バルハがにやりと笑いながらこちらを見ていることに、</p>
+<p>そのときの私はまだ気づいていなかった。</p>
+</div>
+</div>
+</main>
+<div class="footer">
         © 魔界歓楽街 サキュバスメイド喫茶《∞（インフィニティ）》
     </div>
-
-    <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
-    <script>
+<!-- KaTeX JS -->
+<script crossorigin="anonymous" defer="" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
                 delimiters: [
@@ -303,6 +247,6 @@
             });
         });
     </script>
-    <script type="module" src="./narration-init.js"></script>
+<script src="./narration-init.js" type="module"></script>
 </body>
 </html>

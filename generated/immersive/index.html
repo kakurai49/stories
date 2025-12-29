@@ -5,8 +5,15 @@
     <title>Immersive Generated Experience | Home</title>
     <link rel="stylesheet" href="./assets/tokens.css">
     <link rel="stylesheet" href="./assets/components.css">
+    <link rel="stylesheet" href="../shared/switcher.css">
+    <script src="../shared/switcher.js" defer></script>
   </head>
-  <body class="sg-surface" data-experience="immersive">
+  <body
+    class="sg-surface"
+    data-experience="immersive"
+    data-template="home"
+    data-routes-href="routes.json"
+  >
     <a class="sg-skip" href="#content">メインコンテンツへスキップ</a>
     <header class="sg-header">
       <nav
@@ -19,7 +26,14 @@
           <li><a href="/immersive/">ホーム</a></li>
           <li><a href="/immersive/list">一覧</a></li>
         </ul>
-        <button type="button" class="sg-toggle" aria-pressed="false">切替</button>
+        <button
+          type="button"
+          class="sg-toggle view-switcher"
+          aria-pressed="false"
+          data-action="switch-experience"
+        >
+          体験を切り替える
+        </button>
       </nav>
       <p class="sg-eyebrow">Experience</p>
       <h1>Immersive Generated Experience ホーム</h1>

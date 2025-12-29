@@ -5,9 +5,17 @@
     <title>immersive | Detail</title>
     <link rel="stylesheet" href="../assets/tokens.css">
     <link rel="stylesheet" href="../assets/components.css">
+    <link rel="stylesheet" href="../../shared/switcher.css">
     <script src="../../shared/features/init-features.js" defer></script>
+    <script src="../../shared/switcher.js" defer></script>
   </head>
-  <body class="sg-surface" data-experience="immersive">
+  <body
+    class="sg-surface"
+    data-experience="immersive"
+    data-template="detail"
+    data-routes-href="../routes.json"
+    data-content-id="welcome-post"
+  >
     <article class="sg-article" data-template="detail" data-content-id="welcome-post" data-routes-href="../routes.json">
       <header class="sg-header" data-tts="ignore">
         <p class="sg-eyebrow">Detail</p>
@@ -15,9 +23,16 @@
         <p class="sg-lede">サイトジェネレータの検証用サンプルコンテンツ。</p>
         <nav>
           <ul class="sg-nav">
-            <li><a href="/immersive/">ホーム</a></li>
-            <li><a href="/immersive/list">一覧</a></li>
-          </ul>
+          <li><a href="/immersive/">ホーム</a></li>
+          <li><a href="/immersive/list">一覧</a></li>
+        </ul>
+        <button
+          type="button"
+          class="view-switcher"
+          data-action="switch-experience"
+        >
+          体験を切り替える
+        </button>
         </nav>
       </header>
       <section class="sg-main" data-content-body>

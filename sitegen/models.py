@@ -147,6 +147,14 @@ class ExperienceSpec(BaseModel):
     kind: Literal["legacy", "generated"] = Field(
         "legacy", description="Whether the experience is legacy or generated."
     )
+    home: Optional[str] = Field(
+        default=None,
+        description="Optional home href for legacy experiences.",
+    )
+    content: dict[str, str] = Field(
+        default_factory=dict,
+        description="Optional map of contentId to href for legacy experiences.",
+    )
     description: Optional[str] = Field(
         None, description="Short description of the experience goal."
     )
