@@ -7,17 +7,28 @@
     <link rel="stylesheet" href="../assets/components.css">
   </head>
   <body class="sg-surface">
-    <article class="sg-article">
+    <article class="sg-article" data-template="detail" data-content-id="{{ content.content_id }}" data-routes-href="{{ routes_href }}">
       <header class="sg-header">
         <p class="sg-eyebrow">Detail</p>
-        <h1>タイトルをここに</h1>
-        <p class="sg-lede">本文の概要をここに記載します。</p>
+        <h1>{{ content.title }}</h1>
+        {% if content.summary %}
+        <p class="sg-lede">{{ content.summary }}</p>
+        {% endif %}
+        <nav>
+          <ul class="sg-nav">
+            {% for link in nav_links %}
+            <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
       </header>
       <section class="sg-main">
-        <p>TODO: 本文をレンダリングしてください。</p>
+        {% if content.render.kind == 'html' %}
+        {{ content.render.html | safe }}
+        {% endif %}
       </section>
       <footer class="sg-meta">
-        <p>作者名や日付などのメタ情報を表示します。</p>
+        <p>コンテンツ ID: {{ content.content_id }}</p>
       </footer>
     </article>
   </body>

@@ -1,0 +1,11 @@
+:root {
+  --sg-surface: #0d1117;
+  --sg-panel: #161b22;
+  --sg-border: #30363d;
+  --sg-text: #e6edf3;
+  --sg-muted: #9ea7b3;
+  --sg-accent: #80b3ff;
+  --sg-radius: 12px;
+  --sg-gap: 16px;
+  --sg-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 from dataclasses import dataclass
@@ -9,8 +10,9 @@ from pathlib import Path
 from typing import List
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from pydantic import ValidationError
 
-from .models import ExperienceSpec
+from .models import ContentItem, ExperienceSpec
 from .util_fs import ensure_dir
 
 
@@ -77,6 +79,32 @@ def _relative_href(target: Path, base: Path) -> str:
     return Path(os.path.relpath(target, base)).as_posix()
 
 
+def load_content_items(content_dir: Path) -> list[ContentItem]:
+    """Load and validate content items from a directory."""
+
+    if not content_dir.exists():
+        raise FileNotFoundError(f"Content directory not found: {content_dir}")
+
+    items: list[ContentItem] = []
+    for json_path in sorted(content_dir.glob("*.json")):
+        try:
+            payload = json.loads(json_path.read_text(encoding="utf-8"))
+            items.append(ContentItem.model_validate(payload))
+        except (json.JSONDecodeError, ValidationError) as exc:
+            raise ValueError(f"Invalid content file {json_path}: {exc}") from exc
+
+    return items
+
+
+def _content_for_experience(
+    experience: ExperienceSpec, items: list[ContentItem]
+) -> list[ContentItem]:
+    """Return content targeted to the experience, or all items if none match."""
+
+    targeted = [item for item in items if item.experience == experience.key]
+    return targeted or items
+
+
 def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
     """Render the home template for a generated experience.
 
@@ -115,4 +143,92 @@ def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
     return [output_file]
 
 
-__all__ = ["BuildContext", "build_home"]
+def build_list(
+    experience: ExperienceSpec, ctx: BuildContext, items: list[ContentItem]
+) -> List[Path]:
+    """Render the list template for a generated experience."""
+
+    if experience.kind != "generated":
+        return []
+
+    template_path = ctx.templates_dir(experience) / "list.jinja"
+    if not template_path.exists():
+        raise FileNotFoundError(
+            f"List template not found for experience '{experience.key}': {template_path}"
+        )
+
+    output_dir = ctx.output_dir(experience)
+    output_file = output_dir / "list.html"
+    routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+
+    env = ctx.jinja_env(experience)
+    template = env.get_template("list.jinja")
+
+    entries = []
+    for item in _content_for_experience(experience, items):
+        detail_path = output_dir / "posts" / f"{item.content_id}.html"
+        entries.append(
+            {
+                "content": item,
+                "detail_href": _relative_href(detail_path, output_file.parent),
+            }
+        )
+
+    rendered = template.render(
+        experience=experience,
+        routes_href=routes_href,
+        items=entries,
+        nav_links=[
+            {"href": experience.route_patterns.home, "label": "ホーム"},
+            {"href": experience.route_patterns.list, "label": "一覧"},
+        ],
+    )
+    output_file.write_text(rendered, encoding="utf-8")
+
+    return [output_file]
+
+
+def build_detail(
+    experience: ExperienceSpec,
+    ctx: BuildContext,
+    item: ContentItem,
+) -> List[Path]:
+    """Render the detail template for a single content item."""
+
+    if experience.kind != "generated":
+        return []
+
+    template_path = ctx.templates_dir(experience) / "detail.jinja"
+    if not template_path.exists():
+        raise FileNotFoundError(
+            f"Detail template not found for experience '{experience.key}': {template_path}"
+        )
+
+    output_dir = ctx.output_dir(experience)
+    detail_dir = ensure_dir(output_dir / "posts")
+    output_file = detail_dir / f"{item.content_id}.html"
+    routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+
+    env = ctx.jinja_env(experience)
+    template = env.get_template("detail.jinja")
+    rendered = template.render(
+        experience=experience,
+        content=item,
+        routes_href=routes_href,
+        nav_links=[
+            {"href": experience.route_patterns.home, "label": "ホーム"},
+            {"href": experience.route_patterns.list, "label": "一覧"},
+        ],
+    )
+    output_file.write_text(rendered, encoding="utf-8")
+
+    return [output_file]
+
+
+__all__ = [
+    "BuildContext",
+    "build_detail",
+    "build_home",
+    "build_list",
+    "load_content_items",
+]
