@@ -1,10 +1,50 @@
-- key: blog
-  name: "サンプル記事エクスペリエンス"
-  description: "sitegen の validate コマンド検証用のブログ風エクスペリエンス。"
+- key: ruri
+  name: "Ruri Legacy Experience"
+  description: "既存の HTML をそのまま配信するレガシー体験。"
+  kind: legacy
+  home: "index.html"
+  content:
+    ep01: "story1.html"
   supports:
     locales: ["ja-JP"]
     pageTypes: ["post"]
+  routePatterns:
+    page: "/ruri/{slug}.html"
+    data: "/ruri/data/{slug}.json"
+
+- key: hina
+  name: "Hina Generated Experience"
+  description: "Hina バリエーション用のジェネレート体験。"
+  kind: generated
+  output_dir: "hina"
+  supports:
+    locales: ["ja-JP"]
+    pageTypes: ["story"]
     renderKinds: ["markdown", "external"]
   routePatterns:
-    page: "/stories/{slug}"
-    data: "/data/routes/{slug}.json"
+    page: "/hina/{slug}"
+    data: "/hina/data/{slug}.json"
+
+- key: immersive
+  name: "Immersive Generated Experience"
+  description: "全画面で没入感を高めるジェネレート体験。"
+  kind: generated
+  output_dir: "immersive"
+  supports:
+    locales: ["ja-JP"]
+    pageTypes: ["story"]
+  routePatterns:
+    page: "/immersive/{slug}"
+    data: "/immersive/data/{slug}.json"
+
+- key: magazine
+  name: "Magazine Generated Experience"
+  description: "雑誌風の体験を提供するジェネレートテンプレート。"
+  kind: generated
+  output_dir: "magazine"
+  supports:
+    locales: ["ja-JP"]
+    pageTypes: ["story"]
+  routePatterns:
+    page: "/magazine/{slug}"
+    data: "/magazine/data/{slug}.json"

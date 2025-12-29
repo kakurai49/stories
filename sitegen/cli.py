@@ -4,10 +4,10 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Any, Iterable, Literal, Optional
 
 import yaml
-from pydantic import ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from .models import (
     ContentItem,
@@ -17,6 +17,7 @@ from .models import (
     IASection,
     IATemplateSpec,
 )
+from .util_fs import ensure_dir, write_text
 
 
 def _experiment_plan_to_markdown(plan: ExperimentPlan) -> str:
@@ -102,6 +103,39 @@ def _load_content_item(path: Path) -> ContentItem:
     return ContentItem.model_validate(payload)
 
 
+class ScaffoldExperience(BaseModel):
+    """Lightweight experience spec used for scaffolding."""
+
+    key: str
+    kind: Literal["legacy", "generated"]
+    output_dir: Optional[str] = Field(default=None, alias="output_dir")
+    home: Optional[str] = None
+    content: dict[str, str] = Field(default_factory=dict)
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+def _load_scaffold_experiences(path: Path) -> list[ScaffoldExperience]:
+    payload: Any = yaml.safe_load(path.read_text(encoding="utf-8")) or []
+    if not isinstance(payload, list):
+        raise SystemExit("experiences.yaml must contain a list of experiences.")
+
+    experiences: list[ScaffoldExperience] = []
+    errors: list[str] = []
+    for index, item in enumerate(payload, start=1):
+        try:
+            experiences.append(ScaffoldExperience.model_validate(item))
+        except ValidationError as exc:
+            errors.append(f"{path} item {index}: {exc}")
+
+    if errors:
+        for message in errors:
+            print(message, file=sys.stderr)
+        raise SystemExit(1)
+
+    return experiences
+
+
 def _handle_validate(args: argparse.Namespace) -> None:
     experiences_path = Path(args.experiences)
     content_dir = Path(args.content)
@@ -154,6 +188,245 @@ def _handle_validate(args: argparse.Namespace) -> None:
     print(
         f"Validated {len(validated)} content items against "
         f"{len(experience_index)} experiences."
+    )
+
+
+def _write_if_missing(path: Path, content: str) -> None:
+    if path.exists():
+        return
+    write_text(path, content)
+
+
+def _home_template(experience: ScaffoldExperience) -> str:
+    return f"""<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>{experience.key} | Home</title>
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <link rel="stylesheet" href="../assets/components.css">
+  </head>
+  <body class="sg-surface">
+    <header class="sg-header">
+      <p class="sg-eyebrow">Experience</p>
+      <h1>{experience.key} ホーム</h1>
+      <p class="sg-lede">テンプレートの起点となるシンプルなページです。</p>
+    </header>
+    <main class="sg-main">
+      <section class="sg-card">
+        <h2>最新コンテンツ</h2>
+        <p>TODO: コンテンツ一覧をここにレンダリングします。</p>
+      </section>
+    </main>
+  </body>
+</html>
+"""
+
+
+def _list_template(experience: ScaffoldExperience) -> str:
+    return f"""<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>{experience.key} | List</title>
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <link rel="stylesheet" href="../assets/components.css">
+  </head>
+  <body class="sg-surface">
+    <header class="sg-header">
+      <p class="sg-eyebrow">Listing</p>
+      <h1>{experience.key} コンテンツ一覧</h1>
+      <p class="sg-lede">カード一覧でコンテンツを紹介するページです。</p>
+    </header>
+    <main class="sg-main">
+      <ul class="sg-list">
+        <li class="sg-card">
+          <h2>サンプルタイトル</h2>
+          <p>ここにサマリーが入ります。</p>
+        </li>
+        <li class="sg-card">
+          <h2>次のコンテンツ</h2>
+          <p>TODO: ループでデータを差し込みます。</p>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>
+"""
+
+
+def _detail_template(experience: ScaffoldExperience) -> str:
+    return f"""<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>{experience.key} | Detail</title>
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <link rel="stylesheet" href="../assets/components.css">
+  </head>
+  <body class="sg-surface">
+    <article class="sg-article">
+      <header class="sg-header">
+        <p class="sg-eyebrow">Detail</p>
+        <h1>タイトルをここに</h1>
+        <p class="sg-lede">本文の概要をここに記載します。</p>
+      </header>
+      <section class="sg-main">
+        <p>TODO: 本文をレンダリングしてください。</p>
+      </section>
+      <footer class="sg-meta">
+        <p>作者名や日付などのメタ情報を表示します。</p>
+      </footer>
+    </article>
+  </body>
+</html>
+"""
+
+
+def _tokens_css() -> str:
+    return """:root {
+  --sg-surface: #0d1117;
+  --sg-panel: #161b22;
+  --sg-border: #30363d;
+  --sg-text: #e6edf3;
+  --sg-muted: #9ea7b3;
+  --sg-accent: #80b3ff;
+  --sg-radius: 12px;
+  --sg-gap: 16px;
+  --sg-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+"""
+
+
+def _components_css() -> str:
+    return """* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 32px;
+  background: var(--sg-surface);
+  color: var(--sg-text);
+  font-family: var(--sg-font);
+}
+
+a {
+  color: var(--sg-accent);
+}
+
+.sg-surface {
+  background: var(--sg-surface);
+}
+
+.sg-header {
+  max-width: 760px;
+  margin: 0 auto var(--sg-gap) auto;
+  padding-bottom: var(--sg-gap);
+  border-bottom: 1px solid var(--sg-border);
+}
+
+.sg-eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sg-muted);
+  font-weight: 600;
+}
+
+.sg-lede {
+  color: var(--sg-muted);
+}
+
+.sg-main {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  gap: var(--sg-gap);
+}
+
+.sg-card {
+  list-style: none;
+  padding: 20px;
+  border: 1px solid var(--sg-border);
+  border-radius: var(--sg-radius);
+  background: var(--sg-panel);
+}
+
+.sg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sg-gap);
+}
+
+.sg-article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: var(--sg-radius);
+  border: 1px solid var(--sg-border);
+  background: var(--sg-panel);
+}
+
+.sg-meta {
+  margin-top: var(--sg-gap);
+  color: var(--sg-muted);
+  font-size: 14px;
+}
+"""
+
+
+def _readme_content(experience: ScaffoldExperience) -> str:
+    return f"""# {experience.key} scaffolding
+
+このディレクトリは `sitegen scaffold` で生成された雛形です。
+
+- `templates/home.jinja`: ホームページ用テンプレート
+- `templates/list.jinja`: 一覧ページのテンプレート
+- `templates/detail.jinja`: 詳細ページのテンプレート
+- `assets/tokens.css`: ベースとなるカラートークン
+- `assets/components.css`: 簡易なコンポーネントスタイル
+
+必要に応じてテンプレートやアセットを編集し、`{experience.output_dir or experience.key}` 配下への出力を整えてください。
+"""
+
+
+def _scaffold_experience(experience: ScaffoldExperience, src_root: Path, out_root: Path) -> None:
+    source_root = ensure_dir(src_root / experience.key)
+    templates_dir = ensure_dir(source_root / "templates")
+    assets_dir = ensure_dir(source_root / "assets")
+
+    _write_if_missing(templates_dir / "home.jinja", _home_template(experience))
+    _write_if_missing(templates_dir / "list.jinja", _list_template(experience))
+    _write_if_missing(templates_dir / "detail.jinja", _detail_template(experience))
+    _write_if_missing(assets_dir / "tokens.css", _tokens_css())
+    _write_if_missing(assets_dir / "components.css", _components_css())
+    _write_if_missing(source_root / "README.md", _readme_content(experience))
+
+    output_dir = experience.output_dir or experience.key
+    if not output_dir:
+        raise SystemExit(f"{experience.key}: output_dir is required for generated experiences.")
+    ensure_dir(out_root / output_dir)
+
+
+def _handle_scaffold(args: argparse.Namespace) -> None:
+    experiences_path = Path(args.experiences)
+    src_root = Path(args.src)
+    out_root = Path(args.out_root)
+
+    experiences = _load_scaffold_experiences(experiences_path)
+    generated = [exp for exp in experiences if exp.kind == "generated"]
+    if not generated:
+        print("No generated experiences found; nothing to scaffold.")
+        return
+
+    for exp in generated:
+        _scaffold_experience(exp, src_root, out_root)
+
+    print(
+        f"Scaffolded {len(generated)} generated experience(s) "
+        f"into {src_root} with outputs in {out_root}."
     )
 
 
@@ -276,6 +549,29 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory containing content JSON files (e.g., content/posts).",
     )
     validate_parser.set_defaults(func=_handle_validate)
+
+    scaffold_parser = subparsers.add_parser(
+        "scaffold",
+        help="Create scaffolding for generated experiences.",
+        description="Generate template and asset placeholders for experiences.",
+    )
+    scaffold_parser.add_argument(
+        "--experiences",
+        required=True,
+        help="Path to experiences.yaml",
+    )
+    scaffold_parser.add_argument(
+        "--src",
+        required=True,
+        help="Base directory where experience source templates will be created.",
+    )
+    scaffold_parser.add_argument(
+        "--out-root",
+        dest="out_root",
+        required=True,
+        help="Root directory for generated output folders.",
+    )
+    scaffold_parser.set_defaults(func=_handle_scaffold)
 
     return parser
 
