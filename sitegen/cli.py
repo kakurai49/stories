@@ -9,7 +9,14 @@ from typing import Iterable, Optional
 import yaml
 from pydantic import ValidationError
 
-from .models import ContentItem, ExperienceSpec, ExperimentPlan
+from .models import (
+    ContentItem,
+    ExperienceSpec,
+    ExperimentPlan,
+    IAPlan,
+    IASection,
+    IATemplateSpec,
+)
 
 
 def _experiment_plan_to_markdown(plan: ExperimentPlan) -> str:
@@ -62,7 +69,12 @@ def _experiment_plan_to_markdown(plan: ExperimentPlan) -> str:
 
 def _load_experiment_plan(path: Path) -> ExperimentPlan:
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    return ExperimentPlan.parse_obj(data)
+    return ExperimentPlan.model_validate(data)
+
+
+def _load_ia_plan(path: Path) -> IAPlan:
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return IAPlan.model_validate(data)
 
 
 def _handle_export_docs(args: argparse.Namespace) -> None:
@@ -145,6 +157,44 @@ def _handle_validate(args: argparse.Namespace) -> None:
     )
 
 
+def _render_section(section: IASection, level: int) -> list[str]:
+    heading_prefix = "#" * min(level, 6)
+    lines: list[str] = ["", f"{heading_prefix} {section.title}"]
+    if section.summary:
+        lines.append("")
+        lines.append(section.summary)
+    for child in section.children:
+        lines.extend(_render_section(child, level + 1))
+    return lines
+
+
+def _template_lines(template: IATemplateSpec) -> list[str]:
+    lines: list[str] = ["構造差の核", "", f"# {template.name} ({template.key})"]
+    if template.description:
+        lines.append("")
+        lines.append(template.description)
+    if template.sections:
+        for item in template.sections:
+            lines.extend(_render_section(item, level=2))
+    return lines
+
+
+def _ia_template_to_markdown(template: IATemplateSpec) -> str:
+    lines = _template_lines(template)
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def _handle_ia_export_docs(args: argparse.Namespace) -> None:
+    input_path = Path(args.input)
+    output_dir = Path(args.output_dir)
+    plan = _load_ia_plan(input_path)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for template in plan.templates:
+        markdown = _ia_template_to_markdown(template)
+        (output_dir / f"{template.key}.md").write_text(markdown, encoding="utf-8")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="sitegen",
@@ -182,6 +232,31 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to write the generated Markdown.",
     )
     export_parser.set_defaults(func=_handle_export_docs)
+
+    ia_parser = subparsers.add_parser(
+        "ia",
+        help="Information architecture utilities",
+        description="Information architecture helpers.",
+    )
+    ia_subparsers = ia_parser.add_subparsers(dest="ia_command")
+    ia_export_parser = ia_subparsers.add_parser(
+        "export-docs",
+        help="Export IA documentation from YAML.",
+        description="Validate IA YAML and export Markdown outlines.",
+    )
+    ia_export_parser.add_argument(
+        "--in",
+        dest="input",
+        required=True,
+        help="Path to the IA YAML file.",
+    )
+    ia_export_parser.add_argument(
+        "--out-dir",
+        dest="output_dir",
+        required=True,
+        help="Directory to write generated Markdown docs.",
+    )
+    ia_export_parser.set_defaults(func=_handle_ia_export_docs)
 
     validate_parser = subparsers.add_parser(
         "validate",
