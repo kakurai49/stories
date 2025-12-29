@@ -16,7 +16,8 @@ from .build import (
     build_list,
     load_content_items,
 )
-from .shared_gen import generate_init_features_js
+from .shared_gen import generate_init_features_js, generate_switcher_assets
+from .routes_gen import build_routes_payload, write_routes_payload
 from .models import (
     ContentItem,
     ExperienceSpec,
@@ -25,6 +26,7 @@ from .models import (
     IASection,
     IATemplateSpec,
 )
+from .patch_legacy import patch_legacy_pages
 from .util_fs import ensure_dir, write_text
 
 
@@ -475,14 +477,17 @@ def _handle_build(args: argparse.Namespace) -> None:
     src_root = Path(args.src)
     out_root = Path(args.out)
     content_dir = Path(args.content)
+    shared_requested = args.shared or args.all
     shared_init_features = (
-        generate_init_features_js(out_root) if args.shared else None
+        generate_init_features_js(out_root) if shared_requested else None
     )
+    shared_assets_dir = ensure_dir(out_root / "shared") if args.all else None
     ctx = BuildContext(
         src_root=src_root,
         out_root=out_root,
         routes_filename=args.routes_filename,
         shared_init_features=shared_init_features,
+        shared_assets_dir=shared_assets_dir,
     )
 
     items = load_content_items(content_dir)
@@ -498,6 +503,23 @@ def _handle_build(args: argparse.Namespace) -> None:
         written.extend(build_list(exp, ctx, items))
         for item in items:
             written.extend(build_detail(exp, ctx, item))
+
+    if args.all:
+        routes_payload = build_routes_payload(experiences, items)
+        route_targets = [Path(args.routes_filename)]
+        for exp in experiences:
+            if exp.kind == "generated":
+                route_targets.append(ctx.routes_path(exp))
+        written.extend(write_routes_payload(routes_payload, route_targets))
+        written.extend(generate_switcher_assets([Path("."), out_root]))
+        written.extend(
+            patch_legacy_pages(
+                Path("."),
+                routes_href=args.routes_filename,
+                css_href="shared/switcher.css",
+                js_href="shared/switcher.js",
+            )
+        )
 
     print(f"Built {len(written)} file(s) for {len(generated)} experience(s) into {out_root}.")
 
@@ -697,6 +719,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--shared",
         action="store_true",
         help="Generate shared assets (e.g., feature bootstrap scripts).",
+    )
+    build_parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Build generated experiences and refresh routes, switchers, and legacy pages.",
     )
     build_parser.set_defaults(func=_handle_build)
 

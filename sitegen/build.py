@@ -24,6 +24,7 @@ class BuildContext:
     out_root: Path
     routes_filename: str = "routes.json"
     shared_init_features: Path | None = None
+    shared_assets_dir: Path | None = None
     _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
     def templates_dir(self, experience: ExperienceSpec) -> Path:
@@ -61,6 +62,13 @@ class BuildContext:
         """Return the target path for the experience's routes.json."""
 
         return self.output_dir(experience) / self.routes_filename
+
+    def shared_asset_href(self, filename: str, base: Path) -> str | None:
+        """Compute a relative href to a shared asset if configured."""
+
+        if not self.shared_assets_dir:
+            return None
+        return _relative_href(self.shared_assets_dir / filename, base)
 
     def jinja_env(self, experience: ExperienceSpec) -> Environment:
         """Create a Jinja environment scoped to the experience templates."""
@@ -148,6 +156,9 @@ def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
         experience=experience,
         routes_href=routes_href,
         asset_prefix=asset_prefix,
+        switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
+        switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
+        template_key="home",
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},
@@ -196,6 +207,9 @@ def build_list(
         experience=experience,
         routes_href=routes_href,
         asset_prefix=asset_prefix,
+        switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
+        switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
+        template_key="list",
         items=entries,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
@@ -243,6 +257,9 @@ def build_detail(
         routes_href=routes_href,
         asset_prefix=asset_prefix,
         features_init_href=features_init_href,
+        switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
+        switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
+        template_key="detail",
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},

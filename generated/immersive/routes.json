@@ -1,0 +1,40 @@
+{
+  "order": [
+    "ruri",
+    "hina",
+    "immersive",
+    "magazine"
+  ],
+  "routes": {
+    "ruri": {
+      "home": "/index.html",
+      "content": {
+        "ep01": "/story1.html"
+      }
+    },
+    "hina": {
+      "home": "/hina/",
+      "list": "/hina/list",
+      "content": {
+        "ep01": "/hina/ep01",
+        "welcome-post": "/hina/welcome-post"
+      }
+    },
+    "immersive": {
+      "home": "/immersive/",
+      "list": "/immersive/list",
+      "content": {
+        "ep01": "/immersive/ep01",
+        "welcome-post": "/immersive/welcome-post"
+      }
+    },
+    "magazine": {
+      "home": "/magazine/",
+      "list": "/magazine/list",
+      "content": {
+        "ep01": "/magazine/ep01",
+        "welcome-post": "/magazine/welcome-post"
+      }
+    }
+  }
+}
