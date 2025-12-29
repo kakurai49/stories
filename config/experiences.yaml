@@ -8,9 +8,11 @@
   supports:
     locales: ["ja-JP"]
     pageTypes: ["post"]
+    features: ["legacy-html"]
   routePatterns:
-    page: "/ruri/{slug}.html"
-    data: "/ruri/data/{slug}.json"
+    home: "/ruri/"
+    list: "/ruri/list.html"
+    detail: "/ruri/{slug}.html"
 
 - key: hina
   name: "Hina Generated Experience"
@@ -20,10 +22,12 @@
   supports:
     locales: ["ja-JP"]
     pageTypes: ["story"]
+    features: ["story-hero"]
     renderKinds: ["markdown", "external"]
   routePatterns:
-    page: "/hina/{slug}"
-    data: "/hina/data/{slug}.json"
+    home: "/hina/"
+    list: "/hina/list"
+    detail: "/hina/{slug}"
 
 - key: immersive
   name: "Immersive Generated Experience"
@@ -33,9 +37,11 @@
   supports:
     locales: ["ja-JP"]
     pageTypes: ["story"]
+    features: ["full-bleed"]
   routePatterns:
-    page: "/immersive/{slug}"
-    data: "/immersive/data/{slug}.json"
+    home: "/immersive/"
+    list: "/immersive/list"
+    detail: "/immersive/{slug}"
 
 - key: magazine
   name: "Magazine Generated Experience"
@@ -45,6 +51,8 @@
   supports:
     locales: ["ja-JP"]
     pageTypes: ["story"]
+    features: ["grid-list"]
   routePatterns:
-    page: "/magazine/{slug}"
-    data: "/magazine/data/{slug}.json"
+    home: "/magazine/"
+    list: "/magazine/list"
+    detail: "/magazine/{slug}"

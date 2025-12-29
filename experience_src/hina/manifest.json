@@ -1,0 +1,24 @@
+{
+  "id": "hina",
+  "label": "Hina Generated Experience",
+  "supports": {
+    "pageTypes": [
+      "story"
+    ],
+    "features": [
+      "story-hero"
+    ],
+    "renderKinds": [
+      "markdown",
+      "external"
+    ],
+    "locales": [
+      "ja-JP"
+    ]
+  },
+  "routes": {
+    "home": "/hina/",
+    "list": "/hina/list",
+    "detail": "/hina/{slug}"
+  }
+}

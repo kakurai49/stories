@@ -103,6 +103,13 @@ class Supports(BaseModel):
         alias="pageTypes",
         description="Page types allowed for the experience (e.g., post, landing).",
     )
+    features: List[str] = Field(
+        default_factory=list,
+        description=(
+            "Feature flags or capabilities supported by the experience "
+            "(e.g., comments, reactions)."
+        ),
+    )
     render_kinds: List[str] = Field(
         default_factory=list,
         alias="renderKinds",
@@ -119,13 +126,14 @@ class Supports(BaseModel):
 class RoutePatterns(BaseModel):
     """Patterns for deriving hrefs for an experience."""
 
-    page: str = Field(
-        ...,
-        description="Pattern for visible pages, e.g. `/stories/{slug}`.",
+    home: str = Field(
+        ..., description="Route for the experience home page (no slug)."
     )
-    data: str = Field(
-        ...,
-        description="Pattern for JSON route payloads used via data-routes-href.",
+    list: str = Field(
+        ..., description="Route for listing views that show multiple content items."
+    )
+    detail: str = Field(
+        ..., description="Route pattern for individual content pages with {slug}."
     )
 
     model_config = ConfigDict(populate_by_name=True)
@@ -136,8 +144,16 @@ class ExperienceSpec(BaseModel):
 
     key: str = Field(..., description="Identifier for the experience (slug-friendly).")
     name: str = Field(..., description="Human readable name.")
+    kind: Literal["legacy", "generated"] = Field(
+        "legacy", description="Whether the experience is legacy or generated."
+    )
     description: Optional[str] = Field(
         None, description="Short description of the experience goal."
+    )
+    output_dir: Optional[str] = Field(
+        default=None,
+        alias="output_dir",
+        description="Output directory name for generated experiences, if applicable.",
     )
     supports: Supports = Field(
         default_factory=Supports,
