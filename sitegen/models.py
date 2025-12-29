@@ -56,6 +56,39 @@ class ExperimentPlan(BaseModel):
     )
 
 
+class IASection(BaseModel):
+    """Node in an information architecture outline."""
+
+    title: str = Field(..., description="Heading or slot name.")
+    summary: Optional[str] = Field(
+        None, description="Short description of what appears in the section."
+    )
+    children: List["IASection"] = Field(
+        default_factory=list, description="Nested sections under the heading."
+    )
+
+
+class IATemplateSpec(BaseModel):
+    """Information architecture for a template family."""
+
+    key: str = Field(..., description="Identifier for the template style.")
+    name: str = Field(..., description="Human readable template name.")
+    description: Optional[str] = Field(
+        None, description="Short description of the layout intent."
+    )
+    sections: List[IASection] = Field(
+        default_factory=list, description="Hierarchy of headings for the template."
+    )
+
+
+class IAPlan(BaseModel):
+    """Collection of information architecture templates."""
+
+    templates: List[IATemplateSpec] = Field(
+        default_factory=list, description="Templates captured in the plan."
+    )
+
+
 class SiteConfig(BaseModel):
     """Placeholder for site configuration."""
 
@@ -207,6 +240,9 @@ __all__ = [
     "EventSpec",
     "ExperimentPlan",
     "ExperienceSpec",
+    "IAPlan",
+    "IASection",
+    "IATemplateSpec",
     "HtmlRender",
     "Metric",
     "RenderContract",

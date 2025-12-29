@@ -1,0 +1,108 @@
+templates:
+  - key: hina
+    name: Hina
+    description: Light storytelling frame with quick scannability.
+    sections:
+      - title: home
+        summary: Story-forward landing with immediate engagement.
+        children:
+          - title: Hero headline
+            summary: Single key story with supporting dek and CTA.
+          - title: Fresh drops
+            summary: Horizontal cards highlighting latest entries.
+          - title: Category sampler
+            summary: Trio of featured topics with compact blurbs.
+          - title: Footer CTA
+            summary: Low-friction signup or follow action.
+      - title: list
+        summary: Browsable catalog for repeat visitors.
+        children:
+          - title: Page heading
+            summary: Context line with optional count and filter chips.
+          - title: Filter rail
+            summary: Sort, tags, and time-range selectors.
+          - title: Story grid
+            summary: Two-column cards with thumbnail, title, and tag pill.
+          - title: Pagination
+            summary: Numbered pagination plus next/previous links.
+      - title: detail
+        summary: Article detail tuned for quick read-through.
+        children:
+          - title: Title + dek
+            summary: Clear promise with social proof metadata.
+          - title: Feature visual
+            summary: Lead image or embed with caption.
+          - title: Body
+            summary: Sectioned narrative with pull quotes.
+          - title: Related stories
+            summary: Inline cluster to jump deeper.
+  - key: immersive
+    name: Immersive
+    description: Full-bleed, cinematic reading path.
+    sections:
+      - title: home
+        summary: Visually rich teaser surface.
+        children:
+          - title: Cover mosaic
+            summary: Full-width cards with parallax image focus.
+          - title: Timeline rail
+            summary: Scroll-linked preview of longform drops.
+          - title: Creator spotlight
+            summary: Bio snippet and latest feature for anchor author.
+      - title: list
+        summary: Longform queue with context.
+        children:
+          - title: Context banner
+            summary: Series description and reading time range.
+          - title: Immersive list
+            summary: Tall cards with hero media and key pull quote.
+          - title: Continue reading
+            summary: Sticky prompt to jump back into last read piece.
+      - title: detail
+        summary: Deep storytelling canvas.
+        children:
+          - title: Cinematic lead
+            summary: Full-bleed hero with overlay headline.
+          - title: Narrative flow
+            summary: Chapters marked by scrolly waypoints.
+          - title: Media interludes
+            summary: Inline galleries and clips for pacing.
+          - title: End slate
+            summary: Series navigation and share block.
+  - key: magazine
+    name: Magazine
+    description: Editorial grid suited to feature packages.
+    sections:
+      - title: home
+        summary: Package hub with multiple entry points.
+        children:
+          - title: Cover stack
+            summary: Lead story with supporting secondary stack.
+          - title: Rubric columns
+            summary: Multi-column mix of departments.
+          - title: Newsletter module
+            summary: Opt-in with promise of cadence.
+      - title: list
+        summary: Section landing tailored for skim.
+        children:
+          - title: Section masthead
+            summary: Section label and synopsis.
+          - title: Featured lead
+            summary: Highlight article with deck and byline.
+          - title: Card river
+            summary: Dense cards with bylines and tags.
+          - title: Archive pagination
+            summary: Jump to older issues via numbered pages.
+      - title: detail
+        summary: Feature article layout.
+        children:
+          - title: Masthead
+            summary: Title, dek, author, and publish metadata.
+          - title: Lead visual
+            summary: Prominent image with credit.
+          - title: Body
+            summary: Rich text with inline pull quotes.
+          - title: Sidebar
+            summary: Sticky references, links, or footnotes.
+          - title: Suggested reads
+            summary: Curated links to sibling pieces.
