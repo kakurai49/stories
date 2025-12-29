@@ -9,6 +9,7 @@ from typing import Any, Iterable, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from .build import BuildContext, build_home
 from .models import (
     ContentItem,
     ExperienceSpec,
@@ -462,6 +463,29 @@ def _handle_gen_manifests(args: argparse.Namespace) -> None:
     print(f"Wrote {len(generated)} manifest(s) to {src_root}.")
 
 
+def _handle_build(args: argparse.Namespace) -> None:
+    experiences_path = Path(args.experiences)
+    src_root = Path(args.src)
+    out_root = Path(args.out)
+    ctx = BuildContext(
+        src_root=src_root,
+        out_root=out_root,
+        routes_filename=args.routes_filename,
+    )
+
+    experiences = _load_experiences(experiences_path)
+    generated = [exp for exp in experiences if exp.kind == "generated"]
+    if not generated:
+        print("No generated experiences found; nothing to build.")
+        return
+
+    written: list[Path] = []
+    for exp in generated:
+        written.extend(build_home(exp, ctx))
+
+    print(f"Built {len(written)} file(s) for {len(generated)} experience(s) into {out_root}.")
+
+
 def _render_section(section: IASection, level: int) -> list[str]:
     heading_prefix = "#" * min(level, 6)
     lines: list[str] = ["", f"{heading_prefix} {section.title}"]
@@ -621,6 +645,34 @@ def build_parser() -> argparse.ArgumentParser:
         help="Base directory containing experience source folders.",
     )
     manifest_parser.set_defaults(func=_handle_gen_manifests)
+
+    build_parser = subparsers.add_parser(
+        "build",
+        help="Build generated experiences.",
+        description="Render generated experience templates into output directories.",
+    )
+    build_parser.add_argument(
+        "--experiences",
+        default="config/experiences.yaml",
+        help="Path to experiences.yaml.",
+    )
+    build_parser.add_argument(
+        "--src",
+        default="experience_src",
+        help="Base directory containing experience source templates.",
+    )
+    build_parser.add_argument(
+        "--out",
+        default="generated",
+        help="Directory to write rendered output.",
+    )
+    build_parser.add_argument(
+        "--routes-filename",
+        dest="routes_filename",
+        default="routes.json",
+        help="Filename for routes JSON used to compute data-routes-href.",
+    )
+    build_parser.set_defaults(func=_handle_build)
 
     return parser
 
