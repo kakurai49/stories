@@ -1,0 +1,13 @@
+{
+  "experience": "blog",
+  "version": "1.0",
+  "generatedAt": "2024-01-01T00:00:00Z",
+  "routes": [
+    {
+      "href": "/stories/welcome-post",
+      "contentId": "welcome-post",
+      "pageType": "post",
+      "dataHref": "/data/routes/welcome-post.json"
+    }
+  ]
+}

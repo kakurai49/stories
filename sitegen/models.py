@@ -1,8 +1,8 @@
 """Pydantic models for site generation."""
 
-from typing import List, Optional
+from typing import Annotated, List, Literal, Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl
 
 
 class Metric(BaseModel):
@@ -59,14 +59,163 @@ class ExperimentPlan(BaseModel):
 class SiteConfig(BaseModel):
     """Placeholder for site configuration."""
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
+class Supports(BaseModel):
+    """Capabilities an experience can work with."""
+
+    page_types: List[str] = Field(
+        default_factory=list,
+        alias="pageTypes",
+        description="Page types allowed for the experience (e.g., post, landing).",
+    )
+    render_kinds: List[str] = Field(
+        default_factory=list,
+        alias="renderKinds",
+        description="Allowed render contract kinds (e.g., markdown, html, external).",
+    )
+    locales: List[str] = Field(
+        default_factory=list,
+        description="Locales the experience supports, for hreflang or routing logic.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class RoutePatterns(BaseModel):
+    """Patterns for deriving hrefs for an experience."""
+
+    page: str = Field(
+        ...,
+        description="Pattern for visible pages, e.g. `/stories/{slug}`.",
+    )
+    data: str = Field(
+        ...,
+        description="Pattern for JSON route payloads used via data-routes-href.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class ExperienceSpec(BaseModel):
+    """Entry in experiences.yaml."""
+
+    key: str = Field(..., description="Identifier for the experience (slug-friendly).")
+    name: str = Field(..., description="Human readable name.")
+    description: Optional[str] = Field(
+        None, description="Short description of the experience goal."
+    )
+    supports: Supports = Field(
+        default_factory=Supports,
+        description="Feature matrix such as page types or locales.",
+    )
+    route_patterns: RoutePatterns = Field(
+        ..., alias="routePatterns", description="Patterns used to generate routes.json."
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class MarkdownRender(BaseModel):
+    """Content rendered from markdown."""
+
+    kind: Literal["markdown"] = "markdown"
+    markdown: str = Field(..., description="Markdown source text.")
+
+
+class HtmlRender(BaseModel):
+    """Content rendered from inline HTML."""
+
+    kind: Literal["html"] = "html"
+    html: str = Field(..., description="Trusted HTML fragment or document.")
+
+
+class ExternalRender(BaseModel):
+    """Content rendered by redirecting to an external target."""
+
+    kind: Literal["external"] = "external"
+    url: HttpUrl = Field(..., description="External URL to render or embed.")
+    caption: Optional[str] = Field(
+        None, description="Optional label describing the external target."
+    )
+
+
+RenderContract = Annotated[
+    Union[MarkdownRender, HtmlRender, ExternalRender],
+    Field(discriminator="kind"),
+]
+
+
+class ContentItem(BaseModel):
+    """Schema for content/posts/*.json files."""
+
+    content_id: str = Field(..., alias="contentId", description="Stable content id.")
+    experience: str = Field(..., description="Experience key this content belongs to.")
+    page_type: str = Field(..., alias="pageType", description="Page type for routing.")
+    title: str = Field(..., description="Display title.")
+    summary: Optional[str] = Field(None, description="Short teaser or deck.")
+    render: RenderContract = Field(..., description="How the content should render.")
+    data_href: Optional[str] = Field(
+        None,
+        alias="dataHref",
+        description="Optional href used when producing route data JSON.",
+    )
+    tags: List[str] = Field(
+        default_factory=list,
+        description="Free-form tags for grouping or navigation.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class Route(BaseModel):
+    """Entry inside routes.json."""
+
+    href: str = Field(..., description="Public URL for the route.")
+    content_id: str = Field(..., alias="contentId", description="Associated content.")
+    page_type: str = Field(..., alias="pageType", description="Page template key.")
+    data_href: Optional[str] = Field(
+        None,
+        alias="dataHref",
+        description="Location of the JSON payload fetched via data-routes-href.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class RouteMap(BaseModel):
+    """Schema for routes.json."""
+
+    experience: str = Field(..., description="Experience key that owns the routes.")
+    version: str = Field(
+        "1.0",
+        description="Schema version for the route map.",
+    )
+    generated_at: Optional[str] = Field(
+        None, alias="generatedAt", description="ISO timestamp of when the map was built."
+    )
+    routes: List[Route] = Field(
+        default_factory=list, description="Collection of available routes."
+    )
+
+    model_config = ConfigDict(populate_by_name=True)
 
 
 __all__ = [
+    "ContentItem",
     "EventSpec",
     "ExperimentPlan",
+    "ExperienceSpec",
+    "HtmlRender",
     "Metric",
+    "RenderContract",
+    "Route",
+    "RouteMap",
+    "RoutePatterns",
     "SiteConfig",
+    "Supports",
     "TemplateExperiment",
+    "MarkdownRender",
+    "ExternalRender",
 ]

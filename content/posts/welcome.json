@@ -1,0 +1,13 @@
+{
+  "contentId": "welcome-post",
+  "experience": "blog",
+  "pageType": "post",
+  "title": "ようこそ、魔界喫茶《∞》へ",
+  "summary": "サイトジェネレータの検証用サンプルコンテンツ。",
+  "render": {
+    "kind": "markdown",
+    "markdown": "# ようこそ\n\nここは `sitegen validate` コマンドのためのサンプル記事です。"
+  },
+  "dataHref": "/data/routes/welcome-post.json",
+  "tags": ["sample", "intro"]
+}

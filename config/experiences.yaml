@@ -1,1 +1,10 @@
-[]
+- key: blog
+  name: "サンプル記事エクスペリエンス"
+  description: "sitegen の validate コマンド検証用のブログ風エクスペリエンス。"
+  supports:
+    locales: ["ja-JP"]
+    pageTypes: ["post"]
+    renderKinds: ["markdown", "external"]
+  routePatterns:
+    page: "/stories/{slug}"
+    data: "/data/routes/{slug}.json"
