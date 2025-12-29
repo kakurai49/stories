@@ -16,6 +16,7 @@ from .build import (
     build_list,
     load_content_items,
 )
+from .shared_gen import generate_init_features_js
 from .models import (
     ContentItem,
     ExperienceSpec,
@@ -474,10 +475,14 @@ def _handle_build(args: argparse.Namespace) -> None:
     src_root = Path(args.src)
     out_root = Path(args.out)
     content_dir = Path(args.content)
+    shared_init_features = (
+        generate_init_features_js(out_root) if args.shared else None
+    )
     ctx = BuildContext(
         src_root=src_root,
         out_root=out_root,
         routes_filename=args.routes_filename,
+        shared_init_features=shared_init_features,
     )
 
     items = load_content_items(content_dir)
@@ -687,6 +692,11 @@ def build_parser() -> argparse.ArgumentParser:
         dest="routes_filename",
         default="routes.json",
         help="Filename for routes JSON used to compute data-routes-href.",
+    )
+    build_parser.add_argument(
+        "--shared",
+        action="store_true",
+        help="Generate shared assets (e.g., feature bootstrap scripts).",
     )
     build_parser.set_defaults(func=_handle_build)
 
