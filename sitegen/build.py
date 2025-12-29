@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
 
@@ -23,6 +23,7 @@ class BuildContext:
     src_root: Path
     out_root: Path
     routes_filename: str = "routes.json"
+    _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
     def templates_dir(self, experience: ExperienceSpec) -> Path:
         """Return the template directory for the experience."""
@@ -33,6 +34,19 @@ class BuildContext:
         """Return the assets directory for the experience."""
 
         return self.src_root / experience.key / "assets"
+
+    def copy_assets(self, experience: ExperienceSpec) -> Path:
+        """Copy static assets for an experience once and return the output dir."""
+
+        output_dir = self.output_dir(experience)
+        destination = ensure_dir(output_dir / "assets")
+        cache_key = experience.key
+        if cache_key in self._copied_assets:
+            return destination
+
+        _copy_assets(self.assets_dir(experience), destination)
+        self._copied_assets.add(cache_key)
+        return destination
 
     def output_dir(self, experience: ExperienceSpec) -> Path:
         """Ensure and return the output directory for the experience."""
@@ -120,19 +134,19 @@ def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
             f"Home template not found for experience '{experience.key}': {template_path}"
         )
 
-    output_dir = ctx.output_dir(experience)
-    assets_out = ensure_dir(output_dir / "assets")
-    _copy_assets(ctx.assets_dir(experience), assets_out)
-
     env = ctx.jinja_env(experience)
     template = env.get_template("home.jinja")
 
+    output_dir = ctx.output_dir(experience)
+    ctx.copy_assets(experience)
     output_file = output_dir / "index.html"
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+    asset_prefix = _relative_href(output_dir, output_file.parent)
 
     rendered = template.render(
         experience=experience,
         routes_href=routes_href,
+        asset_prefix=asset_prefix,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},
@@ -164,6 +178,9 @@ def build_list(
     env = ctx.jinja_env(experience)
     template = env.get_template("list.jinja")
 
+    ctx.copy_assets(experience)
+    asset_prefix = _relative_href(output_dir, output_file.parent)
+
     entries = []
     for item in _content_for_experience(experience, items):
         detail_path = output_dir / "posts" / f"{item.content_id}.html"
@@ -177,6 +194,7 @@ def build_list(
     rendered = template.render(
         experience=experience,
         routes_href=routes_href,
+        asset_prefix=asset_prefix,
         items=entries,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
@@ -208,6 +226,8 @@ def build_detail(
     detail_dir = ensure_dir(output_dir / "posts")
     output_file = detail_dir / f"{item.content_id}.html"
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+    ctx.copy_assets(experience)
+    asset_prefix = _relative_href(output_dir, output_file.parent)
 
     env = ctx.jinja_env(experience)
     template = env.get_template("detail.jinja")
@@ -215,6 +235,7 @@ def build_detail(
         experience=experience,
         content=item,
         routes_href=routes_href,
+        asset_prefix=asset_prefix,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},

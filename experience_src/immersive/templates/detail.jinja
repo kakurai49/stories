@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>immersive | Detail</title>
-    <link rel="stylesheet" href="../assets/tokens.css">
-    <link rel="stylesheet" href="../assets/components.css">
+    <link rel="stylesheet" href="{{ asset_prefix }}/assets/tokens.css">
+    <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
   </head>
-  <body class="sg-surface">
+  <body class="sg-surface" data-experience="{{ experience.key }}">
     <article class="sg-article" data-template="detail" data-content-id="{{ content.content_id }}" data-routes-href="{{ routes_href }}">
       <header class="sg-header">
         <p class="sg-eyebrow">Detail</p>
