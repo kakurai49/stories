@@ -31,6 +31,13 @@
      --experiences config/experiences.yaml \
      --content content/posts
    ```
+   - 実行後に `Top BLOCKER/MAJOR findings:` がターミナルへ出力されます（上位10件）。
+5. （オプション）公開ルート検証
+   ```bash
+   python -m http.server 8000 --directory generated
+   # ブラウザまたは curl で http://localhost:8000/ を確認
+   ```
+   - 生成物直下に `index.html` が無い場合、ルートはディレクトリリストになります。switcher の legacy ルートが `../` を指す場合は注意してください。
 
 ## 追加メモ
 - GitHub Actions / Pages 用のワークフローが見当たらないため、公開ルートはビルド既定の `generated/` を前提に監査しています。

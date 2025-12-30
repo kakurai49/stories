@@ -8,40 +8,24 @@
   ],
   "routes": {
     "ruri": {
-      "home": "../index.html",
+      "home": "../",
       "content": {
         "ep01": "../story1.html"
       }
     },
     "blog": {
-      "home": "../index.html",
-      "content": {
-        "about-世界観": "../posts/about-世界観.html",
-        "about-読みどころ": "../posts/about-読みどころ.html",
-        "character-サキュバスメイド喫茶∞": "../posts/character-サキュバスメイド喫茶∞.html",
-        "character-バルハ": "../posts/character-バルハ.html",
-        "character-神崎ナギ": "../posts/character-神崎ナギ.html",
-        "character-結城ユイ": "../posts/character-結城ユイ.html",
-        "ep01": "../posts/ep01.html",
-        "ep02": "../posts/ep02.html",
-        "ep03": "../posts/ep03.html",
-        "ep04": "../posts/ep04.html",
-        "ep05": "../posts/ep05.html",
-        "ep06": "../posts/ep06.html",
-        "ep07": "../posts/ep07.html",
-        "ep08": "../posts/ep08.html",
-        "ep09": "../posts/ep09.html",
-        "ep10": "../posts/ep10.html",
-        "ep11": "../posts/ep11.html",
-        "ep12": "../posts/ep12.html",
-        "site-meta": "../posts/site-meta.html",
-        "welcome-post": "../posts/welcome-post.html"
-      }
+      "home": "../"
     },
     "hina": {
       "home": "hina/",
       "list": "hina/list/",
       "content": {
+        "about-世界観": "hina/posts/about-世界観/",
+        "about-読みどころ": "hina/posts/about-読みどころ/",
+        "character-サキュバスメイド喫茶∞": "hina/posts/character-サキュバスメイド喫茶∞/",
+        "character-バルハ": "hina/posts/character-バルハ/",
+        "character-神崎ナギ": "hina/posts/character-神崎ナギ/",
+        "character-結城ユイ": "hina/posts/character-結城ユイ/",
         "ep01": "hina/posts/ep01/",
         "ep02": "hina/posts/ep02/",
         "ep03": "hina/posts/ep03/",
@@ -54,13 +38,82 @@
         "ep10": "hina/posts/ep10/",
         "ep11": "hina/posts/ep11/",
         "ep12": "hina/posts/ep12/",
-        "site-meta": "hina/posts/site-meta/"
+        "site-meta": "hina/posts/site-meta/",
+        "welcome-post": "hina/posts/welcome-post/"
+      },
+      "contentAliases": {
+        "about-世界観": [
+          "hina/posts/about-世界観.html"
+        ],
+        "about-読みどころ": [
+          "hina/posts/about-読みどころ.html"
+        ],
+        "character-サキュバスメイド喫茶∞": [
+          "hina/posts/character-サキュバスメイド喫茶∞.html"
+        ],
+        "character-バルハ": [
+          "hina/posts/character-バルハ.html"
+        ],
+        "character-神崎ナギ": [
+          "hina/posts/character-神崎ナギ.html"
+        ],
+        "character-結城ユイ": [
+          "hina/posts/character-結城ユイ.html"
+        ],
+        "ep01": [
+          "hina/posts/ep01.html"
+        ],
+        "ep02": [
+          "hina/posts/ep02.html"
+        ],
+        "ep03": [
+          "hina/posts/ep03.html"
+        ],
+        "ep04": [
+          "hina/posts/ep04.html"
+        ],
+        "ep05": [
+          "hina/posts/ep05.html"
+        ],
+        "ep06": [
+          "hina/posts/ep06.html"
+        ],
+        "ep07": [
+          "hina/posts/ep07.html"
+        ],
+        "ep08": [
+          "hina/posts/ep08.html"
+        ],
+        "ep09": [
+          "hina/posts/ep09.html"
+        ],
+        "ep10": [
+          "hina/posts/ep10.html"
+        ],
+        "ep11": [
+          "hina/posts/ep11.html"
+        ],
+        "ep12": [
+          "hina/posts/ep12.html"
+        ],
+        "site-meta": [
+          "hina/posts/site-meta.html"
+        ],
+        "welcome-post": [
+          "hina/posts/welcome-post.html"
+        ]
       }
     },
     "immersive": {
       "home": "immersive/",
       "list": "immersive/list/",
       "content": {
+        "about-世界観": "immersive/posts/about-世界観/",
+        "about-読みどころ": "immersive/posts/about-読みどころ/",
+        "character-サキュバスメイド喫茶∞": "immersive/posts/character-サキュバスメイド喫茶∞/",
+        "character-バルハ": "immersive/posts/character-バルハ/",
+        "character-神崎ナギ": "immersive/posts/character-神崎ナギ/",
+        "character-結城ユイ": "immersive/posts/character-結城ユイ/",
         "ep01": "immersive/posts/ep01/",
         "ep02": "immersive/posts/ep02/",
         "ep03": "immersive/posts/ep03/",
@@ -73,13 +126,82 @@
         "ep10": "immersive/posts/ep10/",
         "ep11": "immersive/posts/ep11/",
         "ep12": "immersive/posts/ep12/",
-        "site-meta": "immersive/posts/site-meta/"
+        "site-meta": "immersive/posts/site-meta/",
+        "welcome-post": "immersive/posts/welcome-post/"
+      },
+      "contentAliases": {
+        "about-世界観": [
+          "immersive/posts/about-世界観.html"
+        ],
+        "about-読みどころ": [
+          "immersive/posts/about-読みどころ.html"
+        ],
+        "character-サキュバスメイド喫茶∞": [
+          "immersive/posts/character-サキュバスメイド喫茶∞.html"
+        ],
+        "character-バルハ": [
+          "immersive/posts/character-バルハ.html"
+        ],
+        "character-神崎ナギ": [
+          "immersive/posts/character-神崎ナギ.html"
+        ],
+        "character-結城ユイ": [
+          "immersive/posts/character-結城ユイ.html"
+        ],
+        "ep01": [
+          "immersive/posts/ep01.html"
+        ],
+        "ep02": [
+          "immersive/posts/ep02.html"
+        ],
+        "ep03": [
+          "immersive/posts/ep03.html"
+        ],
+        "ep04": [
+          "immersive/posts/ep04.html"
+        ],
+        "ep05": [
+          "immersive/posts/ep05.html"
+        ],
+        "ep06": [
+          "immersive/posts/ep06.html"
+        ],
+        "ep07": [
+          "immersive/posts/ep07.html"
+        ],
+        "ep08": [
+          "immersive/posts/ep08.html"
+        ],
+        "ep09": [
+          "immersive/posts/ep09.html"
+        ],
+        "ep10": [
+          "immersive/posts/ep10.html"
+        ],
+        "ep11": [
+          "immersive/posts/ep11.html"
+        ],
+        "ep12": [
+          "immersive/posts/ep12.html"
+        ],
+        "site-meta": [
+          "immersive/posts/site-meta.html"
+        ],
+        "welcome-post": [
+          "immersive/posts/welcome-post.html"
+        ]
       }
     },
     "magazine": {
       "home": "magazine/",
       "list": "magazine/list/",
       "content": {
+        "about-世界観": "magazine/posts/about-世界観/",
+        "about-読みどころ": "magazine/posts/about-読みどころ/",
+        "character-サキュバスメイド喫茶∞": "magazine/posts/character-サキュバスメイド喫茶∞/",
+        "character-バルハ": "magazine/posts/character-バルハ/",
+        "character-神崎ナギ": "magazine/posts/character-神崎ナギ/",
+        "character-結城ユイ": "magazine/posts/character-結城ユイ/",
         "ep01": "magazine/posts/ep01/",
         "ep02": "magazine/posts/ep02/",
         "ep03": "magazine/posts/ep03/",
@@ -92,7 +214,70 @@
         "ep10": "magazine/posts/ep10/",
         "ep11": "magazine/posts/ep11/",
         "ep12": "magazine/posts/ep12/",
-        "site-meta": "magazine/posts/site-meta/"
+        "site-meta": "magazine/posts/site-meta/",
+        "welcome-post": "magazine/posts/welcome-post/"
+      },
+      "contentAliases": {
+        "about-世界観": [
+          "magazine/posts/about-世界観.html"
+        ],
+        "about-読みどころ": [
+          "magazine/posts/about-読みどころ.html"
+        ],
+        "character-サキュバスメイド喫茶∞": [
+          "magazine/posts/character-サキュバスメイド喫茶∞.html"
+        ],
+        "character-バルハ": [
+          "magazine/posts/character-バルハ.html"
+        ],
+        "character-神崎ナギ": [
+          "magazine/posts/character-神崎ナギ.html"
+        ],
+        "character-結城ユイ": [
+          "magazine/posts/character-結城ユイ.html"
+        ],
+        "ep01": [
+          "magazine/posts/ep01.html"
+        ],
+        "ep02": [
+          "magazine/posts/ep02.html"
+        ],
+        "ep03": [
+          "magazine/posts/ep03.html"
+        ],
+        "ep04": [
+          "magazine/posts/ep04.html"
+        ],
+        "ep05": [
+          "magazine/posts/ep05.html"
+        ],
+        "ep06": [
+          "magazine/posts/ep06.html"
+        ],
+        "ep07": [
+          "magazine/posts/ep07.html"
+        ],
+        "ep08": [
+          "magazine/posts/ep08.html"
+        ],
+        "ep09": [
+          "magazine/posts/ep09.html"
+        ],
+        "ep10": [
+          "magazine/posts/ep10.html"
+        ],
+        "ep11": [
+          "magazine/posts/ep11.html"
+        ],
+        "ep12": [
+          "magazine/posts/ep12.html"
+        ],
+        "site-meta": [
+          "magazine/posts/site-meta.html"
+        ],
+        "welcome-post": [
+          "magazine/posts/welcome-post.html"
+        ]
       }
     }
   }

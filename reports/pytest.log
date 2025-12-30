@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace/stories
+collected 12 items
+
+tests/test_content_loader.py ..                                          [ 16%]
+tests/test_home_generation.py ......                                     [ 66%]
+tests/test_jinja_strictundefined.py .                                    [ 75%]
+tests/test_routes.py .                                                   [ 83%]
+tests/test_routing_plan.py ..                                            [100%]
+
+============================== 12 passed in 4.22s ==============================

@@ -11,6 +11,8 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import difflib
+import importlib
+import importlib.util
 import json
 import os
 import subprocess
@@ -21,15 +23,11 @@ from pathlib import Path
 from typing import Iterable, Optional, Sequence
 from urllib.parse import urlparse
 
-try:
-    from bs4 import BeautifulSoup
-except Exception:  # pragma: no cover - fallback only
-    BeautifulSoup = None
+bs4_spec = importlib.util.find_spec("bs4")
+BeautifulSoup = None if bs4_spec is None else importlib.import_module("bs4").BeautifulSoup  # type: ignore
 
-try:
-    import yaml
-except Exception:  # pragma: no cover - fallback only
-    yaml = None
+yaml_spec = importlib.util.find_spec("yaml")
+yaml = None if yaml_spec is None else importlib.import_module("yaml")  # type: ignore
 
 
 SEVERITY_ORDER = ["BLOCKER", "MAJOR", "MINOR", "INFO"]
@@ -310,6 +308,21 @@ class Auditor:
                         evidence={"route": route_path, "resolved": str(resolved)},
                         suggested_next_step="Regenerate site or adjust routePaths to include index.html destinations.",
                     )
+                else:
+                    try:
+                        resolved.resolve().relative_to(self.out_dir.resolve())
+                    except ValueError:
+                        self.add_finding(
+                            severity="MAJOR",
+                            type_="ROUTES_OUTSIDE_OUTDIR",
+                            title=f"{exp_key} {key} route points outside output directory",
+                            evidence={
+                                "route": route_path,
+                                "resolved": str(resolved),
+                                "outDir": str(self.out_dir),
+                            },
+                            suggested_next_step="Adjust route paths or publish legacy pages inside the build output so switcher targets are in the same root.",
+                        )
             content_routes = payload.get("content", {}) or {}
             for slug, route_path in content_routes.items():
                 resolved, _ = _resolve_local_path(
@@ -323,6 +336,21 @@ class Auditor:
                         evidence={"route": route_path, "resolved": str(resolved) if resolved else None},
                         suggested_next_step="Ensure content items are generated and routes.json matches the output structure.",
                     )
+                else:
+                    try:
+                        resolved.resolve().relative_to(self.out_dir.resolve())
+                    except ValueError:
+                        self.add_finding(
+                            severity="MAJOR",
+                            type_="ROUTES_OUTSIDE_OUTDIR",
+                            title=f"{exp_key} content route points outside output directory",
+                            evidence={
+                                "route": route_path,
+                                "resolved": str(resolved),
+                                "outDir": str(self.out_dir),
+                            },
+                            suggested_next_step="Keep switcher targets under the published root or host legacy files alongside the generated output.",
+                        )
 
     def _html_targets(self) -> list[Path]:
         targets: list[Path] = []
@@ -525,6 +553,64 @@ class Auditor:
                     suggested_next_step="Add required sections or anchors (about/episodes/characters) to align with legacy navigation.",
                 )
 
+    def check_branding(self) -> None:
+        generated = self._generated_experiences()
+        expected_labels = {
+            exp["key"]: (exp.get("name") or exp["key"]).lower() for exp in generated
+        }
+        alternative_labels = {
+            exp["key"]: {
+                (other.get("name") or other["key"]).lower()
+                for other in generated
+                if other["key"] != exp["key"]
+            }
+            for exp in generated
+        }
+        for exp in generated:
+            output_dir = exp.get("output_dir")
+            if not output_dir:
+                continue
+            for rel, page_type in (("index.html", "home"), ("list/index.html", "list")):
+                path = self.out_dir / output_dir / rel
+                soup = _soup_from_html(path)
+                if not soup:
+                    continue
+                title_text = (soup.title.string or "").strip() if soup.title else ""
+                head_texts = [title_text]
+                for meta in soup.find_all("meta"):
+                    content_val = meta.get("content")
+                    if content_val:
+                        head_texts.append(content_val)
+                combined = " ".join(head_texts).lower()
+                expected = expected_labels.get(exp["key"], "")
+                hits = [alt for alt in alternative_labels.get(exp["key"], set()) if alt in combined]
+                if expected and expected not in combined:
+                    self.add_finding(
+                        severity="MAJOR",
+                        type_="BRANDING_MISMATCH",
+                        title=f"{exp['key']} {page_type} missing experience branding",
+                        evidence={
+                            "file": str(path),
+                            "expectedLabel": expected,
+                            "observedTitle": title_text,
+                            "otherLabelsPresent": hits,
+                        },
+                        suggested_next_step="Inject the experience-specific name/description into page titles and hero metadata for each template.",
+                    )
+                elif hits:
+                    self.add_finding(
+                        severity="MAJOR",
+                        type_="BRANDING_MISMATCH",
+                        title=f"{exp['key']} {page_type} mixes other experience branding",
+                        evidence={
+                            "file": str(path),
+                            "expectedLabel": expected,
+                            "observedTitle": title_text,
+                            "otherLabelsPresent": hits,
+                        },
+                        suggested_next_step="Ensure templates pull labels from the current experience instead of shared defaults.",
+                    )
+
     def check_assets(self) -> None:
         targets = self._html_targets()
         for html_path in targets:
@@ -574,6 +660,23 @@ class Auditor:
             if finding.severity in summary:
                 summary[finding.severity] += 1
         return summary
+
+    def top_findings(self, limit: int = 10) -> list[Finding]:
+        prioritized = [
+            f for f in self.findings if f.severity in ("BLOCKER", "MAJOR")
+        ]
+        return sorted(
+            prioritized, key=lambda f: (SEVERITY_ORDER.index(f.severity), f.id)
+        )[:limit]
+
+    def print_top_findings(self, limit: int = 10) -> None:
+        prioritized = self.top_findings(limit)
+        if not prioritized:
+            print("Top BLOCKER/MAJOR findings: none")
+            return
+        print("Top BLOCKER/MAJOR findings:")
+        for f in prioritized:
+            print(f"- [{f.severity}] #{f.id}: {f.title}")
 
     def write_reports(self) -> tuple[Path, Path]:
         _ensure_dir(self.report_dir)
@@ -651,7 +754,10 @@ class Auditor:
         self.check_template_similarity()
         self.check_missing_sections()
         self.check_assets()
-        return self.write_reports()
+        self.check_branding()
+        json_path, md_path = self.write_reports()
+        self.print_top_findings()
+        return json_path, md_path
 
 
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
