@@ -147,6 +147,39 @@ def _content_for_experience(
     return targeted or items
 
 
+def _post_view_models(
+    experience: ExperienceSpec,
+    items: list[ContentItem],
+    output_dir: Path,
+    base: Path,
+) -> tuple[list[dict], list[dict]]:
+    """Build post view models and list entries for templates.
+
+    Returns a tuple of (posts, entries) where:
+    - posts is a simplified view model for home pages
+    - entries retains the richer structure currently used by list templates
+    """
+
+    posts = []
+    entries = []
+
+    for item in _content_for_experience(experience, items):
+        detail_path = output_dir / "posts" / item.content_id / "index.html"
+        detail_href = _relative_route(detail_path, base)
+
+        posts.append(
+            {
+                "title": item.title,
+                "excerpt": item.summary or item.excerpt,
+                "slug": item.content_id,
+                "url": detail_href,
+            }
+        )
+        entries.append({"content": item, "detail_href": detail_href})
+
+    return posts, entries
+
+
 def build_home(
     experience: ExperienceSpec, ctx: BuildContext, items: list[ContentItem]
 ) -> List[Path]:
@@ -173,15 +206,9 @@ def build_home(
     routes_href = _relative_href(ctx.routes_path, output_file.parent)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
-    entries = []
-    for item in _content_for_experience(experience, items):
-        detail_path = output_dir / "posts" / item.content_id / "index.html"
-        entries.append(
-            {
-                "content": item,
-                "detail_href": _relative_href(detail_path, output_file.parent),
-            }
-        )
+    posts, entries = _post_view_models(
+        experience, items, output_dir=output_dir, base=output_file.parent
+    )
 
     rendered = template.render(
         experience=experience,
@@ -191,6 +218,7 @@ def build_home(
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="home",
         items=entries,
+        posts=posts,
         nav_links=[
             {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
             {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
@@ -226,15 +254,9 @@ def build_list(
     ctx.copy_assets(experience)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
-    entries = []
-    for item in _content_for_experience(experience, items):
-        detail_path = output_dir / "posts" / item.content_id / "index.html"
-        entries.append(
-            {
-                "content": item,
-                "detail_href": _relative_href(detail_path, output_file.parent),
-            }
-        )
+    _, entries = _post_view_models(
+        experience, items, output_dir=output_dir, base=output_file.parent
+    )
 
     rendered = template.render(
         experience=experience,

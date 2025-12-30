@@ -52,19 +52,14 @@
       <section class="sg-card">
         <h2>最新コンテンツ</h2>
         <ul class="sg-list card-grid">
-          {% for entry in items %}
+          {% for post in posts %}
           <li class="sg-card">
             <p class="sg-eyebrow">Episode</p>
-            <h2><a href="{{ entry.detail_href }}">{{ entry.content.title }}</a></h2>
-            {% if entry.content.summary %}
-            <p class="sg-lede">{{ entry.content.summary }}</p>
-            {% elif entry.content.excerpt %}
-            <p class="sg-lede">{{ entry.content.excerpt }}</p>
+            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            {% if post.excerpt %}
+            <p class="sg-lede">{{ post.excerpt }}</p>
             {% endif %}
-            {% if entry.content.date %}
-            <p class="sg-meta">{{ entry.content.date }}</p>
-            {% endif %}
-            <p class="sg-meta">#{{ entry.content.content_id }}</p>
+            <p class="sg-meta">#{{ post.slug }}</p>
           </li>
           {% endfor %}
         </ul>
