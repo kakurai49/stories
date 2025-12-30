@@ -1,55 +1,48 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>hina | List</title>
-    <link rel="stylesheet" href="{{ asset_prefix }}/assets/tokens.css">
+{% extends "document.jinja" %}
+{% set lang = "ja" %}
+{% set title = experience.key ~ " | List" %}
+{% set body_attrs = {
+  "experience": experience.key,
+  "template": template_key,
+  "routes-href": routes_href,
+} %}
+
+{% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
-    {% if switcher_css_href %}
-    <link rel="stylesheet" href="{{ switcher_css_href }}">
-    {% endif %}
-    {% if switcher_js_href %}
-    <script src="{{ switcher_js_href }}" defer></script>
-    {% endif %}
-  </head>
-  <body
-    class="sg-surface"
-    data-experience="{{ experience.key }}"
-    data-template="{{ template_key }}"
-    data-routes-href="{{ routes_href }}"
-  >
-    <header class="sg-header">
-      <p class="sg-eyebrow">Listing</p>
-      <h1>hina コンテンツ一覧</h1>
-      <p class="sg-lede">カード型でタイトルと要約をざっくり眺められるシンプルなリスト。</p>
-      <nav>
-        <ul class="sg-nav">
-          {% for link in nav_links %}
-          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
-          {% endfor %}
-        </ul>
-        <button
-          type="button"
-          class="view-switcher"
-          data-action="switch-experience"
-        >
-          体験を切り替える
-        </button>
-      </nav>
-    </header>
-    <main class="sg-main" data-template="list" data-experience="{{ experience.key }}">
-      <ul class="sg-list card-grid">
-        {% for entry in items %}
-        <li class="sg-card">
-          <p class="sg-eyebrow">Episode</p>
-          <h2><a href="{{ entry.detail_href }}">{{ entry.content.title }}</a></h2>
-          {% if entry.content.summary %}
-          <p class="sg-lede">{{ entry.content.summary }}</p>
-          {% endif %}
-          <p class="sg-meta">#{{ entry.content.content_id }}</p>
-        </li>
+{% endblock %}
+
+{% block body %}
+  <header class="sg-header">
+    <p class="sg-eyebrow">Listing</p>
+    <h1>{{ experience.key }} コンテンツ一覧</h1>
+    <p class="sg-lede">カード型でタイトルと要約をざっくり眺められるシンプルなリスト。</p>
+    <nav class="sg-nav">
+      <ul class="sg-nav-links">
+        {% for link in nav_links %}
+        <li><a href="{{ link.href }}">{{ link.label }}</a></li>
         {% endfor %}
       </ul>
-    </main>
-  </body>
-</html>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+    </nav>
+  </header>
+  <main class="sg-main" data-template="list" data-experience="{{ experience.key }}">
+    <ul class="sg-list card-grid">
+      {% for entry in items %}
+      <li class="sg-card">
+        <p class="sg-eyebrow">Episode</p>
+        <h2><a href="{{ entry.detail_href }}">{{ entry.content.title }}</a></h2>
+        {% if entry.content.summary %}
+        <p class="sg-lede">{{ entry.content.summary }}</p>
+        {% endif %}
+        <p class="sg-meta">#{{ entry.content.content_id }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </main>
+{% endblock %}
