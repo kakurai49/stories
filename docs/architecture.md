@@ -1,16 +1,53 @@
 # アーキテクチャ概要
 
-このドキュメントは、サイトジェネレーターにおける基本用語をまとめています。
+このドキュメントは、サイトジェネレーターの入出力・責務境界・拡張点を整理し、リファクタリング時の共通前提を提供します。
 
-- **experience**: 共通の目的を持つページやフローの集合。
-- **pageType**: エクスペリエンス内でページのレイアウトや目的を表すカテゴリ。
-- **contentId**: 特定のコンテンツアセットを見つけたり参照したりするための識別子。
-- **routes.json**: エクスペリエンスで利用可能なルートを記述したマニフェスト。
+## 用語と境界
+
+- **experience**: 共通の目的を持つページやフローの集合。`config/experiences.yaml` の `ExperienceSpec` で定義され、kind により `legacy`/`generated` を切り替えます。
+- **pageType**: エクスペリエンス内でページのレイアウトや目的を表すカテゴリ。`ContentItem.pageType` とテンプレート（`home/list/detail`）の対応が前提です。
+- **contentId**: 特定のコンテンツを識別するキー。URL やテンプレート参照、`routes.json` の `contentId` に利用します。
+- **routes.json**: エクスペリエンスで利用可能なルートを記述したマニフェスト。`RouteMap` スキーマに従い、スイッチャーとデータフェッチの接着面になります。
+
+### システム境界
+
+- **インプット**
+  - 体験定義: `config/experiences.yaml`（`ExperienceSpec`）。ルーティングパターンと出力ディレクトリの契約。
+  - コンテンツ: `content/posts/*.json`（`ContentItem`）。pageType と render.kind が契約。
+  - テンプレート/アセット: `experience_src/<experience>/templates/*.jinja` と `experience_src/<experience>/assets/`、および共有テンプレート `sitegen/templates/`。
+  - オプションのメタ: `experience_src/<experience>/manifest.json`（OG/ラベル情報）。
+  - CLI フラグ: `sitegen build --all/--shared` などの実行スイッチ。
+- **アウトプット**
+  - HTML: `generated/<output_dir>/index.html`, `list/index.html`, `posts/<slug>/index.html`。
+  - アセット: `generated/<output_dir>/assets/` へのコピーと、共有 `generated/shared/` のスイッチャー/feature 初期化スクリプト。
+  - マニフェスト: `generated/routes.json`, `_buildinfo.json`（ビルドメタ）、`sitegen gen-manifests` による `manifest.json`。
+  - レガシー補助: `--all` 時に `index.html`/`story1.html` へスイッチャーパッチ。
+
+## モジュール責務
+
+- CLI エントリーポイント: `sitegen/cli.py`。各サブコマンドのパラメータ解析とパイプライン呼び出しを担当。
+- ビルド/レンダリング: `sitegen/build.py`。`BuildContext` によるパス解決、コンテンツ集約、Jinja2 での `home/list/detail` レンダリング。
+- ルーティング: `sitegen/routes_gen.py`。`routePatterns` を基に `routes.json` を生成し、スイッチャー用のプレーン JSON を提供。
+- 共有アセット: `sitegen/shared_gen.py`。スイッチャー JS/CSS と feature 初期化 JS を生成・配置。
+- レガシーパッチ: `sitegen/patch_legacy.py`。既存 HTML に data 属性とスイッチャーを注入。
+- スキーマ: `sitegen/models.py`。`ExperienceSpec`/`ContentItem`/`RouteMap` などの型定義と検証。
+- FS ユーティリティ: `sitegen/util_fs.py`。`ensure_dir`/`write_text` の薄いラッパー。
+
+## ビルドパス（`sitegen build`）
+
+1. `experiences.yaml` と `content/posts` をロードし、Pydantic で検証（`_load_experiences`, `load_content_items`）。`--all` 時はビルドラベルに git SHA とタイムスタンプを含める。
+2. `BuildContext` を構築し、各 generated experience について:
+   - コンテンツを experience 単位にフィルタリングし、メタ情報を集計（`_content_for_experience`）。
+   - `home/list/detail` を Jinja2 で描画し、経験ごとにアセットを一度だけコピー。
+3. `--all` オプション時:
+   - `routes_gen.build_routes_payload` で `routes.json` を生成し、`write_routes_payload` で書き出し。
+   - `generate_switcher_assets` で共有 JS/CSS を `.` と `generated/` に展開。
+   - `patch_legacy_pages` でレガシー HTML に data 属性とスイッチャーボタンを注入。
+4. `_buildinfo.json` にビルドメタデータ（コンテンツ件数や出力パス、書き出しファイル一覧）を記録。
 
 ## データ属性の取り決め
 
-ジェネレーターが生成するマークアップにはデータ属性が付与され、ハイドレーションや
-クライアントサイドのナビゲーションが正しいアセットを解決できるようになっています。
+ジェネレーターが生成するマークアップにはデータ属性が付与され、ハイドレーションやクライアントサイドのナビゲーションが正しいアセットを解決できるようになっています。
 
 - `data-experience`: 現在の DOM ツリーを所有するエクスペリエンスキー（例: `blog`）。
 - `data-page-type`: テンプレートを選択するためのページタイプ（例: `post`）。
@@ -52,3 +89,10 @@
 
 これらの取り決めにより、ランタイムコンポーネントはビルド時のファイル構成に依存せずに
 ルーティングメタデータを発見できます。
+
+## リファクタリングの足場
+
+- **責務ごとの I/O を明文化**: 上記「システム境界」と「ビルドパス」を基準に、関数単位で入力/出力を docstring へ追記し、StrictUndefined に対応する view model のフィールドを列挙する（欠損時のエラー混在を防止）。
+- **体験ごとの設定を疎結合化**: `BuildContext` が持つ `shared_*` と experience 固有設定を区別する構造体を導入し、差分のみをビルド時に注入する（future: dataclass で `ExperienceBuildConfig` を切り出す）。
+- **ルーティングとレンダリングの分離**: `routes_gen` の出力を build ステップから独立させ、後続の CI で差分を検証しやすくする（例: `sitegen routes` などの分離 CLI）。
+- **レガシーパッチのテスト面分離**: `patch_legacy` を純関数化した変換層と、ファイル I/O 層に分割することで、HTML 断片のスナップショットテストを容易にする。
