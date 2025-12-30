@@ -1,0 +1,359 @@
+{
+  "meta": {
+    "executedAt": "2025-12-30T10:20:17.115098+00:00",
+    "python": "3.11.12 (main, Oct 24 2025, 00:36:31) [GCC 13.3.0]",
+    "git": {
+      "sha": "7b42eeb487b7cb9a4dd583aca8dde1d48f5bf394"
+    },
+    "outDir": "/workspace/stories/generated",
+    "command": "python scripts/audit_generated_site.py --out generated --routes /workspace/stories/generated/routes.json --experiences config/experiences.yaml --content content/posts ",
+    "parser": "beautifulsoup4"
+  },
+  "summary": {
+    "BLOCKER": 30,
+    "MAJOR": 1,
+    "MINOR": 0,
+    "INFO": 0
+  },
+  "findings": [
+    {
+      "id": 1,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=about-世界観",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/about-世界観/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 2,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=about-読みどころ",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/about-読みどころ/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 3,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=character-サキュバスメイド喫茶∞",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/character-サキュバスメイド喫茶∞/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 4,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=character-バルハ",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/character-バルハ/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 5,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=character-神崎ナギ",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/character-神崎ナギ/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 6,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=character-結城ユイ",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/character-結城ユイ/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 7,
+      "severity": "BLOCKER",
+      "type": "MISSING_PAGE",
+      "title": "Detail page missing for hina slug=site-meta",
+      "evidence": {
+        "expected": "/workspace/stories/generated/hina/posts/site-meta/index.html"
+      },
+      "suggested_next_step": "Check slug resolution and ensure build generated detail pages."
+    },
+    {
+      "id": 8,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for about-世界観",
+      "evidence": {
+        "route": "../posts/about-世界観.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 9,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for about-読みどころ",
+      "evidence": {
+        "route": "../posts/about-読みどころ.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 10,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for character-サキュバスメイド喫茶∞",
+      "evidence": {
+        "route": "../posts/character-サキュバスメイド喫茶∞.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 11,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for character-バルハ",
+      "evidence": {
+        "route": "../posts/character-バルハ.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 12,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for character-神崎ナギ",
+      "evidence": {
+        "route": "../posts/character-神崎ナギ.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 13,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for character-結城ユイ",
+      "evidence": {
+        "route": "../posts/character-結城ユイ.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 14,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep01",
+      "evidence": {
+        "route": "../posts/ep01.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 15,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep02",
+      "evidence": {
+        "route": "../posts/ep02.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 16,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep03",
+      "evidence": {
+        "route": "../posts/ep03.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 17,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep04",
+      "evidence": {
+        "route": "../posts/ep04.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 18,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep05",
+      "evidence": {
+        "route": "../posts/ep05.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 19,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep06",
+      "evidence": {
+        "route": "../posts/ep06.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 20,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep07",
+      "evidence": {
+        "route": "../posts/ep07.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 21,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep08",
+      "evidence": {
+        "route": "../posts/ep08.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 22,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep09",
+      "evidence": {
+        "route": "../posts/ep09.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 23,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep10",
+      "evidence": {
+        "route": "../posts/ep10.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 24,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep11",
+      "evidence": {
+        "route": "../posts/ep11.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 25,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for ep12",
+      "evidence": {
+        "route": "../posts/ep12.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 26,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for site-meta",
+      "evidence": {
+        "route": "../posts/site-meta.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 27,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "blog content route missing for welcome-post",
+      "evidence": {
+        "route": "../posts/welcome-post.html",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 28,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "hina content route missing for site-meta",
+      "evidence": {
+        "route": "hina/posts/site-meta/",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 29,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "immersive content route missing for site-meta",
+      "evidence": {
+        "route": "immersive/posts/site-meta/",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 30,
+      "severity": "BLOCKER",
+      "type": "ROUTES_MISMATCH",
+      "title": "magazine content route missing for site-meta",
+      "evidence": {
+        "route": "magazine/posts/site-meta/",
+        "resolved": null
+      },
+      "suggested_next_step": "Ensure content items are generated and routes.json matches the output structure."
+    },
+    {
+      "id": 31,
+      "severity": "MAJOR",
+      "type": "CONTENT_ASSIGNMENT_SUSPECT",
+      "title": "Content items are not distributed across experiences",
+      "evidence": {
+        "counts": {
+          "hina": 20
+        },
+        "missingGeneratedExperiences": [
+          "magazine",
+          "immersive"
+        ]
+      },
+      "suggested_next_step": "Confirm intended experience assignment per content item; add items for missing experiences or adjust routing."
+    }
+  ]
+}
