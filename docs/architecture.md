@@ -22,12 +22,13 @@
   - アセット: `generated/<output_dir>/assets/` へのコピーと、共有 `generated/shared/` のスイッチャー/feature 初期化スクリプト。
   - マニフェスト: `generated/routes.json`, `_buildinfo.json`（ビルドメタ）、`sitegen gen-manifests` による `manifest.json`。
   - レガシー補助: `--all` 時に `index.html`/`story1.html` へスイッチャーパッチ。
+  - 互換エイリアス: 詳細ページに対する `.html` リダイレクトを自動生成し、旧来の `.html` リンクを吸収。
 
 ## モジュール責務
 
 - CLI エントリーポイント: `sitegen/cli.py`。各サブコマンドのパラメータ解析とパイプライン呼び出しを担当。
 - ビルド/レンダリング: `sitegen/build.py`。`BuildContext` によるパス解決、コンテンツ集約、Jinja2 での `home/list/detail` レンダリング。
-- ルーティング: `sitegen/routes_gen.py`。`routePatterns` を基に `routes.json` を生成し、スイッチャー用のプレーン JSON を提供。
+- ルーティング: `sitegen/routing.py`。`SiteRouter` が PageSpec（URL・出力先・テンプレート）を単一ソースとして組み立て、ビルドと `routes.json` を同じ定義から生成。`sitegen/routes_gen.py` は `SiteRouter.routes_payload` を書き出す薄いラッパー。
 - 共有アセット: `sitegen/shared_gen.py`。スイッチャー JS/CSS と feature 初期化 JS を生成・配置。
 - レガシーパッチ: `sitegen/patch_legacy.py`。既存 HTML に data 属性とスイッチャーを注入。
 - スキーマ: `sitegen/models.py`。`ExperienceSpec`/`ContentItem`/`RouteMap` などの型定義と検証。
@@ -36,11 +37,11 @@
 ## ビルドパス（`sitegen build`）
 
 1. `experiences.yaml` と `content/posts` をロードし、Pydantic で検証（`_load_experiences`, `load_content_items`）。`--all` 時はビルドラベルに git SHA とタイムスタンプを含める。
-2. `BuildContext` を構築し、各 generated experience について:
-   - コンテンツを experience 単位にフィルタリングし、メタ情報を集計（`_content_for_experience`）。
-   - `home/list/detail` を Jinja2 で描画し、経験ごとにアセットを一度だけコピー。
+2. `BuildContext` と `SiteRouter` を構築し、PageSpec の一覧を作成:
+   - コンテンツを experience 単位にフィルタリングし、URL・出力パス・テンプレート名を確定。
+   - PageSpec を順に `home/list/detail` へレンダリングし、経験ごとにアセットを一度だけコピー。詳細ページには `.html` のエイリアスを合わせて生成。
 3. `--all` オプション時:
-   - `routes_gen.build_routes_payload` で `routes.json` を生成し、`write_routes_payload` で書き出し。
+   - `SiteRouter.routes_payload` を `write_routes_payload` で書き出し `routes.json` を更新。
    - `generate_switcher_assets` で共有 JS/CSS を `.` と `generated/` に展開。
    - `patch_legacy_pages` でレガシー HTML に data 属性とスイッチャーボタンを注入。
 4. `_buildinfo.json` にビルドメタデータ（コンテンツ件数や出力パス、書き出しファイル一覧）を記録。

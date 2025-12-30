@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 import shutil
 from collections import Counter
 from dataclasses import dataclass, field
@@ -14,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoes
 from pydantic import ValidationError
 
 from .models import ContentItem, ExperienceSpec
+from .routing import PageSpec, SiteRouter, relative_href
 from .util_fs import ensure_dir
 
 
@@ -85,7 +85,7 @@ class BuildContext:
 
         if not self.shared_assets_dir:
             return None
-        return _relative_href(self.shared_assets_dir / filename, base)
+        return relative_href(self.shared_assets_dir / filename, base)
 
     def jinja_env(self, experience: ExperienceSpec) -> Environment:
         """Create a Jinja environment scoped to the experience templates."""
@@ -113,25 +113,6 @@ def _copy_assets(source: Path, destination: Path) -> None:
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(asset_path, target)
-
-
-def _relative_href(target: Path, base: Path) -> str:
-    """Return a POSIX-style relative href from base to target."""
-
-    return Path(os.path.relpath(target, base)).as_posix()
-
-
-def _relative_route(target: Path, base: Path) -> str:
-    """Return a pretty href to the target, collapsing index.html to a slash."""
-
-    href = _relative_href(target, base)
-    if href.endswith("index.html"):
-        href = href[: -len("index.html")]
-        if not href:
-            return "./"
-        if not href.endswith("/"):
-            href += "/"
-    return href
 
 
 def load_content_items(content_dir: Path) -> list[ContentItem]:
@@ -210,30 +191,36 @@ def build_view_model_for_experience(
     base: Path,
     current_item: ContentItem | None = None,
     template_key: str = "home",
+    router: SiteRouter | None = None,
+    page_spec: PageSpec | None = None,
 ) -> dict:
     """Assemble a normalized view model for templates.
 
     Ensures all expected keys exist to satisfy StrictUndefined.
     """
 
+    if router is None:
+        raise ValueError("router is required to build the view model")
+
     output_dir = ctx.output_dir(experience)
     manifest_meta = _load_manifest_meta(experience, ctx)
-    routes_href = _relative_href(ctx.routes_path, base)
-    home_href = _relative_route(output_dir / "index.html", base)
-    list_href = _relative_route(output_dir / "list" / "index.html", base)
+    routes_href = relative_href(ctx.routes_path, base)
+
+    home_href = router.href_for_page(router.home(experience.key), base)
+    list_href = router.href_for_page(router.list_page(experience.key), base)
 
     groups = _group_content(experience, items)
 
     episodes: list[dict] = []
     for index, item in enumerate(groups["episodes"], start=1):
-        detail_path = output_dir / "posts" / item.content_id / "index.html"
+        detail_page = router.content_page(experience.key, item.content_id)
         episodes.append(
             {
                 "id": item.content_id,
                 "order": index,
                 "title": item.title,
                 "summary": item.summary or item.excerpt or "",
-                "href": _relative_route(detail_path, base),
+                "href": router.href_for_page(detail_page, base),
                 "tags": item.tags,
                 "data_href": item.data_href,
             }
@@ -273,7 +260,13 @@ def build_view_model_for_experience(
         path = Path(raw_href)
         if path.is_absolute() or "://" in raw_href:
             return raw_href
-        href = _relative_href(output_dir / raw_href, base)
+        if raw_href in router.content_ids(experience.key):
+            return router.href_for_page(
+                router.content_page(experience.key, raw_href), base
+            )
+        if raw_href.rstrip("/") == "list":
+            return list_href
+        href = relative_href(output_dir / raw_href, base)
         if raw_href.endswith("/") and not href.endswith("/"):
             href += "/"
         return href
@@ -345,7 +338,12 @@ def build_view_model_for_experience(
 
 
 def build_home(
-    experience: ExperienceSpec, ctx: BuildContext, items: list[ContentItem]
+    experience: ExperienceSpec,
+    ctx: BuildContext,
+    items: list[ContentItem],
+    *,
+    router: SiteRouter,
+    page_spec: PageSpec | None = None,
 ) -> List[Path]:
     """Render the home template for a generated experience.
 
@@ -355,19 +353,20 @@ def build_home(
     if experience.kind != "generated":
         return []
 
-    template_path = ctx.templates_dir(experience) / "home.jinja"
+    template_name = (page_spec.template if page_spec else "home.jinja")
+    template_path = ctx.templates_dir(experience) / template_name
     if not template_path.exists():
         raise FileNotFoundError(
             f"Home template not found for experience '{experience.key}': {template_path}"
         )
 
     env = ctx.jinja_env(experience)
-    template = env.get_template("home.jinja")
+    template = env.get_template(template_name)
 
     output_dir = ctx.output_dir(experience)
     ctx.copy_assets(experience)
-    output_file = output_dir / "index.html"
-    asset_prefix = _relative_href(output_dir, output_file.parent)
+    output_file = page_spec.out_file if page_spec else output_dir / "index.html"
+    asset_prefix = relative_href(output_dir, output_file.parent)
 
     view_model = build_view_model_for_experience(
         experience,
@@ -375,6 +374,8 @@ def build_home(
         items,
         base=output_file.parent,
         template_key="home",
+        router=router,
+        page_spec=page_spec,
     )
 
     rendered = template.render(
@@ -394,14 +395,20 @@ def build_home(
 
 
 def build_list(
-    experience: ExperienceSpec, ctx: BuildContext, items: list[ContentItem]
+    experience: ExperienceSpec,
+    ctx: BuildContext,
+    items: list[ContentItem],
+    *,
+    router: SiteRouter,
+    page_spec: PageSpec | None = None,
 ) -> List[Path]:
     """Render the list template for a generated experience."""
 
     if experience.kind != "generated":
         return []
 
-    template_path = ctx.templates_dir(experience) / "list.jinja"
+    template_name = page_spec.template if page_spec else "list.jinja"
+    template_path = ctx.templates_dir(experience) / template_name
     if not template_path.exists():
         raise FileNotFoundError(
             f"List template not found for experience '{experience.key}': {template_path}"
@@ -409,13 +416,13 @@ def build_list(
 
     output_dir = ctx.output_dir(experience)
     list_dir = ensure_dir(output_dir / "list")
-    output_file = list_dir / "index.html"
+    output_file = page_spec.out_file if page_spec else list_dir / "index.html"
 
     env = ctx.jinja_env(experience)
-    template = env.get_template("list.jinja")
+    template = env.get_template(template_name)
 
     ctx.copy_assets(experience)
-    asset_prefix = _relative_href(output_dir, output_file.parent)
+    asset_prefix = relative_href(output_dir, output_file.parent)
 
     view_model = build_view_model_for_experience(
         experience,
@@ -423,6 +430,8 @@ def build_list(
         items,
         base=output_file.parent,
         template_key="list",
+        router=router,
+        page_spec=page_spec,
     )
 
     rendered = template.render(
@@ -446,6 +455,9 @@ def build_detail(
     ctx: BuildContext,
     item: ContentItem,
     items: Optional[list[ContentItem]] = None,
+    *,
+    router: SiteRouter,
+    page_spec: PageSpec | None = None,
 ) -> List[Path]:
     """Render the detail template for a single content item."""
 
@@ -459,10 +471,8 @@ def build_detail(
     if targeted and item.experience != experience.key:
         return []
 
-    if item.page_type in {"about", "character", "siteMeta"}:
-        return []
-
-    template_path = ctx.templates_dir(experience) / "detail.jinja"
+    template_name = page_spec.template if page_spec else router.detail_template_for(experience, item.page_type)
+    template_path = ctx.templates_dir(experience) / template_name
     if not template_path.exists():
         raise FileNotFoundError(
             f"Detail template not found for experience '{experience.key}': {template_path}"
@@ -470,12 +480,12 @@ def build_detail(
 
     output_dir = ctx.output_dir(experience)
     detail_dir = ensure_dir(output_dir / "posts" / item.content_id)
-    output_file = detail_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path, output_file.parent)
+    output_file = page_spec.out_file if page_spec else detail_dir / "index.html"
+    routes_href = relative_href(ctx.routes_path, output_file.parent)
     ctx.copy_assets(experience)
-    asset_prefix = _relative_href(output_dir, output_file.parent)
+    asset_prefix = relative_href(output_dir, output_file.parent)
     features_init_href = (
-        _relative_href(ctx.shared_init_features, output_file.parent)
+        relative_href(ctx.shared_init_features, output_file.parent)
         if ctx.shared_init_features
         else None
     )
@@ -487,10 +497,12 @@ def build_detail(
         base=output_file.parent,
         current_item=item,
         template_key="detail",
+        router=router,
+        page_spec=page_spec,
     )
 
     env = ctx.jinja_env(experience)
-    template = env.get_template("detail.jinja")
+    template = env.get_template(template_name)
     rendered = template.render(
         experience=experience,
         content=item,

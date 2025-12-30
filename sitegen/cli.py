@@ -21,7 +21,7 @@ from .build import (
     load_content_items,
 )
 from .shared_gen import generate_init_features_js, generate_switcher_assets
-from .routes_gen import build_routes_payload, write_routes_payload
+from .routes_gen import write_routes_payload
 from .models import (
     ContentItem,
     ExperienceSpec,
@@ -31,6 +31,7 @@ from .models import (
     IATemplateSpec,
 )
 from .patch_legacy import patch_legacy_pages
+from .routing import SiteRouter
 from .util_fs import ensure_dir, write_text
 
 
@@ -546,6 +547,7 @@ def _handle_build(args: argparse.Namespace) -> None:
     if ctx.build_label:
         ctx.build_label = f"{ctx.build_label} items={len(items)}"
     experiences = _load_experiences(experiences_path)
+    router = SiteRouter(ctx, experiences, items)
     generated = [exp for exp in experiences if exp.kind == "generated"]
     if not generated:
         print("No generated experiences found; nothing to build.")
@@ -576,13 +578,30 @@ def _handle_build(args: argparse.Namespace) -> None:
                 },
             }
         )
-        written.extend(build_home(exp, ctx, items))
-        written.extend(build_list(exp, ctx, items))
-        for item in targeted:
-            written.extend(build_detail(exp, ctx, item, items))
+        for page in router.pages_for_experience(exp.key):
+            if page.page_type == "home":
+                written.extend(
+                    build_home(exp, ctx, items, router=router, page_spec=page)
+                )
+            elif page.page_type == "list":
+                written.extend(
+                    build_list(exp, ctx, items, router=router, page_spec=page)
+                )
+            elif page.content:
+                written.extend(
+                    build_detail(
+                        exp,
+                        ctx,
+                        page.content,
+                        items,
+                        router=router,
+                        page_spec=page,
+                    )
+                )
 
+    written.extend(router.render_aliases())
     if args.all:
-        routes_payload = build_routes_payload(experiences, items, out_root=out_root, routes_filename=args.routes_filename)
+        routes_payload = router.routes_payload()
         route_targets = [ctx.routes_path]
         written.extend(write_routes_payload(routes_payload, route_targets))
         written.extend(generate_switcher_assets([Path("."), out_root]))
