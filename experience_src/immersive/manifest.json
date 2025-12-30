@@ -3,12 +3,18 @@
   "label": "Immersive Generated Experience",
   "supports": {
     "pageTypes": [
-      "story"
+      "story",
+      "about",
+      "character"
     ],
     "features": [
       "full-bleed"
     ],
-    "renderKinds": [],
+    "renderKinds": [
+      "markdown",
+      "external",
+      "html"
+    ],
     "locales": [
       "ja-JP"
     ]

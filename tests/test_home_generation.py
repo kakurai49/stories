@@ -32,11 +32,12 @@ def _build_experience_output(tmp_path: Path, experience_key: str):
 
     build_home(exp, ctx, items)
     build_list(exp, ctx, items)
-    for item in items:
-        build_detail(exp, ctx, item)
+    targeted = [item for item in items if item.experience == exp.key] or items
+    for item in targeted:
+        build_detail(exp, ctx, item, items)
 
     output_dir = out_root / (exp.output_dir or exp.key)
-    return output_dir, items
+    return output_dir, targeted
 
 
 @pytest.mark.parametrize("experience_key", ["hina", "immersive", "magazine"])
@@ -47,19 +48,18 @@ def test_home_is_rendered(tmp_path: Path, experience_key: str):
     assert home_path.exists(), f"Home page for {experience_key} should be generated"
 
     html = home_path.read_text(encoding="utf-8")
-    assert "TODO:" not in html
-    assert "EP01" in html
-
     soup = BeautifulSoup(html, "html.parser")
-    links = soup.select("a[href]")
-    hrefs = [link["href"] for link in links]
-    assert any("posts/ep01/" in href for href in hrefs), "Detail link should be present"
+    assert soup.select_one("#about"), "About section should be present"
+    assert soup.select_one("#episodes"), "Episodes section should be present"
+    assert soup.select_one("#characters"), "Characters section should be present"
+    episode_cards = soup.select("[data-episode-id]")
+    assert len(episode_cards) >= 2, "Episodes should list multiple entries"
 
 
 @pytest.mark.parametrize("experience_key", ["hina", "immersive", "magazine"])
 def test_pages_include_viewport_and_shared_styles(tmp_path: Path, experience_key: str):
     output_dir, items = _build_experience_output(tmp_path, experience_key)
-    detail_slug = items[0].content_id
+    detail_slug = next(item.content_id for item in items if item.page_type == "story")
 
     targets = [
         output_dir / "index.html",

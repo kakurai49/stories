@@ -14,6 +14,7 @@ from .build import (
     build_detail,
     build_home,
     build_list,
+    _content_for_experience,
     load_content_items,
 )
 from .shared_gen import generate_init_features_js, generate_switcher_assets
@@ -189,6 +190,29 @@ def _handle_validate(args: argparse.Namespace) -> None:
                     f"{json_path}: render kind '{render_kind}' not allowed; "
                     f"supported kinds: {', '.join(spec.supports.render_kinds)}"
                 )
+
+    generated_experiences = [exp for exp in experiences if exp.kind == "generated"]
+    for exp in generated_experiences:
+        targeted = [item for item in validated if item.experience == exp.key] or validated
+        episodes = [item for item in targeted if item.page_type == "story"]
+        about_cards = [item for item in targeted if item.page_type == "about"]
+        characters = [item for item in targeted if item.page_type == "character"]
+
+        if not episodes:
+            errors.append(
+                f"Experience '{exp.key}' is missing story content. "
+                f"Add at least one pageType=story entry in {content_dir}."
+            )
+        if not about_cards:
+            errors.append(
+                f"Experience '{exp.key}' has no about_cards (pageType=about). "
+                f"Add an about JSON payload under {content_dir}."
+            )
+        if len(characters) < 3:
+            errors.append(
+                f"Experience '{exp.key}' requires at least 3 characters "
+                f"(pageType=character); found {len(characters)}."
+            )
 
     if errors:
         for message in errors:
@@ -501,8 +525,8 @@ def _handle_build(args: argparse.Namespace) -> None:
     for exp in generated:
         written.extend(build_home(exp, ctx, items))
         written.extend(build_list(exp, ctx, items))
-        for item in items:
-            written.extend(build_detail(exp, ctx, item))
+        for item in _content_for_experience(exp, items):
+            written.extend(build_detail(exp, ctx, item, items))
 
     if args.all:
         routes_payload = build_routes_payload(experiences, items, out_root=out_root, routes_filename=args.routes_filename)

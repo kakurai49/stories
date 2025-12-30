@@ -73,7 +73,9 @@ def build_routes_payload(
         list_path = out_root / output_dir / "list" / "index.html"
 
         content_map: dict[str, str] = {}
-        for item in items:
+        for item in targeted:
+            if item.page_type in {"about", "character"}:
+                continue
             slug = item.content_id
             detail_path = out_root / output_dir / "posts" / slug / "index.html"
             content_map[slug] = _pretty_href(detail_path, base_dir)
