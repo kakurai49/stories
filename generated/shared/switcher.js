@@ -1,9 +1,19 @@
 (function experienceSwitcher() {
-  const button = document.querySelector('button.view-switcher[data-action="switch-experience"]');
-  const { experience: current, contentId, routesHref } = document.body.dataset || {};
+  const body = document.body;
+  if (!body) return;
+
+  const button = body.querySelector('button.view-switcher[data-action="switch-experience"]');
+  const { experience: current, contentId, routesHref } = body.dataset || {};
   if (!button || !routesHref || !current) return;
 
-  const routesUrl = new URL(routesHref, window.location.href);
+  let routesUrl;
+  try {
+    routesUrl = new URL(routesHref, document.baseURI);
+  } catch (error) {
+    console.warn("[switcher] invalid routes href", error);
+    return;
+  }
+
   let cache = null;
 
   async function loadRoutes() {
@@ -16,7 +26,7 @@
     return cache;
   }
 
-  button.addEventListener('click', async () => {
+  button.addEventListener("click", async () => {
     try {
       const payload = await loadRoutes();
       const order = payload.order || [];
@@ -37,7 +47,7 @@
       }
       if (!target) return;
 
-      const resolved = new URL(target, routesUrl.href);
+      const resolved = new URL(target, routesUrl);
       window.location.href = resolved.href;
     } catch (error) {
       console.warn("[switcher] navigation skipped", error);

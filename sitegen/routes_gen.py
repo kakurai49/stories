@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Iterable
 
@@ -16,8 +17,21 @@ def _detail_href(experience: ExperienceSpec, slug: str) -> str:
     return experience.route_patterns.detail.replace("{slug}", slug)
 
 
+def _pretty_href(target: Path, base: Path, *, collapse_index: bool = True) -> str:
+    """Return a relative href and optionally collapse index.html into a trailing slash."""
+
+    href = Path(os.path.relpath(target, base)).as_posix()
+    if collapse_index and href.endswith("index.html"):
+        href = href[: -len("index.html")]
+        if not href:
+            return "./"
+        if not href.endswith("/"):
+            href += "/"
+    return href
+
+
 def build_routes_payload(
-    experiences: list[ExperienceSpec], items: list[ContentItem]
+    experiences: list[ExperienceSpec], items: list[ContentItem], *, out_root: Path, routes_filename: str = "routes.json"
 ) -> dict:
     """Create a merged payload describing available routes per experience.
 
@@ -25,14 +39,15 @@ def build_routes_payload(
     {
       "order": ["ruri", "hina"],
       "routes": {
-        "ruri": {"home": "/index.html", "content": {"ep01": "/story1.html"}},
-        "hina": {"home": "/hina/", "content": {"ep01": "/hina/ep01"}}
+        "ruri": {"home": "../index.html", "content": {"ep01": "../story1.html"}},
+        "hina": {"home": "hina/", "content": {"ep01": "hina/ep01/"}}
       }
     }
     """
 
     order = [exp.key for exp in experiences]
     routes: dict[str, dict] = {}
+    base_dir = (out_root / routes_filename).parent
 
     for experience in experiences:
         targeted = [item for item in items if item.experience == experience.key]
@@ -40,29 +55,32 @@ def build_routes_payload(
             targeted = items
 
         if experience.kind == "legacy":
-            home = (
-                f"/{(experience.home or '').lstrip('/')}"
-                if experience.home
-                else experience.route_patterns.home
-            )
-            content_map = {
-                cid: f"/{href.lstrip('/')}" for cid, href in experience.content.items()
-            }
+            home_source = experience.home or experience.route_patterns.home
+            home = Path(home_source)
+            content_map = {cid: Path(href) for cid, href in experience.content.items()}
             if not content_map:
                 for item in targeted:
-                    content_map[item.content_id] = _detail_href(experience, item.content_id)
+                    content_map[item.content_id] = Path(_detail_href(experience, item.content_id))
 
-            routes[experience.key] = {"home": home, "content": content_map}
+            routes[experience.key] = {
+                "home": _pretty_href(home, base_dir, collapse_index=False),
+                "content": {cid: _pretty_href(href, base_dir, collapse_index=False) for cid, href in content_map.items()},
+            }
             continue
+
+        output_dir = Path(experience.output_dir or experience.key)
+        home_path = out_root / output_dir / "index.html"
+        list_path = out_root / output_dir / "list" / "index.html"
 
         content_map: dict[str, str] = {}
         for item in items:
             slug = item.content_id
-            content_map[slug] = _detail_href(experience, slug)
+            detail_path = out_root / output_dir / "posts" / slug / "index.html"
+            content_map[slug] = _pretty_href(detail_path, base_dir)
 
         routes[experience.key] = {
-            "home": experience.route_patterns.home,
-            "list": experience.route_patterns.list,
+            "home": _pretty_href(home_path, base_dir),
+            "list": _pretty_href(list_path, base_dir),
             "content": content_map,
         }
 

@@ -38,11 +38,21 @@ def generate_init_features_js(out_dir: Path) -> Path:
 
 SWITCHER_JS = """
 (function experienceSwitcher() {
-  const button = document.querySelector('button.view-switcher[data-action="switch-experience"]');
-  const { experience: current, contentId, routesHref } = document.body.dataset || {};
+  const body = document.body;
+  if (!body) return;
+
+  const button = body.querySelector('button.view-switcher[data-action=\"switch-experience\"]');
+  const { experience: current, contentId, routesHref } = body.dataset || {};
   if (!button || !routesHref || !current) return;
 
-  const routesUrl = new URL(routesHref, window.location.href);
+  let routesUrl;
+  try {
+    routesUrl = new URL(routesHref, document.baseURI);
+  } catch (error) {
+    console.warn("[switcher] invalid routes href", error);
+    return;
+  }
+
   let cache = null;
 
   async function loadRoutes() {
@@ -55,7 +65,7 @@ SWITCHER_JS = """
     return cache;
   }
 
-  button.addEventListener('click', async () => {
+  button.addEventListener("click", async () => {
     try {
       const payload = await loadRoutes();
       const order = payload.order || [];
@@ -76,7 +86,7 @@ SWITCHER_JS = """
       }
       if (!target) return;
 
-      const resolved = new URL(target, routesUrl.href);
+      const resolved = new URL(target, routesUrl);
       window.location.href = resolved.href;
     } catch (error) {
       console.warn("[switcher] navigation skipped", error);
@@ -87,20 +97,29 @@ SWITCHER_JS = """
 
 SWITCHER_CSS = """
 .view-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.06);
   color: inherit;
-  padding: 10px 12px;
+  padding: 8px 12px;
   font: inherit;
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .view-switcher:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.26);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.view-switcher:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 """
 

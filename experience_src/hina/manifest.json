@@ -17,8 +17,8 @@
     ]
   },
   "routes": {
-    "home": "/hina/",
-    "list": "/hina/list",
-    "detail": "/hina/{slug}"
+    "home": "hina/",
+    "list": "hina/list/",
+    "detail": "hina/posts/{slug}/"
   }
 }

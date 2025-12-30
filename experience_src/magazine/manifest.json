@@ -14,8 +14,8 @@
     ]
   },
   "routes": {
-    "home": "/magazine/",
-    "list": "/magazine/list",
-    "detail": "/magazine/{slug}"
+    "home": "magazine/",
+    "list": "magazine/list/",
+    "detail": "magazine/posts/{slug}/"
   }
 }
