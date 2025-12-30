@@ -2,45 +2,42 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>hina | List</title>
     <link rel="stylesheet" href="../assets/tokens.css">
+    <link rel="stylesheet" href="../assets/base.css">
     <link rel="stylesheet" href="../assets/components.css">
     <link rel="stylesheet" href="../../shared/switcher.css">
     <script src="../../shared/switcher.js" defer></script>
   </head>
-  <body
-    class="sg-surface"
-    data-experience="hina"
-    data-template="list"
-    data-routes-href="../../routes.json"
-  >
-    <header class="sg-header">
-      <p class="sg-eyebrow">Listing</p>
-      <h1>hina コンテンツ一覧</h1>
-      <p class="sg-lede">カード型でタイトルと要約をざっくり眺められるシンプルなリスト。</p>
-      <nav>
-        <ul class="sg-nav">
-          <li><a href="../">ホーム</a></li>
-          <li><a href="./">一覧</a></li>
-        </ul>
-        <button
-          type="button"
-          class="view-switcher"
-          data-action="switch-experience"
-        >
-          体験を切り替える
-        </button>
-      </nav>
-    </header>
-    <main class="sg-main" data-template="list" data-experience="hina">
-      <ul class="sg-list card-grid">
-        <li class="sg-card">
-          <p class="sg-eyebrow">Episode</p>
-          <h2><a href="../posts/ep01/">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a></h2>
-          <p class="sg-lede">新人サキュバス兼なんでも屋テストエンジニア、ユイリアの初日を描く本編エピソード。</p>
-          <p class="sg-meta">#ep01</p>
-        </li>
+  <body class="sg-surface" data-experience="hina" data-template="list" data-routes-href="../../routes.json">
+  <header class="sg-header">
+    <p class="sg-eyebrow">Listing</p>
+    <h1>hina コンテンツ一覧</h1>
+    <p class="sg-lede">カード型でタイトルと要約をざっくり眺められるシンプルなリスト。</p>
+    <nav class="sg-nav">
+      <ul class="sg-nav-links">
+        <li><a href="../">ホーム</a></li>
+        <li><a href="./">一覧</a></li>
       </ul>
-    </main>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+    </nav>
+  </header>
+  <main class="sg-main" data-template="list" data-experience="hina">
+    <ul class="sg-list card-grid">
+      <li class="sg-card">
+        <p class="sg-eyebrow">Episode</p>
+        <h2><a href="../posts/ep01/">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a></h2>
+        <p class="sg-lede">新人サキュバス兼なんでも屋テストエンジニア、ユイリアの初日を描く本編エピソード。</p>
+        <p class="sg-meta">#ep01</p>
+      </li>
+    </ul>
+  </main>
   </body>
 </html>

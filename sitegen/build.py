@@ -27,6 +27,18 @@ class BuildContext:
     shared_assets_dir: Path | None = None
     _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
+    @property
+    def shared_templates_dir(self) -> Path:
+        """Directory containing shared templates available to all experiences."""
+
+        return Path(__file__).parent / "templates"
+
+    @property
+    def shared_experience_assets_dir(self) -> Path:
+        """Assets shared across generated experiences."""
+
+        return self.src_root / "shared" / "assets"
+
     def templates_dir(self, experience: ExperienceSpec) -> Path:
         """Return the template directory for the experience."""
 
@@ -46,6 +58,7 @@ class BuildContext:
         if cache_key in self._copied_assets:
             return destination
 
+        _copy_assets(self.shared_experience_assets_dir, destination)
         _copy_assets(self.assets_dir(experience), destination)
         self._copied_assets.add(cache_key)
         return destination
@@ -74,8 +87,9 @@ class BuildContext:
     def jinja_env(self, experience: ExperienceSpec) -> Environment:
         """Create a Jinja environment scoped to the experience templates."""
 
+        template_dirs = [self.templates_dir(experience), self.shared_templates_dir]
         return Environment(
-            loader=FileSystemLoader(self.templates_dir(experience)),
+            loader=FileSystemLoader(template_dirs),
             autoescape=select_autoescape(["html", "jinja"]),
             trim_blocks=True,
             lstrip_blocks=True,

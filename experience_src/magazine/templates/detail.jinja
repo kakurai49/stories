@@ -1,57 +1,47 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>magazine | Detail</title>
-    <link rel="stylesheet" href="{{ asset_prefix }}/assets/tokens.css">
+{% extends "document.jinja" %}
+{% set lang = "ja" %}
+{% set title = experience.key ~ " | Detail" %}
+{% set body_attrs = {
+  "experience": experience.key,
+  "template": template_key,
+  "routes-href": routes_href,
+  "content-id": content.content_id,
+} %}
+
+{% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
-    {% if switcher_css_href %}
-    <link rel="stylesheet" href="{{ switcher_css_href }}">
-    {% endif %}
-    {% if features_init_href %}
-    <script src="{{ features_init_href }}" defer></script>
-    {% endif %}
-    {% if switcher_js_href %}
-    <script src="{{ switcher_js_href }}" defer></script>
-    {% endif %}
-  </head>
-  <body
-    class="sg-surface"
-    data-experience="{{ experience.key }}"
-    data-template="{{ template_key }}"
-    data-routes-href="{{ routes_href }}"
-    data-content-id="{{ content.content_id }}"
-  >
-    <article class="sg-article" data-template="detail" data-content-id="{{ content.content_id }}" data-routes-href="{{ routes_href }}">
-      <header class="sg-header" data-tts="ignore">
-        <p class="sg-eyebrow">Detail</p>
-        <h1>{{ content.title }}</h1>
-        {% if content.summary %}
-        <p class="sg-lede">{{ content.summary }}</p>
-        {% endif %}
-        <nav>
-          <ul class="sg-nav">
-          {% for link in nav_links %}
-          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
-          {% endfor %}
-        </ul>
-        <button
-          type="button"
-          class="view-switcher"
-          data-action="switch-experience"
-        >
-          体験を切り替える
-        </button>
-        </nav>
-      </header>
-      <section class="sg-main" data-content-body>
-        {% if content.render.kind == 'html' %}
-        {{ content.render.html | safe }}
-        {% endif %}
-      </section>
-      <footer class="sg-meta">
-        <p>コンテンツ ID: {{ content.content_id }}</p>
-      </footer>
-    </article>
-  </body>
-</html>
+{% endblock %}
+
+{% block body %}
+  <article class="sg-article" data-template="detail" data-content-id="{{ content.content_id }}" data-routes-href="{{ routes_href }}">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>{{ content.title }}</h1>
+      {% if content.summary %}
+      <p class="sg-lede">{{ content.summary }}</p>
+      {% endif %}
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        {% for link in nav_links %}
+        <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      {% if content.render.kind == 'html' %}
+      {{ content.render.html | safe }}
+      {% endif %}
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: {{ content.content_id }}</p>
+    </footer>
+  </article>
+{% endblock %}

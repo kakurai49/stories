@@ -1,71 +1,64 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>{{ experience.name }} | Home</title>
-    <link rel="stylesheet" href="{{ asset_prefix }}/assets/tokens.css">
+{% extends "document.jinja" %}
+{% set lang = "ja" %}
+{% set title = experience.name ~ " | Home" %}
+{% set body_attrs = {
+  "experience": experience.key,
+  "template": template_key,
+  "routes-href": routes_href,
+} %}
+
+{% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
-    {% if switcher_css_href %}
-    <link rel="stylesheet" href="{{ switcher_css_href }}">
-    {% endif %}
-    {% if switcher_js_href %}
-    <script src="{{ switcher_js_href }}" defer></script>
-    {% endif %}
-  </head>
-  <body
-    class="sg-surface"
-    data-experience="{{ experience.key }}"
-    data-template="{{ template_key }}"
-    data-routes-href="{{ routes_href }}"
-  >
-    <a class="sg-skip" href="#content">メインコンテンツへスキップ</a>
-    <header class="sg-header">
-      <nav
-        class="sg-nav"
-        data-experience="{{ experience.key }}"
-        data-page-type="home"
-        data-routes-href="{{ routes_href }}"
+{% endblock %}
+
+{% block body %}
+  <a class="sg-skip" href="#content">メインコンテンツへスキップ</a>
+  <header class="sg-header">
+    <nav
+      class="sg-nav"
+      data-experience="{{ experience.key }}"
+      data-page-type="home"
+      data-routes-href="{{ routes_href }}"
+    >
+      <ul class="sg-nav-links">
+        {% for link in nav_links %}
+        <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+      <button
+        type="button"
+        class="sg-toggle view-switcher"
+        aria-pressed="false"
+        data-action="switch-experience"
       >
-        <ul class="sg-nav-links">
-          {% for link in nav_links %}
-          <li><a href="{{ link.href }}">{{ link.label }}</a></li>
-          {% endfor %}
-        </ul>
-        <button
-          type="button"
-          class="sg-toggle view-switcher"
-          aria-pressed="false"
-          data-action="switch-experience"
-        >
-          体験を切り替える
-        </button>
-      </nav>
-      <p class="sg-eyebrow">Experience</p>
-      <h1>{{ experience.name }} ホーム</h1>
-      {% if experience.description %}
-      <p class="sg-lede">{{ experience.description }}</p>
-      {% else %}
-      <p class="sg-lede">{{ experience.key }} テンプレートの起点となるシンプルなページです。</p>
-      {% endif %}
-    </header>
-    <main id="content" class="sg-main">
-      <section class="sg-card">
-        <h2>最新コンテンツ</h2>
-        <div class="magazine-shelf">
-          {% for post in posts %}
-          <article class="sg-card magazine-tile">
-            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            {% if post.excerpt %}
-            <p class="sg-lede">{{ post.excerpt }}</p>
-            {% endif %}
-            <p class="sg-meta">#{{ post.slug }}</p>
-          </article>
-          {% endfor %}
-        </div>
-      </section>
-    </main>
-    <footer class="sg-footer">
-      <p>&copy; {{ experience.name }}</p>
-    </footer>
-  </body>
-</html>
+        体験を切り替える
+      </button>
+    </nav>
+    <p class="sg-eyebrow">Experience</p>
+    <h1>{{ experience.name }} ホーム</h1>
+    {% if experience.description %}
+    <p class="sg-lede">{{ experience.description }}</p>
+    {% else %}
+    <p class="sg-lede">{{ experience.key }} テンプレートの起点となるシンプルなページです。</p>
+    {% endif %}
+  </header>
+  <main id="content" class="sg-main">
+    <section class="sg-card">
+      <h2>最新コンテンツ</h2>
+      <div class="magazine-shelf">
+        {% for post in posts %}
+        <article class="sg-card magazine-tile">
+          <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+          {% if post.excerpt %}
+          <p class="sg-lede">{{ post.excerpt }}</p>
+          {% endif %}
+          <p class="sg-meta">#{{ post.slug }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+  <footer class="sg-footer">
+    <p>&copy; {{ experience.name }}</p>
+  </footer>
+{% endblock %}

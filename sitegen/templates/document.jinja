@@ -1,0 +1,38 @@
+{#-
+  Shared document template for generated experiences.
+
+  Expects the following variables to be provided by the calling template:
+  - lang: Language code (defaults to "ja")
+  - title: Page title string
+  - asset_prefix: Relative path prefix to the assets directory
+  - body_attrs: Mapping of data-* attributes to apply to <body>
+  - switcher_css_href / switcher_js_href: Optional shared switcher assets
+  - features_init_href: Optional bootstrap script for feature flags
+  - head_extra / head_styles / head_scripts blocks for per-page additions
+-#}
+
+<!doctype html>
+<html lang="{{ lang | default('ja') }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>{% block title %}{{ title | default('') }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset_prefix }}/assets/tokens.css">
+    <link rel="stylesheet" href="{{ asset_prefix }}/assets/base.css">
+    {% block head_styles %}{% endblock %}
+    {% if switcher_css_href %}
+    <link rel="stylesheet" href="{{ switcher_css_href }}">
+    {% endif %}
+    {% block head_extra %}{% endblock %}
+    {% if features_init_href is defined and features_init_href %}
+    <script src="{{ features_init_href }}" defer></script>
+    {% endif %}
+    {% block head_scripts %}{% endblock %}
+    {% if switcher_js_href %}
+    <script src="{{ switcher_js_href }}" defer></script>
+    {% endif %}
+  </head>
+  <body class="sg-surface"{% if body_attrs %}{% for key, value in body_attrs.items() if value is not none %} data-{{ key }}="{{ value }}"{% endfor %}{% endif %}>
+    {% block body %}{% endblock %}
+  </body>
+</html>
