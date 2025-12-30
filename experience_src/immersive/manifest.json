@@ -14,8 +14,8 @@
     ]
   },
   "routes": {
-    "home": "/immersive/",
-    "list": "/immersive/list",
-    "detail": "/immersive/{slug}"
+    "home": "immersive/",
+    "list": "immersive/list/",
+    "detail": "immersive/posts/{slug}/"
   }
 }

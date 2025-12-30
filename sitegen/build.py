@@ -58,10 +58,11 @@ class BuildContext:
             raise ValueError(f"output_dir is required for experience '{experience.key}'")
         return ensure_dir(self.out_root / output_dir)
 
-    def routes_path(self, experience: ExperienceSpec) -> Path:
-        """Return the target path for the experience's routes.json."""
+    @property
+    def routes_path(self) -> Path:
+        """Return the shared routes.json path for all experiences."""
 
-        return self.output_dir(experience) / self.routes_filename
+        return self.out_root / self.routes_filename
 
     def shared_asset_href(self, filename: str, base: Path) -> str | None:
         """Compute a relative href to a shared asset if configured."""
@@ -101,6 +102,19 @@ def _relative_href(target: Path, base: Path) -> str:
     """Return a POSIX-style relative href from base to target."""
 
     return Path(os.path.relpath(target, base)).as_posix()
+
+
+def _relative_route(target: Path, base: Path) -> str:
+    """Return a pretty href to the target, collapsing index.html to a slash."""
+
+    href = _relative_href(target, base)
+    if href.endswith("index.html"):
+        href = href[: -len("index.html")]
+        if not href:
+            return "./"
+        if not href.endswith("/"):
+            href += "/"
+    return href
 
 
 def load_content_items(content_dir: Path) -> list[ContentItem]:
@@ -156,7 +170,7 @@ def build_home(
     output_dir = ctx.output_dir(experience)
     ctx.copy_assets(experience)
     output_file = output_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+    routes_href = _relative_href(ctx.routes_path, output_file.parent)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
     entries = []
@@ -178,8 +192,8 @@ def build_home(
         template_key="home",
         items=entries,
         nav_links=[
-            {"href": experience.route_patterns.home, "label": "ホーム"},
-            {"href": experience.route_patterns.list, "label": "一覧"},
+            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
+            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
         ],
     )
     output_file.write_text(rendered, encoding="utf-8")
@@ -204,7 +218,7 @@ def build_list(
     output_dir = ctx.output_dir(experience)
     list_dir = ensure_dir(output_dir / "list")
     output_file = list_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+    routes_href = _relative_href(ctx.routes_path, output_file.parent)
 
     env = ctx.jinja_env(experience)
     template = env.get_template("list.jinja")
@@ -231,8 +245,8 @@ def build_list(
         template_key="list",
         items=entries,
         nav_links=[
-            {"href": experience.route_patterns.home, "label": "ホーム"},
-            {"href": experience.route_patterns.list, "label": "一覧"},
+            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
+            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
         ],
     )
     output_file.write_text(rendered, encoding="utf-8")
@@ -259,7 +273,7 @@ def build_detail(
     output_dir = ctx.output_dir(experience)
     detail_dir = ensure_dir(output_dir / "posts" / item.content_id)
     output_file = detail_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
+    routes_href = _relative_href(ctx.routes_path, output_file.parent)
     ctx.copy_assets(experience)
     asset_prefix = _relative_href(output_dir, output_file.parent)
     features_init_href = (
@@ -280,8 +294,8 @@ def build_detail(
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="detail",
         nav_links=[
-            {"href": experience.route_patterns.home, "label": "ホーム"},
-            {"href": experience.route_patterns.list, "label": "一覧"},
+            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
+            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
         ],
     )
     output_file.write_text(rendered, encoding="utf-8")

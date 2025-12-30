@@ -26,11 +26,19 @@ def _ensure_assets(soup: BeautifulSoup, css_href: str, js_href: str) -> None:
         head = soup.new_tag("head")
         soup.html.insert(0, head)
 
+    for tag in head.find_all("link", href=True):
+        if "switcher" in tag.get("href", "") and tag.get("href") != css_href:
+            tag.decompose()
+
     if not head.find("link", attrs={"href": css_href}):
         link_tag = soup.new_tag(
             "link", rel="stylesheet", href=css_href, type="text/css"
         )
         head.append(link_tag)
+
+    for script in head.find_all("script", src=True):
+        if "switcher" in script.get("src", "") and script.get("src") != js_href:
+            script.decompose()
 
     script_tag = head.find("script", attrs={"src": js_href})
     if not script_tag:

@@ -10,9 +10,9 @@
     pageTypes: ["post"]
     features: ["legacy-html"]
   routePatterns:
-    home: "/ruri/"
-    list: "/ruri/list.html"
-    detail: "/ruri/{slug}.html"
+    home: "index.html"
+    list: "list.html"
+    detail: "story{slug}.html"
 
 - key: hina
   name: "Hina Generated Experience"
@@ -25,9 +25,9 @@
     features: ["story-hero"]
     renderKinds: ["markdown", "external"]
   routePatterns:
-    home: "/hina/"
-    list: "/hina/list/"
-    detail: "/hina/posts/{slug}/"
+    home: "hina/"
+    list: "hina/list/"
+    detail: "hina/posts/{slug}/"
 
 - key: immersive
   name: "Immersive Generated Experience"
@@ -39,9 +39,9 @@
     pageTypes: ["story"]
     features: ["full-bleed"]
   routePatterns:
-    home: "/immersive/"
-    list: "/immersive/list/"
-    detail: "/immersive/posts/{slug}/"
+    home: "immersive/"
+    list: "immersive/list/"
+    detail: "immersive/posts/{slug}/"
 
 - key: magazine
   name: "Magazine Generated Experience"
@@ -53,6 +53,6 @@
     pageTypes: ["story"]
     features: ["grid-list"]
   routePatterns:
-    home: "/magazine/"
-    list: "/magazine/list/"
-    detail: "/magazine/posts/{slug}/"
+    home: "magazine/"
+    list: "magazine/list/"
+    detail: "magazine/posts/{slug}/"

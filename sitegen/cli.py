@@ -505,19 +505,16 @@ def _handle_build(args: argparse.Namespace) -> None:
             written.extend(build_detail(exp, ctx, item))
 
     if args.all:
-        routes_payload = build_routes_payload(experiences, items)
-        route_targets = [Path(args.routes_filename)]
-        for exp in experiences:
-            if exp.kind == "generated":
-                route_targets.append(ctx.routes_path(exp))
+        routes_payload = build_routes_payload(experiences, items, out_root=out_root, routes_filename=args.routes_filename)
+        route_targets = [ctx.routes_path]
         written.extend(write_routes_payload(routes_payload, route_targets))
         written.extend(generate_switcher_assets([Path("."), out_root]))
         written.extend(
             patch_legacy_pages(
                 Path("."),
-                routes_href=args.routes_filename,
-                css_href="shared/switcher.css",
-                js_href="shared/switcher.js",
+                routes_href=str(Path(out_root.name) / args.routes_filename),
+                css_href=str(Path(out_root.name) / "shared" / "switcher.css"),
+                js_href=str(Path(out_root.name) / "shared" / "switcher.js"),
             )
         )
 
