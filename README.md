@@ -2,7 +2,7 @@
 時間や気持ち、環境などの流れを言葉にしたものの集合
 
 ## sitegen の概要
-`python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。
+`python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。ルーティングは `sitegen/routing.SiteRouter` が単一のサイトプランとして組み立て、ビルド・`routes.json`・テンプレートリンクすべてが同じ PageSpec から決定されます。
 
 ## sitegen 関数（CLI）の入出力と型
 - インプット型
@@ -16,15 +16,15 @@
   - 生成対象（kind が `generated`）ごとに `build_home`／`build_list`／`build_detail` が Jinja2（`StrictUndefined` で欠損を検出）で HTML を描画し、アセットをコピー。
   - `--shared` または `--all` 指定時は共有初期化スクリプトを生成。`--all` 指定時は `routes.json`、エクスペリエンス切替用 CSS/JS、レガシー HTML へのパッチも作成。
 - アウトプット型
-  - `generated/<experience.output_dir>/` 以下の HTML（`index.html`, `list/index.html`, `posts/<slug>/index.html`）。
+  - `generated/<experience.output_dir>/` 以下の HTML（`index.html`, `list/index.html`, `posts/<slug>/index.html`）。各詳細ページには後方互換用の `.html` リダイレクトも生成されます。
   - 共有アセット: `generated/shared/switcher.{js,css}` と `generated/shared/features/init-features.js`（フラグ次第）。
   - ルーティング定義: `generated/routes.json`。
   - レガシー補助: 既存 `index.html`/`story1.html` を書き換えたファイル（`--all` 時）。
 
 ## 処理フロー（sitegen build）
 1. `experiences.yaml` とコンテンツ JSON をロードし、`kind == "generated"` の体験のみを対象にする。
-2. `BuildContext` に基づきテンプレート検索パスと出力パスを決定し、テンプレートごとにホーム・一覧・詳細ページを描画。
-3. 必要に応じて `shared` アセットや `routes.json` を生成し、レガシーページにスイッチャーボタンとデータ属性を付与。
+2. `BuildContext` と `SiteRouter` が PageSpec を列挙し、テンプレート検索パス・出力パス・URL を一括で決定する。PageSpec をもとにホーム・一覧・詳細ページを描画し、必要に応じて `.html` エイリアスを自動生成。
+3. 必要に応じて `shared` アセットや `routes.json` を生成し、レガシーページにスイッチャーボタンとデータ属性を付与。`routes.json` も SiteRouter のサイトプランから直に書き出されるため、HTML・実ファイル・マニフェストの不整合を防ぐ。
 
 ## 使い方
 ### 前提インストール

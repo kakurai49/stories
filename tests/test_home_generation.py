@@ -12,6 +12,7 @@ from sitegen.build import (
     load_content_items,
 )
 from sitegen.models import ExperienceSpec
+from sitegen.routing import SiteRouter
 
 
 def _load_experiences() -> list[ExperienceSpec]:
@@ -28,14 +29,22 @@ def _build_experience_output(tmp_path: Path, experience_key: str):
     out_root = tmp_path / "generated"
     ctx = BuildContext(src_root=Path("experience_src"), out_root=out_root)
     items = load_content_items(Path("content/posts"))
-    exp = next(exp for exp in _load_experiences() if exp.key == experience_key)
+    experiences = _load_experiences()
+    router = SiteRouter(ctx, experiences, items)
+    exp = next(exp for exp in experiences if exp.key == experience_key)
 
-    build_home(exp, ctx, items)
-    build_list(exp, ctx, items)
+    for page in router.pages_for_experience(experience_key):
+        if page.page_type == "home":
+            build_home(exp, ctx, items, router=router, page_spec=page)
+        elif page.page_type == "list":
+            build_list(exp, ctx, items, router=router, page_spec=page)
+        elif page.content:
+            build_detail(
+                exp, ctx, page.content, items, router=router, page_spec=page
+            )
+    router.render_aliases()
+
     targeted = [item for item in items if item.experience == exp.key] or items
-    for item in targeted:
-        build_detail(exp, ctx, item, items)
-
     output_dir = out_root / (exp.output_dir or exp.key)
     return output_dir, targeted
 
