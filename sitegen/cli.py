@@ -2,7 +2,10 @@
 
 import argparse
 import json
+import subprocess
 import sys
+from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Literal, Optional
 
@@ -114,6 +117,19 @@ def _load_content_item(path: Path) -> ContentItem:
     return ContentItem.model_validate(payload)
 
 
+def _safe_git_sha() -> str | None:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL
+        ).strip()
+    except (subprocess.SubprocessError, FileNotFoundError):
+        return None
+
+
+def _page_type_counts(items: list[ContentItem]) -> dict[str, int]:
+    return dict(Counter(item.page_type for item in items))
+
+
 class ScaffoldExperience(BaseModel):
     """Lightweight experience spec used for scaffolding."""
 
@@ -197,6 +213,7 @@ def _handle_validate(args: argparse.Namespace) -> None:
         episodes = [item for item in targeted if item.page_type == "story"]
         about_cards = [item for item in targeted if item.page_type == "about"]
         characters = [item for item in targeted if item.page_type == "character"]
+        site_meta = [item for item in targeted if item.page_type == "siteMeta"]
 
         if not episodes:
             errors.append(
@@ -212,6 +229,11 @@ def _handle_validate(args: argparse.Namespace) -> None:
             errors.append(
                 f"Experience '{exp.key}' requires at least 3 characters "
                 f"(pageType=character); found {len(characters)}."
+            )
+        if not site_meta:
+            errors.append(
+                f"Experience '{exp.key}' is missing site meta content "
+                f"(pageType=siteMeta); add an entry under {content_dir}."
             )
 
     if errors:
@@ -506,26 +528,57 @@ def _handle_build(args: argparse.Namespace) -> None:
         generate_init_features_js(out_root) if shared_requested else None
     )
     shared_assets_dir = ensure_dir(out_root / "shared") if args.all else None
+    timestamp = datetime.now(timezone.utc).isoformat()
+    git_sha = _safe_git_sha()
+    build_label_parts = [f"ts={timestamp}"]
+    if git_sha:
+        build_label_parts.append(f"sha={git_sha}")
     ctx = BuildContext(
         src_root=src_root,
         out_root=out_root,
         routes_filename=args.routes_filename,
         shared_init_features=shared_init_features,
         shared_assets_dir=shared_assets_dir,
+        build_label=" ".join(build_label_parts),
     )
 
     items = load_content_items(content_dir)
+    if ctx.build_label:
+        ctx.build_label = f"{ctx.build_label} items={len(items)}"
     experiences = _load_experiences(experiences_path)
     generated = [exp for exp in experiences if exp.kind == "generated"]
     if not generated:
         print("No generated experiences found; nothing to build.")
         return
 
+    ctx.build_info = {
+        "timestamp": timestamp,
+        "git": {"sha": git_sha} if git_sha else {},
+        "out": str(out_root),
+        "content": {
+            "total": len(items),
+            "pageTypes": _page_type_counts(items),
+        },
+        "experiences": [],
+        "routesFilename": args.routes_filename,
+    }
+
     written: list[Path] = []
     for exp in generated:
+        targeted = _content_for_experience(exp, items)
+        ctx.build_info["experiences"].append(
+            {
+                "key": exp.key,
+                "outputDir": str(ctx.output_dir(exp)),
+                "content": {
+                    "total": len(targeted),
+                    "pageTypes": _page_type_counts(targeted),
+                },
+            }
+        )
         written.extend(build_home(exp, ctx, items))
         written.extend(build_list(exp, ctx, items))
-        for item in _content_for_experience(exp, items):
+        for item in targeted:
             written.extend(build_detail(exp, ctx, item, items))
 
     if args.all:
@@ -542,6 +595,18 @@ def _handle_build(args: argparse.Namespace) -> None:
             )
         )
 
+    build_info_path = out_root / "_buildinfo.json"
+    ctx.build_info["writtenFiles"] = [
+        str(path.relative_to(out_root))
+        if path.is_relative_to(out_root)
+        else str(path)
+        for path in sorted(set(written))
+    ]
+    build_info_path.write_text(
+        json.dumps(ctx.build_info, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    written.append(build_info_path)
     print(f"Built {len(written)} file(s) for {len(generated)} experience(s) into {out_root}.")
 
 

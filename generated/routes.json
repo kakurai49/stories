@@ -1,6 +1,7 @@
 {
   "order": [
     "ruri",
+    "blog",
     "hina",
     "immersive",
     "magazine"
@@ -12,12 +13,48 @@
         "ep01": "../story1.html"
       }
     },
+    "blog": {
+      "home": "../index.html",
+      "content": {
+        "about-世界観": "../posts/about-世界観.html",
+        "about-読みどころ": "../posts/about-読みどころ.html",
+        "character-サキュバスメイド喫茶∞": "../posts/character-サキュバスメイド喫茶∞.html",
+        "character-バルハ": "../posts/character-バルハ.html",
+        "character-神崎ナギ": "../posts/character-神崎ナギ.html",
+        "character-結城ユイ": "../posts/character-結城ユイ.html",
+        "ep01": "../posts/ep01.html",
+        "ep02": "../posts/ep02.html",
+        "ep03": "../posts/ep03.html",
+        "ep04": "../posts/ep04.html",
+        "ep05": "../posts/ep05.html",
+        "ep06": "../posts/ep06.html",
+        "ep07": "../posts/ep07.html",
+        "ep08": "../posts/ep08.html",
+        "ep09": "../posts/ep09.html",
+        "ep10": "../posts/ep10.html",
+        "ep11": "../posts/ep11.html",
+        "ep12": "../posts/ep12.html",
+        "site-meta": "../posts/site-meta.html",
+        "welcome-post": "../posts/welcome-post.html"
+      }
+    },
     "hina": {
       "home": "hina/",
       "list": "hina/list/",
       "content": {
         "ep01": "hina/posts/ep01/",
-        "welcome-post": "hina/posts/welcome-post/"
+        "ep02": "hina/posts/ep02/",
+        "ep03": "hina/posts/ep03/",
+        "ep04": "hina/posts/ep04/",
+        "ep05": "hina/posts/ep05/",
+        "ep06": "hina/posts/ep06/",
+        "ep07": "hina/posts/ep07/",
+        "ep08": "hina/posts/ep08/",
+        "ep09": "hina/posts/ep09/",
+        "ep10": "hina/posts/ep10/",
+        "ep11": "hina/posts/ep11/",
+        "ep12": "hina/posts/ep12/",
+        "site-meta": "hina/posts/site-meta/"
       }
     },
     "immersive": {
@@ -25,7 +62,18 @@
       "list": "immersive/list/",
       "content": {
         "ep01": "immersive/posts/ep01/",
-        "welcome-post": "immersive/posts/welcome-post/"
+        "ep02": "immersive/posts/ep02/",
+        "ep03": "immersive/posts/ep03/",
+        "ep04": "immersive/posts/ep04/",
+        "ep05": "immersive/posts/ep05/",
+        "ep06": "immersive/posts/ep06/",
+        "ep07": "immersive/posts/ep07/",
+        "ep08": "immersive/posts/ep08/",
+        "ep09": "immersive/posts/ep09/",
+        "ep10": "immersive/posts/ep10/",
+        "ep11": "immersive/posts/ep11/",
+        "ep12": "immersive/posts/ep12/",
+        "site-meta": "immersive/posts/site-meta/"
       }
     },
     "magazine": {
@@ -33,7 +81,18 @@
       "list": "magazine/list/",
       "content": {
         "ep01": "magazine/posts/ep01/",
-        "welcome-post": "magazine/posts/welcome-post/"
+        "ep02": "magazine/posts/ep02/",
+        "ep03": "magazine/posts/ep03/",
+        "ep04": "magazine/posts/ep04/",
+        "ep05": "magazine/posts/ep05/",
+        "ep06": "magazine/posts/ep06/",
+        "ep07": "magazine/posts/ep07/",
+        "ep08": "magazine/posts/ep08/",
+        "ep09": "magazine/posts/ep09/",
+        "ep10": "magazine/posts/ep10/",
+        "ep11": "magazine/posts/ep11/",
+        "ep12": "magazine/posts/ep12/",
+        "site-meta": "magazine/posts/site-meta/"
       }
     }
   }

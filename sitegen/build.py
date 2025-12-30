@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional
@@ -25,6 +26,8 @@ class BuildContext:
     routes_filename: str = "routes.json"
     shared_init_features: Path | None = None
     shared_assets_dir: Path | None = None
+    build_info: dict | None = None
+    build_label: str | None = None
     _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
     @property
@@ -171,6 +174,7 @@ def _group_content(
         "episodes": [],
         "about_cards": [],
         "characters": [],
+        "site_meta": [],
     }
 
     for item in targeted:
@@ -180,6 +184,8 @@ def _group_content(
             groups["about_cards"].append(item)
         elif item.page_type == "character":
             groups["characters"].append(item)
+        elif item.page_type == "siteMeta":
+            groups["site_meta"].append(item)
 
     return groups
 
@@ -259,10 +265,37 @@ def build_view_model_for_experience(
             }
         )
 
+    site_meta_entry = groups["site_meta"][0] if groups["site_meta"] else None
+
+    def _resolved_cta_href(raw_href: str | None) -> str:
+        if not raw_href:
+            return list_href
+        path = Path(raw_href)
+        if path.is_absolute() or "://" in raw_href:
+            return raw_href
+        href = _relative_href(output_dir / raw_href, base)
+        if raw_href.endswith("/") and not href.endswith("/"):
+            href += "/"
+        return href
+
     site_title = experience.name or manifest_meta.get("label") or experience.key
     site_description = manifest_meta.get("description") or experience.description or ""
+    if site_meta_entry:
+        site_title = site_meta_entry.title or site_title
+        site_description = (
+            site_meta_entry.summary or site_meta_entry.excerpt or site_description
+        )
     og_title = manifest_meta.get("ogTitle") or site_title
     og_description = manifest_meta.get("ogDescription") or site_description
+    hero_description = (
+        (site_meta_entry.profile or site_meta_entry.summary or "")
+        if site_meta_entry
+        else (site_description or "")
+    )
+    hero_cta = {
+        "href": _resolved_cta_href(getattr(site_meta_entry, "cta_href", None)),
+        "label": getattr(site_meta_entry, "cta_label", "") or "一覧を見る",
+    }
 
     nav_links = [
         {"href": home_href, "label": "ホーム"},
@@ -277,15 +310,23 @@ def build_view_model_for_experience(
             "title": site_title,
             "description": site_description,
             "og": {"title": og_title, "description": og_description},
+            "hero": {
+                "eyebrow": site_meta_entry.role if site_meta_entry else "",
+                "lede": hero_description,
+                "cta": hero_cta,
+            },
+            "meta": {
+                "id": site_meta_entry.content_id if site_meta_entry else "",
+                "tags": site_meta_entry.tags if site_meta_entry else [],
+            },
         },
         "episodes": episodes,
         "about_cards": about_cards,
+        "about_sections": about_cards,
         "characters": characters,
         "nav": {
             "links": nav_links,
-            "actions": [
-                {"href": list_href, "label": "一覧を見る"},
-            ],
+            "actions": [hero_cta],
         },
         "switcher": {
             "experience": experience.key,
@@ -293,6 +334,12 @@ def build_view_model_for_experience(
             "routes_href": routes_href,
             "content_id": current_item.content_id if current_item else "",
             "data_href": current_item.data_href if current_item else "",
+        },
+        "content_counts": {
+            "total": sum(len(group) for group in groups.values()),
+            "page_types": Counter(
+                item.page_type for bucket in groups.values() for item in bucket
+            ),
         },
     }
 
@@ -339,6 +386,8 @@ def build_home(
         template_key="home",
         view_model=view_model,
     )
+    if ctx.build_label:
+        rendered += f"\n<!-- sitegen build: {ctx.build_label} -->\n"
     output_file.write_text(rendered, encoding="utf-8")
 
     return [output_file]
@@ -385,6 +434,8 @@ def build_list(
         template_key="list",
         view_model=view_model,
     )
+    if ctx.build_label:
+        rendered += f"\n<!-- sitegen build: {ctx.build_label} -->\n"
     output_file.write_text(rendered, encoding="utf-8")
 
     return [output_file]
@@ -408,7 +459,7 @@ def build_detail(
     if targeted and item.experience != experience.key:
         return []
 
-    if item.page_type in {"about", "character"}:
+    if item.page_type in {"about", "character", "siteMeta"}:
         return []
 
     template_path = ctx.templates_dir(experience) / "detail.jinja"
@@ -452,6 +503,8 @@ def build_detail(
         nav_links=view_model["nav"]["links"],
         view_model=view_model,
     )
+    if ctx.build_label:
+        rendered += f"\n<!-- sitegen build: {ctx.build_label} -->\n"
     output_file.write_text(rendered, encoding="utf-8")
 
     return [output_file]

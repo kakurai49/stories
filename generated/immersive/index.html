@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Immersive Generated Experience | Home</title>
+    <title>Hina Generated Experience | Home</title>
     <link rel="stylesheet" href="./assets/tokens.css">
     <link rel="stylesheet" href="./assets/base.css">
     <link rel="stylesheet" href="./assets/components.css">
     <link rel="stylesheet" href="../shared/switcher.css">
+    <meta name="description" content="Hina バリエーション用のジェネレート体験。">
+    <meta property="og:title" content="Hina Generated Experience">
+    <meta property="og:description" content="Hina バリエーション用のジェネレート体験。">
     <script src="../shared/switcher.js" defer></script>
   </head>
   <body class="sg-surface" data-experience="immersive" data-template="home" data-routes-href="../routes.json">
@@ -22,6 +25,9 @@
       <ul class="sg-nav-links">
         <li><a href="./">ホーム</a></li>
         <li><a href="list/">一覧</a></li>
+        <li><a href="./#about">紹介</a></li>
+        <li><a href="./#episodes">12話</a></li>
+        <li><a href="./#characters">キャラクター</a></li>
       </ul>
       <button
         type="button"
@@ -33,30 +39,148 @@
       </button>
     </nav>
     <p class="sg-eyebrow">Experience</p>
-    <h1>Immersive Generated Experience ホーム</h1>
-    <p class="sg-lede">全画面で没入感を高めるジェネレート体験。</p>
+    <h1>Hina Generated Experience</h1>
+    <p class="sg-lede">Hina バリエーション用のジェネレート体験。</p>
+    <div class="sg-actions">
+      <a class="sg-button" href="list/">一覧を見る</a>
+    </div>
   </header>
   <main id="content" class="sg-main">
-    <section class="sg-card">
-      <h2>最新コンテンツ</h2>
+    <section class="sg-card" id="about">
+      <h2>紹介</h2>
       <div class="immersive-stack">
-        <article class="sg-card immersive-card">
-          <p class="sg-eyebrow">Featured</p>
+        <article class="sg-card immersive-card" data-about-id="about-世界観">
+          <p class="sg-eyebrow">世界観</p>
+          <h2>サキュバスメイド喫茶《∞》の、きらめく現場</h2>
+          <p class="sg-lede">甘い匂いとネオンの間で、ユイは“なんとなく”から抜け出したいと思い始める。
+            目の前の出来事に名前がつき、線が引けるようになったとき、世界は少しだけ優しくなる。</p>
+          <p class="sg-meta">観察 / 分類 / 境界 / 地図 / ログ</p>
+        </article>
+        <article class="sg-card immersive-card" data-about-id="about-読みどころ">
+          <p class="sg-eyebrow">読みどころ</p>
+          <h2>1話1粒、“宝石みたいな気づき”</h2>
+          <p class="sg-lede">各話は短編のように読めて、でも繋がっている。
+            何かを学ぶというより、 見える範囲が広がる 感覚を楽しむ物語です。</p>
+          <p class="sg-meta">成長 / 師弟 / やさしい刺さり / 夜の余韻</p>
+        </article>
+        <article class="sg-card immersive-card" data-about-id="welcome-post">
+          <p class="sg-eyebrow">イントロ</p>
+          <h2>ようこそ、魔界喫茶《∞》へ</h2>
+          <p class="sg-lede">サイトジェネレータの検証用サンプルコンテンツ。</p>
+          <p class="sg-meta">sample / intro</p>
+        </article>
+      </div>
+    </section>
+    <section class="sg-card" id="episodes">
+      <h2>エピソード</h2>
+      <div class="immersive-stack">
+        <article class="sg-card immersive-card" data-episode-id="ep01">
+          <p class="sg-eyebrow">Episode 01</p>
           <h2><a href="posts/ep01/">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a></h2>
           <p class="sg-lede">新人サキュバス兼なんでも屋テストエンジニア、ユイリアの初日を描く本編エピソード。</p>
-          <p class="sg-meta">読む →</p>
+          <p class="sg-meta">続きを読む →</p>
         </article>
-        <article class="sg-card immersive-card">
-          <p class="sg-eyebrow">Featured</p>
-          <h2><a href="posts/welcome-post/">ようこそ、魔界喫茶《∞》へ</a></h2>
-          <p class="sg-lede">サイトジェネレータの検証用サンプルコンテンツ。</p>
-          <p class="sg-meta">読む →</p>
+        <article class="sg-card immersive-card" data-episode-id="ep02">
+          <p class="sg-eyebrow">Episode 02</p>
+          <h2><a href="posts/ep02/">EP02: 世界 W は、仕様書の外に広がってる</a></h2>
+          <p class="sg-lede">画面の外へ。現場と人の温度が、物語の色を変えていく。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep03">
+          <p class="sg-eyebrow">Episode 03</p>
+          <h2><a href="posts/ep03/">EP03: 同値クラスという、お守りの石</a></h2>
+          <p class="sg-lede">ばらばらに見えるものが、観点ひとつで“同じ”になる瞬間。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep04">
+          <p class="sg-eyebrow">Episode 04</p>
+          <h2><a href="posts/ep04/">EP04: 境界線を、一緒に歩いた夜</a></h2>
+          <p class="sg-lede">近づく優しさと、踏み込みすぎる痛み。その線を探しに行く。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep05">
+          <p class="sg-eyebrow">Episode 05</p>
+          <h2><a href="posts/ep05/">EP05: 分岐の森と、先輩の地図</a></h2>
+          <p class="sg-lede">増え続ける条件の森。迷いを“見える形”にしていく一歩。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep06">
+          <p class="sg-eyebrow">Episode 06</p>
+          <h2><a href="posts/ep06/">EP06: 関係は、状態遷移で語れる</a></h2>
+          <p class="sg-lede">時間で変わるものには、ちゃんと“状態”と“遷移”がある。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep07">
+          <p class="sg-eyebrow">Episode 07</p>
+          <h2><a href="posts/ep07/">EP07: 全部は試せない、という優しさ</a></h2>
+          <p class="sg-lede">全部を抱えない。“守るために選ぶ”という、やさしい決断。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep08">
+          <p class="sg-eyebrow">Episode 08</p>
+          <h2><a href="posts/ep08/">EP08: カバレッジの虹を見上げて</a></h2>
+          <p class="sg-lede">足りないより、届いたところを見ていい——色を塗り分ける夜。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep09">
+          <p class="sg-eyebrow">Episode 09</p>
+          <h2><a href="posts/ep09/">EP09: ログは、システムからのラブレター</a></h2>
+          <p class="sg-lede">沈黙のデータが、ふいに語りはじめる。気づきはそこにある。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep10">
+          <p class="sg-eyebrow">Episode 10</p>
+          <h2><a href="posts/ep10/">EP10: 魔導書と職人の手、Fθと G</a></h2>
+          <p class="sg-lede">便利さの向こう側。最後に“触る一点”を決めるのは誰？</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep11">
+          <p class="sg-eyebrow">Episode 11</p>
+          <h2><a href="posts/ep11/">EP11: 先輩も、迷っていた</a></h2>
+          <p class="sg-lede">憧れの背中にも、消しては書いた線がある。その温度を知る。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+        <article class="sg-card immersive-card" data-episode-id="ep12">
+          <p class="sg-eyebrow">Episode 12</p>
+          <h2><a href="posts/ep12/">EP12: 次の子に渡す、G の地図</a></h2>
+          <p class="sg-lede">最後の夜、ユイは“自分の言葉”を探す。受け取るのは、あなた。</p>
+          <p class="sg-meta">続きを読む →</p>
+        </article>
+      </div>
+    </section>
+    <section class="sg-card" id="characters">
+      <h2>キャラクター</h2>
+      <div class="immersive-stack">
+        <article class="sg-card immersive-card" data-character-id="character-サキュバスメイド喫茶∞">
+          <p class="sg-eyebrow">舞台</p>
+          <h2>サキュバスメイド喫茶《∞》</h2>
+          <p class="sg-lede">きらめく夜の“現場”。 人が集まり、気分が揺れ、選択が生まれる場所。ユイの学びは、いつもここから始まる。</p>
+          <p class="sg-meta">夜のネオン / 現場の温度 / ∞の余白</p>
+        </article>
+        <article class="sg-card immersive-card" data-character-id="character-バルハ">
+          <p class="sg-eyebrow">オーナー</p>
+          <h2>バルハ</h2>
+          <p class="sg-lede">喫茶《∞》のオーナー。二人の成長を少し離れた場所から見つめる存在。 舞台の空気を整え、物語の火種をそっと置く。</p>
+          <p class="sg-meta">黒幕ポジ（やさしめ） / 場を作る</p>
+        </article>
+        <article class="sg-card immersive-card" data-character-id="character-神崎ナギ">
+          <p class="sg-eyebrow">大先輩</p>
+          <h2>神崎ナギ（かんざき・ナギ）</h2>
+          <p class="sg-lede">魔界テック界隈で伝説的なテストアーキテクト。 落ち着いた笑顔で、核心をすっと差し出す。“こうなりたい”と思わせる背中。</p>
+          <p class="sg-meta">静かな強さ / 言葉が地図 / 穏やかに刺す</p>
+        </article>
+        <article class="sg-card immersive-card" data-character-id="character-結城ユイ">
+          <p class="sg-eyebrow">主人公</p>
+          <h2>結城ユイ（ユイリア）</h2>
+          <p class="sg-lede">サキュバスメイド喫茶《∞》で働く新人テストエンジニア。 知っているのは用語だけ。いつも場当たり的で、でも——だからこそ、伸びしろが眩しい。</p>
+          <p class="sg-meta">新人 / まっすぐ / 学びが体温</p>
         </article>
       </div>
     </section>
   </main>
   <footer class="sg-footer">
-    <p>&copy; Immersive Generated Experience</p>
+    <p>&copy; Hina Generated Experience</p>
   </footer>
   </body>
 </html>
+<!-- sitegen build: ts=2025-12-30T09:24:01.652280+00:00 sha=650ad45f381242f987b751219c21b53a1069fec8 items=20 -->
