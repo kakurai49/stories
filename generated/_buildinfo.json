@@ -1,0 +1,109 @@
+{
+  "timestamp": "2025-12-30T09:24:01.652280+00:00",
+  "git": {
+    "sha": "650ad45f381242f987b751219c21b53a1069fec8"
+  },
+  "out": "generated",
+  "content": {
+    "total": 20,
+    "pageTypes": {
+      "about": 3,
+      "character": 4,
+      "story": 12,
+      "siteMeta": 1
+    }
+  },
+  "experiences": [
+    {
+      "key": "hina",
+      "outputDir": "generated/hina",
+      "content": {
+        "total": 20,
+        "pageTypes": {
+          "about": 3,
+          "character": 4,
+          "story": 12,
+          "siteMeta": 1
+        }
+      }
+    },
+    {
+      "key": "immersive",
+      "outputDir": "generated/immersive",
+      "content": {
+        "total": 20,
+        "pageTypes": {
+          "about": 3,
+          "character": 4,
+          "story": 12,
+          "siteMeta": 1
+        }
+      }
+    },
+    {
+      "key": "magazine",
+      "outputDir": "generated/magazine",
+      "content": {
+        "total": 20,
+        "pageTypes": {
+          "about": 3,
+          "character": 4,
+          "story": 12,
+          "siteMeta": 1
+        }
+      }
+    }
+  ],
+  "routesFilename": "routes.json",
+  "writtenFiles": [
+    "hina/index.html",
+    "hina/list/index.html",
+    "hina/posts/ep01/index.html",
+    "hina/posts/ep02/index.html",
+    "hina/posts/ep03/index.html",
+    "hina/posts/ep04/index.html",
+    "hina/posts/ep05/index.html",
+    "hina/posts/ep06/index.html",
+    "hina/posts/ep07/index.html",
+    "hina/posts/ep08/index.html",
+    "hina/posts/ep09/index.html",
+    "hina/posts/ep10/index.html",
+    "hina/posts/ep11/index.html",
+    "hina/posts/ep12/index.html",
+    "immersive/index.html",
+    "immersive/list/index.html",
+    "immersive/posts/ep01/index.html",
+    "immersive/posts/ep02/index.html",
+    "immersive/posts/ep03/index.html",
+    "immersive/posts/ep04/index.html",
+    "immersive/posts/ep05/index.html",
+    "immersive/posts/ep06/index.html",
+    "immersive/posts/ep07/index.html",
+    "immersive/posts/ep08/index.html",
+    "immersive/posts/ep09/index.html",
+    "immersive/posts/ep10/index.html",
+    "immersive/posts/ep11/index.html",
+    "immersive/posts/ep12/index.html",
+    "magazine/index.html",
+    "magazine/list/index.html",
+    "magazine/posts/ep01/index.html",
+    "magazine/posts/ep02/index.html",
+    "magazine/posts/ep03/index.html",
+    "magazine/posts/ep04/index.html",
+    "magazine/posts/ep05/index.html",
+    "magazine/posts/ep06/index.html",
+    "magazine/posts/ep07/index.html",
+    "magazine/posts/ep08/index.html",
+    "magazine/posts/ep09/index.html",
+    "magazine/posts/ep10/index.html",
+    "magazine/posts/ep11/index.html",
+    "magazine/posts/ep12/index.html",
+    "routes.json",
+    "shared/switcher.css",
+    "shared/switcher.js",
+    "index.html",
+    "shared/switcher.css",
+    "shared/switcher.js",
+    "story1.html"
+  ]
+}

@@ -35,7 +35,7 @@
   output_dir: "hina"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story", "about", "character"]
+    pageTypes: ["story", "about", "character", "siteMeta"]
     features: ["story-hero"]
     renderKinds: ["markdown", "external", "html"]
   routePatterns:
@@ -50,7 +50,7 @@
   output_dir: "immersive"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story", "about", "character"]
+    pageTypes: ["story", "about", "character", "siteMeta"]
     features: ["full-bleed"]
     renderKinds: ["markdown", "external", "html"]
   routePatterns:
@@ -65,7 +65,7 @@
   output_dir: "magazine"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story", "about", "character"]
+    pageTypes: ["story", "about", "character", "siteMeta"]
     features: ["grid-list"]
     renderKinds: ["markdown", "external", "html"]
   routePatterns:

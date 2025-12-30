@@ -1,0 +1,19 @@
+{
+  "contentId": "site-meta",
+  "experience": "hina",
+  "pageType": "siteMeta",
+  "title": "Hina Generated Experience",
+  "summary": "Hina バリエーション用のジェネレート体験。",
+  "profile": "全エクスペリエンスで共有するヒーロー情報。12話とキャラクター紹介を揃えた“フルスペック”のホームを生成するためのメタデータ。",
+  "role": "Experience",
+  "ctaLabel": "一覧を見る",
+  "ctaHref": "list/",
+  "render": {
+    "kind": "html",
+    "html": "<p>Site metadata entry used to populate home hero blocks.</p>"
+  },
+  "tags": [
+    "site",
+    "meta"
+  ]
+}
