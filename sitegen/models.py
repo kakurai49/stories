@@ -212,6 +212,18 @@ class ContentItem(BaseModel):
     page_type: str = Field(..., alias="pageType", description="Page type for routing.")
     title: str = Field(..., description="Display title.")
     summary: Optional[str] = Field(None, description="Short teaser or deck.")
+    excerpt: Optional[str] = Field(
+        None,
+        description="Optional short teaser used when summary is absent.",
+    )
+    date: Optional[str] = Field(
+        None, description="Published date in ISO format or human friendly string."
+    )
+    body_html: Optional[str] = Field(
+        None,
+        alias="bodyHtml",
+        description="Rendered HTML body for list or detail views.",
+    )
     render: RenderContract = Field(..., description="How the content should render.")
     data_href: Optional[str] = Field(
         None,

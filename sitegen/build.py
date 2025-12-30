@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
 from pydantic import ValidationError
 
 from .models import ContentItem, ExperienceSpec
@@ -78,6 +78,7 @@ class BuildContext:
             autoescape=select_autoescape(["html", "jinja"]),
             trim_blocks=True,
             lstrip_blocks=True,
+            undefined=StrictUndefined,
         )
 
 
@@ -108,13 +109,17 @@ def load_content_items(content_dir: Path) -> list[ContentItem]:
     if not content_dir.exists():
         raise FileNotFoundError(f"Content directory not found: {content_dir}")
 
+    json_paths = sorted(content_dir.glob("*.json"))
+    if not json_paths:
+        raise SystemExit(f"No content files found in {content_dir}")
+
     items: list[ContentItem] = []
-    for json_path in sorted(content_dir.glob("*.json")):
+    for json_path in json_paths:
         try:
             payload = json.loads(json_path.read_text(encoding="utf-8"))
             items.append(ContentItem.model_validate(payload))
         except (json.JSONDecodeError, ValidationError) as exc:
-            raise ValueError(f"Invalid content file {json_path}: {exc}") from exc
+            raise SystemExit(f"Invalid content file {json_path}: {exc}") from exc
 
     return items
 
@@ -128,7 +133,9 @@ def _content_for_experience(
     return targeted or items
 
 
-def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
+def build_home(
+    experience: ExperienceSpec, ctx: BuildContext, items: list[ContentItem]
+) -> List[Path]:
     """Render the home template for a generated experience.
 
     Returns a list of written paths to make it easy to tally outputs.
@@ -152,6 +159,16 @@ def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
+    entries = []
+    for item in _content_for_experience(experience, items):
+        detail_path = output_dir / "posts" / item.content_id / "index.html"
+        entries.append(
+            {
+                "content": item,
+                "detail_href": _relative_href(detail_path, output_file.parent),
+            }
+        )
+
     rendered = template.render(
         experience=experience,
         routes_href=routes_href,
@@ -159,6 +176,7 @@ def build_home(experience: ExperienceSpec, ctx: BuildContext) -> List[Path]:
         switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="home",
+        items=entries,
         nav_links=[
             {"href": experience.route_patterns.home, "label": "ホーム"},
             {"href": experience.route_patterns.list, "label": "一覧"},
@@ -184,7 +202,8 @@ def build_list(
         )
 
     output_dir = ctx.output_dir(experience)
-    output_file = output_dir / "list.html"
+    list_dir = ensure_dir(output_dir / "list")
+    output_file = list_dir / "index.html"
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
 
     env = ctx.jinja_env(experience)
@@ -195,7 +214,7 @@ def build_list(
 
     entries = []
     for item in _content_for_experience(experience, items):
-        detail_path = output_dir / "posts" / f"{item.content_id}.html"
+        detail_path = output_dir / "posts" / item.content_id / "index.html"
         entries.append(
             {
                 "content": item,
@@ -238,8 +257,8 @@ def build_detail(
         )
 
     output_dir = ctx.output_dir(experience)
-    detail_dir = ensure_dir(output_dir / "posts")
-    output_file = detail_dir / f"{item.content_id}.html"
+    detail_dir = ensure_dir(output_dir / "posts" / item.content_id)
+    output_file = detail_dir / "index.html"
     routes_href = _relative_href(ctx.routes_path(experience), output_file.parent)
     ctx.copy_assets(experience)
     asset_prefix = _relative_href(output_dir, output_file.parent)
