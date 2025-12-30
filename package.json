@@ -1,0 +1,18 @@
+{
+  "name": "stories",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Playwright smoke tests for the stories GitHub Pages site",
+  "scripts": {
+    "e2e": "playwright test --project=chromium",
+    "e2e:report": "playwright show-report artifacts/playwright-report",
+    "e2e:install": "pnpm exec playwright install --with-deps chromium"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}
