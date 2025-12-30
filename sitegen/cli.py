@@ -499,7 +499,7 @@ def _handle_build(args: argparse.Namespace) -> None:
 
     written: list[Path] = []
     for exp in generated:
-        written.extend(build_home(exp, ctx))
+        written.extend(build_home(exp, ctx, items))
         written.extend(build_list(exp, ctx, items))
         for item in items:
             written.extend(build_detail(exp, ctx, item))

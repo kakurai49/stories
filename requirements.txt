@@ -2,3 +2,4 @@ pydantic
 PyYAML
 jinja2
 beautifulsoup4
+pytest

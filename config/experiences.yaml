@@ -26,8 +26,8 @@
     renderKinds: ["markdown", "external"]
   routePatterns:
     home: "/hina/"
-    list: "/hina/list"
-    detail: "/hina/{slug}"
+    list: "/hina/list/"
+    detail: "/hina/posts/{slug}/"
 
 - key: immersive
   name: "Immersive Generated Experience"
@@ -40,8 +40,8 @@
     features: ["full-bleed"]
   routePatterns:
     home: "/immersive/"
-    list: "/immersive/list"
-    detail: "/immersive/{slug}"
+    list: "/immersive/list/"
+    detail: "/immersive/posts/{slug}/"
 
 - key: magazine
   name: "Magazine Generated Experience"
@@ -54,5 +54,5 @@
     features: ["grid-list"]
   routePatterns:
     home: "/magazine/"
-    list: "/magazine/list"
-    detail: "/magazine/{slug}"
+    list: "/magazine/list/"
+    detail: "/magazine/posts/{slug}/"
