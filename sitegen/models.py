@@ -216,6 +216,16 @@ class ContentItem(BaseModel):
         None,
         description="Optional short teaser used when summary is absent.",
     )
+    role: Optional[str] = Field(
+        None, description="Role or archetype for non-story cards such as characters."
+    )
+    profile: Optional[str] = Field(
+        None,
+        description=(
+            "Additional profile or spotlight text for about/character entries; "
+            "optional to keep render payload backward compatible."
+        ),
+    )
     date: Optional[str] = Field(
         None, description="Published date in ISO format or human friendly string."
     )

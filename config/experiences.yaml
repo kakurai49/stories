@@ -14,6 +14,20 @@
     list: "list.html"
     detail: "story{slug}.html"
 
+- key: blog
+  name: "Sample Blog Experience"
+  description: "Validation用のシンプルなブログ体験。"
+  kind: legacy
+  home: "index.html"
+  supports:
+    locales: ["ja-JP"]
+    pageTypes: ["post"]
+    renderKinds: ["markdown"]
+  routePatterns:
+    home: "index.html"
+    list: "posts/"
+    detail: "posts/{slug}.html"
+
 - key: hina
   name: "Hina Generated Experience"
   description: "Hina バリエーション用のジェネレート体験。"
@@ -21,9 +35,9 @@
   output_dir: "hina"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story"]
+    pageTypes: ["story", "about", "character"]
     features: ["story-hero"]
-    renderKinds: ["markdown", "external"]
+    renderKinds: ["markdown", "external", "html"]
   routePatterns:
     home: "hina/"
     list: "hina/list/"
@@ -36,8 +50,9 @@
   output_dir: "immersive"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story"]
+    pageTypes: ["story", "about", "character"]
     features: ["full-bleed"]
+    renderKinds: ["markdown", "external", "html"]
   routePatterns:
     home: "immersive/"
     list: "immersive/list/"
@@ -50,8 +65,9 @@
   output_dir: "magazine"
   supports:
     locales: ["ja-JP"]
-    pageTypes: ["story"]
+    pageTypes: ["story", "about", "character"]
     features: ["grid-list"]
+    renderKinds: ["markdown", "external", "html"]
   routePatterns:
     home: "magazine/"
     list: "magazine/list/"

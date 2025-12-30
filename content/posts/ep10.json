@@ -1,0 +1,15 @@
+{
+  "contentId": "ep10",
+  "experience": "hina",
+  "pageType": "story",
+  "title": "EP10: 魔導書と職人の手、Fθと G",
+  "summary": "便利さの向こう側。最後に“触る一点”を決めるのは誰？",
+  "render": {
+    "kind": "html",
+    "html": "<div class=\"section\">\n<h2>◆前回までのあらすじ</h2>\n<p>サキュバスメイド喫茶《∞（インフィニティ）》の新人テストエンジニア・結城ユイ（ユイリア）は、伝説のテストアーキテクト神崎ナギに導かれ、世界 <span class=\"katex\">W</span> の見方を育ててきた。客を同値クラスでまとめ、心の境界値にぶつかり、決定表で分岐を地図にし、状態遷移図で関係を眺め、ペアワイズで筋の良い組合せを選び、カバレッジの虹でテストの濃淡を確かめ、ログを「システムからのラブレター」と読むようになった。</p>\n</div>\n<div class=\"section\">\n<h2>◆本編</h2>\n<p>営業後のカウンターで、バルハが分厚い黒い本を置いた。表紙には銀色で《汎用魔導書 Fθ》とある。</p>\n<div class=\"dialogue\">\n<span class=\"character-name\">バルハ</span>\n                「ねえユイリア。“頭数勝負”じゃないやり方、試してみない？」\n            </div>\n<p>不安を飲み込みつつ、ユイはナギと三人で実験することになった。</p>\n<div class=\"dialogue\">\n<span class=\"character-name\">神崎ナギ</span>\n                「この前の社畜救済イベントの仕様とログ、流してみようか」\n            </div>\n<p>ナギが端末から魔導書へ魔力ケーブルを繋ぐと、黒いページが勝手にめくれ、光る文字が浮かぶ。</p>\n<pre>&lt;テスト案候補：\n 1. 残業時間 0〜100 時間の全範囲で割引率が正しいこと\n 2. 客の職種ごとに専用セリフが表示されること\n 3. ログイン失敗時に励ましメッセージが表示されること\n ……（以下 120 件）&gt;</pre>\n<div class=\"dialogue\">\n<span class=\"character-name\">ユイリア</span>\n                「ひゃ、百二十件！？」\n            </div>\n<div class=\"dialogue\">\n<span class=\"character-name\">バルハ</span>\n                「ね、量では私たち敵わないでしょ？」\n            </div>\n<p>ユイは喉を鳴らす。魔導書が吐き出すテスト案の量と速度は、今まで自分が夜通しひねり出してきたものを軽々と超えていた。</p>\n<div class=\"dialogue\">\n<span class=\"character-name\">ユイリア</span>\n                「……じゃあ、私の仕事、なくなっちゃうんですか？」\n            </div>\n<div class=\"dialogue\">\n<span class=\"character-name\">神崎ナギ</span>\n                「そうはならないよ。Fθは“材料”はたくさんくれる。でも、それをどう選ぶか、どう世界 <span class=\"katex\">W</span> に合わせて磨くかは、職人の手がいる」\n            </div>\n<p>ナギは手元の紙に小さな記号を書いた。「Fθ → G」。</p>\n<div class=\"dialogue\">\n<span class=\"character-name\">神崎ナギ</span>\n                「Fθ は魔導書の提案関数。G は私たちが持つ“現場の眼”。Fθ(G(x)) で初めて、店のテストケースになる」\n            </div>\n<p>ユイは試しに、魔導書の案から今日のイベントに関係しそうなものを三つ選び、決定表や状態遷移図と突き合わせていく。バルハはキッチン側の制約やコストを口にし、ユイはカバレッジの虹を思い浮かべながら優先度を塗り分けていった。</p>\n<p>深夜、テーブルには魔導書からの 120 件と、ユイが選んだ 12 件が並ぶ。後者は丸や矢印や色で塗られ、具体的な手順が添えられていた。</p>\n<div class=\"dialogue\">\n<span class=\"character-name\">バルハ</span>\n                「同じ“テスト案”でも、仕上がりが全然違うね。後ろの 12 件は、店の匂いがする」\n            </div>\n<div class=\"dialogue\">\n<span class=\"character-name\">神崎ナギ</span>\n                「Fθ がくれた素材を、G で整える。それが職人の手仕事」\n            </div>\n<div class=\"dialogue\">\n<span class=\"character-name\">ユイリア</span>\n                「……よかった。じゃあ、私、まだここでやることあるんだ」\n            </div>\n<p>魔導書は便利だ。それでも、店の匂いと温度を知っている手が要る。その手を、もっと確かにしていきたい。ユイはそう思いながら、魔導書の光るページをそっと閉じた。</p>\n</div>"
+  },
+  "tags": [
+    "story",
+    "episode"
+  ]
+}

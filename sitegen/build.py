@@ -7,7 +7,7 @@ import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
 from pydantic import ValidationError
@@ -161,37 +161,140 @@ def _content_for_experience(
     return targeted or items
 
 
-def _post_view_models(
-    experience: ExperienceSpec,
-    items: list[ContentItem],
-    output_dir: Path,
-    base: Path,
-) -> tuple[list[dict], list[dict]]:
-    """Build post view models and list entries for templates.
+def _group_content(
+    experience: ExperienceSpec, items: list[ContentItem]
+) -> dict[str, list[ContentItem]]:
+    """Collect items by logical buckets for rendering."""
 
-    Returns a tuple of (posts, entries) where:
-    - posts is a simplified view model for home pages
-    - entries retains the richer structure currently used by list templates
+    targeted = _content_for_experience(experience, items)
+    groups = {
+        "episodes": [],
+        "about_cards": [],
+        "characters": [],
+    }
+
+    for item in targeted:
+        if item.page_type == "story":
+            groups["episodes"].append(item)
+        elif item.page_type == "about":
+            groups["about_cards"].append(item)
+        elif item.page_type == "character":
+            groups["characters"].append(item)
+
+    return groups
+
+
+def _load_manifest_meta(experience: ExperienceSpec, ctx: BuildContext) -> dict:
+    """Load manifest.json if present to enrich site metadata."""
+
+    manifest_path = ctx.src_root / experience.key / "manifest.json"
+    if not manifest_path.exists():
+        return {}
+    try:
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+
+
+def build_view_model_for_experience(
+    experience: ExperienceSpec,
+    ctx: BuildContext,
+    items: list[ContentItem],
+    *,
+    base: Path,
+    current_item: ContentItem | None = None,
+    template_key: str = "home",
+) -> dict:
+    """Assemble a normalized view model for templates.
+
+    Ensures all expected keys exist to satisfy StrictUndefined.
     """
 
-    posts = []
-    entries = []
+    output_dir = ctx.output_dir(experience)
+    manifest_meta = _load_manifest_meta(experience, ctx)
+    routes_href = _relative_href(ctx.routes_path, base)
+    home_href = _relative_route(output_dir / "index.html", base)
+    list_href = _relative_route(output_dir / "list" / "index.html", base)
 
-    for item in _content_for_experience(experience, items):
+    groups = _group_content(experience, items)
+
+    episodes: list[dict] = []
+    for index, item in enumerate(groups["episodes"], start=1):
         detail_path = output_dir / "posts" / item.content_id / "index.html"
-        detail_href = _relative_route(detail_path, base)
-
-        posts.append(
+        episodes.append(
             {
+                "id": item.content_id,
+                "order": index,
                 "title": item.title,
-                "excerpt": item.summary or item.excerpt,
-                "slug": item.content_id,
-                "url": detail_href,
+                "summary": item.summary or item.excerpt or "",
+                "href": _relative_route(detail_path, base),
+                "tags": item.tags,
+                "data_href": item.data_href,
             }
         )
-        entries.append({"content": item, "detail_href": detail_href})
 
-    return posts, entries
+    about_cards: list[dict] = []
+    for item in groups["about_cards"]:
+        about_cards.append(
+            {
+                "id": item.content_id,
+                "title": item.title,
+                "summary": item.summary or item.excerpt or "",
+                "profile": item.profile or "",
+                "role": item.role or "",
+                "tags": item.tags,
+            }
+        )
+
+    characters: list[dict] = []
+    for item in groups["characters"]:
+        characters.append(
+            {
+                "id": item.content_id,
+                "name": item.title,
+                "role": item.role or "",
+                "summary": item.summary or item.excerpt or "",
+                "profile": item.profile or "",
+                "tags": item.tags,
+            }
+        )
+
+    site_title = experience.name or manifest_meta.get("label") or experience.key
+    site_description = manifest_meta.get("description") or experience.description or ""
+    og_title = manifest_meta.get("ogTitle") or site_title
+    og_description = manifest_meta.get("ogDescription") or site_description
+
+    nav_links = [
+        {"href": home_href, "label": "ホーム"},
+        {"href": list_href, "label": "一覧"},
+        {"href": f"{home_href}#about", "label": "紹介"},
+        {"href": f"{home_href}#episodes", "label": "12話"},
+        {"href": f"{home_href}#characters", "label": "キャラクター"},
+    ]
+
+    return {
+        "site": {
+            "title": site_title,
+            "description": site_description,
+            "og": {"title": og_title, "description": og_description},
+        },
+        "episodes": episodes,
+        "about_cards": about_cards,
+        "characters": characters,
+        "nav": {
+            "links": nav_links,
+            "actions": [
+                {"href": list_href, "label": "一覧を見る"},
+            ],
+        },
+        "switcher": {
+            "experience": experience.key,
+            "template": template_key,
+            "routes_href": routes_href,
+            "content_id": current_item.content_id if current_item else "",
+            "data_href": current_item.data_href if current_item else "",
+        },
+    }
 
 
 def build_home(
@@ -217,26 +320,24 @@ def build_home(
     output_dir = ctx.output_dir(experience)
     ctx.copy_assets(experience)
     output_file = output_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path, output_file.parent)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
-    posts, entries = _post_view_models(
-        experience, items, output_dir=output_dir, base=output_file.parent
+    view_model = build_view_model_for_experience(
+        experience,
+        ctx,
+        items,
+        base=output_file.parent,
+        template_key="home",
     )
 
     rendered = template.render(
         experience=experience,
-        routes_href=routes_href,
+        routes_href=view_model["switcher"]["routes_href"],
         asset_prefix=asset_prefix,
         switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="home",
-        items=entries,
-        posts=posts,
-        nav_links=[
-            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
-            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
-        ],
+        view_model=view_model,
     )
     output_file.write_text(rendered, encoding="utf-8")
 
@@ -260,7 +361,6 @@ def build_list(
     output_dir = ctx.output_dir(experience)
     list_dir = ensure_dir(output_dir / "list")
     output_file = list_dir / "index.html"
-    routes_href = _relative_href(ctx.routes_path, output_file.parent)
 
     env = ctx.jinja_env(experience)
     template = env.get_template("list.jinja")
@@ -268,22 +368,22 @@ def build_list(
     ctx.copy_assets(experience)
     asset_prefix = _relative_href(output_dir, output_file.parent)
 
-    _, entries = _post_view_models(
-        experience, items, output_dir=output_dir, base=output_file.parent
+    view_model = build_view_model_for_experience(
+        experience,
+        ctx,
+        items,
+        base=output_file.parent,
+        template_key="list",
     )
 
     rendered = template.render(
         experience=experience,
-        routes_href=routes_href,
+        routes_href=view_model["switcher"]["routes_href"],
         asset_prefix=asset_prefix,
         switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="list",
-        items=entries,
-        nav_links=[
-            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
-            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
-        ],
+        view_model=view_model,
     )
     output_file.write_text(rendered, encoding="utf-8")
 
@@ -294,10 +394,21 @@ def build_detail(
     experience: ExperienceSpec,
     ctx: BuildContext,
     item: ContentItem,
+    items: Optional[list[ContentItem]] = None,
 ) -> List[Path]:
     """Render the detail template for a single content item."""
 
     if experience.kind != "generated":
+        return []
+
+    if items is None:
+        items = [item]
+
+    targeted = [content for content in items if content.experience == experience.key]
+    if targeted and item.experience != experience.key:
+        return []
+
+    if item.page_type in {"about", "character"}:
         return []
 
     template_path = ctx.templates_dir(experience) / "detail.jinja"
@@ -318,6 +429,15 @@ def build_detail(
         else None
     )
 
+    view_model = build_view_model_for_experience(
+        experience,
+        ctx,
+        items,
+        base=output_file.parent,
+        current_item=item,
+        template_key="detail",
+    )
+
     env = ctx.jinja_env(experience)
     template = env.get_template("detail.jinja")
     rendered = template.render(
@@ -329,10 +449,8 @@ def build_detail(
         switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
         switcher_js_href=ctx.shared_asset_href("switcher.js", output_file.parent),
         template_key="detail",
-        nav_links=[
-            {"href": _relative_route(output_dir / "index.html", output_file.parent), "label": "ホーム"},
-            {"href": _relative_route(output_dir / "list" / "index.html", output_file.parent), "label": "一覧"},
-        ],
+        nav_links=view_model["nav"]["links"],
+        view_model=view_model,
     )
     output_file.write_text(rendered, encoding="utf-8")
 
@@ -341,6 +459,7 @@ def build_detail(
 
 __all__ = [
     "BuildContext",
+    "build_view_model_for_experience",
     "build_detail",
     "build_home",
     "build_list",

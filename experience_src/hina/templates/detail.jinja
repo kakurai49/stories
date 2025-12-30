@@ -1,6 +1,8 @@
 {% extends "document.jinja" %}
 {% set lang = "ja" %}
-{% set title = experience.key ~ " | Detail" %}
+{% set vm = view_model %}
+{% set site = vm.site %}
+{% set title = content.title ~ " | " ~ site.title %}
 {% set body_attrs = {
   "experience": experience.key,
   "template": template_key,
@@ -10,6 +12,11 @@
 
 {% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
+{% endblock %}
+{% block head_extra %}
+    <meta name="description" content="{{ content.summary or site.description }}">
+    <meta property="og:title" content="{{ content.title }}">
+    <meta property="og:description" content="{{ content.summary or site.description }}">
 {% endblock %}
 
 {% block body %}
@@ -38,6 +45,11 @@
     <section class="sg-main" data-content-body>
       {% if content.render.kind == 'html' %}
       {{ content.render.html | safe }}
+      {% elif content.render.kind == 'markdown' %}
+      <div class="sg-markdown">{{ content.render.markdown | replace('\n', '<br>') | safe }}</div>
+      {% elif content.render.kind == 'external' %}
+      <p class="sg-lede">外部コンテンツとして提供されています。</p>
+      <p><a href="{{ content.render.url }}">{{ content.render.caption or content.render.url }}</a></p>
       {% endif %}
     </section>
     <footer class="sg-meta">

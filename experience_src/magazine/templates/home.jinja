@@ -1,6 +1,8 @@
 {% extends "document.jinja" %}
 {% set lang = "ja" %}
-{% set title = experience.name ~ " | Home" %}
+{% set vm = view_model %}
+{% set site = vm.site %}
+{% set title = site.title ~ " | Home" %}
 {% set body_attrs = {
   "experience": experience.key,
   "template": template_key,
@@ -9,6 +11,11 @@
 
 {% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
+{% endblock %}
+{% block head_extra %}
+    <meta name="description" content="{{ site.description }}">
+    <meta property="og:title" content="{{ site.og.title }}">
+    <meta property="og:description" content="{{ site.og.description }}">
 {% endblock %}
 
 {% block body %}
@@ -21,7 +28,7 @@
       data-routes-href="{{ routes_href }}"
     >
       <ul class="sg-nav-links">
-        {% for link in nav_links %}
+        {% for link in vm.nav.links %}
         <li><a href="{{ link.href }}">{{ link.label }}</a></li>
         {% endfor %}
       </ul>
@@ -35,30 +42,66 @@
       </button>
     </nav>
     <p class="sg-eyebrow">Experience</p>
-    <h1>{{ experience.name }} ホーム</h1>
-    {% if experience.description %}
-    <p class="sg-lede">{{ experience.description }}</p>
-    {% else %}
-    <p class="sg-lede">{{ experience.key }} テンプレートの起点となるシンプルなページです。</p>
+    <h1>{{ site.title }}</h1>
+    <p class="sg-lede">{{ site.description }}</p>
+    {% if vm.nav.actions %}
+    <div class="sg-actions">
+      {% for action in vm.nav.actions %}
+      <a class="sg-button" href="{{ action.href }}">{{ action.label }}</a>
+      {% endfor %}
+    </div>
     {% endif %}
   </header>
   <main id="content" class="sg-main">
-    <section class="sg-card">
-      <h2>最新コンテンツ</h2>
+    <section class="sg-card" id="about">
+      <h2>紹介</h2>
       <div class="magazine-shelf">
-        {% for post in posts %}
-        <article class="sg-card magazine-tile">
-          <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-          {% if post.excerpt %}
-          <p class="sg-lede">{{ post.excerpt }}</p>
+        {% for about in vm.about_cards %}
+        <article class="sg-card magazine-tile" data-about-id="{{ about.id }}">
+          <p class="sg-eyebrow">{{ about.role or "About" }}</p>
+          <h3>{{ about.title }}</h3>
+          <p class="sg-lede">{{ about.summary }}</p>
+          {% if about.tags %}
+          <p class="sg-meta">{{ about.tags | join(' / ') }}</p>
           {% endif %}
-          <p class="sg-meta">#{{ post.slug }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="sg-card" id="episodes">
+      <h2>エピソード</h2>
+      <div class="magazine-shelf">
+        {% for episode in vm.episodes %}
+        <article class="sg-card magazine-tile" data-episode-id="{{ episode.id }}">
+          <p class="sg-eyebrow">Episode {{ "%02d"|format(episode.order) }}</p>
+          <h3><a href="{{ episode.href }}">{{ episode.title }}</a></h3>
+          {% if episode.summary %}
+          <p class="sg-lede">{{ episode.summary }}</p>
+          {% endif %}
+          {% if episode.tags %}
+          <p class="sg-meta">{{ episode.tags | join(' / ') }}</p>
+          {% endif %}
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="sg-card" id="characters">
+      <h2>キャラクター</h2>
+      <div class="magazine-shelf">
+        {% for character in vm.characters %}
+        <article class="sg-card magazine-tile" data-character-id="{{ character.id }}">
+          <p class="sg-eyebrow">{{ character.role or "Character" }}</p>
+          <h3>{{ character.name }}</h3>
+          <p class="sg-lede">{{ character.summary }}</p>
+          {% if character.tags %}
+          <p class="sg-meta">{{ character.tags | join(' / ') }}</p>
+          {% endif %}
         </article>
         {% endfor %}
       </div>
     </section>
   </main>
   <footer class="sg-footer">
-    <p>&copy; {{ experience.name }}</p>
+    <p>&copy; {{ site.title }}</p>
   </footer>
 {% endblock %}

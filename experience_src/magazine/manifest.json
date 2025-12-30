@@ -3,12 +3,18 @@
   "label": "Magazine Generated Experience",
   "supports": {
     "pageTypes": [
-      "story"
+      "story",
+      "about",
+      "character"
     ],
     "features": [
       "grid-list"
     ],
-    "renderKinds": [],
+    "renderKinds": [
+      "markdown",
+      "external",
+      "html"
+    ],
     "locales": [
       "ja-JP"
     ]

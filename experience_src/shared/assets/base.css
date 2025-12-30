@@ -91,6 +91,33 @@ body[data-experience] .sg-nav {
   flex-wrap: wrap;
 }
 
+body[data-experience] .sg-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body[data-experience] .sg-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--sg-border);
+  background: var(--sg-panel);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+body[data-experience] .sg-button:hover,
+body[data-experience] .sg-button:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+  outline: none;
+}
+
 body[data-experience] .sg-nav-links {
   list-style: none;
   margin: 0;
@@ -196,6 +223,11 @@ body[data-experience] .magazine-shelf {
 body[data-experience] .magazine-tile {
   display: grid;
   gap: 8px;
+}
+
+body[data-experience] .sg-markdown {
+  display: grid;
+  gap: 10px;
 }
 
 @media (max-width: 640px) {

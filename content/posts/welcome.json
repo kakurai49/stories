@@ -1,9 +1,10 @@
 {
   "contentId": "welcome-post",
-  "experience": "blog",
-  "pageType": "post",
+  "experience": "hina",
+  "pageType": "about",
   "title": "ようこそ、魔界喫茶《∞》へ",
   "summary": "サイトジェネレータの検証用サンプルコンテンツ。",
+  "role": "イントロ",
   "render": {
     "kind": "markdown",
     "markdown": "# ようこそ\n\nここは `sitegen validate` コマンドのためのサンプル記事です。"

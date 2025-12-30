@@ -3,14 +3,17 @@
   "label": "Hina Generated Experience",
   "supports": {
     "pageTypes": [
-      "story"
+      "story",
+      "about",
+      "character"
     ],
     "features": [
       "story-hero"
     ],
     "renderKinds": [
       "markdown",
-      "external"
+      "external",
+      "html"
     ],
     "locales": [
       "ja-JP"
