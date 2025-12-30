@@ -1,41 +1,41 @@
-# Playwright smoke tests for GitHub Pages
+# GitHub Pages 用 Playwright スモークテスト
 
-This repository includes a Playwright-based smoke test that captures full-page screenshots of the published GitHub Pages site.
+このリポジトリには、公開された GitHub Pages サイトのフルページスクリーンショットを取得する Playwright ベースのスモークテストが含まれています。
 
-## Base URL detection order
-The `playwright.config.ts` resolves `baseURL` automatically in the following order:
-1. `BASE_URL` environment variable (respects any provided URL).
-2. `gh api repos/{owner}/{repo}/pages --jq .html_url` when the `gh` CLI and repo info are available.
-3. `CNAME` file in the repository root.
-4. Git remote `origin` (or last commit author’s noreply email) → `https://{owner}.github.io/{repo}/` (or `{owner}.github.io` if the repo matches that pattern).
-5. Fallback: `https://<repository-name>.github.io/`
+## ベース URL の検出順
+`playwright.config.ts` は次の順序で `baseURL` を自動解決します。
+1. `BASE_URL` 環境変数（指定された URL をそのまま使用）
+2. `gh` CLI とリポジトリ情報が利用できる場合: `gh api repos/{owner}/{repo}/pages --jq .html_url`
+3. リポジトリルートの `CNAME` ファイル
+4. Git の remote `origin`（または直近コミットの作者の noreply メール） → `https://{owner}.github.io/{repo}/`（リポジトリ名がパターンに一致する場合は `{owner}.github.io`）
+5. フォールバック: `https://<repository-name>.github.io/`
 
-Trailing slashes are enforced to keep routing consistent.
+ルーティングを安定させるため、末尾のスラッシュを強制します。
 
-## Setup
+## セットアップ
 ```bash
-# Install dependencies
+# 依存関係のインストール
 pnpm install
 
-# Install Playwright browsers & Linux dependencies (headless-friendly)
+# Playwright のブラウザと Linux 依存関係（ヘッドレス対応）をインストール
 pnpm run e2e:install
 ```
 
-## Run the smoke test
+## スモークテストの実行
 ```bash
-pnpm run e2e   # runs: playwright test --project=chromium
+pnpm run e2e   # 実際のコマンド: playwright test --project=chromium
 ```
 
-Outputs:
-- Screenshots: `artifacts/screenshots/`
-- Test results: `artifacts/test-results/`
-- HTML report: `artifacts/playwright-report/`
+出力:
+- スクリーンショット: `artifacts/screenshots/`
+- テスト結果: `artifacts/test-results/`
+- HTML レポート: `artifacts/playwright-report/`
 
-To bundle the artifacts for download:
+成果物をダウンロード用にまとめる場合:
 ```bash
 zip -r artifacts_bundle.zip artifacts
 ```
 
-### Proxy / restricted network notes
-- If `github.io` is blocked by your proxy, set `BASE_URL` to a reachable mirror before running (e.g., `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/`).
-- The config also honors `HTTP_PROXY`/`HTTPS_PROXY` and ignores certificate errors to accommodate MITM proxies.
+### プロキシ / 制限付きネットワークでの注意点
+- プロキシで `github.io` がブロックされている場合は、実行前に到達可能なミラーを `BASE_URL` に設定してください（例: `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/`）。
+- 設定は `HTTP_PROXY` / `HTTPS_PROXY` も尊重し、MITM プロキシに対応するため証明書エラーを無視します。
