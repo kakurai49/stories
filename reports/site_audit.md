@@ -1,248 +1,73 @@
 # Site Audit Report
 
 ## Overview
+- Scope: Validate generated output under `generated/` for routing consistency, switcher readiness, branding per experience, and content assignment for hina/immersive/magazine plus legacy entry points (`index.html`, `story1.html`).
+- Tooling: `scripts/audit_generated_site.py` (parser: beautifulsoup4). Sitegen entry point is `sitegen/cli.py` with experiences defined in `config/experiences.yaml`; templates live in `experience_src/<key>/templates/*.jinja`; content JSON lives in `content/posts/*.json`.
+- Deployment note: No GitHub Pages workflow/config found; README documents `--out generated`. Serving `generated/` via `python -m http.server 8001 --directory generated` returns a directory listing at `/` (no legacy index inside `generated/`), so switcher routes that point to `../` cannot reach the legacy home when publishing `generated/` directly.
 
-- Executed: 2025-12-30T10:20:17.115098+00:00
-- Out dir: /workspace/stories/generated
-- Command: `python scripts/audit_generated_site.py --out generated --routes /workspace/stories/generated/routes.json --experiences config/experiences.yaml --content content/posts `
-- Parser: beautifulsoup4
+## Commands executed
+- `python -m pip install -r requirements.txt` → dependency setup (already satisfied). 【reports/sitegen_validate.log】
+- `python -m sitegen validate --experiences config/experiences.yaml --content content/posts` (see `reports/sitegen_validate.log`)
+- `python -m sitegen build --experiences config/experiences.yaml --src experience_src --out generated --content content/posts --all` (see `reports/sitegen_build.log`)
+- `find generated -maxdepth 3 -type f | sort > reports/out_files.txt`
+- `python scripts/audit_generated_site.py --out generated --routes generated/routes.json --experiences config/experiences.yaml --content content/posts` (auto-prints Top10; findings below)
+- Ad-hoc publish check: `python -m http.server 8001 --directory generated` + `curl -I http://localhost:8001/` (returned directory listing, confirming no `index.html` at generated root for ruri/blog routes).
 
 ## Summary
-
 | Severity | Count |
 | --- | ---: |
-| BLOCKER | 30 |
-| MAJOR | 1 |
+| BLOCKER | 0 |
+| MAJOR | 8 |
 | MINOR | 0 |
 | INFO | 0 |
 
-## Context notes
-
-- Repository inventory captured via `find . -maxdepth 4 -print` because `tree` was unavailable in the container.
-- No GitHub Actions / Pages workflow files were found; audit assumes the publish root is the default `generated/`.
-- Headless exploratory browsing (Playwright) was not executed; link and asset checks rely on static HTML crawling.
-
-## Key observations
-
-- Generated experience `hina` lacks detail pages for non-episode content (about/character/site-meta), resulting in missing files referenced by routes.
-- `routes.json` contains numerous entries pointing to nonexistent `../posts/*.html` blog pages and `site-meta` detail routes across experiences.
-- All content items target only the `hina` experience; `immersive` and `magazine` currently have zero assigned items.
-
-## Findings (sorted by severity)
-
-### [BLOCKER] Detail page missing for hina slug=about-世界観
-
-- Type: `MISSING_PAGE`
-- ID: 1
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/about-世界観/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=about-読みどころ
-
-- Type: `MISSING_PAGE`
-- ID: 2
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/about-読みどころ/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=character-サキュバスメイド喫茶∞
-
-- Type: `MISSING_PAGE`
-- ID: 3
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/character-サキュバスメイド喫茶∞/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=character-バルハ
-
-- Type: `MISSING_PAGE`
-- ID: 4
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/character-バルハ/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=character-神崎ナギ
-
-- Type: `MISSING_PAGE`
-- ID: 5
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/character-神崎ナギ/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=character-結城ユイ
-
-- Type: `MISSING_PAGE`
-- ID: 6
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/character-結城ユイ/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] Detail page missing for hina slug=site-meta
-
-- Type: `MISSING_PAGE`
-- ID: 7
-- Evidence: `{"expected": "/workspace/stories/generated/hina/posts/site-meta/index.html"}`
-- Suggested: Check slug resolution and ensure build generated detail pages.
-
-### [BLOCKER] blog content route missing for about-世界観
-
-- Type: `ROUTES_MISMATCH`
-- ID: 8
-- Evidence: `{"route": "../posts/about-世界観.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for about-読みどころ
-
-- Type: `ROUTES_MISMATCH`
-- ID: 9
-- Evidence: `{"route": "../posts/about-読みどころ.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for character-サキュバスメイド喫茶∞
-
-- Type: `ROUTES_MISMATCH`
-- ID: 10
-- Evidence: `{"route": "../posts/character-サキュバスメイド喫茶∞.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for character-バルハ
-
-- Type: `ROUTES_MISMATCH`
-- ID: 11
-- Evidence: `{"route": "../posts/character-バルハ.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for character-神崎ナギ
-
-- Type: `ROUTES_MISMATCH`
-- ID: 12
-- Evidence: `{"route": "../posts/character-神崎ナギ.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for character-結城ユイ
-
-- Type: `ROUTES_MISMATCH`
-- ID: 13
-- Evidence: `{"route": "../posts/character-結城ユイ.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep01
-
-- Type: `ROUTES_MISMATCH`
-- ID: 14
-- Evidence: `{"route": "../posts/ep01.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep02
-
-- Type: `ROUTES_MISMATCH`
-- ID: 15
-- Evidence: `{"route": "../posts/ep02.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep03
-
-- Type: `ROUTES_MISMATCH`
-- ID: 16
-- Evidence: `{"route": "../posts/ep03.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep04
-
-- Type: `ROUTES_MISMATCH`
-- ID: 17
-- Evidence: `{"route": "../posts/ep04.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep05
-
-- Type: `ROUTES_MISMATCH`
-- ID: 18
-- Evidence: `{"route": "../posts/ep05.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep06
-
-- Type: `ROUTES_MISMATCH`
-- ID: 19
-- Evidence: `{"route": "../posts/ep06.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep07
-
-- Type: `ROUTES_MISMATCH`
-- ID: 20
-- Evidence: `{"route": "../posts/ep07.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep08
-
-- Type: `ROUTES_MISMATCH`
-- ID: 21
-- Evidence: `{"route": "../posts/ep08.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep09
-
-- Type: `ROUTES_MISMATCH`
-- ID: 22
-- Evidence: `{"route": "../posts/ep09.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep10
-
-- Type: `ROUTES_MISMATCH`
-- ID: 23
-- Evidence: `{"route": "../posts/ep10.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep11
-
-- Type: `ROUTES_MISMATCH`
-- ID: 24
-- Evidence: `{"route": "../posts/ep11.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for ep12
-
-- Type: `ROUTES_MISMATCH`
-- ID: 25
-- Evidence: `{"route": "../posts/ep12.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for site-meta
-
-- Type: `ROUTES_MISMATCH`
-- ID: 26
-- Evidence: `{"route": "../posts/site-meta.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] blog content route missing for welcome-post
-
-- Type: `ROUTES_MISMATCH`
-- ID: 27
-- Evidence: `{"route": "../posts/welcome-post.html", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] hina content route missing for site-meta
-
-- Type: `ROUTES_MISMATCH`
-- ID: 28
-- Evidence: `{"route": "hina/posts/site-meta/", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] immersive content route missing for site-meta
-
-- Type: `ROUTES_MISMATCH`
-- ID: 29
-- Evidence: `{"route": "immersive/posts/site-meta/", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
-
-### [BLOCKER] magazine content route missing for site-meta
-
-- Type: `ROUTES_MISMATCH`
-- ID: 30
-- Evidence: `{"route": "magazine/posts/site-meta/", "resolved": null}`
-- Suggested: Ensure content items are generated and routes.json matches the output structure.
+### Top BLOCKER/MAJOR findings
+1. [MAJOR] ruri home route points outside output directory
+2. [MAJOR] ruri content route points outside output directory
+3. [MAJOR] blog home route points outside output directory
+4. [MAJOR] Content items are not distributed across experiences
+5. [MAJOR] immersive home missing experience branding
+6. [MAJOR] immersive list missing experience branding
+7. [MAJOR] magazine home missing experience branding
+8. [MAJOR] magazine list missing experience branding
+
+## Findings (details)
+### [MAJOR] ruri home route points outside output directory
+- Type: `ROUTES_OUTSIDE_OUTDIR`
+- Evidence: `generated/routes.json` maps `ruri.home` to `../`, resolving to `/workspace/stories/index.html` instead of under `/workspace/stories/generated`. Serving `generated/` via `python -m http.server --directory generated` yields a directory listing at `/`, so the switcher cannot reach the legacy top when published from the build root.
+- Suggested next step: Place legacy pages inside the publish root or adjust route paths so all switcher targets live under `generated/`.
+
+### [MAJOR] ruri content route points outside output directory
+- Type: `ROUTES_OUTSIDE_OUTDIR`
+- Evidence: `ruri.content.ep01` in `generated/routes.json` resolves to `/workspace/stories/story1.html`, which is outside `generated/`. When publishing only `generated/`, this becomes unreachable.
+- Suggested next step: Copy legacy story detail into the publish root or route to a generated equivalent.
+
+### [MAJOR] blog home route points outside output directory
+- Type: `ROUTES_OUTSIDE_OUTDIR`
+- Evidence: `blog.home` points to `../` (same directory-listing issue as ruri), leaving the switcher without an in-root target when hosting `generated/`.
+- Suggested next step: Either remove legacy blog routes from the switcher plan or ensure a blog landing page exists inside `generated/`.
 
 ### [MAJOR] Content items are not distributed across experiences
-
 - Type: `CONTENT_ASSIGNMENT_SUSPECT`
-- ID: 31
-- Evidence: `{"counts": {"hina": 20}, "missingGeneratedExperiences": ["magazine", "immersive"]}`
-- Suggested: Confirm intended experience assignment per content item; add items for missing experiences or adjust routing.
+- Evidence: All 20 content items in `content/posts/*.json` set `"experience": "hina"`. Counts by experience: `{"hina": 20, "immersive": 0, "magazine": 0}`. Routes for immersive/magazine are still emitted, so they recycle hina content and lack dedicated assignments.
+- Suggested next step: Allocate content per experience or gate route emission based on available items.
+
+### [MAJOR] immersive home missing experience branding
+- Type: `BRANDING_MISMATCH`
+- Evidence: `/generated/immersive/index.html` has `<title>Hina Generated Experience | Home</title>`; expected to reference Immersive. `routes.json` uses `immersive` key, but head metadata still carries hina branding.
+- Suggested next step: Inject the immersive name/description into page titles and hero metadata.
+
+### [MAJOR] immersive list missing experience branding
+- Type: `BRANDING_MISMATCH`
+- Evidence: `/generated/immersive/list/index.html` title is `Hina Generated Experience | List`; expected immersive naming.
+- Suggested next step: Same as above for list templates.
+
+### [MAJOR] magazine home missing experience branding
+- Type: `BRANDING_MISMATCH`
+- Evidence: `/generated/magazine/index.html` title is `Hina Generated Experience | Home`; expected magazine naming.
+- Suggested next step: Inject magazine-specific branding into head/hero metadata.
+
+### [MAJOR] magazine list missing experience branding
+- Type: `BRANDING_MISMATCH`
+- Evidence: `/generated/magazine/list/index.html` title is `Hina Generated Experience | List`; expected magazine naming.
+- Suggested next step: Fix list template to pull magazine labels.
