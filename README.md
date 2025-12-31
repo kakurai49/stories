@@ -1,6 +1,36 @@
 # stories
 時間や気持ち、環境などの流れを言葉にしたものの集合
 
+## ローカル開発環境セットアップ
+- Codespaces / devcontainer 設定は現状ありません。ローカルでは Python 3.11 系での動作を確認しています（`python -V` で確認してください）。
+- 依存関係は `requirements.txt` を `pip` で導入します。仮想環境はリポジトリ直下の `.venv/` を使用してください（`.gitignore` 済み）。
+
+### 1. 仮想環境の作成と依存導入
+クロスプラットフォームのセットアップスクリプトを用意しています。
+
+**macOS / Linux**
+```bash
+python -V  # 3.11 系を推奨
+python scripts/bootstrap_venv.py
+source .venv/bin/activate
+```
+
+**Windows (PowerShell)**
+```powershell
+python -V  # 3.11 系を推奨
+python scripts/bootstrap_venv.py
+.\\.venv\\Scripts\\activate
+```
+
+### 2. 実行・テスト
+仮想環境を有効化した状態で、既存のコマンドをそのまま使えます。
+- コンテンツ検証: `python -m sitegen validate --experiences config/experiences.yaml --content content/posts`
+- サイト生成: `python -m sitegen build --experiences config/experiences.yaml --src experience_src --out generated --content content/posts --all`
+- テスト: `python -m pytest`
+
+### 補足
+- `.venv/` は既に Git で無視されています。ローカルに作成した仮想環境やキャッシュをコミットしないでください。
+
 ## sitegen の概要
 `python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。ルーティングは `sitegen/routing.SiteRouter` が単一のサイトプランとして組み立て、ビルド・`routes.json`・テンプレートリンクすべてが同じ PageSpec から決定されます。
 
