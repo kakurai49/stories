@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 from .io_utils import read_json, stable_json_dumps
-from .micro_store import block_id_from_block
+from .micro_ids import block_id_from_block
 from .types_legacy import LegacyPost, LegacyRender
 from .types_micro import MicroBlock, MicroEntity
 
@@ -19,6 +19,8 @@ def legacy_to_micro(legacy: LegacyPost) -> Tuple[MicroEntity, List[MicroBlock]]:
 
     blocks: List[Dict[str, Any]] = []
     if render["kind"] == "html":
+        # Raw HTML blocks are passed through as-is. These snapshots are for a trusted
+        # static site generator pipeline; keep XSS in mind if reused elsewhere.
         blocks.append({"type": "RawHtml", "html": render["html"]})
     elif render["kind"] == "markdown":
         blocks.append({"type": "Markdown", "source": render["markdown"]})
