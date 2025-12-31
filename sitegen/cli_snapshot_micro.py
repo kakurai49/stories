@@ -7,7 +7,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from .snapshot_micro import diff_micro_snapshot, legacy_dir_to_micro_snapshot, write_micro_snapshot
+from .snapshot_micro import compare_dirs, legacy_dir_to_micro_snapshot, write_micro_snapshot
 from .verify_roundtrip import verify_roundtrip_all
 
 
@@ -31,11 +31,11 @@ def main() -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_path = Path(tmp_dir)
             write_micro_snapshot(tmp_path, entities, blocks, index)
-            diff = diff_micro_snapshot(args.out, tmp_path)
+            equal, diff = compare_dirs(args.out, tmp_path)
             ok, errors = verify_roundtrip_all(args.posts)
 
             exit_code = 0
-            if diff:
+            if not equal:
                 sys.stderr.write(diff)
                 exit_code = 1
             if not ok:

@@ -39,7 +39,9 @@ def legacy_dir_to_micro_snapshot(
     return entities_sorted, blocks_sorted, index
 
 
-def write_micro_snapshot(micro_dir: Path, entities: List[MicroEntity], blocks: Dict[str, MicroBlock], index: dict) -> None:
+def write_micro_snapshot(
+    micro_dir: Path, entities: List[MicroEntity], blocks: Dict[str, MicroBlock], index: dict
+) -> None:
     if micro_dir.exists():
         shutil.rmtree(micro_dir)
     micro_dir.mkdir(parents=True, exist_ok=True)
@@ -56,6 +58,11 @@ def write_micro_snapshot(micro_dir: Path, entities: List[MicroEntity], blocks: D
     write_json_stable(micro_dir / "index.json", index)
 
 
+def generate_micro_snapshot_to_dir(posts_dir: Path, out_dir: Path) -> None:
+    entities, blocks, index = legacy_dir_to_micro_snapshot(posts_dir, out_dir)
+    write_micro_snapshot(out_dir, entities, blocks, index)
+
+
 def _collect_json_files(directory: Path) -> Dict[str, List[str]]:
     contents: Dict[str, List[str]] = {}
     if not directory.exists():
@@ -66,22 +73,22 @@ def _collect_json_files(directory: Path) -> Dict[str, List[str]]:
     return contents
 
 
-def diff_micro_snapshot(expected_dir: Path, actual_dir: Path) -> str:
-    expected_files = _collect_json_files(expected_dir)
-    actual_files = _collect_json_files(actual_dir)
-    all_paths = sorted(set(expected_files.keys()) | set(actual_files.keys()))
+def compare_dirs(dir_a: Path, dir_b: Path) -> Tuple[bool, str]:
+    files_a = _collect_json_files(dir_a)
+    files_b = _collect_json_files(dir_b)
+    all_paths = sorted(set(files_a.keys()) | set(files_b.keys()))
 
-    chunks: List[str] = []
+    diffs: List[str] = []
     for rel in all_paths:
-        expected = expected_files.get(rel, [])
-        actual = actual_files.get(rel, [])
-        if expected == actual:
+        content_a = files_a.get(rel, [])
+        content_b = files_b.get(rel, [])
+        if content_a == content_b:
             continue
         diff = difflib.unified_diff(
-            expected,
-            actual,
-            fromfile=f"expected/{rel}",
-            tofile=f"actual/{rel}",
+            content_a,
+            content_b,
+            fromfile=f"{dir_a.name}/{rel}",
+            tofile=f"{dir_b.name}/{rel}",
         )
-        chunks.append("".join(diff))
-    return "".join(chunks)
+        diffs.append("".join(diff))
+    return (not diffs, "".join(diffs))
