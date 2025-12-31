@@ -1,0 +1,21 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_a5600228c9c287eaecb660d3a0c5c013cb0a65b3"
+    ]
+  },
+  "id": "character-神崎ナギ",
+  "meta": {
+    "role": "大先輩",
+    "summary": "魔界テック界隈で伝説的なテストアーキテクト。 落ち着いた笑顔で、核心をすっと差し出す。“こうなりたい”と思わせる背中。",
+    "tags": [
+      "静かな強さ",
+      "言葉が地図",
+      "穏やかに刺す"
+    ],
+    "title": "神崎ナギ（かんざき・ナギ）"
+  },
+  "relations": {},
+  "type": "character",
+  "variant": "hina"
+}

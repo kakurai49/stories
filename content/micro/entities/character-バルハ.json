@@ -1,0 +1,20 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_3cdb10bc0c05c0ff06e974d2afc21e78c7a83e0e"
+    ]
+  },
+  "id": "character-バルハ",
+  "meta": {
+    "role": "オーナー",
+    "summary": "喫茶《∞》のオーナー。二人の成長を少し離れた場所から見つめる存在。 舞台の空気を整え、物語の火種をそっと置く。",
+    "tags": [
+      "黒幕ポジ（やさしめ）",
+      "場を作る"
+    ],
+    "title": "バルハ"
+  },
+  "relations": {},
+  "type": "character",
+  "variant": "hina"
+}

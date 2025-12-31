@@ -1,0 +1,25 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_1e78e99922d794566e3aaf70bded0e24c815d618"
+    ]
+  },
+  "id": "site-meta",
+  "meta": {
+    "cta": {
+      "href": "list/",
+      "label": "一覧を見る"
+    },
+    "profile": "全エクスペリエンスで共有するヒーロー情報。12話とキャラクター紹介を揃えた“フルスペック”のホームを生成するためのメタデータ。",
+    "role": "Experience",
+    "summary": "Hina バリエーション用のジェネレート体験。",
+    "tags": [
+      "site",
+      "meta"
+    ],
+    "title": "Hina Generated Experience"
+  },
+  "relations": {},
+  "type": "siteMeta",
+  "variant": "hina"
+}

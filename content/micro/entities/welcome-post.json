@@ -1,0 +1,20 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_c901f9ade06f743af70263f12b737dacd7f2187e"
+    ]
+  },
+  "id": "welcome-post",
+  "meta": {
+    "role": "イントロ",
+    "summary": "サイトジェネレータの検証用サンプルコンテンツ。",
+    "tags": [
+      "sample",
+      "intro"
+    ],
+    "title": "ようこそ、魔界喫茶《∞》へ"
+  },
+  "relations": {},
+  "type": "about",
+  "variant": "hina"
+}
