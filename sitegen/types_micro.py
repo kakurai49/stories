@@ -74,12 +74,18 @@ MicroBlock = (
 )
 
 
+class MicroMetaCta(TypedDict, total=False):
+    label: str
+    href: str
+
+
 class MicroMeta(TypedDict, total=False):
     title: str
     summary: str
     tags: list[str]
     role: str
     profile: str
+    cta: MicroMetaCta
 
 
 class MicroBody(TypedDict):

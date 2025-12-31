@@ -9,8 +9,8 @@ from typing import Any
 
 
 def stable_json_dumps(obj: object) -> str:
-    """Serialize JSON in a stable way for hashing."""
-    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    """Serialize JSON in a stable, human-readable way with a trailing newline."""
+    return json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
 
 
 def read_json(path: Path) -> Any:
@@ -19,9 +19,13 @@ def read_json(path: Path) -> Any:
 
 
 def write_json(path: Path, data: Any) -> None:
+    """Deprecated: kept for backward compatibility. Prefer write_json_stable."""
+    write_json_stable(path, data)
+
+
+def write_json_stable(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    text = json.dumps(data, ensure_ascii=False, sort_keys=True, indent=2)
-    path.write_text(text + "\n", encoding="utf-8")
+    path.write_text(stable_json_dumps(data), encoding="utf-8")
 
 
 def warn(msg: str) -> None:
