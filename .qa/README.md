@@ -64,3 +64,42 @@ It attaches:
 - explore-errors.txt (if any)
 <!-- QA_FLOW_EXPLORE_END -->
 
+
+<!-- QA_FLOW_COVERAGE_START -->
+## Extensions: Flow / Fix List / Guided Explore
+
+### Flow (screen-flow.json/md)
+- Generate flow artifacts:
+  - `npm run qa:flow`
+- Publish to docs/qa as well:
+  - `npm run qa:flow:publish`
+
+### Flow Analyze (unreachable + fix list)
+- Analyze flow and generate fix list:
+  - `npm run qa:flow:analyze`
+- Publish docs:
+  - `npm run qa:flow:analyze:publish`
+- One-shot fixlist (flow + analyze, publish docs):
+  - `npm run qa:fixlist`
+
+Unreachable is computed as:
+- `.qa/known-routes.txt` (expected routes)
+  minus
+- `screen-flow.json` pages (reachable via links)
+
+### Guided Explore (prefer unvisited)
+- `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`
+- Publish JSON to docs:
+  - set `QA_EXPLORE_PUBLISH=1`
+
+### One command run (recommended)
+- `bash .qa/run-flow-coverage.sh`
+
+Outputs (committable):
+- `docs/qa/screen-flow.md|json`
+- `docs/qa/flow-analysis.md|json`
+- `docs/qa/link-fix-list.md`
+- `docs/qa/guided-coverage.json`
+- `docs/qa/QA_POCKET_RUNLOG.md`
+<!-- QA_FLOW_COVERAGE_END -->
+

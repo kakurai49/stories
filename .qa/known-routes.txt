@@ -1,0 +1,13 @@
+# QA Known Routes (unreachable detection targets)
+# - ここに「存在すると期待するページ（ルート）」を 1行1つで追加してください
+# - unreachable は「known-routes にあるのに screen-flow で辿れなかったページ」です
+#
+# 例:
+# /
+# /about
+# /contact
+/
+/nagi-s1/index.html
+/nagi-s1/generated/hina/index.html
+/nagi-s2/index.html
+/nagi-s3/index.html
