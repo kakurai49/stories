@@ -61,12 +61,12 @@ graph TD
   N49["/nagi-s1/story9.html"]
   N50["/nagi-s2/index.html"]
   N51["/nagi-s3/index.html"]
-  N0 --> N5
   N0 --> N34
+  N0 --> N5
   N0 --> N50
   N0 --> N51
-  N1 --> N5
   N1 --> N34
+  N1 --> N5
   N1 --> N50
   N1 --> N51
   N3 --> N2
@@ -142,9 +142,6 @@ graph TD
   N18 --> N3
   N18 --> N19
   N34 --> N38
-  N34 --> N39
-  N34 --> N40
-  N34 --> N41
   N34 --> N42
   N34 --> N43
   N34 --> N44
@@ -153,6 +150,9 @@ graph TD
   N34 --> N47
   N34 --> N48
   N34 --> N49
+  N34 --> N39
+  N34 --> N40
+  N34 --> N41
   N38 --> N34
   N39 --> N34
   N40 --> N34

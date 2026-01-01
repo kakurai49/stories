@@ -1,0 +1,16 @@
+{
+  "name": "stories-playwright",
+  "image": "mcr.microsoft.com/playwright:v1.57.0-jammy",
+  "remoteUser": "pwuser",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "containerEnv": {
+    "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-playwright.playwright"
+      ]
+    }
+  }
+}
