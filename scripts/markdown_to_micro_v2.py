@@ -17,8 +17,9 @@ from pathlib import Path
 from typing import Iterable, List
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+REPO_ROOT_STR = str(REPO_ROOT)
+if REPO_ROOT_STR not in sys.path:
+    sys.path.insert(0, REPO_ROOT_STR)
 
 from sitegen.io_utils import write_json_stable
 from sitegen.micro_ids import block_id_from_block

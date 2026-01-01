@@ -86,3 +86,16 @@ def test_cli_help_is_informative(tmp_path: Path) -> None:
 
     assert result.returncode == 0
     assert "Convert markdown fences to micro store" in result.stdout
+
+
+def test_cli_help_command_succeeds() -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    result = subprocess.run(
+        [sys.executable, "scripts/markdown_to_micro_v2.py", "--help"],
+        capture_output=True,
+        text=True,
+        cwd=repo_root,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr
