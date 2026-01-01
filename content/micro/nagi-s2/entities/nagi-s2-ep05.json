@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_0c308c7beb4ee0840ace55f370221c2f366f8bf1"
+    ]
+  },
+  "id": "nagi-s2-ep05",
+  "meta": {
+    "summary": "POMで世界は少し整った。だが、ひかりのテストはまだ“画面の細部”に引きずられていた。条件分岐が増え、UIの揺れがテストに染み込む。 「なんか……またごちゃごちゃしてきました」 ひかりが呟くと、ナギはホワイトボードの前に立った。 「次は“レンズ”の話をしよう」 ナギは“World",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s2"
+    ],
+    "title": "第5話「レンズは推しを見るためのメガネ」"
+  },
+  "relations": {
+    "index": 5,
+    "season": "nagi-s2"
+  },
+  "type": "story",
+  "variant": "hina"
+}

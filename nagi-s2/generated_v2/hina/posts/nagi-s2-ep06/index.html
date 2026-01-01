@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第6話「落ちたり通ったり、フレークテスト涙事件」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="朝、CIは緑だった。 昼、同じコミットで赤になった。 夕方、また緑になった。 ひかりは画面を見つめて、何が起きているのか理解できなかった。 「……同じコードなのに、落ちたり通ったりするんですけど！？」 それは最悪の種類の不安だ。自分のミスなら直せる。でも“気分”で落ちるテストは、">
+    <meta property="og:title" content="第6話「落ちたり通ったり、フレークテスト涙事件」">
+    <meta property="og:description" content="朝、CIは緑だった。 昼、同じコミットで赤になった。 夕方、また緑になった。 ひかりは画面を見つめて、何が起きているのか理解できなかった。 「……同じコードなのに、落ちたり通ったりするんですけど！？」 それは最悪の種類の不安だ。自分のミスなら直せる。でも“気分”で落ちるテストは、">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s2-ep06">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s2-ep06" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第6話「落ちたり通ったり、フレークテスト涙事件」</h1>
+      <p class="sg-lede">朝、CIは緑だった。 昼、同じコミットで赤になった。 夕方、また緑になった。 ひかりは画面を見つめて、何が起きているのか理解できなかった。 「……同じコードなのに、落ちたり通ったりするんですけど！？」 それは最悪の種類の不安だ。自分のミスなら直せる。でも“気分”で落ちるテストは、</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">朝、CIは緑だった。
+昼、同じコミットで赤になった。
+夕方、また緑になった。
+ひかりは画面を見つめて、何が起きているのか理解できなかった。
+
+「……同じコードなのに、落ちたり通ったりするんですけど！？」
+それは最悪の種類の不安だ。自分のミスなら直せる。でも“気分”で落ちるテストは、人格を否定してくる。
+ひかりの目に涙が溜まる。
+「私のコード……嫌われてる……？」
+
+ナギは静かに椅子を寄せた。
+「嫌われてるんじゃない。同期が取れてないだけ」
+彼はログとスクリーンショットを並べ、落ちた時の画面を指差す。
+「ここ。アニメーションが終わる前にクリックしてる。要素は見えてるけど、触れない状態だった」
+
+ひかりは唇を噛む。
+「じゃあ、`sleep(2)`入れれば……」
+ミオが即座に首を振った。
+「秒数ハードコードは毒。環境で揺れる」
+ナギが頷き、言葉を足す。
+「待つなら“状態”で待とう。explicit wait。相手が準備できるまで待つ」
+
+その言葉が、ひかりの胸に刺さった。
+“相手が準備できるまで待つ。”
+恋愛漫画の名台詞みたいだ。ひかりは変なところで納得してしまう。
+「……テストでも人間関係でも、なんですね」
+
+レンズの中に、待ちの責務を入れる。
+`waitUntilClickable()`
+`waitUntilVisible()`
+“ボタンが押せる状態”を条件として待つ。テスト本体から秒数を追い出す。
+何度も実行する。落ちない。落ちない。落ちない。
+
+緑が連続して点灯した瞬間、ひかりは椅子から半分立ち上がった。
+「……テストが、笑ってくれた！」
+真壁が通りすがりに言う。
+「笑ってるんじゃない。やっと普通になったんだ」
+だが、ひかりにとっては奇跡だった。
+“普通”が、こんなに尊い。
+
+ナギは、ひかりの肩越しに画面を見て言った。
+「フレークは、テストが世界の揺れを拾ってるサイン。拾うべき揺れと、拾うべきじゃない揺れを分けるんだ。レンズで」
+ひかりは頷きながら、ふと思う。
+自分はこれまで、世界の揺れに怯えて泣いていた。けれど今は、揺れを“観測”して、扱える気がする。
+
+退勤前、ひかりはPRの説明に書いた。
+“待ちを秒数から状態へ。レンズに閉じ込めて安定化。”
+小さな言葉。でもそれは、未来の誰かを救うメモになる。
+第2話で学んだ“優しさの残骸”を、自分も少しだけ積み上げ始めたのだ。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s2-ep06</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

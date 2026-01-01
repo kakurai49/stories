@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_549fbbad636a45434cde8a6d02135492df216f56"
+    ]
+  },
+  "id": "nagi-s3-ep03",
+  "meta": {
+    "summary": "翌日、ナギはテストコードのリポジトリを開き、ため息ではなく“観察”をした。 Appium のスクリプトは、画面ロケータが直書き、待機がベタ書き、期待値がテストメソッドの中で溺れている。ひとつのテストが、仕様・UI・タイミングの三つの泥を全部かぶっていた。 「これ、触るたびに指が汚",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第3話「スパゲッティスクリプトと POM の出会い」"
+  },
+  "relations": {
+    "index": 3,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

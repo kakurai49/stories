@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_19ba15fc18e7ff559d7138aab545cf6bae4f1dda"
+    ]
+  },
+  "id": "nagi-s3-ep02",
+  "meta": {
+    "summary": "午後の会議室。真壁と古参が並び、腕を組んでいる。 「E2E を回してきたから、ここまで来れたんです。ユニット？ API？理屈は分かるけど、現場は時間ないんで」 誰かが言うと、頷きが連鎖した。旧来 GUI 自動化教団――そう揶揄される彼らの結束は固い。 ナギは一度も声を荒げない。ホ",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第2話「『今まで通りでいい』軍 vs テストピラミッド」"
+  },
+  "relations": {
+    "index": 2,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

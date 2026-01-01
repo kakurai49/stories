@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_0d97af971993c89afd17188a47b860c01bdda9cb"
+    ]
+  },
+  "id": "nagi-s3-ep05",
+  "meta": {
+    "summary": "POM は効いた。だが、まだ痛みは残る。 テストが落ちるたびに、POM とテストの境界で“何をどこまで知るか”が曖昧になり、メンテは局所最適に陥る。コードは整理されても、変更の衝撃は漏れてくる。 ナギはホワイトボードに新しい箱を描いた。 WorldState：アプリ全体の状態（ロ",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第5話「レンズ誕生 ― GUI 詳細を閉じ込めろ」"
+  },
+  "relations": {
+    "index": 5,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_361d8f9990a3bf63097699b0be0ad0324de768ef"
+    ]
+  },
+  "id": "nagi-s2-ep04",
+  "meta": {
+    "summary": "一本書けた。ひかりの中で何かが弾けた。 「いける、私……いけるかもしれない！」 その勢いのまま、彼女はテストケースを増やし始めた。ログイン、検索、いいね、コメント……。手っ取り早い方法はコピペだ。動いたコードを複製して、ちょっと直す。増える。増える。増える。 三日後。UIの文言が",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s2"
+    ],
+    "title": "第4話「コピペ地獄からのPage Object救出作戦」"
+  },
+  "relations": {
+    "index": 4,
+    "season": "nagi-s2"
+  },
+  "type": "story",
+  "variant": "hina"
+}

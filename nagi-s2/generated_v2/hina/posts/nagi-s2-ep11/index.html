@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第11話「リリース前夜、ひかりのテストが世界を守る」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="大型リリース前夜。オフィスの照明は落とされ、モニタの光だけが人の顔を照らしていた。 「最終回帰、回します」 ミオの声は淡々としているが、その背中は緊張で少し硬い。 真壁はコーヒーを片手に立ち尽くし、ナギは静かにCIの画面を見ている。 ひかりは自分の席で、指先を握りしめた。祈るよう">
+    <meta property="og:title" content="第11話「リリース前夜、ひかりのテストが世界を守る」">
+    <meta property="og:description" content="大型リリース前夜。オフィスの照明は落とされ、モニタの光だけが人の顔を照らしていた。 「最終回帰、回します」 ミオの声は淡々としているが、その背中は緊張で少し硬い。 真壁はコーヒーを片手に立ち尽くし、ナギは静かにCIの画面を見ている。 ひかりは自分の席で、指先を握りしめた。祈るよう">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s2-ep11">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s2-ep11" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第11話「リリース前夜、ひかりのテストが世界を守る」</h1>
+      <p class="sg-lede">大型リリース前夜。オフィスの照明は落とされ、モニタの光だけが人の顔を照らしていた。 「最終回帰、回します」 ミオの声は淡々としているが、その背中は緊張で少し硬い。 真壁はコーヒーを片手に立ち尽くし、ナギは静かにCIの画面を見ている。 ひかりは自分の席で、指先を握りしめた。祈るよう</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">大型リリース前夜。オフィスの照明は落とされ、モニタの光だけが人の顔を照らしていた。
+「最終回帰、回します」
+ミオの声は淡々としているが、その背中は緊張で少し硬い。
+真壁はコーヒーを片手に立ち尽くし、ナギは静かにCIの画面を見ている。
+ひかりは自分の席で、指先を握りしめた。祈るように。
+
+回帰スイートが走る。緑が並ぶ。
+その中で、一つだけ赤が灯った。
+ひかりのテストだった。通知ではない。タイムラインの“購入フロー”の回帰。
+「え……私の、落ちた……？」
+心臓が跳ねる。
+でも今回は、フレークじゃない。ログが明確だ。
+“購入ボタン押下後、確認画面に遷移せず”
+スクリーンショットには、見た目は些細なUI変更しか映っていない。ボタンの位置が少しずれているだけ。
+「こんなので落ちる？」
+真壁が眉をひそめる。
+
+ナギが言った。
+「見た目は些細でも、裏のビジネスルールが壊れてる可能性がある」
+ひかりはレンズのログを追う。Lensが、どの状態で止まったかを言葉で残している。
+“購入確認ダイアログが表示されない”
+“ユーザ状態：支払い方法登録済み”
+“商品状態：在庫あり”
+WorldStateの断片が、明確に残っていた。
+
+原因はすぐ見えた。
+UI変更のついでに、確認ダイアログを出す条件が誤って書き換えられていた。特定のユーザ状態でスキップされ、直接購入処理に進むはずが、途中で弾かれていた。
+もし本番に出たら、購入できないユーザが出る。炎上する。
+真壁が低く言った。
+「……これ、すり抜けてたら終わってたな」
+
+PMが駆け込んでくる。
+「何かあった？」
+ナギが簡潔に答える。
+「回帰で重大な購入バグを検知した。修正は小さく済む」
+PMが画面を見て、青ざめてから、息を吐いた。
+「正直、このバグすり抜けてたら炎上してたわ……このテスト書いてたの誰？」
+ひかりは喉が詰まって、小声になった。
+「……な、涙川です……」
+
+一瞬の沈黙。
+次の瞬間、PMが頭を下げた。
+「ありがとう。本当に助かった」
+ミオが小さく拍手をした。
+真壁がぶっきらぼうに言う。
+「よくやった。今夜は帰れないけどな」
+ひかりは笑って、泣いた。涙が止まらなかった。
+でもそれは恐怖の涙じゃない。
+“自分のコードが、推しアプリを守った”という実感の涙だった。
+
+ナギが静かに言った。
+「レンズが効いた。Gで観点を選んで、守るべきルールをテストにしたから、UIの小さな揺れの奥の“壊れ”を掴めた」
+ひかりは頷きながら、手の震えが止まっていくのを感じた。
+怖い夜だった。
+でも、守れた夜だった。
+
+窓の外は暗い。
+それでもモニタの緑が、確かに世界を照らしていた。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s2-ep11</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

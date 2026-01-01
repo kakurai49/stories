@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_9588b946704e8b8edc7e1809789d4362a7eb27d9"
+    ]
+  },
+  "id": "nagi-s3-ep08",
+  "meta": {
+    "summary": "月末。CFO と CPO に向けた中間報告。 会議室のスクリーンに、ナギが出したのは“理屈”ではなく“実績”だった。 「旧方式：GUI テスト 300 本、メンテ 30h/リリース」 スライドが切り替わる。 「POM 導入後：同 300 本、メンテ 10h/リリース」 さらに切り",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第8話「数値で殴る日 ― 5 倍差のグラフ」"
+  },
+  "relations": {
+    "index": 8,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

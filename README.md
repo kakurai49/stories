@@ -131,17 +131,26 @@ python -m sitegen.cli_build_site \
      ```
      - 13 本未満／超過ならエラーで停止する。`--tag` を複数指定すると任意タグを追加できる。
   3. **micro から HTML をビルドする（v2）**
-     ```bash
-     python -m sitegen.cli_build_site \
-       --micro-store content/micro/nagi-s2 \
-       --experiences config/experiences.yaml \
-       --src experience_src \
-       --out nagi-s2/generated_v2 \
-       --shared \
-       --deterministic \
-       --check
-     ```
-     - `--experience hina` などを追加すれば対象体験を絞れる。`--check` 付きなので決定性も同時に検証される。
+```bash
+python -m sitegen.cli_build_site \
+  --micro-store content/micro/nagi-s2 \
+  --experiences config/experiences.yaml \
+  --src experience_src \
+  --out nagi-s2/generated_v2 \
+  --shared \
+  --deterministic \
+  --check
+```
+- `--experience hina` などを追加すれば対象体験を絞れる。`--check` 付きなので決定性も同時に検証される。
+- `artifacts/` 配下は .gitignore 済みで Codex からは見えないため、プレビュー出力は `nagi-s2/generated_v2` や `nagi-s3/generated_v2` のような git トラッキングされるディレクトリに置くこと。
+
+#### v2 プレビュー用スクリプト
+`scripts/build_preview_v2.py` で micro 生成から HTML ビルドまでをワンコマンドで実行できます。出力は git 追跡される `nagi-s2/generated_v2` / `nagi-s3/generated_v2` を使用します。
+```bash
+python scripts/build_preview_v2.py --force
+# 特定シーズンだけ
+python scripts/build_preview_v2.py --season nagi-s2 --force
+```
 
 ### 補助コマンド
 - 雛形生成: `python -m sitegen scaffold --experiences config/experiences.yaml --src experience_src --out-root generated`

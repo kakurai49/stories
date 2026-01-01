@@ -1,0 +1,32 @@
+{
+  "block_ids": [
+    "blk_c6e1ad68877a16269c356060c4971f30164622c8",
+    "blk_9614292a8e8449368f9672fed1e865ad8da2177a",
+    "blk_c9fa9aa54f1df2adc504924e48e2af35e1762077",
+    "blk_361d8f9990a3bf63097699b0be0ad0324de768ef",
+    "blk_0c308c7beb4ee0840ace55f370221c2f366f8bf1",
+    "blk_46707caebd386432ab835855145d90636734494f",
+    "blk_81e81d880a73e81f6567a39ac915777e3131735f",
+    "blk_6e64768dff5e58d7cb43ef4c9e1032d96b50bef8",
+    "blk_e220b2e6aa30a64ec3957912eb56f9dfa499632a",
+    "blk_bbd682d73ebcef7bb96aac760ab9ca8ce175518d",
+    "blk_4261fbc9d754b295c0d7b85b78d13476aecdbcc0",
+    "blk_9961c55312b3e09f6cc0178addb1f4dc72f0355b",
+    "blk_efe71cf02e675c0fa978b4092240cd764c7111d6"
+  ],
+  "entity_ids": [
+    "nagi-s2-ep01",
+    "nagi-s2-ep02",
+    "nagi-s2-ep03",
+    "nagi-s2-ep04",
+    "nagi-s2-ep05",
+    "nagi-s2-ep06",
+    "nagi-s2-ep07",
+    "nagi-s2-ep08",
+    "nagi-s2-ep09",
+    "nagi-s2-ep10",
+    "nagi-s2-ep11",
+    "nagi-s2-ep12",
+    "nagi-s2-ep13"
+  ]
+}

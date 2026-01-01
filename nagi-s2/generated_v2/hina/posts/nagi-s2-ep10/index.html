@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第10話「小さな機能のテスト設計リード」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="次に来たのは、新しい通知機能の追加だった。 「通知設定、今度は“時間帯”と“端末状態”も絡む。ややこしいぞ」 真壁がそう言いながら、意外な一言を続けた。 「ひかり、これ、設計から任せてみるか」 ひかりは固まった。 「え……私が？設計……？」 ナギが頷き、背中を押す。 「小さな機能">
+    <meta property="og:title" content="第10話「小さな機能のテスト設計リード」">
+    <meta property="og:description" content="次に来たのは、新しい通知機能の追加だった。 「通知設定、今度は“時間帯”と“端末状態”も絡む。ややこしいぞ」 真壁がそう言いながら、意外な一言を続けた。 「ひかり、これ、設計から任せてみるか」 ひかりは固まった。 「え……私が？設計……？」 ナギが頷き、背中を押す。 「小さな機能">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s2-ep10">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s2-ep10" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第10話「小さな機能のテスト設計リード」</h1>
+      <p class="sg-lede">次に来たのは、新しい通知機能の追加だった。 「通知設定、今度は“時間帯”と“端末状態”も絡む。ややこしいぞ」 真壁がそう言いながら、意外な一言を続けた。 「ひかり、これ、設計から任せてみるか」 ひかりは固まった。 「え……私が？設計……？」 ナギが頷き、背中を押す。 「小さな機能</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">次に来たのは、新しい通知機能の追加だった。
+「通知設定、今度は“時間帯”と“端末状態”も絡む。ややこしいぞ」
+真壁がそう言いながら、意外な一言を続けた。
+「ひかり、これ、設計から任せてみるか」
+ひかりは固まった。
+「え……私が？設計……？」
+ナギが頷き、背中を押す。
+「小さな機能でいい。Gを使って、観点SとA(S)を自分で決めてみよう」
+
+ひかりは会議室にこもり、ノートにWを書いた。
+W：通知設定状態／時間帯／端末のサイレント／ネットワーク／ユーザ属性
+E：通知すべき条件、すべきでない条件、OSの制約
+S：どこを見る？
+彼女はペンを止め、迷った。全部見たくなる。でも全部は無理。
+“観点を選ぶのが設計”
+第8話の言葉が蘇る。
+
+ひかりはSを三つに絞った。
+S1：正常に通知が届く
+S2：届かないべき時に届かない
+S3：境界（時間帯切り替わり、サイレントON/OFF）
+そしてA(S)として同値クラスを作る。
+“通知ON群”“通知OFF群”“時間帯内群”“時間帯外群”…
+境界値は、23:59と00:00。サイレント切替直後。
+頭の中でちびキャラが整列していく。
+
+次に、レンズを設計する。
+`NotificationSettingsLens`
+設定画面の操作と状態判定だけを閉じ込める。
+テスト本体は、観点の言葉だけで書く。
+`settings.enableNotification()`
+`settings.setQuietHours(23:00, 7:00)`
+`assertNotificationArrives()`
+この“言葉”が、ひかりの背骨になる。
+
+ミオがレビューで言った。
+「ケースの代表、いい選び方してる。境界も押さえてる」
+真壁が言った。
+「実装も悪くない。無駄に増やしてない」
+その評価が、ひかりを少しずつ現実の地面に立たせる。
+
+リリース後、一週間。通知に関するバグ報告が、一本も上がらなかった。
+PMがチームチャットに書く。
+“通知、今回めっちゃ安定してたね。ありがとう！”
+ひかりは画面を見て、しばらく固まったあと、静かにガッツポーズをした。
+
+ナギが隣で言う。
+「観点を選べたからだよ。A(S)を作れたから、網羅じゃなく設計になった」
+ひかりは笑いながら、少しだけ泣いた。
+「私……ソフトの中身、ちょっと見えた気がします」
+真壁が背後から言う。
+「見えるようになったら、次は作れ」
+その言葉に、ひかりの胸がまた熱くなる。
+自動化テストは、入り口。
+今、彼女は入り口の向こう側に、確かに足をかけていた。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s2-ep10</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->
