@@ -12,8 +12,13 @@ from typing import List, Optional
 from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
 from pydantic import ValidationError
 
+from .compile_pipeline import CompiledStore, CompiledPost, compile_store_v2
 from .models import ContentItem, ExperienceSpec
+from .micro_store import MicroStore
+from .patch_legacy import patch_legacy_pages
+from .routes_gen import write_routes_payload
 from .routing import PageSpec, SiteRouter, relative_href
+from .shared_gen import generate_init_features_js, generate_switcher_assets
 from .util_fs import ensure_dir
 
 
@@ -28,6 +33,7 @@ class BuildContext:
     shared_assets_dir: Path | None = None
     build_info: dict | None = None
     build_label: str | None = None
+    micro_css_path: Path | None = None
     _copied_assets: set[str] = field(default_factory=set, init=False, repr=False)
 
     @property
@@ -136,6 +142,38 @@ def load_content_items(content_dir: Path) -> list[ContentItem]:
     return items
 
 
+def load_micro_store_v2(micro_store_dir: Path) -> MicroStore:
+    """Load a micro store with strict validation for the v2 flow."""
+
+    return MicroStore.load(micro_store_dir)
+
+
+def _compiled_post_to_content_item(post: CompiledPost) -> ContentItem:
+    meta = post.meta
+    cta = meta.get("cta", {})
+    payload = {
+        "contentId": post.id,
+        "experience": post.variant,
+        "pageType": post.page_type,
+        "title": meta.get("title") or "",
+        "summary": meta.get("summary"),
+        "role": meta.get("role"),
+        "profile": meta.get("profile"),
+        "ctaLabel": cta.get("label"),
+        "ctaHref": cta.get("href"),
+        "render": {"kind": "html", "html": post.html},
+        "bodyHtml": post.html,
+        "tags": meta.get("tags", []),
+    }
+    if "dataHref" in meta:
+        payload["dataHref"] = meta["dataHref"]
+    return ContentItem.model_validate(payload)
+
+
+def _compiled_store_to_items(compiled: CompiledStore) -> list[ContentItem]:
+    return [_compiled_post_to_content_item(post) for post in compiled.posts.values()]
+
+
 def _content_for_experience(
     experience: ExperienceSpec, items: list[ContentItem]
 ) -> list[ContentItem]:
@@ -169,6 +207,10 @@ def _group_content(
             groups["site_meta"].append(item)
 
     return groups
+
+
+def _page_type_counts(items: list[ContentItem]) -> dict[str, int]:
+    return dict(Counter(item.page_type for item in items))
 
 
 def _load_manifest_meta(experience: ExperienceSpec, ctx: BuildContext) -> dict:
@@ -337,6 +379,33 @@ def build_view_model_for_experience(
     }
 
 
+def build_view_model_for_experience_v2(
+    experience: ExperienceSpec,
+    ctx: BuildContext,
+    compiled_store: CompiledStore,
+    *,
+    base: Path,
+    compiled_items: list[ContentItem] | None = None,
+    current_item: ContentItem | None = None,
+    template_key: str = "home",
+    router: SiteRouter | None = None,
+    page_spec: PageSpec | None = None,
+) -> dict:
+    """Wrapper around build_view_model_for_experience for the v2 micro flow."""
+
+    items = compiled_items or _compiled_store_to_items(compiled_store)
+    return build_view_model_for_experience(
+        experience,
+        ctx,
+        items,
+        base=base,
+        current_item=current_item,
+        template_key=template_key,
+        router=router,
+        page_spec=page_spec,
+    )
+
+
 def build_home(
     experience: ExperienceSpec,
     ctx: BuildContext,
@@ -458,6 +527,7 @@ def build_detail(
     *,
     router: SiteRouter,
     page_spec: PageSpec | None = None,
+    micro_css_path: Path | None = None,
 ) -> List[Path]:
     """Render the detail template for a single content item."""
 
@@ -484,6 +554,9 @@ def build_detail(
     routes_href = relative_href(ctx.routes_path, output_file.parent)
     ctx.copy_assets(experience)
     asset_prefix = relative_href(output_dir, output_file.parent)
+    micro_css_href = (
+        relative_href(micro_css_path, output_file.parent) if micro_css_path else None
+    )
     features_init_href = (
         relative_href(ctx.shared_init_features, output_file.parent)
         if ctx.shared_init_features
@@ -514,6 +587,7 @@ def build_detail(
         template_key="detail",
         nav_links=view_model["nav"]["links"],
         view_model=view_model,
+        micro_css_href=micro_css_href,
     )
     if ctx.build_label:
         rendered += f"\n<!-- sitegen build: {ctx.build_label} -->\n"
@@ -522,9 +596,119 @@ def build_detail(
     return [output_file]
 
 
+def build_site_from_micro_v2(
+    *,
+    micro_store_dir: Path,
+    experiences: list[ExperienceSpec],
+    ctx: BuildContext,
+    compiled_store: CompiledStore | None = None,
+    generate_shared: bool = False,
+    generate_all: bool = False,
+    legacy_base: Path | None = None,
+) -> list[Path]:
+    """Build generated experiences directly from a micro store (v2 flow)."""
+
+    ensure_dir(ctx.out_root)
+    store = load_micro_store_v2(micro_store_dir)
+    compiled = compiled_store or compile_store_v2(store)
+    items = _compiled_store_to_items(compiled)
+
+    if generate_shared or generate_all:
+        ctx.shared_init_features = generate_init_features_js(ctx.out_root)
+    if generate_all:
+        ctx.shared_assets_dir = ensure_dir(ctx.out_root / "shared")
+
+    if compiled.css_text:
+        ctx.micro_css_path = ctx.out_root / "micro.css"
+        ctx.micro_css_path.write_text(compiled.css_text, encoding="utf-8")
+        written_assets: list[Path] = [ctx.micro_css_path]
+    else:
+        written_assets = []
+
+    router = SiteRouter(ctx, experiences, items)
+    generated = [exp for exp in experiences if exp.kind == "generated"]
+    if not generated:
+        return []
+
+    if ctx.build_label:
+        ctx.build_label = f"{ctx.build_label} items={len(items)}"
+
+    ctx.build_info = {
+        "out": ".",
+        "content": {"total": len(items), "pageTypes": _page_type_counts(items)},
+        "experiences": [],
+        "routesFilename": ctx.routes_filename,
+        "microStore": str(micro_store_dir),
+    }
+
+    written: list[Path] = list(written_assets)
+    for exp in generated:
+        targeted = _content_for_experience(exp, items)
+        ctx.build_info["experiences"].append(
+            {
+                "key": exp.key,
+                "outputDir": str(ctx.output_dir(exp).relative_to(ctx.out_root)),
+                "content": {
+                    "total": len(targeted),
+                    "pageTypes": _page_type_counts(targeted),
+                },
+            }
+        )
+        for page in router.pages_for_experience(exp.key):
+            if page.page_type == "home":
+                written.extend(build_home(exp, ctx, items, router=router, page_spec=page))
+            elif page.page_type == "list":
+                written.extend(build_list(exp, ctx, items, router=router, page_spec=page))
+            elif page.content:
+                written.extend(
+                    build_detail(
+                        exp,
+                        ctx,
+                        page.content,
+                        items,
+                        router=router,
+                        page_spec=page,
+                        micro_css_path=ctx.micro_css_path,
+                    )
+                )
+
+    written.extend(router.render_aliases())
+
+    if generate_all:
+        routes_payload = router.routes_payload()
+        route_targets = [ctx.routes_path]
+        written.extend(write_routes_payload(routes_payload, route_targets))
+        written.extend(generate_switcher_assets([Path("."), ctx.out_root]))
+        written.extend(
+            patch_legacy_pages(
+                Path(legacy_base or "."),
+                routes_href=str(Path(ctx.out_root.name) / ctx.routes_filename),
+                css_href=str(Path(ctx.out_root.name) / "shared" / "switcher.css"),
+                js_href=str(Path(ctx.out_root.name) / "shared" / "switcher.js"),
+            )
+        )
+
+    build_info_path = ctx.out_root / "_buildinfo.json"
+    ctx.build_info["writtenFiles"] = [
+        str(path.relative_to(ctx.out_root))
+        if path.is_relative_to(ctx.out_root)
+        else str(path)
+        for path in sorted(set(written))
+    ]
+    build_info_path.write_text(
+        json.dumps(ctx.build_info, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    written.append(build_info_path)
+    return written
+
+
 __all__ = [
     "BuildContext",
     "build_view_model_for_experience",
+    "build_view_model_for_experience_v2",
+    "build_site_from_micro_v2",
+    "load_micro_store_v2",
     "build_detail",
     "build_home",
     "build_list",

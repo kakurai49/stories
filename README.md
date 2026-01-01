@@ -79,6 +79,19 @@ python -m sitegen build \
   --all
 ```
 
+### micro store から直接ビルドする（v2）
+legacy JSON (`content/posts/*.json` や `dist/posts/*.json`) を介さず、micro store からそのままテンプレートを描画するフローです。`--check` を付けると同一入力で 2 回ビルドし、HTML と `micro.css` のハッシュ一致を自動検証します。
+```bash
+python -m sitegen.cli_build_site \
+  --micro-store content/micro \
+  --experiences config/experiences.yaml \
+  --src experience_src \
+  --out generated_v2 \
+  --shared \
+  --deterministic \
+  --check
+```
+
 ### 補助コマンド
 - 雛形生成: `python -m sitegen scaffold --experiences config/experiences.yaml --src experience_src --out-root generated`
 - manifest 出力: `python -m sitegen gen-manifests --experiences config/experiences.yaml --src experience_src`

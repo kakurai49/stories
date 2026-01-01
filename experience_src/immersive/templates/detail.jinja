@@ -12,6 +12,9 @@
 
 {% block head_styles %}
     <link rel="stylesheet" href="{{ asset_prefix }}/assets/components.css">
+    {% if micro_css_href %}
+    <link rel="stylesheet" href="{{ micro_css_href }}">
+    {% endif %}
 {% endblock %}
 {% block head_extra %}
     <meta name="description" content="{{ content.summary or site.description }}">

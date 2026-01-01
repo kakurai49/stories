@@ -1,11 +1,12 @@
-"""Compilation pipeline from micro world to legacy HTML output."""
+"""Compilation pipeline from micro world to HTML and legacy outputs."""
 
 from __future__ import annotations
 
 import importlib.util
 import html
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Iterable, List, Tuple
 
 from .dom_model import DomNode, dom_to_html
 from .io_utils import write_json
@@ -151,6 +152,55 @@ def emit_legacy(entity: Dict[str, Any], html_text: str) -> Dict[str, Any]:
     return legacy
 
 
+@dataclass
+class CompiledPost:
+    """Compiled HTML and metadata for a single micro entity."""
+
+    entity: Dict[str, Any]
+    html: str
+
+    @property
+    def meta(self) -> Dict[str, Any]:
+        return self.entity.get("meta", {})
+
+    @property
+    def id(self) -> str:
+        return self.entity["id"]
+
+    @property
+    def variant(self) -> str:
+        return self.entity["variant"]
+
+    @property
+    def page_type(self) -> str:
+        return self.entity["type"]
+
+
+@dataclass
+class CompiledStore:
+    posts: Dict[str, CompiledPost]
+    css_text: str
+
+
+def compile_store_v2(store: MicroStore, *, theme: dict[str, Any] | None = None) -> CompiledStore:
+    """Compile micro store into HTML fragments without emitting legacy JSON."""
+
+    compiled_posts: Dict[str, CompiledPost] = {}
+    css_text: str | None = None
+    theme = theme or {}
+
+    for entity in store.iter_posts():
+        blocks = resolve_blocks(entity, store)
+        dom = blocks_to_dom(blocks, ctx={"entity": entity})
+        dom, css_text_candidate = apply_theme(dom, theme=theme)
+        if css_text is None:
+            css_text = css_text_candidate
+        html_text = dom_to_html(dom)
+        compiled_posts[entity["id"]] = CompiledPost(entity=entity, html=html_text)
+
+    return CompiledStore(posts=compiled_posts, css_text=css_text or "")
+
+
 def build_posts(micro_dir: Path, dist_dir: Path) -> None:
     store = load_micro_store(micro_dir)
     blocks_dir = dist_dir / "posts"
@@ -159,7 +209,7 @@ def build_posts(micro_dir: Path, dist_dir: Path) -> None:
 
     generated_css = None
 
-    for entity in store.entities:
+    for entity in store.iter_posts():
         blocks = resolve_blocks(entity, store)
         dom = blocks_to_dom(blocks, ctx={"entity": entity})
         dom, css_text = apply_theme(dom, theme={})
