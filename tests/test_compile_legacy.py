@@ -26,6 +26,10 @@ def test_build_posts_outputs_html(tmp_path: Path):
         "relations": {},
     }
     write_json(entities_dir / "post1.json", entity)
+    write_json(
+        micro_dir / "index.json",
+        {"entity_ids": ["post1"], "block_ids": [block_id]},
+    )
 
     dist_dir = tmp_path / "dist"
     build_posts(micro_dir, dist_dir)
