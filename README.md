@@ -105,6 +105,44 @@ python -m sitegen.cli_build_site \
   --check
 ```
 
+- nagi-s2 / nagi-s3 の markdown から micro / HTML を作る場合（v2 フロー）:
+  1. **加工設計（v2）**
+     - 13 本のストーリーはすべて ```text``` コードフェンス内にあり、各フェンスを Markdown ブロックとして扱う。
+     - ブロックは fingerprint ベースの ID（`blk_<sha1>`）で保存し、エンティティは `<season>-epXX` で連番化。`variant` は既存テンプレート互換の `hina` を前提とする。
+     - `meta.title` は各フェンスの最初の非空行、`meta.summary` は本文を 140 文字に圧縮したダイジェスト、`meta.tags` は `["story", "episode", <season>]`（必要に応じて追加タグを渡す）とする。
+     - `relations` には `{"season": <season>, "index": <order>}` を入れて順序を保持。`body.blockRefs` は生成したブロック ID を 1 つ持つ。
+  2. **micro ストアを生成する**（必要に応じて `--season` を `nagi-s2` / `nagi-s3` に切り替える）
+     ```bash
+     python scripts/markdown_to_micro_v2.py \
+       --input nagi-s2/nagi-s2.md \
+       --out content/micro/nagi-s2 \
+       --season nagi-s2 \
+       --variant hina \
+       --expected-blocks 13 \
+       --force
+     # nagi-s3 版
+     python scripts/markdown_to_micro_v2.py \
+       --input nagi-s3/nagi-s3.md \
+       --out content/micro/nagi-s3 \
+       --season nagi-s3 \
+       --variant hina \
+       --expected-blocks 13 \
+       --force
+     ```
+     - 13 本未満／超過ならエラーで停止する。`--tag` を複数指定すると任意タグを追加できる。
+  3. **micro から HTML をビルドする（v2）**
+     ```bash
+     python -m sitegen.cli_build_site \
+       --micro-store content/micro/nagi-s2 \
+       --experiences config/experiences.yaml \
+       --src experience_src \
+       --out nagi-s2/generated_v2 \
+       --shared \
+       --deterministic \
+       --check
+     ```
+     - `--experience hina` などを追加すれば対象体験を絞れる。`--check` 付きなので決定性も同時に検証される。
+
 ### 補助コマンド
 - 雛形生成: `python -m sitegen scaffold --experiences config/experiences.yaml --src experience_src --out-root generated`
 - manifest 出力: `python -m sitegen gen-manifests --experiences config/experiences.yaml --src experience_src`
