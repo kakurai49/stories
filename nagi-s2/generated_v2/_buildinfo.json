@@ -1,0 +1,54 @@
+{
+  "out": ".",
+  "content": {
+    "total": 13,
+    "pageTypes": {
+      "story": 13
+    }
+  },
+  "experiences": [
+    {
+      "key": "hina",
+      "outputDir": "hina",
+      "content": {
+        "total": 13,
+        "pageTypes": {
+          "story": 13
+        }
+      }
+    }
+  ],
+  "routesFilename": "routes.json",
+  "microStore": "/workspace/stories/content/micro/nagi-s2",
+  "writtenFiles": [
+    "hina/index.html",
+    "hina/list/index.html",
+    "hina/posts/nagi-s2-ep01/index.html",
+    "hina/posts/nagi-s2-ep01.html",
+    "hina/posts/nagi-s2-ep02/index.html",
+    "hina/posts/nagi-s2-ep02.html",
+    "hina/posts/nagi-s2-ep03/index.html",
+    "hina/posts/nagi-s2-ep03.html",
+    "hina/posts/nagi-s2-ep04/index.html",
+    "hina/posts/nagi-s2-ep04.html",
+    "hina/posts/nagi-s2-ep05/index.html",
+    "hina/posts/nagi-s2-ep05.html",
+    "hina/posts/nagi-s2-ep06/index.html",
+    "hina/posts/nagi-s2-ep06.html",
+    "hina/posts/nagi-s2-ep07/index.html",
+    "hina/posts/nagi-s2-ep07.html",
+    "hina/posts/nagi-s2-ep08/index.html",
+    "hina/posts/nagi-s2-ep08.html",
+    "hina/posts/nagi-s2-ep09/index.html",
+    "hina/posts/nagi-s2-ep09.html",
+    "hina/posts/nagi-s2-ep10/index.html",
+    "hina/posts/nagi-s2-ep10.html",
+    "hina/posts/nagi-s2-ep11/index.html",
+    "hina/posts/nagi-s2-ep11.html",
+    "hina/posts/nagi-s2-ep12/index.html",
+    "hina/posts/nagi-s2-ep12.html",
+    "hina/posts/nagi-s2-ep13/index.html",
+    "hina/posts/nagi-s2-ep13.html",
+    "micro.css"
+  ]
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第3話「スパゲッティスクリプトと POM の出会い」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="翌日、ナギはテストコードのリポジトリを開き、ため息ではなく“観察”をした。 Appium のスクリプトは、画面ロケータが直書き、待機がベタ書き、期待値がテストメソッドの中で溺れている。ひとつのテストが、仕様・UI・タイミングの三つの泥を全部かぶっていた。 「これ、触るたびに指が汚">
+    <meta property="og:title" content="第3話「スパゲッティスクリプトと POM の出会い」">
+    <meta property="og:description" content="翌日、ナギはテストコードのリポジトリを開き、ため息ではなく“観察”をした。 Appium のスクリプトは、画面ロケータが直書き、待機がベタ書き、期待値がテストメソッドの中で溺れている。ひとつのテストが、仕様・UI・タイミングの三つの泥を全部かぶっていた。 「これ、触るたびに指が汚">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s3-ep03">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s3-ep03" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第3話「スパゲッティスクリプトと POM の出会い」</h1>
+      <p class="sg-lede">翌日、ナギはテストコードのリポジトリを開き、ため息ではなく“観察”をした。 Appium のスクリプトは、画面ロケータが直書き、待機がベタ書き、期待値がテストメソッドの中で溺れている。ひとつのテストが、仕様・UI・タイミングの三つの泥を全部かぶっていた。 「これ、触るたびに指が汚</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">翌日、ナギはテストコードのリポジトリを開き、ため息ではなく“観察”をした。
+Appium のスクリプトは、画面ロケータが直書き、待機がベタ書き、期待値がテストメソッドの中で溺れている。ひとつのテストが、仕様・UI・タイミングの三つの泥を全部かぶっていた。
+
+「これ、触るたびに指が汚れるタイプですね」
+ナギの独り言に、真壁が肩をすくめる。「でも動いてるんで」
+「動いてる、は今だけです。ロケータが変わるまで」
+ナギは小さな機能――ログインのエラーメッセージ表示――を選んだ。最小の戦場。
+
+「デモします。ページオブジェクトモデル、POM」
+彼女は LoginScreen というクラスを作り、ロケータと操作を閉じ込めた。テストは、画面の詳細を忘れて「入力して、送信して、表示を見る」だけになる。
+ミオが思わず前のめりになる。
+
+真壁が眉を寄せる。「そんなの、クラス増えるだけじゃ…」
+ナギはコミット差分を見せた。今まで同じボタンの locator が 8 箇所に散っている。POM では 1 箇所。
+
+「想像してみて。ボタンの ID が変わったら？」
+真壁が渋々答える。「……8 箇所直す」
+「8 テスト × 15 分で 2 時間、が現実的。POM なら 1 箇所 × 10 分で済む」
+数字は、感情より先に脳を殴る。会議室が静まり返る。
+
+ナギは追い打ちをしない。「POM だけで、GUI メンテは 3 分の 1くらいにできます。だけど、これは“応急処置”でもある」
+「応急処置？」
+「“どこに何があるか”は片付く。でも“何を確かめたいか”は、まだ散らかったまま」
+
+ミオはそれを聞いて、昨日の宿題を思い出した。分類できないテストが多すぎる。
+真壁は悔しそうに唇を噛む。「その機能に限れば、な」
+ナギは微笑む。「はい。まずは一箇所で勝つ。勝った方法を、構造にする」
+
+その夜、ミオは自分の担当テストを POM に移し替え始めた。コードが短くなるのではない。意味が見えるようになるのだ。
+そして彼女は気づく。ナギが言う“設計”とは、コードの綺麗さではなく、思考の交通整理だ。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s3-ep03</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

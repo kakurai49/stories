@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_50c326b30ba6bf921948ad2370059e19c24f3229"
+    ]
+  },
+  "id": "nagi-s3-ep09",
+  "meta": {
+    "summary": "標準化は、紙に書くだけでは終わらない。 チームの習慣と誇りを、別の形に移し替える作業だ。抵抗は続く。だが、公式ドキュメントの一行一行が、現場の言葉を変えていった。 新しい標準は三本柱。 ①テストピラミッドに沿った配置（ユニット／API を厚く、GUI は代表） ②GUI は PO",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第9話「文化戦争の終わりと、新しい標準」"
+  },
+  "relations": {
+    "index": 9,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

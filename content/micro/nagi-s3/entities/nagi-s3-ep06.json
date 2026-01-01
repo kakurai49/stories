@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_4db75cd715ed00bae31436d26a3a60bc611bf19d"
+    ]
+  },
+  "id": "nagi-s3-ep06",
+  "meta": {
+    "summary": "レンズが整うと、次の敵がはっきりする。 テストの本数だ。300 本は、設計が良くても重い。変更のたびに“仕様の変化”が波となって押し寄せる。レンズは波を分散できても、波そのものは消せない。 ナギは、画面遷移とビジネスルールを一枚の図にした。 状態（State）と遷移（Transi",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第6話「MBT で 300 本を 100 本に」"
+  },
+  "relations": {
+    "index": 6,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

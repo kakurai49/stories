@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_fc635800a6cf5ee011c0fdb0f9cd38b5391a0596"
+    ]
+  },
+  "id": "nagi-s3-ep12",
+  "meta": {
+    "summary": "大きなリリース当日。深夜のオフィスに、以前のような悲鳴はなかった。 Jenkins は緑が多い。落ちても原因がすぐ分かる。WorldState のログが、迷子を作らない。 GUI テストのメンテは 5 時間で終わった。かつての 30 時間が、遠い悪夢みたいだ。 CPO がチャット",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s3"
+    ],
+    "title": "第12話（最終話）「次の現場へ ― それぞれの G」"
+  },
+  "relations": {
+    "index": 12,
+    "season": "nagi-s3"
+  },
+  "type": "story",
+  "variant": "hina"
+}

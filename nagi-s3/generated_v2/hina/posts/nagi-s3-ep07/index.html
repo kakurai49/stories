@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第7話「敵の反撃：『抽象化は現場の役に立たない』」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="新アーキテクチャが広がり始めた矢先、最悪のタイミングで事件が起きた。 深夜、障害通知。新しい決済フローで、特定条件のユーザーだけが購入できない。SNS には怒り、CS は炎上。 翌朝、会議室に“敵”が勢揃いした。 真壁が顔色を失い、古参が嬉しそうに攻撃する。 「ほらな！ そんな数">
+    <meta property="og:title" content="第7話「敵の反撃：『抽象化は現場の役に立たない』」">
+    <meta property="og:description" content="新アーキテクチャが広がり始めた矢先、最悪のタイミングで事件が起きた。 深夜、障害通知。新しい決済フローで、特定条件のユーザーだけが購入できない。SNS には怒り、CS は炎上。 翌朝、会議室に“敵”が勢揃いした。 真壁が顔色を失い、古参が嬉しそうに攻撃する。 「ほらな！ そんな数">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s3-ep07">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s3-ep07" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第7話「敵の反撃：『抽象化は現場の役に立たない』」</h1>
+      <p class="sg-lede">新アーキテクチャが広がり始めた矢先、最悪のタイミングで事件が起きた。 深夜、障害通知。新しい決済フローで、特定条件のユーザーだけが購入できない。SNS には怒り、CS は炎上。 翌朝、会議室に“敵”が勢揃いした。 真壁が顔色を失い、古参が嬉しそうに攻撃する。 「ほらな！ そんな数</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">新アーキテクチャが広がり始めた矢先、最悪のタイミングで事件が起きた。
+深夜、障害通知。新しい決済フローで、特定条件のユーザーだけが購入できない。SNS には怒り、CS は炎上。
+
+翌朝、会議室に“敵”が勢揃いした。
+真壁が顔色を失い、古参が嬉しそうに攻撃する。
+「ほらな！ そんな数学とか言ってるからだ！」
+「抽象化なんて現場の役に立たない。スクリプトに全部書けば見えるんだよ！」
+
+ミオは胃が縮む。自分もレンズ実装に関わっていた。
+ナギは、焦らない。声のトーンも変えない。
+「ログ、ください。WorldState のスナップショットも」
+
+画面に並ぶ状態の差分。ログイン状態、ユーザー属性、課金種別、エラーコード。
+ナギは、まるでパズルを解くように言った。
+「境界条件が一つ漏れてる。年齢制限フラグと、地域規制の組み合わせ」
+真壁が目を見開く。「そんな組み合わせ、仕様書の端に…」
+「E です。制約。端にあるからこそ、落ちやすい」
+
+ナギは“観点カード”を一枚足した。
+S：年齢制限×地域規制の組み合わせで決済が拒否されること
+A(S)：代表ユーザー（該当フラグの境界）での確認
+
+追加するのはテスト 1 本。レンズは既存のまま。WorldState の生成に一行足すだけ。
+修正はその日の昼に終わった。
+
+古参が言い返す前に、ナギが静かに言った。
+「旧方式なら、どうしてました？」
+真壁が答えられずにいると、ミオが小さく言った。
+「……たぶん、関連しそうな E2E を 20 本くらい増やして、祈りながら回してた」
+
+ナギは頷く。
+「設計ミスは 1 箇所で直せる。これがアーキテクチャの価値です」
+真壁の表情が変わる。恐怖に支配された“増やす”ではなく、制約を理解した“足す”へ。
+
+会議室の空気から、攻撃の勢いが抜けていく。
+敵は勝てなかったのではない。勝負の土俵が、変わってしまったのだ。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s3-ep07</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

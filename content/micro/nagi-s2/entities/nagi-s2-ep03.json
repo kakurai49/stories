@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_c9fa9aa54f1df2adc504924e48e2af35e1762077"
+    ]
+  },
+  "id": "nagi-s2-ep03",
+  "meta": {
+    "summary": "環境が整っただけで、ひかりは一段強くなった気がしていた。だが、ナギが次に差し出したのは現実そのもの。 「簡単なE2Eテストを一本、自分で書いてみよう。ログインして、タイムラインを開いて、投稿が一件表示されること」 “簡単”という言葉が、ひかりの心を一瞬で凍らせる。だって、for文",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s2"
+    ],
+    "title": "第3話「初めてのテストコード、assertってなに？」"
+  },
+  "relations": {
+    "index": 3,
+    "season": "nagi-s2"
+  },
+  "type": "story",
+  "variant": "hina"
+}

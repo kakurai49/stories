@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第7話「テストデータは推しの設定資料集」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="テストが安定すると、ひかりは欲張りになる。ケースを増やしたい。境界を攻めたい。 だが新しい問題が出た。 「ユーザ登録が……面倒すぎる……」 テストのたびに手動でアカウントを作り、DBにゴミが溜まっていく。気づけば“test1234”が山ほど並び、どれが何のためか分からない。 ミオ">
+    <meta property="og:title" content="第7話「テストデータは推しの設定資料集」">
+    <meta property="og:description" content="テストが安定すると、ひかりは欲張りになる。ケースを増やしたい。境界を攻めたい。 だが新しい問題が出た。 「ユーザ登録が……面倒すぎる……」 テストのたびに手動でアカウントを作り、DBにゴミが溜まっていく。気づけば“test1234”が山ほど並び、どれが何のためか分からない。 ミオ">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s2-ep07">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s2-ep07" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第7話「テストデータは推しの設定資料集」</h1>
+      <p class="sg-lede">テストが安定すると、ひかりは欲張りになる。ケースを増やしたい。境界を攻めたい。 だが新しい問題が出た。 「ユーザ登録が……面倒すぎる……」 テストのたびに手動でアカウントを作り、DBにゴミが溜まっていく。気づけば“test1234”が山ほど並び、どれが何のためか分からない。 ミオ</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">テストが安定すると、ひかりは欲張りになる。ケースを増やしたい。境界を攻めたい。
+だが新しい問題が出た。
+「ユーザ登録が……面倒すぎる……」
+テストのたびに手動でアカウントを作り、DBにゴミが溜まっていく。気づけば“test1234”が山ほど並び、どれが何のためか分からない。
+
+ミオがため息をつく。
+「このままだと、環境が死ぬ。誰かが掃除する羽目になる」
+ひかりは肩をすくめ、泣きそうになる。
+「私が……ゴミ製造機……」
+
+ナギがホワイトボードに、短く書いた。
+Factory / Fixture
+「テストデータを“作る仕組み”にする。手で作ると、意図も履歴も散る。コードにすると、意図が残る」
+そして例を見せる。
+`UserFactory.validAdult()`
+`UserFactory.invalidBirthday()`
+`UserFactory.edgeCaseAge(18)`
+「テストデータは、推しキャラの公式設定資料集みたいなもの。どんな属性を何種類用意するか、決めておこう」
+
+ひかりは、目を輝かせた。
+「設定資料集……！私、設定資料集なら一生読めます！」
+真壁が小声で呟く。
+「仕事にしてくれ」
+
+ナギは続けて、同値分割と境界値の図を描いた。
+「ここが同値クラス。似たものはまとめて代表を選ぶ。で、境界は壊れやすいから押さえる」
+ひかりはノートに、年齢のラインを引き、キャラっぽく落書きしながら理解していく。
+“17歳＝未成年ちゃん”
+“18歳＝境界先輩”
+“19歳＝成人さん”
+ふざけているようで、意外と頭に残った。
+
+その日の午後、ひかりはFactoryを作り始めた。
+ユーザ名に意味を込める。
+“adult_valid_01”
+“birthday_invalid_LeapDay”
+データを作る時点で「何を試したいか」が明確になる。
+さらに、テスト後にデータを片付ける仕組みも入れる。
+「掃除までがテスト……」
+ミオが頷いた。
+「掃除できる人が、強い」
+
+夜、ひかりは自分のFactoryファイルを開いて、追加のメソッドを考える。
+「エラーになる誕生日……ギリギリ年齢……サイレント通知……」
+テスト観点が、自然と頭の中で枝分かれしていく。
+それは単に“バグ探し”じゃない。世界のルールを整理し、壊れやすい場所を地図にする作業だ。
+
+ナギが最後に言った。
+「データ設計は、世界を理解する練習。ひかりが今やってるのは、ソフトを作る側の視点だよ」
+その言葉に、ひかりは少しだけ背筋が伸びた。
+“作る側”。
+怖かったはずの言葉が、いまは憧れの輪郭を持ち始めている。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s2-ep07</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

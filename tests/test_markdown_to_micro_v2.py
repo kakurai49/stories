@@ -1,4 +1,6 @@
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -48,6 +50,11 @@ def test_build_micro_store_writes_expected_layout(tmp_path: Path) -> None:
     assert ep1["meta"]["summary"].startswith("First body line.")
     assert ep1["meta"]["tags"] == ["story", "episode", "nagi-sX", "extra"]
     assert ep1["relations"] == {"season": "nagi-sX", "index": 1}
+    assert ep1["body"]["blockRefs"] == store.index["block_ids"][:1]
+
+    block1 = store.resolve_block(store.index["block_ids"][0])
+    assert block1["type"] == "Markdown"
+    assert block1["source"] == "First body line.\nSecond line with trailing spaces."
 
 
 def test_expected_blocks_mismatch_raises(tmp_path: Path) -> None:
@@ -65,3 +72,17 @@ def test_expected_blocks_mismatch_raises(tmp_path: Path) -> None:
             extra_tags=[],
             force=False,
         )
+
+
+def test_cli_help_is_informative(tmp_path: Path) -> None:
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "markdown_to_micro_v2.py"
+    result = subprocess.run(
+        [sys.executable, str(script_path), "--help"],
+        capture_output=True,
+        text=True,
+        cwd=tmp_path,
+        check=False,
+    )
+
+    assert result.returncode == 0
+    assert "Convert markdown fences to micro store" in result.stdout

@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_6e64768dff5e58d7cb43ef4c9e1032d96b50bef8"
+    ]
+  },
+  "id": "nagi-s2-ep08",
+  "meta": {
+    "summary": "ある午後、ナギはホワイトボードの前に立ち、いつもの穏やかな声で言った。 「今日は、テスト設計の“核”の話をしよう」 そして、数式のような記号を大きく書いた。 G : (W, E) → (S, A(S)) ひかりの脳内で警報が鳴る。数式は苦手だ。苦手というより、見ただけでHPが削れ",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s2"
+    ],
+    "title": "第8話「Gをお絵描きしてみた」"
+  },
+  "relations": {
+    "index": 8,
+    "season": "nagi-s2"
+  },
+  "type": "story",
+  "variant": "hina"
+}

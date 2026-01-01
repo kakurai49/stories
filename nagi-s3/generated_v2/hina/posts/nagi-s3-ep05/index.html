@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>第5話「レンズ誕生 ― GUI 詳細を閉じ込めろ」 | Hina Generated Experience</title>
+    <link rel="stylesheet" href="../../assets/tokens.css">
+    <link rel="stylesheet" href="../../assets/base.css">
+    <link rel="stylesheet" href="../../assets/components.css">
+    <link rel="stylesheet" href="../../../micro.css">
+    <meta name="description" content="POM は効いた。だが、まだ痛みは残る。 テストが落ちるたびに、POM とテストの境界で“何をどこまで知るか”が曖昧になり、メンテは局所最適に陥る。コードは整理されても、変更の衝撃は漏れてくる。 ナギはホワイトボードに新しい箱を描いた。 WorldState：アプリ全体の状態（ロ">
+    <meta property="og:title" content="第5話「レンズ誕生 ― GUI 詳細を閉じ込めろ」">
+    <meta property="og:description" content="POM は効いた。だが、まだ痛みは残る。 テストが落ちるたびに、POM とテストの境界で“何をどこまで知るか”が曖昧になり、メンテは局所最適に陥る。コードは整理されても、変更の衝撃は漏れてくる。 ナギはホワイトボードに新しい箱を描いた。 WorldState：アプリ全体の状態（ロ">
+    <script src="../../../shared/features/init-features.js" defer></script>
+  </head>
+  <body class="sg-surface" data-experience="hina" data-template="detail" data-routes-href="../../../routes.json" data-content-id="nagi-s3-ep05">
+  <article class="sg-article" data-template="detail" data-content-id="nagi-s3-ep05" data-routes-href="../../../routes.json">
+    <header class="sg-header" data-tts="ignore">
+      <p class="sg-eyebrow">Detail</p>
+      <h1>第5話「レンズ誕生 ― GUI 詳細を閉じ込めろ」</h1>
+      <p class="sg-lede">POM は効いた。だが、まだ痛みは残る。 テストが落ちるたびに、POM とテストの境界で“何をどこまで知るか”が曖昧になり、メンテは局所最適に陥る。コードは整理されても、変更の衝撃は漏れてくる。 ナギはホワイトボードに新しい箱を描いた。 WorldState：アプリ全体の状態（ロ</p>
+      <nav class="sg-nav">
+        <ul class="sg-nav-links">
+        <li><a href="../../">ホーム</a></li>
+        <li><a href="../../list/">一覧</a></li>
+        <li><a href="../../#about">紹介</a></li>
+        <li><a href="../../#episodes">12話</a></li>
+        <li><a href="../../#characters">キャラクター</a></li>
+      </ul>
+      <button
+        type="button"
+        class="view-switcher"
+        data-action="switch-experience"
+      >
+        体験を切り替える
+      </button>
+      </nav>
+    </header>
+    <section class="sg-main" data-content-body>
+      <pre class="mw-md">POM は効いた。だが、まだ痛みは残る。
+テストが落ちるたびに、POM とテストの境界で“何をどこまで知るか”が曖昧になり、メンテは局所最適に陥る。コードは整理されても、変更の衝撃は漏れてくる。
+
+ナギはホワイトボードに新しい箱を描いた。
+WorldState：アプリ全体の状態（ログイン、画面、ユーザー属性、データの有無）
+Lens：WorldState から特定画面の操作と観測だけを切り出す“レンズ”
+Test：Lens を通して S だけを見る
+
+「テストは GUI を見ない。レンズが見る。テストは“観点”を語るだけ」
+真壁が眉を上げた。「POM のさらに下に隠すんすか？」
+「はい。GUI の詳細は、漏れると毒になる。閉じ込めましょう」
+
+ナギは LoginScreenLens の例をその場で書いた。
+input_credentials(user)
+submit()
+shows_error(message)
+
+「ロケータが変わったら？」
+ミオが答える。「Lens の中だけ直す」
+「そう。テストは触らない。“観点カード”も変えない。S が変わらない限り、テストはそのまま生きる」
+
+古参が不安そうに言う。「抽象化しすぎると、何が起きてるか分からなくなる」
+ナギは首を振った。「分からなくなるのは、ログがないから。WorldState を記録する。レンズは“見えるようにする”ためにもある」
+
+彼女は実際に、テスト失敗時のログに WorldState のスナップショットを出す仕組みを入れた。
+「今までは、落ちたら動画を眺めるしかなかった。これからは、状態の差分を読む」
+
+真壁が腕を組み直す。「……これ、POM よりもう一段“下”で GUI を隠してないか？」
+「はい。G のレイヤに GUI を閉じ込める設計です」
+
+ミオは、テストが“画面の操り人形”から“観点の証言者”に変わっていく感覚を覚えた。
+会議室の窓の外で夕日が沈む。赤い Jenkins の色が、少しだけ薄く見えた。</pre>
+    </section>
+    <footer class="sg-meta">
+      <p>コンテンツ ID: nagi-s3-ep05</p>
+    </footer>
+  </article>
+  </body>
+</html>
+<!-- sitegen build: ts=1970-01-01T00:00:00+00:00 sha=1c04d152c212001a116939abc57e7aed269868ff items=13 -->

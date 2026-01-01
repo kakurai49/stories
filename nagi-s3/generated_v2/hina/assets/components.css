@@ -1,0 +1,11 @@
+/* Hina-specific layout refinements built on top of shared base.css */
+
+body[data-experience="hina"] .card-grid .sg-card {
+  display: grid;
+  gap: 8px;
+  height: 100%;
+}
+
+body[data-experience="hina"] .sg-meta {
+  letter-spacing: 0.02em;
+}

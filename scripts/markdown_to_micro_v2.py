@@ -16,6 +16,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from sitegen.io_utils import write_json_stable
 from sitegen.micro_ids import block_id_from_block
 
@@ -94,8 +98,7 @@ def _split_title_and_body(block_text: str) -> Episode:
     return Episode(title=title, body=body)
 
 
-def _build_block(body: str) -> dict:
-    normalized_body = normalize_body_text(body)
+def _build_block(normalized_body: str) -> dict:
     block = {"type": "Markdown", "source": normalized_body}
     block_id = block_id_from_block(block)
     return {"id": block_id, **block}
@@ -141,7 +144,7 @@ def build_micro_store(
     markdown = input_path.read_text(encoding="utf-8")
     fences = extract_text_fences(markdown)
 
-    if expected_blocks and len(fences) != expected_blocks:
+    if len(fences) != expected_blocks:
         raise SystemExit(
             f"Expected {expected_blocks} fenced blocks but found {len(fences)} in {input_path}"
         )
@@ -162,13 +165,14 @@ def build_micro_store(
 
     for idx, block_text in enumerate(fences, start=1):
         episode = _split_title_and_body(block_text)
-        block = _build_block(episode.body)
+        normalized_body = normalize_body_text(episode.body)
+        block = _build_block(normalized_body)
         block_id = block["id"]
         entity = _build_entity(
             season=season,
             index=idx,
             title=episode.title,
-            body=episode.body,
+            body=normalized_body,
             block_id=block_id,
             variant=variant,
             extra_tags=extra_tags,

@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_e220b2e6aa30a64ec3957912eb56f9dfa499632a"
+    ]
+  },
+  "id": "nagi-s2-ep09",
+  "meta": {
+    "summary": "ひかりはついに、自分が主導で書いたテストのPRを出した。 Notification設定のE2E。レンズもFactoryも使った。自分なりにGで観点を選んだつもりだった。 “これ、絶対褒められるやつ……” 送信ボタンを押した瞬間、胸がふわっと浮く。 数時間後、PRにコメントが雪崩れ",
+    "tags": [
+      "story",
+      "episode",
+      "nagi-s2"
+    ],
+    "title": "第9話「レビューで爆死。でも、褒められたい」"
+  },
+  "relations": {
+    "index": 9,
+    "season": "nagi-s2"
+  },
+  "type": "story",
+  "variant": "hina"
+}
