@@ -146,6 +146,8 @@ def emit_legacy(entity: Dict[str, Any], html_text: str) -> Dict[str, Any]:
     for extra in ("role", "profile"):
         if extra in entity.get("meta", {}):
             legacy[extra] = entity["meta"][extra]
+    if "dataHref" in entity.get("meta", {}):
+        legacy["dataHref"] = entity["meta"]["dataHref"]
     return legacy
 
 

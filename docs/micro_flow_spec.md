@@ -40,3 +40,30 @@
 - **健全性チェックの強化**: スナップショット生成時に `verify_roundtrip_all` と `compare_dirs` により往復一致と差分検出を自動化し、形式変換による欠落や順序揺れを抑制する CLI を提供した。【F:sitegen/cli_snapshot_micro.py†L14-L49】【F:sitegen/verify_roundtrip.py†L61-L114】
 - **micro から legacy への自動再構成**: `build_posts` が micro ストアから DOM・CSS を組み立て、legacy 互換 JSON とスタイルを生成するブリッジ層として追加された。これにより、テンプレートレンダリングは既存の `ContentItem` 構造を保ちながら micro 起点のデータを扱える。【F:sitegen/compile_pipeline.py†L136-L170】【F:sitegen/compile_pipeline.py†L152-L170】
 
+## E2E 検証手順（決定性担保込み）
+
+1. **micro スナップショット生成/検証**
+   ```bash
+   python -m sitegen.cli_snapshot_micro --posts content/posts --out content/micro
+   python -m sitegen.cli_snapshot_micro --posts content/posts --out content/micro --check
+   ```
+2. **micro ストア → dist（legacy 互換）**
+   ```bash
+   python -m sitegen.cli_build_posts --micro content/micro --out dist
+   ```
+3. **Jinja レンダリング（StrictUndefined で例外検知）**
+   ```bash
+   SOURCE_DATE_EPOCH=0 python -m sitegen build \
+     --experiences config/experiences.yaml \
+     --src experience_src \
+     --content dist/posts \
+     --out generated \
+     --shared --all \
+     --deterministic \
+     --build-label "micro-flow"
+   ```
+   `--deterministic` と `SOURCE_DATE_EPOCH` により `_buildinfo.json` や HTML コメントに含まれるビルドラベルが固定化され、再実行時もバイト一致する。
+4. **決定性チェックの自動化**
+   - `scripts/verify_sitegen_flow.sh` で上記 1〜3 を 2 回実行し、`micro/`, `dist/`, `generated/` をハッシュ比較するだけで E2E を再現できる。
+   - pytest から同等の検証を実行する場合は `python -m pytest tests/test_micro_flow_e2e.py` を実行する。
+   - `--legacy-base` で `--all` 時の `patch_legacy_pages` 対象ディレクトリを切り替えられる（CI/スクリプトではテンポラリに向けてワーキングツリーを汚さない）。

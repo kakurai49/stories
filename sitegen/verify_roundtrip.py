@@ -35,7 +35,7 @@ def legacy_to_micro(legacy: LegacyPost) -> Tuple[MicroEntity, List[MicroBlock]]:
         unique_blocks.setdefault(block_id, {"id": block_id, **block})  # type: ignore[misc]
 
     meta: Dict[str, Any] = {}
-    for key in ("title", "summary", "tags", "role", "profile"):
+    for key in ("title", "summary", "tags", "role", "profile", "dataHref"):
         if key in legacy:
             meta[key] = legacy[key]
     if "ctaLabel" in legacy or "ctaHref" in legacy:
@@ -79,7 +79,7 @@ def micro_to_legacy(entity: MicroEntity, blocks_by_id: Dict[str, MicroBlock]) ->
     }
 
     meta = entity.get("meta", {})
-    for key in ("title", "summary", "tags", "role", "profile"):
+    for key in ("title", "summary", "tags", "role", "profile", "dataHref"):
         if key in meta:
             legacy[key] = meta[key]
 
