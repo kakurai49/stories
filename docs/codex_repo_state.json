@@ -1,0 +1,135 @@
+{
+  "git": {
+    "git_root": {
+      "cmd": "git rev-parse --show-toplevel",
+      "returncode": 0,
+      "stdout": "/workspace/stories\n",
+      "stderr": ""
+    },
+    "git_branch": {
+      "cmd": "git branch --show-current",
+      "returncode": 0,
+      "stdout": "work\n",
+      "stderr": ""
+    },
+    "git_head": {
+      "cmd": "git rev-parse --short HEAD",
+      "returncode": 0,
+      "stdout": "6365bb1\n",
+      "stderr": ""
+    },
+    "git_status": {
+      "cmd": "git status -sb",
+      "returncode": 0,
+      "stdout": "## work\n",
+      "stderr": ""
+    },
+    "git_remote": {
+      "cmd": "git remote -v",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "gitignore": {
+    "cmd": "cat .gitignore",
+    "returncode": 0,
+    "stdout": ".venv/\n__pycache__/\n*.pyc\n.pytest_cache/\n.ruff_cache/\nnode_modules/\nartifacts/\nplaywright-report/\ntest-results/\nartifacts_bundle.zip\n",
+    "stderr": ""
+  },
+  "check_ignore": {
+    "cmd": "git check-ignore -v artifacts/ artifacts_bundle.zip generated_v2/ dist/ content/micro/ nagi-s2/generated_v2/ nagi-s3/generated_v2/",
+    "returncode": 0,
+    "stdout": ".gitignore:7:artifacts/\tartifacts/\n.gitignore:10:artifacts_bundle.zip\tartifacts_bundle.zip\n",
+    "stderr": ""
+  },
+  "artifacts": {
+    "exists": false,
+    "errors": [],
+    "file_count": 0,
+    "total_size": 0,
+    "top_entries": []
+  },
+  "sitegen_help": {
+    "cmd": "python -m sitegen --help",
+    "returncode": 0,
+    "stdout": "usage: sitegen [-h] [--version]\n               {plan,ia,validate,scaffold,gen-manifests,build} ...\n\nStatic site generation utilities\n\npositional arguments:\n  {plan,ia,validate,scaffold,gen-manifests,build}\n    plan                Experiment plan utilities\n    ia                  Information architecture utilities\n    validate            Validate experiences.yaml and content posts.\n    scaffold            Create scaffolding for generated experiences.\n    gen-manifests       Generate manifest.json files for generated\n                        experiences.\n    build               Build generated experiences.\n\noptions:\n  -h, --help            show this help message and exit\n  --version             Show the sitegen version and exit.\n",
+    "stderr": ""
+  },
+  "content_micro": {
+    "cmd": "ls -1 content/micro",
+    "returncode": 0,
+    "stdout": "blocks\nentities\nindex.json\n",
+    "stderr": ""
+  },
+  "keyword_hits": {
+    "artifacts": [
+      "/workspace/stories/README_PLAYWRIGHT.md",
+      "/workspace/stories/docs/codex_repo_state.json",
+      "/workspace/stories/docs/codex_repo_state.md",
+      "/workspace/stories/package.json",
+      "/workspace/stories/playwright.config.ts",
+      "/workspace/stories/scripts/codex_repo_probe.py",
+      "/workspace/stories/tests/gh-pages-screenshots.spec.ts"
+    ],
+    "--out": [
+      "README.md",
+      "docs/MICRO_SNAPSHOT_RUNBOOK.md",
+      "docs/codex_repo_state.json",
+      "docs/codex_repo_state.md",
+      "docs/micro_flow_spec.md",
+      "docs/micro_flow_spec_v2.md",
+      "reports/README_audit.md",
+      "reports/issues_draft.md",
+      "reports/site_audit.json",
+      "reports/site_audit.md",
+      "scripts/audit_generated_site.py",
+      "scripts/codex_repo_probe.py",
+      "scripts/markdown_to_micro_v2.py",
+      "scripts/verify_sitegen_flow.sh",
+      "sitegen/__pycache__/cli.cpython-311.pyc",
+      "sitegen/cli.py",
+      "sitegen/cli_build_posts.py",
+      "sitegen/cli_build_site.py",
+      "sitegen/cli_migrate_legacy.py",
+      "sitegen/cli_snapshot_micro.py",
+      "tests/test_micro_build_site_v2.py",
+      "tests/test_micro_flow_e2e.py",
+      "tests/test_snapshot_check_mode.py"
+    ],
+    "generated_v2": [
+      "/workspace/stories/README.md",
+      "/workspace/stories/docs/codex_repo_state.json",
+      "/workspace/stories/docs/codex_repo_state.md",
+      "/workspace/stories/docs/micro_flow_spec_v2.md",
+      "/workspace/stories/scripts/codex_repo_probe.py"
+    ],
+    "micro-store": [
+      "/workspace/stories/README.md",
+      "/workspace/stories/docs/codex_repo_state.json",
+      "/workspace/stories/docs/codex_repo_state.md",
+      "/workspace/stories/docs/micro_flow_spec_v2.md",
+      "/workspace/stories/scripts/codex_repo_probe.py",
+      "/workspace/stories/sitegen/cli_build_site.py",
+      "/workspace/stories/tests/test_micro_build_site_v2.py"
+    ],
+    "cli_build_site": [
+      "/workspace/stories/README.md",
+      "/workspace/stories/docs/codex_repo_state.json",
+      "/workspace/stories/docs/codex_repo_state.md",
+      "/workspace/stories/docs/micro_flow_spec_v2.md",
+      "/workspace/stories/scripts/codex_repo_probe.py",
+      "/workspace/stories/tests/test_micro_build_site_v2.py"
+    ],
+    "content/micro": [
+      "/workspace/stories/README.md",
+      "/workspace/stories/docs/MICRO_SNAPSHOT_RUNBOOK.md",
+      "/workspace/stories/docs/codex_repo_state.json",
+      "/workspace/stories/docs/codex_repo_state.md",
+      "/workspace/stories/docs/micro_flow_spec.md",
+      "/workspace/stories/docs/micro_flow_spec_v2.md",
+      "/workspace/stories/scripts/codex_repo_probe.py",
+      "/workspace/stories/tests/test_micro_build_site_v2.py"
+    ]
+  }
+}
