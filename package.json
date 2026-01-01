@@ -11,7 +11,10 @@
     "qa:shots": "playwright test -c .qa/playwright.config.ts .qa/tests/screenshots",
     "qa:visual": "playwright test -c .qa/playwright.config.ts .qa/tests/visual",
     "qa:visual:update": "playwright test -c .qa/playwright.config.ts .qa/tests/visual --update-snapshots",
-    "qa:report": "playwright show-report .qa/artifacts/playwright-report"
+    "qa:report": "playwright show-report .qa/artifacts/playwright-report",
+    "qa:flow": "playwright test -c .qa/playwright.config.ts .qa/tests/flow",
+    "qa:flow:publish": "QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow",
+    "qa:explore": "playwright test -c .qa/playwright.config.ts .qa/tests/exploratory"
   },
   "engines": {
     "node": ">=18"

@@ -118,7 +118,7 @@ export const qa = {
 export function safeRouteName(route: string): string {
   const cleaned = (route || "/")
     .replace(/[?#].*$/, "")
-    .replace(/\/+$, "");
+    .replace(/\/+$/, "");
   if (cleaned === "" || cleaned === "/") return "home";
 
   return cleaned

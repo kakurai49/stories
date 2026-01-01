@@ -40,7 +40,29 @@ test.beforeEach(async ({ context, page }, testInfo) => {
         scroll-behavior: auto !important;
       }
     `;
-    document.documentElement.appendChild(style);
+
+    const applyStyle = () => {
+      const root = document.documentElement || document.body;
+      if (!root) return false;
+      root.appendChild(style);
+      return true;
+    };
+
+    if (!applyStyle()) {
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+          applyStyle();
+        },
+        { once: true }
+      );
+    }
+
+    // Some legacy pages expect renderMathInElement from KaTeX CDN; provide a no-op
+    // stub so offline mode does not throw.
+    if (typeof (window as any).renderMathInElement !== "function") {
+      (window as any).renderMathInElement = () => {};
+    }
   });
 });
 
