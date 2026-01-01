@@ -31,6 +31,18 @@ python scripts/bootstrap_venv.py
 ### 補足
 - `.venv/` は既に Git で無視されています。ローカルに作成した仮想環境やキャッシュをコミットしないでください。
 
+## 公開ルートとシーズン構成
+- GitHub Pages の公開ルートはリポジトリ直下（`/`）を前提としています（専用ワークフローは未設定）。
+- トップページはシーズン一覧（`/index.html`）で、実体は `nagi-s1/`・`nagi-s2/`・`nagi-s3/` のサブディレクトリに分割しました。
+  - 既存の物語と生成物は `nagi-s1/` に移動済みです（`nagi-s1/index.html` や `nagi-s1/story1.html`、`nagi-s1/generated/...`）。
+  - 共通で再利用する CSS/JS は `assets/` に配置します（シーズン間での重複を避ける運用）。
+- ローカル確認例:
+  ```bash
+  python -m http.server 8000 --directory .
+  # http://localhost:8000/         (シーズン一覧)
+  # http://localhost:8000/nagi-s1/ (既存シーズン1の入り口)
+  ```
+
 ## sitegen の概要
 `python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。ルーティングは `sitegen/routing.SiteRouter` が単一のサイトプランとして組み立て、ビルド・`routes.json`・テンプレートリンクすべてが同じ PageSpec から決定されます。
 
@@ -69,14 +81,15 @@ python -m sitegen validate --experiences config/experiences.yaml --content conte
 ```
 
 ### サイト生成（build）
-基本的な出力先は `generated/` です。`--all` を付けると `routes.json` やスイッチャー用アセット、レガシー HTML のパッチもまとめて生成します。
+基本的な出力先は `generated/`（`--out` で変更可。公開時は `nagi-s1/generated/` を推奨）です。`--all` を付けると `routes.json` やスイッチャー用アセット、レガシー HTML のパッチもまとめて生成します。
 ```bash
 python -m sitegen build \
   --experiences config/experiences.yaml \
   --src experience_src \
-  --out generated \
+  --out nagi-s1/generated \
   --content content/posts \
-  --all
+  --all \
+  --legacy-base nagi-s1
 ```
 
 ### micro store から直接ビルドする（v2）

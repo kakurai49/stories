@@ -2,17 +2,17 @@
   name: "Ruri Legacy Experience"
   description: "既存の HTML をそのまま配信するレガシー体験。"
   kind: legacy
-  home: "index.html"
+  home: "nagi-s1/index.html"
   content:
-    ep01: "story1.html"
+    ep01: "nagi-s1/story1.html"
   supports:
     locales: ["ja-JP"]
     pageTypes: ["post"]
     features: ["legacy-html"]
   routePatterns:
-    home: "index.html"
-    list: "list.html"
-    detail: "story{slug}.html"
+    home: "nagi-s1/index.html"
+    list: "nagi-s1/list.html"
+    detail: "nagi-s1/story{slug}.html"
 
 - key: blog
   name: "Sample Blog Experience"

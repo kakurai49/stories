@@ -68,4 +68,4 @@
 4. **決定性チェックの自動化**
    - `scripts/verify_sitegen_flow.sh` で上記 1〜3 を 2 回実行し、`micro/`, `dist/`, `generated/` をハッシュ比較するだけで E2E を再現できる。
    - pytest から同等の検証を実行する場合は `python -m pytest tests/test_micro_flow_e2e.py` を実行する。
-   - `--legacy-base` で `--all` 時の `patch_legacy_pages` 対象ディレクトリを切り替えられる（CI/スクリプトではテンポラリに向けてワーキングツリーを汚さない）。
+   - `--legacy-base` で `--all` 時の `patch_legacy_pages` 対象ディレクトリを切り替えられる（CI/スクリプトではテンポラリに向けてワーキングツリーを汚さない、デフォルトは `nagi-s1/`）。
