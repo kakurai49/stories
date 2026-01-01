@@ -1,0 +1,23 @@
+{
+  "body": {
+    "blockRefs": [
+      "blk_5be4b6652f1e8d4fd383b47b25f030492917db07"
+    ]
+  },
+  "id": "diag-season-ep01",
+  "meta": {
+    "summary": "Body",
+    "tags": [
+      "story",
+      "episode",
+      "diag-season"
+    ],
+    "title": "Title"
+  },
+  "relations": {
+    "index": 1,
+    "season": "diag-season"
+  },
+  "type": "story",
+  "variant": "hina"
+}

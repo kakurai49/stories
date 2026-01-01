@@ -1,0 +1,303 @@
+[
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/ok_minimal/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/ok_minimal/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "ok_minimal",
+    "notes": "minimal valid fence",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/ok_minimal/store\n"
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/ok_trailing_spaces_lang/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/ok_trailing_spaces_lang/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "ok_trailing_spaces_lang",
+    "notes": "trailing spaces after language tag",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/ok_trailing_spaces_lang/store\n"
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/ok_blank_lines_before_title/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/ok_blank_lines_before_title/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "ok_blank_lines_before_title",
+    "notes": "blank lines before title",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/ok_blank_lines_before_title/store\n"
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/fail_no_fence/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/fail_no_fence/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "expected_blocks": 1,
+    "name": "fail_no_fence",
+    "notes": "no fences",
+    "returncode": 1,
+    "stderr": "Expected 1 fenced blocks but found 0 in docs/robustness/matrix/cases/fail_no_fence/input.md\n",
+    "stdout": ""
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/fail_non_text_fence/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/fail_non_text_fence/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "expected_blocks": 1,
+    "name": "fail_non_text_fence",
+    "notes": "non-text fence only",
+    "returncode": 1,
+    "stderr": "Expected 1 fenced blocks but found 0 in docs/robustness/matrix/cases/fail_non_text_fence/input.md\n",
+    "stdout": ""
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_uppercase_lang/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_uppercase_lang/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "expected_blocks": 1,
+    "name": "probe_uppercase_lang",
+    "notes": "is language case-sensitive? (observe)",
+    "returncode": 1,
+    "stderr": "Expected 1 fenced blocks but found 0 in docs/robustness/matrix/cases/probe_uppercase_lang/input.md\n",
+    "stdout": ""
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_indented_fence/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_indented_fence/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "probe_indented_fence",
+    "notes": "indented fence (observe)",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/probe_indented_fence/store\n"
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_unclosed_fence/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_unclosed_fence/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "expected_blocks": 1,
+    "name": "probe_unclosed_fence",
+    "notes": "missing closing fence (observe)",
+    "returncode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/workspace/stories/scripts/markdown_to_micro_v2.py\", line 237, in <module>\n    main(sys.argv[1:])\n  File \"/workspace/stories/scripts/markdown_to_micro_v2.py\", line 223, in main\n    build_micro_store(\n  File \"/workspace/stories/scripts/markdown_to_micro_v2.py\", line 146, in build_micro_store\n    fences = extract_text_fences(markdown)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/stories/scripts/markdown_to_micro_v2.py\", line 78, in extract_text_fences\n    raise ValueError(\"Unterminated ```text fenced block detected\")\nValueError: Unterminated ```text fenced block detected\n",
+    "stdout": ""
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_backticks_in_body/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_backticks_in_body/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "probe_backticks_in_body",
+    "notes": "backticks in body (observe)",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/probe_backticks_in_body/store\n"
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_bom/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_bom/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "expected_blocks": 1,
+    "name": "probe_bom",
+    "notes": "UTF-8 BOM at file start (observe)",
+    "returncode": 1,
+    "stderr": "Expected 1 fenced blocks but found 0 in docs/robustness/matrix/cases/probe_bom/input.md\n",
+    "stdout": ""
+  },
+  {
+    "cmd": [
+      "/root/.pyenv/versions/3.11.12/bin/python",
+      "/workspace/stories/scripts/markdown_to_micro_v2.py",
+      "--input",
+      "docs/robustness/matrix/cases/probe_crlf/input.md",
+      "--out",
+      "docs/robustness/matrix/cases/probe_crlf/store",
+      "--season",
+      "diag-season",
+      "--variant",
+      "hina",
+      "--expected-blocks",
+      "1",
+      "--force"
+    ],
+    "counts": {
+      "blocks": 1,
+      "entities": 1
+    },
+    "expected_blocks": 1,
+    "index_keys": [
+      "block_ids",
+      "entity_ids"
+    ],
+    "name": "probe_crlf",
+    "notes": "CRLF newlines (observe)",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Wrote micro store to docs/robustness/matrix/cases/probe_crlf/store\n"
+  }
+]
