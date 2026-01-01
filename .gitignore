@@ -8,3 +8,5 @@ artifacts/
 playwright-report/
 test-results/
 artifacts_bundle.zip
+
+.qa/artifacts/

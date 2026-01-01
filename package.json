@@ -6,13 +6,19 @@
   "scripts": {
     "e2e": "playwright test --project=chromium",
     "e2e:report": "playwright show-report artifacts/playwright-report",
-    "e2e:install": "pnpm exec playwright install --with-deps chromium"
+    "e2e:install": "pnpm exec playwright install --with-deps chromium",
+    "qa:test": "playwright test -c .qa/playwright.config.ts",
+    "qa:shots": "playwright test -c .qa/playwright.config.ts .qa/tests/screenshots",
+    "qa:visual": "playwright test -c .qa/playwright.config.ts .qa/tests/visual",
+    "qa:visual:update": "playwright test -c .qa/playwright.config.ts .qa/tests/visual --update-snapshots",
+    "qa:report": "playwright show-report .qa/artifacts/playwright-report"
   },
   "engines": {
     "node": ">=18"
   },
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
-    "@playwright/test": "^1.57.0"
+    "@playwright/test": "^1.57.0",
+    "typescript": "^5.9.3"
   }
 }
