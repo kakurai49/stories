@@ -354,7 +354,12 @@ class Auditor:
 
     def _html_targets(self) -> list[Path]:
         targets: list[Path] = []
-        legacy_candidates = [Path("index.html"), Path("story1.html")]
+        legacy_candidates = [
+            Path("nagi-s1/index.html"),
+            Path("nagi-s1/story1.html"),
+            Path("index.html"),
+            Path("story1.html"),
+        ]
         for path in legacy_candidates:
             if path.exists():
                 targets.append(path.resolve())

@@ -33,14 +33,14 @@ const slugFromUrl = (value: string): string => {
 
 const fallbackPaths = [
   '/index.html',
-  '/story1.html',
-  '/story2.html',
-  '/story3.html',
-  '/story4.html',
-  '/story5.html',
-  '/generated/hina/index.html',
-  '/generated/immersive/index.html',
-  '/generated/magazine/index.html',
+  '/nagi-s1/index.html',
+  '/nagi-s1/story1.html',
+  '/nagi-s1/story2.html',
+  '/nagi-s1/story3.html',
+  '/nagi-s1/story4.html',
+  '/nagi-s1/generated/hina/index.html',
+  '/nagi-s1/generated/immersive/index.html',
+  '/nagi-s1/generated/magazine/index.html',
 ];
 
 test('captures GitHub Pages screenshots', async ({ page, request }) => {
@@ -122,10 +122,10 @@ test('captures GitHub Pages screenshots', async ({ page, request }) => {
 
   if (candidates.size < 2) {
     [
-      'story1.html',
-      'story2.html',
-      'generated/hina/index.html',
-      'generated/immersive/index.html',
+      'nagi-s1/index.html',
+      'nagi-s1/story1.html',
+      'nagi-s1/generated/hina/index.html',
+      'nagi-s1/generated/immersive/index.html',
     ].forEach((pathCandidate) => {
       if (candidates.size >= 5) return;
       candidates.add(new URL(pathCandidate, resolvedBase).toString());

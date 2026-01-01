@@ -89,7 +89,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--legacy-base",
         dest="legacy_base",
-        default=".",
+        default="nagi-s1",
         help="Base directory for patching legacy HTML when --all is set.",
     )
     parser.add_argument(

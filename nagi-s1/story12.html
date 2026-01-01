@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第10話「魔導書と職人の手、Fθと G」</title>
-    <link rel="stylesheet" href="pop3_style.css">
+    <title>第12話「次の子に渡す、G の地図」</title>
+    <link rel="stylesheet" href="../assets/pop3_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 </head>
 <body>
@@ -29,7 +29,7 @@
   <main id="content">
 
     <header>
-        第10話「魔導書と職人の手、Fθと G」
+        第12話「次の子に渡す、G の地図」
     </header>
 
         <section class="tts-controls" aria-label="読み上げコントロール" data-tts="ignore">
@@ -66,81 +66,74 @@
     <div class="container" id="story">
         <div class="section">
             <h2>◆前回までのあらすじ</h2>
-            <p>サキュバスメイド喫茶《∞（インフィニティ）》の新人テストエンジニア・結城ユイ（ユイリア）は、伝説のテストアーキテクト神崎ナギに導かれ、世界 <span class="katex">W</span> の見方を育ててきた。客を同値クラスでまとめ、心の境界値にぶつかり、決定表で分岐を地図にし、状態遷移図で関係を眺め、ペアワイズで筋の良い組合せを選び、カバレッジの虹でテストの濃淡を確かめ、ログを「システムからのラブレター」と読むようになった。</p>
+            <p>サキュバスメイド喫茶《∞（インフィニティ）》で新人テストエンジニアとして働き始めたユイリア。場当たり運営でオープン初夜を炎上させかけた彼女は、伝説のテストアーキテクト神崎ナギと出会い、「テストは世界 <span class="katex">W</span> の見方を設計する仕事」という言葉に導かれる。仕様書の外に広がる世界 <span class="katex">W</span> と制約 <span class="katex">E</span> を意識し、同値クラス、境界値分析、決定表、状態遷移図、ペアワイズ、カバレッジ、ログ解析、魔導書 Fθ と写像 <span class="katex">G</span> などの道具を手にしてきた。</p>
+            <p>最終イベント設計では再び迷子になるが、ナギのボロボロの昔のノートに自分と同じぐちゃぐちゃの図を見つけ、憧れの先輩もかつては迷っていたと知る。ユイは「自分もあの背中に向かって歩いていい」と胸の奥でそっと決めた。</p>
         </div>
 
         <div class="section">
             <h2>◆本編</h2>
-            <p>営業後のカウンターで、バルハが分厚い黒い本を置いた。表紙には銀色で《汎用魔導書 Fθ》とある。</p>
-
-            <div class="dialogue">
-                <span class="character-name">バルハ</span>
-                「ねえユイリア。“頭数勝負”じゃないやり方、試してみない？」
-            </div>
-
-            <p>不安を飲み込みつつ、ユイはナギと三人で実験することになった。</p>
-
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「この前の社畜救済イベントの仕様とログ、流してみようか」
-            </div>
-
-            <p>ナギが端末から魔導書へ魔力ケーブルを繋ぐと、黒いページが勝手にめくれ、光る文字が浮かぶ。</p>
-            <pre>&lt;テスト案候補：
- 1. 残業時間 0〜100 時間の全範囲で割引率が正しいこと
- 2. 客の職種ごとに専用セリフが表示されること
- 3. ログイン失敗時に励ましメッセージが表示されること
- ……（以下 120 件）&gt;</pre>
+            <p>最終イベントの朝、まだ客のいない《∞》は、壁一面のホワイトボードで白く光っていた。同値クラスで色分けされた客の分類、境界値の付箋、決定表、状態遷移図、ログのグラフ。十一話分の失敗と発見が層になって張りついている。</p>
 
             <div class="dialogue">
                 <span class="character-name">ユイリア</span>
-                「ひゃ、百二十件！？」
+                「……すごいカオス。でも、今日はここから一本の線を引く日」
             </div>
 
-            <div class="dialogue">
-                <span class="character-name">バルハ</span>
-                「ね、量では私たち敵わないでしょ？」
-            </div>
-
-            <p>ユイは喉を鳴らす。魔導書が吐き出すテスト案の量と速度は、今まで自分が夜通しひねり出してきたものを軽々と超えていた。</p>
+            <p>ユイはマーカーを握り、中央に縦線を引いた。その左に大きく「<span class="katex">W</span>」。</p>
 
             <div class="dialogue">
                 <span class="character-name">ユイリア</span>
-                「……じゃあ、私の仕事、なくなっちゃうんですか？」
+                「この店の世界 <span class="katex">W</span> は、ここに来る人たちの人生全部」
             </div>
+
+            <p>右側には「<span class="katex">E</span>」。営業時間、スタッフの体力、厨房のキャパシティ。制約が並ぶ。</p>
 
             <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「そうはならないよ。Fθは“材料”はたくさんくれる。でも、それをどう選ぶか、どう世界 <span class="katex">W</span> に合わせて磨くかは、職人の手がいる」
+                <span class="character-name">ユイリア</span>
+                「今日守りたい観点 <span class="katex">S</span> は、“常連も初見さんも『ここが居場所だ』と思えるか”」
             </div>
 
-            <p>ナギは手元の紙に小さな記号を書いた。「Fθ → G」。</p>
+            <p>矢印が伸び、同値クラスが丸で囲まれ、境界値のメモが配置される。ペアワイズで選んだ組合せ、虹で塗ったカバレッジの濃淡、ログから拾った痛みのポイント。全部が一本の地図に重なる。</p>
 
-            <div class="dialogue">
-                <span class="character-name">神崎ナギ</span>
-                「Fθ は魔導書の提案関数。G は私たちが持つ“現場の眼”。Fθ(G(x)) で初めて、店のテストケースになる」
-            </div>
-
-            <p>ユイは試しに、魔導書の案から今日のイベントに関係しそうなものを三つ選び、決定表や状態遷移図と突き合わせていく。バルハはキッチン側の制約やコストを口にし、ユイはカバレッジの虹を思い浮かべながら優先度を塗り分けていった。</p>
-
-            <p>深夜、テーブルには魔導書からの 120 件と、ユイが選んだ 12 件が並ぶ。後者は丸や矢印や色で塗られ、具体的な手順が添えられていた。</p>
+            <p>ドアが開き、オーナーのバルハと神崎ナギが入ってくる。壁いっぱいの図を見て、ふたりは目を細めた。</p>
 
             <div class="dialogue">
                 <span class="character-name">バルハ</span>
-                「同じ“テスト案”でも、仕上がりが全然違うね。後ろの 12 件は、店の匂いがする」
+                「おお……店の歴史が壁に詰まってる」
             </div>
 
             <div class="dialogue">
                 <span class="character-name">神崎ナギ</span>
-                「Fθ がくれた素材を、G で整える。それが職人の手仕事」
+                「ユイの <span class="katex">G</span> だね。どう引いたの？」
             </div>
 
             <div class="dialogue">
                 <span class="character-name">ユイリア</span>
-                「……よかった。じゃあ、私、まだここでやることあるんだ」
+                「全部はできないから、今日の <span class="katex">S</span> に合わせて濃く塗る色を決めました。失敗ログも残しておきたくて」
             </div>
 
-            <p>魔導書は便利だ。それでも、店の匂いと温度を知っている手が要る。その手を、もっと確かにしていきたい。ユイはそう思いながら、魔導書の光るページをそっと閉じた。</p>
+            <p>ナギはうなずき、ポケットから小さな空ノートを取り出した。</p>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「これ、次に入る新人用に。今日の地図、写しておいて」
+            </div>
+
+            <p>ユイは驚きながらノートを受け取る。白紙のページがまぶしい。</p>
+
+            <div class="dialogue">
+                <span class="character-name">ユイリア</span>
+                「……私が、書いていいんですか？」
+            </div>
+
+            <div class="dialogue">
+                <span class="character-name">神崎ナギ</span>
+                「うん。君が迷って見つけた道は、きっと次の子の助けになる」
+            </div>
+
+            <p>開店のベルが鳴る。ユイはマーカーを置き、胸ポケットに小さなノートをしまった。G の地図は、もう自分だけのものじゃない。次の誰かに渡すためのものだ。</p>
+
+            <p>「いらっしゃいませ！」――新人の声が、まぶしいほど真っ直ぐに響いた。</p>
         </div>
     </div>
   </main>
@@ -164,6 +157,6 @@
             });
         });
     </script>
-        <script type="module" src="./narration-init.js"></script>
+        <script type="module" src="../assets/narration-init.js"></script>
 </body>
 </html>

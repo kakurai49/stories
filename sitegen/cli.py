@@ -867,8 +867,8 @@ def build_parser() -> argparse.ArgumentParser:
     build_parser.add_argument(
         "--legacy-base",
         dest="legacy_base",
-        default=".",
-        help="Base directory for patching legacy HTML when --all is set (defaults to current repo root).",
+        default="nagi-s1",
+        help="Base directory for patching legacy HTML when --all is set (defaults to the season1 root).",
     )
     build_parser.set_defaults(func=_handle_build)
 
