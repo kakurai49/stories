@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from collections import Counter
@@ -125,6 +126,30 @@ def _safe_git_sha() -> str | None:
         ).strip()
     except (subprocess.SubprocessError, FileNotFoundError):
         return None
+
+
+def _timestamp_for_build(*, deterministic: bool) -> str:
+    if not deterministic:
+        return datetime.now(timezone.utc).isoformat()
+
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    try:
+        epoch = int(source_date_epoch) if source_date_epoch is not None else 0
+    except ValueError:
+        epoch = 0
+    return datetime.fromtimestamp(epoch, timezone.utc).isoformat()
+
+
+def _build_label(timestamp: str | None, git_sha: str | None, *, override: str | None) -> str | None:
+    if override is not None:
+        return override
+
+    label_parts = []
+    if timestamp:
+        label_parts.append(f"ts={timestamp}")
+    if git_sha:
+        label_parts.append(f"sha={git_sha}")
+    return " ".join(label_parts) if label_parts else None
 
 
 def _page_type_counts(items: list[ContentItem]) -> dict[str, int]:
@@ -529,18 +554,16 @@ def _handle_build(args: argparse.Namespace) -> None:
         generate_init_features_js(out_root) if shared_requested else None
     )
     shared_assets_dir = ensure_dir(out_root / "shared") if args.all else None
-    timestamp = datetime.now(timezone.utc).isoformat()
+    timestamp = _timestamp_for_build(deterministic=args.deterministic)
     git_sha = _safe_git_sha()
-    build_label_parts = [f"ts={timestamp}"]
-    if git_sha:
-        build_label_parts.append(f"sha={git_sha}")
+    build_label = _build_label(timestamp, git_sha, override=args.build_label)
     ctx = BuildContext(
         src_root=src_root,
         out_root=out_root,
         routes_filename=args.routes_filename,
         shared_init_features=shared_init_features,
         shared_assets_dir=shared_assets_dir,
-        build_label=" ".join(build_label_parts),
+        build_label=build_label,
     )
 
     items = load_content_items(content_dir)
@@ -607,7 +630,7 @@ def _handle_build(args: argparse.Namespace) -> None:
         written.extend(generate_switcher_assets([Path("."), out_root]))
         written.extend(
             patch_legacy_pages(
-                Path("."),
+                Path(args.legacy_base),
                 routes_href=str(Path(out_root.name) / args.routes_filename),
                 css_href=str(Path(out_root.name) / "shared" / "switcher.css"),
                 js_href=str(Path(out_root.name) / "shared" / "switcher.js"),
@@ -829,6 +852,23 @@ def build_parser() -> argparse.ArgumentParser:
         "--all",
         action="store_true",
         help="Build generated experiences and refresh routes, switchers, and legacy pages.",
+    )
+    build_parser.add_argument(
+        "--deterministic",
+        action="store_true",
+        help="Use SOURCE_DATE_EPOCH (or 0) for timestamps to stabilize build outputs.",
+    )
+    build_parser.add_argument(
+        "--build-label",
+        dest="build_label",
+        default=None,
+        help="Override the build label appended to outputs (default combines timestamp and git SHA).",
+    )
+    build_parser.add_argument(
+        "--legacy-base",
+        dest="legacy_base",
+        default=".",
+        help="Base directory for patching legacy HTML when --all is set (defaults to current repo root).",
     )
     build_parser.set_defaults(func=_handle_build)
 
