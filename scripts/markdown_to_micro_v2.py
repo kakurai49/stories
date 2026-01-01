@@ -1,8 +1,9 @@
-"""Convert markdown chapters into micro store artifacts for the v2 pipeline.
+#!/usr/bin/env python3
+"""Generate micro store (v2) from nagi-s2 / nagi-s3 markdown sources.
 
-This helper reads code-fenced story chapters (```text ... ```) from a markdown
-file, converts each chapter into a Markdown micro block, and emits matching
-entities and index metadata suitable for `sitegen.cli_build_site`.
+Each ```text fenced block in the source markdown is treated as one episode.
+The script extracts titles, normalizes bodies, and emits a deterministic
+micro store compatible with the existing sitegen loaders.
 """
 
 from __future__ import annotations
@@ -10,162 +11,222 @@ from __future__ import annotations
 import argparse
 import re
 import shutil
-import textwrap
+import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
-
-# Ensure local package imports work when executed as a script.
-import sys
-
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+from typing import Iterable, List
 
 from sitegen.io_utils import write_json_stable
 from sitegen.micro_ids import block_id_from_block
 
 
-CODE_BLOCK_RE = re.compile(r"```(?:text)?\n(.*?)```", re.DOTALL)
+DEFAULT_EXPECTED_BLOCKS = 13
 
 
 @dataclass
-class Chapter:
-    """Parsed chapter from a markdown code fence."""
-
-    order: int
-    raw_text: str
-
-    @property
-    def title(self) -> str:
-        for line in self.raw_text.splitlines():
-            if line.strip():
-                return line.strip()
-        return f"Episode {self.order:02d}"
-
-    @property
-    def summary(self) -> str:
-        collapsed = " ".join(line.strip() for line in self.raw_text.splitlines() if line.strip())
-        return textwrap.shorten(collapsed, width=140, placeholder="…") or self.title
+class Episode:
+    title: str
+    body: str
 
 
-def parse_chapters(markdown_path: Path) -> list[Chapter]:
-    text = markdown_path.read_text(encoding="utf-8")
-    matches = CODE_BLOCK_RE.findall(text)
-    chapters = [Chapter(order=i + 1, raw_text=match.strip()) for i, match in enumerate(matches)]
-    if not chapters:
-        raise ValueError(f"No code fences found in {markdown_path}")
-    return chapters
+def _normalize_newlines(text: str) -> str:
+    return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
-def _default_tags(season: str) -> list[str]:
-    return ["story", "episode", season]
+def normalize_body_text(text: str) -> str:
+    """Normalize episode body for stable hashing and storage."""
+
+    text = _normalize_newlines(text)
+    lines = text.split("\n")
+    trimmed = [line.rstrip() for line in lines]
+    normalized = "\n".join(trimmed).rstrip("\n")
+    return normalized
 
 
-def write_micro_store(
+def summarize_body(body: str, limit: int = 140) -> str:
+    collapsed = re.sub(r"\s+", " ", body).strip()
+    return collapsed[:limit]
+
+
+def extract_text_fences(markdown: str) -> List[str]:
+    blocks: List[str] = []
+    in_block = False
+    current: List[str] = []
+
+    for line in _normalize_newlines(markdown).split("\n"):
+        stripped = line.strip()
+        if not in_block:
+            if stripped.startswith("```text"):
+                in_block = True
+                current = []
+            continue
+
+        if stripped == "```":
+            blocks.append("\n".join(current))
+            in_block = False
+            current = []
+            continue
+
+        current.append(line)
+
+    if in_block:
+        raise ValueError("Unterminated ```text fenced block detected")
+
+    return blocks
+
+
+def _split_title_and_body(block_text: str) -> Episode:
+    lines = _normalize_newlines(block_text).split("\n")
+    title_line_idx = None
+    for idx, line in enumerate(lines):
+        if line.strip():
+            title_line_idx = idx
+            break
+
+    if title_line_idx is None:
+        raise ValueError("Block is empty; a title line is required")
+
+    title = lines[title_line_idx].strip()
+    body_lines = lines[title_line_idx + 1 :]
+    while body_lines and not body_lines[0].strip():
+        body_lines.pop(0)
+    body = "\n".join(body_lines)
+    return Episode(title=title, body=body)
+
+
+def _build_block(body: str) -> dict:
+    normalized_body = normalize_body_text(body)
+    block = {"type": "Markdown", "source": normalized_body}
+    block_id = block_id_from_block(block)
+    return {"id": block_id, **block}
+
+
+def _build_entity(
     *,
-    chapters: Iterable[Chapter],
+    season: str,
+    index: int,
+    title: str,
+    body: str,
+    block_id: str,
+    variant: str,
+    extra_tags: Iterable[str],
+) -> dict:
+    entity_id = f"{season}-ep{index:02d}"
+    tags = ["story", "episode", season, *extra_tags]
+    summary = summarize_body(body)
+    return {
+        "id": entity_id,
+        "variant": variant,
+        "type": "story",
+        "meta": {
+            "title": title,
+            "summary": summary,
+            "tags": tags,
+        },
+        "body": {"blockRefs": [block_id]},
+        "relations": {"season": season, "index": index},
+    }
+
+
+def build_micro_store(
+    *,
+    input_path: Path,
     out_dir: Path,
     season: str,
     variant: str,
-    page_type: str,
-    extra_tags: list[str] | None = None,
-    force: bool = False,
+    expected_blocks: int,
+    extra_tags: Iterable[str],
+    force: bool,
 ) -> None:
+    markdown = input_path.read_text(encoding="utf-8")
+    fences = extract_text_fences(markdown)
+
+    if expected_blocks and len(fences) != expected_blocks:
+        raise SystemExit(
+            f"Expected {expected_blocks} fenced blocks but found {len(fences)} in {input_path}"
+        )
+
     if out_dir.exists():
         if not force:
-            raise FileExistsError(f"Refusing to overwrite existing directory: {out_dir}")
+            raise SystemExit(f"Output directory already exists: {out_dir}. Use --force to overwrite.")
         shutil.rmtree(out_dir)
 
-    blocks_dir = out_dir / "blocks"
     entities_dir = out_dir / "entities"
-    blocks_dir.mkdir(parents=True, exist_ok=True)
+    blocks_dir = out_dir / "blocks"
     entities_dir.mkdir(parents=True, exist_ok=True)
+    blocks_dir.mkdir(parents=True, exist_ok=True)
 
+    entities: list[dict] = []
     block_ids: list[str] = []
-    entity_ids: list[str] = []
+    blocks_by_id: dict[str, dict] = {}
 
-    for chapter in chapters:
-        block = {"type": "Markdown", "source": chapter.raw_text}
-        block_id = block_id_from_block(block)
-        block["id"] = block_id
-        block_ids.append(block_id)
-        write_json_stable(blocks_dir / f"{block_id}.json", block)
+    for idx, block_text in enumerate(fences, start=1):
+        episode = _split_title_and_body(block_text)
+        block = _build_block(episode.body)
+        block_id = block["id"]
+        entity = _build_entity(
+            season=season,
+            index=idx,
+            title=episode.title,
+            body=episode.body,
+            block_id=block_id,
+            variant=variant,
+            extra_tags=extra_tags,
+        )
 
-        tags = extra_tags or _default_tags(season)
-        entity_id = f"{season}-ep{chapter.order:02d}"
-        entity = {
-            "id": entity_id,
-            "variant": variant,
-            "type": page_type,
-            "meta": {
-                "title": chapter.title,
-                "summary": chapter.summary,
-                "tags": tags,
-            },
-            "body": {"blockRefs": [block_id]},
-            "relations": {"season": season, "index": chapter.order},
-        }
-        entity_ids.append(entity_id)
-        write_json_stable(entities_dir / f"{entity_id}.json", entity)
+        if block_id not in blocks_by_id:
+            blocks_by_id[block_id] = block
+            block_ids.append(block_id)
+            write_json_stable(blocks_dir / f"{block_id}.json", block)
+        write_json_stable(entities_dir / f"{entity['id']}.json", entity)
 
-    index = {"entity_ids": entity_ids, "block_ids": block_ids}
+        entities.append(entity)
+
+    index = {
+        "entity_ids": [entity["id"] for entity in entities],
+        "block_ids": block_ids,
+    }
     write_json_stable(out_dir / "index.json", index)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Convert markdown code fences into micro store artifacts.")
-    parser.add_argument("--input", required=True, type=Path, help="Path to the markdown source file.")
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Convert markdown fences to micro store (v2)")
+    parser.add_argument("--input", required=True, type=Path, help="Input markdown file with ```text fences")
+    parser.add_argument("--out", required=True, type=Path, help="Output directory for the generated micro store")
+    parser.add_argument("--season", required=True, help="Season identifier (e.g., nagi-s2)")
+    parser.add_argument("--variant", default="hina", help="Variant to embed in entities (default: hina)")
     parser.add_argument(
-        "--out",
-        required=True,
-        type=Path,
-        help="Output directory for the micro store (will contain index.json, blocks/, entities/).",
+        "--expected-blocks",
+        type=int,
+        default=DEFAULT_EXPECTED_BLOCKS,
+        help="Number of ```text fences expected in the input (default: 13)",
     )
-    parser.add_argument(
-        "--season",
-        required=False,
-        help="Season or prefix used for entity ids and relations (defaults to the markdown stem).",
-    )
-    parser.add_argument("--variant", default="hina", help="Experience variant to write into entities.")
-    parser.add_argument("--page-type", default="story", dest="page_type", help="Page type to assign to entities.")
     parser.add_argument(
         "--tag",
         action="append",
         dest="tags",
-        help="Additional tag to attach; repeatable. Defaults to ['story', 'episode', <season>].",
+        default=[],
+        help="Additional meta tags (can be provided multiple times)",
     )
-    parser.add_argument(
-        "--expected-blocks",
-        type=int,
-        default=13,
-        help="Fail if the markdown does not contain this many code fences (default: 13).",
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Allow overwriting an existing output directory by deleting it first.",
-    )
-    args = parser.parse_args()
+    parser.add_argument("--force", action="store_true", help="Overwrite the output directory if it exists")
+    return parser.parse_args(argv)
 
-    season = args.season or args.input.stem
-    chapters = parse_chapters(args.input)
-    if args.expected_blocks and len(chapters) != args.expected_blocks:
-        raise SystemExit(
-            f"Expected {args.expected_blocks} code fences in {args.input}, found {len(chapters)} instead."
-        )
 
-    write_micro_store(
-        chapters=chapters,
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_args(argv)
+
+    build_micro_store(
+        input_path=args.input,
         out_dir=args.out,
-        season=season,
+        season=args.season,
         variant=args.variant,
-        page_type=args.page_type,
+        expected_blocks=args.expected_blocks,
         extra_tags=args.tags,
         force=args.force,
     )
-    print(f"Wrote micro store with {len(chapters)} chapters to {args.out}")
+
+    print(f"Wrote micro store to {args.out}")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
