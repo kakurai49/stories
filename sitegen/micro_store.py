@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List
 
 from .io_utils import read_json
-from .micro_ids import block_id_from_block
+from .micro_ids import block_fingerprint, block_id_from_block
 
 
 @dataclass
