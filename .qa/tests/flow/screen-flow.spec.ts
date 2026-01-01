@@ -9,6 +9,7 @@ type Broken = { from: string; href: string; reason: string };
 function isSkippableHref(href: string): boolean {
   const h = href.trim();
   return (
+    !h ||
     h === "#" ||
     h.startsWith("#") ||
     h.startsWith("mailto:") ||
@@ -21,7 +22,6 @@ function normalizeAbs(abs: string): string {
   const u = new URL(abs);
   u.hash = "";
   u.search = "";
-  // normalize trailing slash (except root)
   if (u.pathname.length > 1 && u.pathname.endsWith("/")) {
     u.pathname = u.pathname.replace(/\/+$/, "");
   }
@@ -30,8 +30,9 @@ function normalizeAbs(abs: string): string {
 
 function pathLabel(abs: string): string {
   const u = new URL(abs);
-  const p = u.pathname && u.pathname.length ? u.pathname : "/";
-  return p.length > 1 && p.endsWith("/") ? p.replace(/\/+$/, "") : p;
+  let p = u.pathname || "/";
+  if (p.length > 1 && p.endsWith("/")) p = p.replace(/\/+$/, "");
+  return p;
 }
 
 function makeIdFactory() {
@@ -45,21 +46,21 @@ function makeIdFactory() {
 
 test.describe.configure({ mode: "serial" });
 
-test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
+test("qa:flow (BFS crawl -> screen-flow.json/md)", async ({ page }, testInfo) => {
+  const base = qa.baseURL;
+  const baseOrigin = new URL(base).origin;
+
   const startPath = process.env.QA_FLOW_START_PATH ?? "/";
   const maxPages = Number(process.env.QA_FLOW_MAX_PAGES ?? "200");
   const maxDepth = Number(process.env.QA_FLOW_MAX_DEPTH ?? "10");
   const publish = (process.env.QA_FLOW_PUBLISH ?? "0") === "1";
 
-  // Give enough time for crawling
   test.setTimeout(5 * 60 * 1000);
 
-  const base = qa.baseURL;
-  const baseOrigin = new URL(base).origin;
   const startAbs = normalizeAbs(new URL(startPath, base).toString());
 
-  const visited = new Set<string>();
-  const pages = new Set<string>();
+  const visited = new Set<string>(); // abs URLs
+  const pages = new Set<string>();   // path labels
   const edges: Edge[] = [];
   const broken: Broken[] = [];
   const consoleErrors: string[] = [];
@@ -72,10 +73,7 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
   const queue: Array<{ abs: string; depth: number }> = [{ abs: startAbs, depth: 0 }];
 
   while (queue.length > 0 && visited.size < maxPages) {
-    const item = queue.shift()!;
-    const abs = item.abs;
-    const depth = item.depth;
-
+    const { abs, depth } = queue.shift()!;
     if (visited.has(abs)) continue;
     visited.add(abs);
 
@@ -103,8 +101,7 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
     );
 
     for (const rawHref of hrefs) {
-      if (!rawHref) continue;
-      const href = rawHref.trim();
+      const href = String(rawHref || "").trim();
       if (!href || isSkippableHref(href)) continue;
 
       let targetAbsRaw: string;
@@ -117,7 +114,6 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
 
       const targetAbs = normalizeAbs(targetAbsRaw);
 
-      // internal only
       let targetOrigin = "";
       try {
         targetOrigin = new URL(targetAbs).origin;
@@ -140,14 +136,12 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
   const uniqueEdges = new Map<string, Edge>();
   for (const e of edges) uniqueEdges.set(`${e.from}-->${e.to}`, e);
 
-  // Prepare outputs
+  const blocked = ((testInfo as any)._blockedRequests ?? []) as string[];
+
   const flowDir = path.join(qa.artifactsDir, "flow");
   const outMd = path.join(flowDir, "screen-flow.md");
   const outJson = path.join(flowDir, "screen-flow.json");
-
   await fs.mkdir(flowDir, { recursive: true });
-
-  const blocked = ((testInfo as any)._blockedRequests ?? []) as string[];
 
   const idOf = makeIdFactory();
   const pageList = Array.from(pages).sort();
@@ -156,7 +150,7 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
   );
 
   let md = "";
-  md += "# 画面遷移図（自動生成 / QA Flow）\n\n";
+  md += "# 画面遷移図（自動生成 / qa:flow）\n\n";
   md += `- baseURL: ${base}\n`;
   md += `- startPath: ${startPath}\n`;
   md += `- pages: ${pageList.length}\n`;
@@ -169,7 +163,7 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
   for (const p of pageList) {
     const id = idOf(p);
     const label = p.replaceAll('"', '\\"');
-    md += `  ${id}["${label}"]\n`;
+    md += `  ${id}[\"${label}\"]\n`;
   }
   for (const e of edgeList) {
     md += `  ${idOf(e.from)} --> ${idOf(e.to)}\n`;
@@ -217,11 +211,9 @@ test("generate screen flow (BFS crawl)", async ({ page }, testInfo) => {
   await fs.writeFile(outMd, md, "utf8");
   await fs.writeFile(outJson, JSON.stringify(json, null, 2), "utf8");
 
-  // Attach to report
   await testInfo.attach("screen-flow.md", { path: outMd, contentType: "text/markdown" });
   await testInfo.attach("screen-flow.json", { path: outJson, contentType: "application/json" });
 
-  // Optional publish to docs/qa
   if (publish) {
     const docsDir = path.resolve(process.cwd(), "docs", "qa");
     await fs.mkdir(docsDir, { recursive: true });

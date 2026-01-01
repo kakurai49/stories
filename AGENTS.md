@@ -6,27 +6,35 @@
 - Use Playwright webServer to start local dev server.
 - QA assets live under `.qa/`.
 
-## Commands
-- Install/update pocket: `bash .qa/setup.sh`
-- Screenshots: `npm run qa:shots`
-- Visual baselines: `npm run qa:visual:update`
-- Visual compare: `npm run qa:visual`
-- Screen flow graph: `npm run qa:flow` (artifacts) / `npm run qa:flow:publish` (also writes docs/qa/)
-- Exploratory random walk: `QA_EXPLORE_SECONDS=120 npm run qa:explore` (seedable)
+## Core commands
+- Setup base pocket: `bash .qa/setup.sh`
+- Setup flow/coverage addon: `bash .qa/setup-flow-coverage.sh`
+- Run all (fixlist + guided explore + runlog): `bash .qa/run-flow-coverage.sh`
+
+## Flow / Fix list
+- Generate screen flow (artifacts): `npm run qa:flow`
+- Generate screen flow (publish docs): `npm run qa:flow:publish`
+- Analyze unreachable + fix list (publish docs): `npm run qa:flow:analyze:publish`
+- One-shot fixlist (flow + analyze, publish docs): `npm run qa:fixlist`
+
+## Explore
+- Guided explore (prefer unvisited): `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`
 
 ## Config
-- Routes list: `.qa/routes.txt`
-- Main config: `.qa/qa.config.ts`
+- Screenshot/visual routes: `.qa/routes.txt`
+- Unreachable target routes: `.qa/known-routes.txt`
 - Flow params: QA_FLOW_START_PATH / QA_FLOW_MAX_PAGES / QA_FLOW_MAX_DEPTH / QA_FLOW_PUBLISH
-- Explore params: QA_EXPLORE_SECONDS / QA_EXPLORE_SEED / QA_EXPLORE_START_PATH
+- Explore params: QA_EXPLORE_SECONDS / QA_EXPLORE_SEED / QA_EXPLORE_START_PATH / QA_EXPLORE_PUBLISH
 
 ## Outputs
 - Artifacts (gitignored): `.qa/artifacts/`
-  - Screenshots: `.qa/artifacts/shots/`
   - Flow: `.qa/artifacts/flow/screen-flow.md|json`
-  - Test results/diffs: `.qa/artifacts/test-results/`
-- Published docs (optional): `docs/qa/screen-flow.md|json`
+  - Analysis: `.qa/artifacts/flow/flow-analysis.md|json`, `.qa/artifacts/flow/link-fix-list.md`
+  - Explore: `.qa/artifacts/explore/guided-coverage.json`
+- Docs (committable): `docs/qa/`
+  - screen-flow.*, flow-analysis.*, link-fix-list.md, guided-coverage.json, QA_POCKET_RUNLOG.md
 <!-- QA_POCKET_END -->
+
 
 
 

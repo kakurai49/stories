@@ -4,6 +4,8 @@ import path from "node:path";
 export type QaProfile = "next" | "vite" | "generic";
 export type QaPm = "npm" | "pnpm" | "yarn";
 
+const repoRoot = path.resolve(__dirname, "..");
+
 function readJson(p: string): any | null {
   try {
     return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -16,7 +18,7 @@ function detectProfile(): QaProfile {
   const forced = (process.env.QA_PROFILE ?? "").trim();
   if (forced === "next" || forced === "vite" || forced === "generic") return forced;
 
-  const pkg = readJson(path.resolve(process.cwd(), "package.json")) ?? {};
+  const pkg = readJson(path.resolve(repoRoot, "package.json")) ?? {};
   const deps = { ...(pkg.dependencies ?? {}), ...(pkg.devDependencies ?? {}) };
 
   if (deps.next) return "next";
@@ -31,12 +33,12 @@ function detectPm(): QaPm {
   if (forced === "npm" || forced === "pnpm" || forced === "yarn") return forced;
 
   // lockfile-based detection
-  if (fs.existsSync(path.resolve(process.cwd(), "pnpm-lock.yaml"))) return "pnpm";
-  if (fs.existsSync(path.resolve(process.cwd(), "yarn.lock"))) return "yarn";
+  if (fs.existsSync(path.resolve(repoRoot, "pnpm-lock.yaml"))) return "pnpm";
+  if (fs.existsSync(path.resolve(repoRoot, "yarn.lock"))) return "yarn";
   return "npm";
 }
 
-const pocketDir = path.resolve(process.cwd(), ".qa");
+const pocketDir = path.resolve(repoRoot, ".qa");
 const routesFile = path.resolve(pocketDir, "routes.txt");
 
 function parseRoutes(text: string): string[] {
@@ -74,24 +76,37 @@ function defaultWebCmd(): string {
 
   // Use the repo's package manager to run dev server
   const runner = pm === "pnpm" ? "pnpm" : pm === "yarn" ? "yarn" : "npm run";
+  const pkg = readJson(path.resolve(repoRoot, "package.json")) ?? {};
+  const scripts = pkg.scripts ?? {};
+  const cdRoot = `cd \"${repoRoot}\" && `;
+  const simpleHttp = `${cdRoot}python -m http.server ${port} --bind 0.0.0.0 --directory \"${repoRoot}\"`;
 
   // Prefer listening on 0.0.0.0 (Codespaces port-forward friendly),
   // but Playwright will access via 127.0.0.1 (baseURL) inside the container.
   if (profile === "next") {
     // Next: -p port, -H host
-    return runner === "npm run"
-      ? `npm run dev -- -p ${port} -H 0.0.0.0`
-      : `${runner} dev -- -p ${port} -H 0.0.0.0`;
+    if (scripts.dev) {
+      return runner === "npm run"
+        ? `${cdRoot}npm run dev -- -p ${port} -H 0.0.0.0`
+        : `${cdRoot}${runner} dev -- -p ${port} -H 0.0.0.0`;
+    }
+    return simpleHttp;
   }
 
   if (profile === "vite") {
-    return runner === "npm run"
-      ? `npm run dev -- --host 0.0.0.0 --port ${port}`
-      : `${runner} dev -- --host 0.0.0.0 --port ${port}`;
+    if (scripts.dev) {
+      return runner === "npm run"
+        ? `${cdRoot}npm run dev -- --host 0.0.0.0 --port ${port}`
+        : `${cdRoot}${runner} dev -- --host 0.0.0.0 --port ${port}`;
+    }
+    return simpleHttp;
   }
 
   // generic: just run dev
-  return runner === "npm run" ? `npm run dev` : `${runner} dev`;
+  if (scripts.dev) {
+    return runner === "npm run" ? `${cdRoot}npm run dev` : `${cdRoot}${runner} dev`;
+  }
+  return simpleHttp;
 }
 
 export const qa = {
