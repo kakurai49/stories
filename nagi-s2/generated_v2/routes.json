@@ -1,0 +1,67 @@
+{
+  "order": [
+    "hina"
+  ],
+  "routes": {
+    "hina": {
+      "home": "hina/",
+      "list": "hina/list/",
+      "content": {
+        "nagi-s2-ep01": "hina/posts/nagi-s2-ep01/",
+        "nagi-s2-ep02": "hina/posts/nagi-s2-ep02/",
+        "nagi-s2-ep03": "hina/posts/nagi-s2-ep03/",
+        "nagi-s2-ep04": "hina/posts/nagi-s2-ep04/",
+        "nagi-s2-ep05": "hina/posts/nagi-s2-ep05/",
+        "nagi-s2-ep06": "hina/posts/nagi-s2-ep06/",
+        "nagi-s2-ep07": "hina/posts/nagi-s2-ep07/",
+        "nagi-s2-ep08": "hina/posts/nagi-s2-ep08/",
+        "nagi-s2-ep09": "hina/posts/nagi-s2-ep09/",
+        "nagi-s2-ep10": "hina/posts/nagi-s2-ep10/",
+        "nagi-s2-ep11": "hina/posts/nagi-s2-ep11/",
+        "nagi-s2-ep12": "hina/posts/nagi-s2-ep12/",
+        "nagi-s2-ep13": "hina/posts/nagi-s2-ep13/"
+      },
+      "contentAliases": {
+        "nagi-s2-ep01": [
+          "hina/posts/nagi-s2-ep01.html"
+        ],
+        "nagi-s2-ep02": [
+          "hina/posts/nagi-s2-ep02.html"
+        ],
+        "nagi-s2-ep03": [
+          "hina/posts/nagi-s2-ep03.html"
+        ],
+        "nagi-s2-ep04": [
+          "hina/posts/nagi-s2-ep04.html"
+        ],
+        "nagi-s2-ep05": [
+          "hina/posts/nagi-s2-ep05.html"
+        ],
+        "nagi-s2-ep06": [
+          "hina/posts/nagi-s2-ep06.html"
+        ],
+        "nagi-s2-ep07": [
+          "hina/posts/nagi-s2-ep07.html"
+        ],
+        "nagi-s2-ep08": [
+          "hina/posts/nagi-s2-ep08.html"
+        ],
+        "nagi-s2-ep09": [
+          "hina/posts/nagi-s2-ep09.html"
+        ],
+        "nagi-s2-ep10": [
+          "hina/posts/nagi-s2-ep10.html"
+        ],
+        "nagi-s2-ep11": [
+          "hina/posts/nagi-s2-ep11.html"
+        ],
+        "nagi-s2-ep12": [
+          "hina/posts/nagi-s2-ep12.html"
+        ],
+        "nagi-s2-ep13": [
+          "hina/posts/nagi-s2-ep13.html"
+        ]
+      }
+    }
+  }
+}

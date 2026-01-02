@@ -75,6 +75,15 @@ python scripts/bootstrap_venv.py
   # http://localhost:8000/nagi-s1/ (既存シーズン1の入り口)
   ```
 
+### シーズン別のビルド手順と公開パス
+- **Season 1（v1 ジェネレート）**
+  - ビルド: `python -m sitegen build --experiences config/experiences.yaml --src experience_src --out nagi-s1/generated --content content/posts --all --legacy-base nagi-s1`
+  - 公開パス: `/nagi-s1/generated/hina`（末尾スラッシュの有無どちらでも 200）。`/nagi-s1/generated/` にインデックスを置いてディレクトリリスティングを防止し、`/nagi-s1/generated/routes.json` も同梱します。
+- **Season 2 / Season 3（v2: micro → HTML）**
+  - ワンコマンドビルド（micro 生成 + HTML 決定性検証付き）: `python scripts/build_preview_v2.py --force`。シーズン個別に走らせる場合は `--season nagi-s2` / `--season nagi-s3` を付与。
+  - 公開パス（canonical）: `/nagi-s2/generated_v2/hina`、`/nagi-s3/generated_v2/hina`。各直下に `index.html` を生成し、`routes.json` と `shared/`（switcher.js / switcher.css / features init）も同梱。
+  - エイリアス（コピー）: スクリプトが `nagi-s2/generated/` および `nagi-s3/generated/` に内容をミラーします。QA やリンク解決では `/nagi-s2/generated/hina` / `/nagi-s3/generated/hina` も入口として扱えます（末尾スラッシュ有無どちらも可）。
+
 ## sitegen の概要
 `python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。ルーティングは `sitegen/routing.SiteRouter` が単一のサイトプランとして組み立て、ビルド・`routes.json`・テンプレートリンクすべてが同じ PageSpec から決定されます。
 

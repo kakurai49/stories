@@ -95,6 +95,12 @@ a {
   line-height: 1.5;
 }
 
+.hint {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
