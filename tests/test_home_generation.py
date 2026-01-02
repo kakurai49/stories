@@ -25,7 +25,7 @@ def _content_for_experience(spec: ExperienceSpec, items: list) -> list:
     return targeted or items
 
 
-def _build_experience_output(tmp_path: Path, experience_key: str):
+def _build_experience_bundle(tmp_path: Path, experience_key: str):
     out_root = tmp_path / "generated"
     ctx = BuildContext(src_root=Path("experience_src"), out_root=out_root)
     items = load_content_items(Path("content/posts"))
@@ -46,6 +46,11 @@ def _build_experience_output(tmp_path: Path, experience_key: str):
 
     targeted = [item for item in items if item.experience == exp.key] or items
     output_dir = out_root / (exp.output_dir or exp.key)
+    return ctx, router, exp, output_dir, targeted
+
+
+def _build_experience_output(tmp_path: Path, experience_key: str):
+    _, _, _, output_dir, targeted = _build_experience_bundle(tmp_path, experience_key)
     return output_dir, targeted
 
 
@@ -87,3 +92,31 @@ def test_pages_include_viewport_and_shared_styles(tmp_path: Path, experience_key
         stylesheets = soup.find_all("link", rel=lambda value: value and "stylesheet" in value)
         hrefs = [link.get("href", "") for link in stylesheets]
         assert any("assets/base.css" in href for href in hrefs), "Shared base.css should be linked"
+
+
+def test_generated_links_are_rooted_at_out_dir(tmp_path: Path):
+    ctx, router, exp, output_dir, items = _build_experience_bundle(tmp_path, "hina")
+
+    site_root = router.absolute_href_for_path(ctx.out_root)
+    assert site_root.startswith("/"), "Site root href should be absolute"
+
+    def _assert_rooted(hrefs: list[str], where: str):
+        assert hrefs, f"{where} should contain at least one href"
+        for href in hrefs:
+            assert href.startswith(site_root), f"{where} href is not rooted: {href}"
+
+    home_html = (output_dir / "index.html").read_text(encoding="utf-8")
+    home = BeautifulSoup(home_html, "html.parser")
+    _assert_rooted([a["href"] for a in home.select(".sg-nav-links a")], "home nav")
+    _assert_rooted([a["href"] for a in home.select(".sg-actions a")], "home CTA")
+    _assert_rooted([a["href"] for a in home.select("#episodes a")], "home episodes")
+
+    list_html = (output_dir / "list" / "index.html").read_text(encoding="utf-8")
+    listing = BeautifulSoup(list_html, "html.parser")
+    _assert_rooted([a["href"] for a in listing.select(".sg-nav-links a")], "list nav")
+    _assert_rooted([a["href"] for a in listing.select("[data-episode-id] a")], "list episodes")
+
+    detail_slug = next(item.content_id for item in items if item.page_type == "story")
+    detail_html = (output_dir / "posts" / detail_slug / "index.html").read_text(encoding="utf-8")
+    detail = BeautifulSoup(detail_html, "html.parser")
+    _assert_rooted([a["href"] for a in detail.select(".sg-nav-links a")], "detail nav")
