@@ -62,6 +62,8 @@ python scripts/bootstrap_venv.py
 
 ### 補足
 - `.venv/` は既に Git で無視されています。ローカルに作成した仮想環境やキャッシュをコミットしないでください。
+- KaTeX 0.16.9 は `assets/katex/0.16.9/` にバンドル済みです。HTML からは `/assets/katex/0.16.9/` を参照し、外部 CDN へのアクセスなしで描画できます。
+  - バイナリフォントはリポジトリに含めない（`.gitignore` 済み）ため、CSS からのフォント定義を削除し、システムフォントにフォールバックします。公式フォントを使いたい場合は `assets/katex/0.16.9/fonts/` に手元で取得してください（コミット不要）。
 
 ## 公開ルートとシーズン構成
 - GitHub Pages の公開ルートはリポジトリ直下（`/`）を前提としています（専用ワークフローは未設定）。
@@ -81,8 +83,9 @@ python scripts/bootstrap_venv.py
   - 公開パス: `/nagi-s1/generated/hina`（末尾スラッシュの有無どちらでも 200）。`/nagi-s1/generated/` にインデックスを置いてディレクトリリスティングを防止し、`/nagi-s1/generated/routes.json` も同梱します。
 - **Season 2 / Season 3（v2: micro → HTML）**
   - ワンコマンドビルド（micro 生成 + HTML 決定性検証付き）: `python scripts/build_preview_v2.py --force`。シーズン個別に走らせる場合は `--season nagi-s2` / `--season nagi-s3` を付与。
-  - 公開パス（canonical）: `/nagi-s2/generated_v2/hina`、`/nagi-s3/generated_v2/hina`。各直下に `index.html` を生成し、`routes.json` と `shared/`（switcher.js / switcher.css / features init）も同梱。
-  - エイリアス（コピー）: スクリプトが `nagi-s2/generated/` および `nagi-s3/generated/` に内容をミラーします。QA やリンク解決では `/nagi-s2/generated/hina` / `/nagi-s3/generated/hina` も入口として扱えます（末尾スラッシュ有無どちらも可）。
+  - 公開パス（canonical）: `/nagi-s2/generated_v2/hina`、`/nagi-s3/generated_v2/hina`。Phase1 の配信／既存ルートを崩さないため canonical は `generated_v2` のまま維持しています。各直下に `index.html` を生成し、`routes.json` と `shared/`（switcher.js / switcher.css / features init）も同梱。
+  - エイリアス（コピー）: `generated_v2` を `generated/` へコピーし、既存リンク互換を確保します。`pnpm run qa:alias:sync` で `/nagi-s2/generated/` と `/nagi-s3/generated/` を更新できます（シンボリックリンクは使用しません）。
+  - nagi-s2/nagi-s3 の入口ページは canonical（`generated_v2`）に向けた導線を持ち、後方互換用 alias も明示しています。
 
 ## sitegen の概要
 `python -m sitegen`（エントリポイントは `sitegen/cli.py`）で静的サイトを生成・検証するツールセットです。生成対象は `config/experiences.yaml` に定義された各エクスペリエンスで、テンプレートは `experience_src/<key>` 配下、コンテンツは `content/posts/*.json` を参照します。ルーティングは `sitegen/routing.SiteRouter` が単一のサイトプランとして組み立て、ビルド・`routes.json`・テンプレートリンクすべてが同じ PageSpec から決定されます。

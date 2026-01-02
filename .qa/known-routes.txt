@@ -8,19 +8,21 @@
 # /contact
 /
 /nagi-s1/index.html
-/nagi-s1/generated/hina/index.html
-/nagi-s2/index.html
-/nagi-s3/index.html
 /nagi-s1/generated
 /nagi-s1/generated/
 /nagi-s1/generated/hina
 /nagi-s1/generated/hina/
-/nagi-s1/generated/hina/index.html
+/nagi-s2/
 /nagi-s2/generated_v2/hina
 /nagi-s2/generated_v2/hina/
+/nagi-s2/generated_v2/hina/list
+/nagi-s2/generated_v2/hina/list/
 /nagi-s2/generated/hina
 /nagi-s2/generated/hina/
+/nagi-s3/
 /nagi-s3/generated_v2/hina
 /nagi-s3/generated_v2/hina/
+/nagi-s3/generated_v2/hina/list
+/nagi-s3/generated_v2/hina/list/
 /nagi-s3/generated/hina
 /nagi-s3/generated/hina/

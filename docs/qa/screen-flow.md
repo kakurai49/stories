@@ -69,56 +69,56 @@ graph TD
   N57["/nagi-s1/story7.html"]
   N58["/nagi-s1/story8.html"]
   N59["/nagi-s1/story9.html"]
-  N60["/nagi-s2/generated/hina"]
-  N61["/nagi-s2/generated_v2/hina"]
-  N62["/nagi-s2/generated_v2/hina/list"]
-  N63["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep01"]
-  N64["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep02"]
-  N65["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep03"]
-  N66["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep04"]
-  N67["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep05"]
-  N68["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep06"]
-  N69["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep07"]
-  N70["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep08"]
-  N71["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep09"]
-  N72["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep10"]
-  N73["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep11"]
-  N74["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep12"]
-  N75["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep13"]
-  N76["/nagi-s2/index.html"]
-  N77["/nagi-s3/generated/hina"]
-  N78["/nagi-s3/generated_v2/hina"]
-  N79["/nagi-s3/generated_v2/hina/list"]
-  N80["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep01"]
-  N81["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep02"]
-  N82["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep03"]
-  N83["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep04"]
-  N84["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep05"]
-  N85["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep06"]
-  N86["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep07"]
-  N87["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep08"]
-  N88["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep09"]
-  N89["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep10"]
-  N90["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep11"]
-  N91["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep12"]
-  N92["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep13"]
-  N93["/nagi-s3/index.html"]
+  N60["/nagi-s2"]
+  N61["/nagi-s2/generated/hina"]
+  N62["/nagi-s2/generated_v2/hina"]
+  N63["/nagi-s2/generated_v2/hina/list"]
+  N64["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep01"]
+  N65["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep02"]
+  N66["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep03"]
+  N67["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep04"]
+  N68["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep05"]
+  N69["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep06"]
+  N70["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep07"]
+  N71["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep08"]
+  N72["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep09"]
+  N73["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep10"]
+  N74["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep11"]
+  N75["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep12"]
+  N76["/nagi-s2/generated_v2/hina/posts/nagi-s2-ep13"]
+  N77["/nagi-s3"]
+  N78["/nagi-s3/generated/hina"]
+  N79["/nagi-s3/generated_v2/hina"]
+  N80["/nagi-s3/generated_v2/hina/list"]
+  N81["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep01"]
+  N82["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep02"]
+  N83["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep03"]
+  N84["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep04"]
+  N85["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep05"]
+  N86["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep06"]
+  N87["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep07"]
+  N88["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep08"]
+  N89["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep09"]
+  N90["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep10"]
+  N91["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep11"]
+  N92["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep12"]
+  N93["/nagi-s3/generated_v2/hina/posts/nagi-s3-ep13"]
   N0 --> N2
   N0 --> N3
   N0 --> N4
   N0 --> N47
-  N0 --> N61
-  N0 --> N76
-  N0 --> N78
-  N0 --> N93
+  N0 --> N60
+  N0 --> N62
+  N0 --> N77
+  N0 --> N79
   N1 --> N2
   N1 --> N3
   N1 --> N4
   N1 --> N47
-  N1 --> N61
-  N1 --> N76
-  N1 --> N78
-  N1 --> N93
+  N1 --> N60
+  N1 --> N62
+  N1 --> N77
+  N1 --> N79
   N2 --> N3
   N2 --> N18
   N2 --> N32
@@ -317,22 +317,9 @@ graph TD
   N57 --> N47
   N58 --> N47
   N59 --> N47
-  N61 --> N61
-  N61 --> N62
-  N61 --> N63
-  N61 --> N64
-  N61 --> N65
-  N61 --> N66
-  N61 --> N67
-  N61 --> N68
-  N61 --> N69
-  N61 --> N70
-  N61 --> N71
-  N61 --> N72
-  N61 --> N73
-  N61 --> N74
-  N61 --> N75
-  N62 --> N61
+  N60 --> N1
+  N60 --> N62
+  N60 --> N61
   N62 --> N62
   N62 --> N63
   N62 --> N64
@@ -347,66 +334,66 @@ graph TD
   N62 --> N73
   N62 --> N74
   N62 --> N75
-  N63 --> N61
+  N62 --> N76
   N63 --> N62
-  N64 --> N61
+  N63 --> N63
+  N63 --> N64
+  N63 --> N65
+  N63 --> N66
+  N63 --> N67
+  N63 --> N68
+  N63 --> N69
+  N63 --> N70
+  N63 --> N71
+  N63 --> N72
+  N63 --> N73
+  N63 --> N74
+  N63 --> N75
+  N63 --> N76
   N64 --> N62
-  N65 --> N61
+  N64 --> N63
   N65 --> N62
-  N66 --> N61
+  N65 --> N63
   N66 --> N62
-  N67 --> N61
+  N66 --> N63
   N67 --> N62
-  N68 --> N61
+  N67 --> N63
   N68 --> N62
-  N69 --> N61
+  N68 --> N63
   N69 --> N62
-  N70 --> N61
+  N69 --> N63
   N70 --> N62
-  N71 --> N61
+  N70 --> N63
   N71 --> N62
-  N72 --> N61
+  N71 --> N63
   N72 --> N62
-  N73 --> N61
+  N72 --> N63
   N73 --> N62
-  N74 --> N61
+  N73 --> N63
   N74 --> N62
-  N75 --> N61
+  N74 --> N63
   N75 --> N62
-  N60 --> N61
-  N60 --> N62
-  N60 --> N63
-  N60 --> N64
-  N60 --> N65
-  N60 --> N66
-  N60 --> N67
-  N60 --> N68
-  N60 --> N69
-  N60 --> N70
-  N60 --> N71
-  N60 --> N72
-  N60 --> N73
-  N60 --> N74
-  N60 --> N75
-  N76 --> N1
-  N76 --> N61
-  N76 --> N60
-  N78 --> N78
-  N78 --> N79
-  N78 --> N80
-  N78 --> N81
-  N78 --> N82
-  N78 --> N83
-  N78 --> N84
-  N78 --> N85
-  N78 --> N86
-  N78 --> N87
-  N78 --> N88
-  N78 --> N89
-  N78 --> N90
-  N78 --> N91
-  N78 --> N92
-  N79 --> N78
+  N75 --> N63
+  N76 --> N62
+  N76 --> N63
+  N61 --> N62
+  N61 --> N63
+  N61 --> N64
+  N61 --> N65
+  N61 --> N66
+  N61 --> N67
+  N61 --> N68
+  N61 --> N69
+  N61 --> N70
+  N61 --> N71
+  N61 --> N72
+  N61 --> N73
+  N61 --> N74
+  N61 --> N75
+  N61 --> N76
+  N77 --> N1
+  N77 --> N79
+  N77 --> N78
   N79 --> N79
   N79 --> N80
   N79 --> N81
@@ -421,127 +408,62 @@ graph TD
   N79 --> N90
   N79 --> N91
   N79 --> N92
-  N80 --> N78
+  N79 --> N93
   N80 --> N79
-  N81 --> N78
+  N80 --> N80
+  N80 --> N81
+  N80 --> N82
+  N80 --> N83
+  N80 --> N84
+  N80 --> N85
+  N80 --> N86
+  N80 --> N87
+  N80 --> N88
+  N80 --> N89
+  N80 --> N90
+  N80 --> N91
+  N80 --> N92
+  N80 --> N93
   N81 --> N79
-  N82 --> N78
+  N81 --> N80
   N82 --> N79
-  N83 --> N78
+  N82 --> N80
   N83 --> N79
-  N84 --> N78
+  N83 --> N80
   N84 --> N79
-  N85 --> N78
+  N84 --> N80
   N85 --> N79
-  N86 --> N78
+  N85 --> N80
   N86 --> N79
-  N87 --> N78
+  N86 --> N80
   N87 --> N79
-  N88 --> N78
+  N87 --> N80
   N88 --> N79
-  N89 --> N78
+  N88 --> N80
   N89 --> N79
-  N90 --> N78
+  N89 --> N80
   N90 --> N79
-  N91 --> N78
+  N90 --> N80
   N91 --> N79
-  N92 --> N78
+  N91 --> N80
   N92 --> N79
-  N77 --> N78
-  N77 --> N79
-  N77 --> N80
-  N77 --> N81
-  N77 --> N82
-  N77 --> N83
-  N77 --> N84
-  N77 --> N85
-  N77 --> N86
-  N77 --> N87
-  N77 --> N88
-  N77 --> N89
-  N77 --> N90
-  N77 --> N91
-  N77 --> N92
-  N93 --> N1
-  N93 --> N78
-  N93 --> N77
+  N92 --> N80
+  N93 --> N79
+  N93 --> N80
+  N78 --> N79
+  N78 --> N80
+  N78 --> N81
+  N78 --> N82
+  N78 --> N83
+  N78 --> N84
+  N78 --> N85
+  N78 --> N86
+  N78 --> N87
+  N78 --> N88
+  N78 --> N89
+  N78 --> N90
+  N78 --> N91
+  N78 --> N92
+  N78 --> N93
 ```
-
-## Console / Page Error（要確認）
-
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-- console: Failed to load resource: net::ERR_FAILED
-
-## ブロックされた外部リクエスト（オフライン前提のため遮断）
-
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
-- https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
 

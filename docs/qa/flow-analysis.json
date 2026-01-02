@@ -4,10 +4,10 @@
     "startPath": "/",
     "flowJsonPath": "/workspace/stories/.qa/artifacts/flow/screen-flow.json",
     "knownRoutesSource": "file:/workspace/stories/.qa/known-routes.txt",
-    "generatedAt": "2026-01-02T07:58:12.245Z"
+    "generatedAt": "2026-01-02T09:47:36.067Z"
   },
   "counts": {
-    "knownRoutes": 11,
+    "knownRoutes": 12,
     "crawledPages": 94,
     "edges": 362,
     "unreachable": 0,
@@ -16,12 +16,12 @@
     "orphans": 0,
     "broken": 0,
     "brokenRaw": 0,
-    "consoleErrors": 1,
-    "consoleErrorsTotal": 36,
-    "consoleErrorsUnique": 1,
-    "blockedExternalRequests": 3,
-    "blockedExternalRequestsTotal": 36,
-    "blockedExternalRequestsUnique": 3
+    "consoleErrors": 0,
+    "consoleErrorsTotal": 0,
+    "consoleErrorsUnique": 0,
+    "blockedExternalRequests": 0,
+    "blockedExternalRequestsTotal": 0,
+    "blockedExternalRequestsUnique": 0
   },
   "hubs": [
     {
