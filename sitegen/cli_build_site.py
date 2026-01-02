@@ -100,7 +100,7 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _build_once(args: argparse.Namespace, out_root: Path) -> None:
+def _build_once(args: argparse.Namespace, out_root: Path, *, href_root: Path | None = None) -> None:
     micro_store = MicroStore.load(args.micro_store)
     compiled = compile_store_v2(micro_store)
 
@@ -111,6 +111,7 @@ def _build_once(args: argparse.Namespace, out_root: Path) -> None:
     ctx = BuildContext(
         src_root=args.src,
         out_root=out_root,
+        href_root=href_root,
         routes_filename=args.routes_filename,
         build_label=build_label,
     )
@@ -137,8 +138,9 @@ def main() -> None:
             tmp_dir = Path(tmp)
             run1 = tmp_dir / "run1"
             run2 = tmp_dir / "run2"
-            _build_once(args, run1)
-            _build_once(args, run2)
+            href_root = args.out
+            _build_once(args, run1, href_root=href_root)
+            _build_once(args, run2, href_root=href_root)
             if _hash_dir(run1) != _hash_dir(run2):
                 raise SystemExit("Determinism check failed: outputs differ between runs")
             _copy_output(run1, args.out)
