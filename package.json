@@ -20,6 +20,7 @@
     "qa:fixlist": "QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow/screen-flow.spec.ts && QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow/flow-analyze.spec.ts",
     "qa:sitechain:evidence": "playwright test -c .qa/playwright.config.ts .qa/tests/flow/sitechain-evidence.spec.ts",
     "qa:explore:guided": "playwright test -c .qa/playwright.config.ts .qa/tests/exploratory/guided-coverage.spec.ts",
+    "qa:explore:bench": "node .qa/scripts/explore-bench.js",
     "qa:alias:sync": "python scripts/sync_v2_aliases.py",
     "devcontainer:setup": "bash .devcontainer/post-create.sh"
   },
