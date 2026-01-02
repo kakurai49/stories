@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from collections import Counter
 from dataclasses import dataclass, field
@@ -257,15 +258,39 @@ def build_view_model_for_experience(
         href = router.absolute_href_for_path(target)
         return _normalize_href(href, trailing_slash=trailing_slash)
 
+    def _rooted_href(href: str, *, trailing_slash: bool = False) -> str:
+        normalized = _normalize_href(href, trailing_slash=trailing_slash)
+        if not normalized:
+            return ""
+
+        if normalized.startswith("#"):
+            return normalized
+
+        if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", normalized):
+            return normalized
+
+        if normalized.startswith("/") or "://" in normalized:
+            return normalized
+
+        return _absolute_path_href(
+            ctx.out_root / normalized.lstrip("./"), trailing_slash=trailing_slash
+        )
+
     if router is None:
         raise ValueError("router is required to build the view model")
 
     output_dir = ctx.output_dir(experience)
     manifest_meta = _load_manifest_meta(experience, ctx)
-    routes_href = _absolute_path_href(ctx.routes_path)
+    routes_href = _rooted_href(_absolute_path_href(ctx.routes_path))
 
-    home_href = _absolute_page_href(router.home(experience.key), trailing_slash=True)
-    list_href = _absolute_page_href(router.list_page(experience.key), trailing_slash=True)
+    home_href = _rooted_href(
+        _absolute_page_href(router.home(experience.key), trailing_slash=True),
+        trailing_slash=True,
+    )
+    list_href = _rooted_href(
+        _absolute_page_href(router.list_page(experience.key), trailing_slash=True),
+        trailing_slash=True,
+    )
 
     groups = _group_content(experience, items)
 
@@ -278,7 +303,10 @@ def build_view_model_for_experience(
                 "order": index,
                 "title": item.title,
                 "summary": item.summary or item.excerpt or "",
-                "href": _absolute_page_href(detail_page, trailing_slash=True),
+                "href": _rooted_href(
+                    _absolute_page_href(detail_page, trailing_slash=True),
+                    trailing_slash=True,
+                ),
                 "tags": item.tags,
                 "data_href": item.data_href,
             }
@@ -315,17 +343,22 @@ def build_view_model_for_experience(
     def _resolved_cta_href(raw_href: str | None) -> str:
         if not raw_href:
             return list_href
+        trailing = raw_href.endswith("/")
         path = Path(raw_href)
         if path.is_absolute() or "://" in raw_href:
-            return raw_href
+            return _rooted_href(raw_href, trailing_slash=trailing)
         if raw_href in router.content_ids(experience.key):
-            return _absolute_page_href(
-                router.content_page(experience.key, raw_href), trailing_slash=True
+            return _rooted_href(
+                _absolute_page_href(
+                    router.content_page(experience.key, raw_href), trailing_slash=True
+                ),
+                trailing_slash=True,
             )
         if raw_href.rstrip("/") == "list":
             return list_href
-        return _absolute_path_href(
-            output_dir / raw_href, trailing_slash=raw_href.endswith("/")
+        return _rooted_href(
+            _absolute_path_href(output_dir / raw_href, trailing_slash=trailing),
+            trailing_slash=trailing,
         )
 
     site_title = experience.name or manifest_meta.get("label") or experience.key
@@ -343,7 +376,9 @@ def build_view_model_for_experience(
         else (site_description or "")
     )
     hero_cta = {
-        "href": _resolved_cta_href(getattr(site_meta_entry, "cta_href", None)),
+        "href": _rooted_href(
+            _resolved_cta_href(getattr(site_meta_entry, "cta_href", None))
+        ),
         "label": getattr(site_meta_entry, "cta_label", "") or "一覧を見る",
     }
 
