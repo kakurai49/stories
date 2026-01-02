@@ -85,7 +85,7 @@ class SiteRouter:
             try:
                 href_root = href_root.relative_to(Path.cwd())
             except ValueError:
-                href_root = Path(href_root.name)
+                return ""
         prefix = "/" + href_root.as_posix().lstrip("./")
         return prefix.rstrip("/")
 

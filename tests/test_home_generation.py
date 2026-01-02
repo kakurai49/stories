@@ -120,3 +120,20 @@ def test_generated_links_are_rooted_at_out_dir(tmp_path: Path):
     detail_html = (output_dir / "posts" / detail_slug / "index.html").read_text(encoding="utf-8")
     detail = BeautifulSoup(detail_html, "html.parser")
     _assert_rooted([a["href"] for a in detail.select(".sg-nav-links a")], "detail nav")
+
+
+def test_absolute_out_root_uses_self_as_href_root(tmp_path: Path):
+    ctx, router, exp, output_dir, _ = _build_experience_bundle(tmp_path, "hina")
+
+    home_href = router.absolute_href_for_page(router.home(exp.key))
+    list_href = router.absolute_href_for_page(router.list_page(exp.key))
+    expected_root = f"/{exp.output_dir or exp.key}/"
+    assert home_href == expected_root
+    assert list_href == f"{expected_root}list/"
+
+    html = (output_dir / "index.html").read_text(encoding="utf-8")
+    soup = BeautifulSoup(html, "html.parser")
+    nav_hrefs = [a["href"] for a in soup.select(".sg-nav-links a")]
+
+    assert {home_href, list_href}.issubset(set(nav_hrefs))
+    assert not any(href.startswith(f"/{ctx.out_root.name}/") for href in nav_hrefs)
