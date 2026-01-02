@@ -87,4 +87,25 @@ test.describe("explore utilities", () => {
 
     expect(candidates).toEqual([{ href: "/dup", abs: "http://example.com/dup", path: "/dup" }]);
   });
+
+  test("collectCandidates respects allowed path prefixes when provided", async ({ page }) => {
+    await page.setContent(`
+      <a href="/allowed/path">ok</a>
+      <a href="/outside/path">skip</a>
+    `);
+
+    const candidates = await collectCandidates({
+      page,
+      baseOrigin: "http://example.com",
+      currentUrl: "http://example.com/start",
+      currentPath: "/start",
+      limit: 10,
+      dedupeByPath: true,
+      skipSelf: false,
+      skipBeforeSlice: false,
+      allowedPathPrefixes: ["/allowed"],
+    });
+
+    expect(candidates).toEqual([{ href: "/allowed/path", abs: "http://example.com/allowed/path", path: "/allowed/path" }]);
+  });
 });

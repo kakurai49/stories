@@ -21,6 +21,7 @@ export type ExploreConfig = {
   seconds: number;
   seed: number;
   startPath: string;
+  allowedPathPrefixes?: string[];
   publish: boolean;
   restartEvery: number;
   flowJsonPath: string;
