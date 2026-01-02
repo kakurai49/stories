@@ -1,11 +1,11 @@
 {
   "meta": {
     "baseURL": "http://127.0.0.1:3000",
-    "seed": 1767314467106,
+    "seed": 1767315417256,
     "seconds": 60,
     "startPath": "/",
     "restartEvery": 15,
-    "generatedAt": "2026-01-02T00:42:07.355Z",
+    "generatedAt": "2026-01-02T00:57:57.501Z",
     "flowJsonPath": "/workspace/stories/.qa/artifacts/flow/screen-flow.json"
   },
   "targetsCount": 52,
@@ -70,16 +70,6 @@
   "steps": [
     {
       "from": "/",
-      "to": "/nagi-s2/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s2/index.html",
-      "to": "/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/index.html",
       "to": "/nagi-s3/index.html",
       "via": "goto(link)"
     },
@@ -90,126 +80,16 @@
     },
     {
       "from": "/index.html",
-      "to": "/nagi-s1/generated/hina/index.html",
+      "to": "/nagi-s2/index.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/index.html",
-      "to": "/nagi-s1/generated/hina/posts/ep03",
+      "from": "/nagi-s2/index.html",
+      "to": "/index.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/posts/ep03",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep01",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep01",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep10",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep10",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep04",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep04",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep09",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep09",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/",
-      "via": "goto(restart)"
-    },
-    {
-      "from": "/",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story7.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story7.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story1.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story1.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story4.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story4.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story11.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story11.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story2.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story2.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story8.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story8.html",
+      "from": "/index.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
@@ -220,126 +100,6 @@
     },
     {
       "from": "/nagi-s1/story12.html",
-      "to": "/",
-      "via": "goto(restart)"
-    },
-    {
-      "from": "/",
-      "to": "/nagi-s3/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s3/index.html",
-      "to": "/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/index.html",
-      "to": "/nagi-s2/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s2/index.html",
-      "to": "/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/index.html",
-      "to": "/nagi-s1/generated/hina/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/index.html",
-      "to": "/nagi-s1/generated/hina/posts/ep11",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep11",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep06",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep06",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep12",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep12",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep05",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep05",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep02",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep02",
-      "to": "/",
-      "via": "goto(restart)"
-    },
-    {
-      "from": "/",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story3.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story3.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story6.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story6.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story5.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story5.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story10.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story10.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
@@ -355,11 +115,146 @@
     },
     {
       "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story12.html",
+      "to": "/nagi-s1/story7.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/story12.html",
+      "from": "/nagi-s1/story7.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story11.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story11.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story3.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story3.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/",
+      "via": "goto(restart)"
+    },
+    {
+      "from": "/",
+      "to": "/nagi-s1/generated/hina/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/index.html",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep07",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep07",
+      "to": "/nagi-s1/generated/hina/list",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/nagi-s1/generated/hina/posts/ep08",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep08",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep09",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep09",
+      "to": "/nagi-s1/generated/hina/list",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/nagi-s1/generated/hina/posts/ep12",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep12",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep11",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep11",
+      "to": "/nagi-s1/generated/hina/list",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/nagi-s1/generated/hina/posts/ep06",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep06",
+      "to": "/nagi-s1/generated/hina/list",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/",
+      "via": "goto(restart)"
+    },
+    {
+      "from": "/",
+      "to": "/nagi-s3/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s3/index.html",
+      "to": "/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/index.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story10.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story10.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story4.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story4.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
@@ -370,6 +265,36 @@
     },
     {
       "from": "/nagi-s1/story6.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story5.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story5.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story1.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story1.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story2.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story2.html",
       "to": "/",
       "via": "goto(restart)"
     },
@@ -390,81 +315,6 @@
     },
     {
       "from": "/nagi-s1/generated/hina/index.html",
-      "to": "/nagi-s1/generated/hina/posts/ep07",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep07",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep08",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep08",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep11",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep11",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep05",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep05",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep02",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep02",
-      "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep08",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep08",
-      "to": "/",
-      "via": "goto(restart)"
-    },
-    {
-      "from": "/",
-      "to": "/nagi-s3/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s3/index.html",
-      "to": "/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/index.html",
-      "to": "/nagi-s1/generated/hina/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/index.html",
       "to": "/nagi-s1/generated/hina/posts/ep03",
       "via": "goto(link)"
     },
@@ -475,21 +325,21 @@
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep07",
+      "to": "/nagi-s1/generated/hina/posts/ep04",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/posts/ep07",
+      "from": "/nagi-s1/generated/hina/posts/ep04",
       "to": "/nagi-s1/generated/hina/list",
       "via": "goto(link)"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep06",
+      "to": "/nagi-s1/generated/hina/posts/ep10",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/posts/ep06",
+      "from": "/nagi-s1/generated/hina/posts/ep10",
       "to": "/nagi-s1/generated/hina/list",
       "via": "goto(link)"
     },
@@ -505,21 +355,21 @@
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep08",
+      "to": "/nagi-s1/generated/hina/posts/ep05",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/posts/ep08",
-      "to": "/nagi-s1/generated/hina/list",
+      "from": "/nagi-s1/generated/hina/posts/ep05",
+      "to": "/nagi-s1/generated/hina",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep12",
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep01",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/generated/hina/posts/ep12",
+      "from": "/nagi-s1/generated/hina/posts/ep01",
       "to": "/",
       "via": "goto(restart)"
     },
@@ -540,31 +390,21 @@
     },
     {
       "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story1.html",
+      "to": "/nagi-s1/story2.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/story1.html",
+      "from": "/nagi-s1/story2.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
     {
       "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story5.html",
+      "to": "/nagi-s1/story9.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/story5.html",
-      "to": "/nagi-s1/index.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story6.html",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/story6.html",
+      "from": "/nagi-s1/story9.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
@@ -580,31 +420,41 @@
     },
     {
       "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story8.html",
+      "to": "/nagi-s1/story2.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/story8.html",
+      "from": "/nagi-s1/story2.html",
       "to": "/nagi-s1/index.html",
       "via": "goto(link)"
     },
     {
       "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story5.html",
+      "to": "/nagi-s1/story3.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s1/story5.html",
+      "from": "/nagi-s1/story3.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story4.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story4.html",
       "to": "/",
       "via": "goto(restart)"
     },
     {
       "from": "/",
-      "to": "/nagi-s3/index.html",
+      "to": "/nagi-s2/index.html",
       "via": "goto(link)"
     },
     {
-      "from": "/nagi-s3/index.html",
+      "from": "/nagi-s2/index.html",
       "to": "/index.html",
       "via": "goto(link)"
     },
@@ -620,6 +470,16 @@
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep04",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep05",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep05",
       "to": "/nagi-s1/generated/hina/list",
       "via": "goto(link)"
     },
@@ -630,6 +490,146 @@
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep11",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep09",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep09",
+      "to": "/nagi-s1/generated/hina",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina/posts/ep03",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep03",
+      "to": "/nagi-s1/generated/hina/list",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/nagi-s1/generated/hina/posts/ep06",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep06",
+      "to": "/",
+      "via": "goto(restart)"
+    },
+    {
+      "from": "/",
+      "to": "/nagi-s3/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s3/index.html",
+      "to": "/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/index.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story1.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story1.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story9.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story9.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story5.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story5.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story12.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story12.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story6.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story6.html",
+      "to": "/nagi-s1/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story1.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/story1.html",
+      "to": "/",
+      "via": "goto(restart)"
+    },
+    {
+      "from": "/",
+      "to": "/nagi-s2/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s2/index.html",
+      "to": "/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/index.html",
+      "to": "/nagi-s3/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s3/index.html",
+      "to": "/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/index.html",
+      "to": "/nagi-s1/generated/hina/index.html",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/index.html",
+      "to": "/nagi-s1/generated/hina/posts/ep03",
+      "via": "goto(link)"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/posts/ep03",
       "to": "/nagi-s1/generated/hina",
       "via": "goto(link)"
     },
@@ -641,41 +641,6 @@
     {
       "from": "/nagi-s1/generated/hina/posts/ep12",
       "to": "/nagi-s1/generated/hina/list",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/hina/posts/ep05",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep05",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep11",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep11",
-      "to": "/nagi-s1/generated/hina",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/hina/posts/ep03",
-      "via": "goto(link)"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/posts/ep03",
-      "to": "/",
-      "via": "goto(restart)"
-    },
-    {
-      "from": "/",
-      "to": "/nagi-s3/index.html",
       "via": "goto(link)"
     }
   ],

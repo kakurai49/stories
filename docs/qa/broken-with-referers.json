@@ -1,0 +1,232 @@
+{
+  "flowPath": "/workspace/stories/docs/qa/screen-flow.json",
+  "generatedAt": "2026-01-02T00:58:28.008Z",
+  "out": [
+    {
+      "target": "/nagi-s1/_buildinfo.json",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/_buildinfo.json"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/posts/ep01",
+        "/nagi-s1/generated/hina/posts/ep02",
+        "/nagi-s1/generated/hina/posts/ep03",
+        "/nagi-s1/generated/hina/posts/ep04",
+        "/nagi-s1/generated/hina/posts/ep05",
+        "/nagi-s1/generated/hina/posts/ep06",
+        "/nagi-s1/generated/hina/posts/ep07",
+        "/nagi-s1/generated/hina/posts/ep08",
+        "/nagi-s1/generated/hina/posts/ep09",
+        "/nagi-s1/generated/hina/posts/ep10",
+        "/nagi-s1/generated/hina/posts/ep11",
+        "/nagi-s1/generated/hina/posts/ep12"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/list"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep01",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep01",
+        "/nagi-s1/generated/posts/ep01"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep02",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep02",
+        "/nagi-s1/generated/posts/ep02"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep03",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep03",
+        "/nagi-s1/generated/posts/ep03"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep04",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep04",
+        "/nagi-s1/generated/posts/ep04"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep05",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep05",
+        "/nagi-s1/generated/posts/ep05"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep06",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep06",
+        "/nagi-s1/generated/posts/ep06"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep07",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep07",
+        "/nagi-s1/generated/posts/ep07"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep08",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep08",
+        "/nagi-s1/generated/posts/ep08"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep09",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep09",
+        "/nagi-s1/generated/posts/ep09"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep10",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep10",
+        "/nagi-s1/generated/posts/ep10"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep11",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep11",
+        "/nagi-s1/generated/posts/ep11"
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep12",
+      "referers": [
+        "/nagi-s1/generated/hina",
+        "/nagi-s1/generated/hina/list"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/generated/hina/posts/ep12",
+        "/nagi-s1/generated/posts/ep12"
+      ]
+    },
+    {
+      "target": "/nagi-s1/hina",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/hina"
+      ]
+    },
+    {
+      "target": "/nagi-s1/immersive",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/immersive"
+      ]
+    },
+    {
+      "target": "/nagi-s1/magazine",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/magazine"
+      ]
+    },
+    {
+      "target": "/nagi-s1/routes.json",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/routes.json"
+      ]
+    },
+    {
+      "target": "/nagi-s1/shared",
+      "referers": [
+        "/nagi-s1/generated"
+      ],
+      "existsAsPage": true,
+      "maybeCorrectCandidates": [
+        "/nagi-s1/shared"
+      ]
+    }
+  ]
+}

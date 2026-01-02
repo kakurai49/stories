@@ -10,3 +10,4 @@ test-results/
 artifacts_bundle.zip
 
 .qa/artifacts/
+docs/qa/img/
