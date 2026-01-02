@@ -28,6 +28,7 @@ class BuildContext:
 
     src_root: Path
     out_root: Path
+    href_root: Path | None = None
     routes_filename: str = "routes.json"
     shared_init_features: Path | None = None
     shared_assets_dir: Path | None = None

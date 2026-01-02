@@ -80,13 +80,13 @@ class SiteRouter:
         self._build()
 
     def _compute_out_href_prefix(self) -> str:
-        out_root = self.ctx.out_root
-        if out_root.is_absolute():
+        href_root = self.ctx.href_root or self.ctx.out_root
+        if href_root.is_absolute():
             try:
-                out_root = out_root.relative_to(Path.cwd())
+                href_root = href_root.relative_to(Path.cwd())
             except ValueError:
-                out_root = Path(out_root.name)
-        prefix = "/" + out_root.as_posix().lstrip("./")
+                href_root = Path(href_root.name)
+        prefix = "/" + href_root.as_posix().lstrip("./")
         return prefix.rstrip("/")
 
     def _absolute_from_url_path(self, url_path: str) -> str:
