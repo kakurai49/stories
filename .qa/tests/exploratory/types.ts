@@ -1,4 +1,5 @@
 import type { Page, TestInfo } from "@playwright/test";
+import type { CoverageState } from "./coverage";
 
 export type ExploreRng = {
   next: () => number;
@@ -47,6 +48,7 @@ export type ExploreContext = {
   blockedRequests: string[];
   targetSet?: Set<string>;
   stepIndex: number;
+  coverage: CoverageState;
 };
 
 export type FlowData = {
