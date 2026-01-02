@@ -3,6 +3,7 @@ import type { Page, TestInfo } from "@playwright/test";
 import { attachText, writeGuidedCoverage } from "./artifacts";
 import { collectCandidates } from "./links";
 import { createRng } from "./rng";
+import { createCoverageState, recordCandidateSeen, updateCoverage } from "./coverage";
 import type {
   ExploreConfig,
   ExploreContext,
@@ -41,7 +42,8 @@ function createNavigator(
   baseOrigin: string,
   mode: "random" | "guided",
   errors: string[],
-  blockedFromTestInfo: string[]
+  blockedFromTestInfo: string[],
+  resetCoverage: () => void
 ): Navigator {
   const blockedExternalRequests: string[] = [];
 
@@ -59,6 +61,7 @@ function createNavigator(
 
     return {
       goto: async (url: string) => {
+        resetCoverage();
         const resp = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20_000 });
         await page.waitForTimeout(waitAfterGotoMs);
 
@@ -93,6 +96,7 @@ function createNavigator(
 
   return {
     goto: async (url: string) => {
+      resetCoverage();
       errors.length = 0;
       const resp = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20_000 });
       await page.waitForTimeout(waitAfterGotoMs);
@@ -124,6 +128,25 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
   const recent: string[] = [];
   const steps: Array<{ from: string; to: string; via: string }> = [];
   const blockedFromTestInfo = ((testInfo as any)._blockedRequests ?? []) as string[];
+  const coverage = createCoverageState();
+  const observedSinceLastGoto = new Set<string>();
+
+  page.on("requestfinished", (req) => {
+    try {
+      const url = new URL(req.url());
+      if (url.origin !== baseOrigin) return;
+
+      const path = normalizePathFromUrl(url.toString());
+      const resourceType = req.resourceType();
+      if (resourceType === "xhr" || resourceType === "fetch") {
+        observedSinceLastGoto.add(`api:${req.method().toUpperCase()} ${path}`);
+      } else if (resourceType === "script" || resourceType === "stylesheet") {
+        observedSinceLastGoto.add(`asset:${path}`);
+      }
+    } catch {
+      // ignore malformed URLs
+    }
+  });
 
   const flowLoader = () => loadFlowData(config.flowJsonPath);
   const initResult = strategy.init ? await strategy.init({ config, loadFlow: flowLoader }) : undefined;
@@ -139,9 +162,10 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
     history,
     config.waitAfterGotoMs,
     baseOrigin,
-    strategy.name === "guided-coverage" ? "guided" : "random",
+    strategy.name === "random-walk" ? "random" : "guided",
     errors,
-    blockedFromTestInfo
+    blockedFromTestInfo,
+    () => observedSinceLastGoto.clear()
   );
 
   const perform = async () => {
@@ -150,6 +174,10 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
     while (Date.now() < deadline) {
       const currentUrl = page.url();
       const currentPath = normalizePathFromUrl(currentUrl);
+      const observedForPage = new Set<string>(observedSinceLastGoto);
+      observedForPage.add(`route:${currentPath}`);
+      updateCoverage(coverage, currentPath, observedForPage);
+      observedSinceLastGoto.clear();
       visited.add(currentPath);
       rememberRecent(recent, currentPath);
 
@@ -163,6 +191,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
         skipSelf: strategy.skipSelf,
         skipBeforeSlice: strategy.skipBeforeSlice,
       });
+      recordCandidateSeen(coverage, candidates);
 
       const ctx: ExploreContext = {
         page,
@@ -182,20 +211,21 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
         blockedRequests: navigator.blockedExternalRequests,
         targetSet,
         stepIndex: steps.length,
+        coverage,
       };
 
       const action = strategy.nextAction(ctx);
       if (action.action === "stop") break;
 
       if (action.action === "restart") {
-        if (strategy.name === "guided-coverage") {
+        if (strategy.name !== "random-walk") {
           steps.push({ from: currentPath, to: startPathNormalized, via: action.via ?? "goto(start)" });
         }
         await navigator.goto(startUrl);
         continue;
       }
 
-      if (strategy.name === "guided-coverage") {
+      if (strategy.name !== "random-walk") {
         const toPath = action.targetPath ?? normalizePathFromUrl(action.url);
         steps.push({ from: currentPath, to: toPath, via: action.via ?? "goto(link)" });
       }
@@ -222,7 +252,8 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
   const visitedList = Array.from(visited).sort();
   const targets = Array.from(targetSet ?? new Set<string>()).sort();
   const uncovered = targets.filter((p) => !visited.has(p));
-  const coverage = targets.length === 0 ? 1 : visitedList.filter((p) => targetSet?.has(p)).length / targets.length;
+  const coverageRatio =
+    targets.length === 0 ? 1 : visitedList.filter((p) => targetSet?.has(p)).length / targets.length;
 
   const report = {
     meta: {
@@ -236,7 +267,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
     },
     targetsCount: targets.length,
     visitedCount: visitedList.length,
-    coverage,
+    coverage: coverageRatio,
     visited: visitedList,
     uncovered,
     steps,

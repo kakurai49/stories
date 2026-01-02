@@ -1,7 +1,13 @@
 import { expect, test } from "@playwright/test";
+import { createCoverageState, updateCoverage } from "./coverage";
 import { createRng } from "./rng";
 import { guidedCoverageStrategy } from "./strategies/guided-coverage";
 import { randomWalkStrategy } from "./strategies/random-walk";
+import {
+  computeGain,
+  setCoverGreedyStrategy,
+  weightForDf,
+} from "./strategies/set-cover-greedy";
 
 test.describe("explore strategies", () => {
   test("random-walk restarts on dead end", () => {
@@ -69,5 +75,61 @@ test.describe("explore strategies", () => {
     } as any);
 
     expect(action).toEqual(expect.objectContaining({ targetPath: "/b" }));
+  });
+
+  test("set-cover gain decreases as df increases and ignores covered items", () => {
+    expect(weightForDf(0)).toBeGreaterThan(weightForDf(2));
+
+    const coverage = createCoverageState();
+    coverage.covered.add("route:/known");
+    coverage.df.set("route:/known", 3);
+
+    const gain = computeGain(new Set(["route:/known", "asset:/bundle.js"]), coverage);
+    expect(gain).toBeCloseTo(weightForDf(0));
+  });
+
+  test("set-cover-greedy prefers candidates with more uncovered coverage", () => {
+    const coverage = createCoverageState();
+    updateCoverage(coverage, "/a", new Set(["route:/a", "asset:/shared.js"]));
+    updateCoverage(coverage, "/b", new Set(["route:/b", "api:GET /api/data"]));
+    coverage.pathToObserved.set("/rich", new Set(["route:/rich", "asset:/unique.js", "asset:/shared.js"]));
+
+    const action = setCoverGreedyStrategy.nextAction({
+      candidates: [
+        { href: "/a", abs: "http://example.com/a", path: "/a" },
+        { href: "/rich", abs: "http://example.com/rich", path: "/rich" },
+      ],
+      rng: createRng(10),
+      recent: [],
+      coverage,
+      config: { restartEvery: 15 } as any,
+      stepIndex: 1,
+    } as any);
+
+    expect(action).toEqual(expect.objectContaining({ targetPath: "/rich" }));
+  });
+
+  test("set-cover-greedy avoids recent when possible and falls back on zero gain", () => {
+    const coverage = createCoverageState();
+    coverage.covered.add("route:/old");
+    coverage.covered.add("route:/older");
+    coverage.df.set("route:/old", 2);
+    coverage.df.set("route:/older", 2);
+    coverage.pathToObserved.set("/old", new Set(["route:/old"]));
+    coverage.pathToObserved.set("/older", new Set(["route:/older"]));
+
+    const action = setCoverGreedyStrategy.nextAction({
+      candidates: [
+        { href: "/old", abs: "http://example.com/old", path: "/old" },
+        { href: "/older", abs: "http://example.com/older", path: "/older" },
+      ],
+      rng: createRng(1),
+      recent: ["/older"],
+      coverage,
+      config: { restartEvery: 15 } as any,
+      stepIndex: 0,
+    } as any);
+
+    expect(action).toEqual(expect.objectContaining({ targetPath: "/old", reason: "set-cover-fallback" }));
   });
 });
