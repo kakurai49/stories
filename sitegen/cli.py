@@ -20,6 +20,7 @@ from .build import (
     build_list,
     _content_for_experience,
     load_content_items,
+    write_generated_root_index,
 )
 from .shared_gen import generate_init_features_js, generate_switcher_assets
 from .routes_gen import write_routes_payload
@@ -623,6 +624,7 @@ def _handle_build(args: argparse.Namespace) -> None:
                 )
 
     written.extend(router.render_aliases())
+    written.append(write_generated_root_index(ctx, router, experiences))
     if args.all:
         routes_payload = router.routes_payload()
         route_targets = [ctx.routes_path]

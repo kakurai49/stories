@@ -20,7 +20,7 @@
   - ブラウザ解決: `/nagi-s1/generated/hina/posts/ep01`
   - `brokenResolvedPath`（referer に末尾スラッシュ無しで解決）: `/nagi-s1/generated/posts/ep01`
 - JSON 記録: docs/qa/sitechain-link-evidence.json の該当エントリに raw / resolved / brokenResolvedPath / outerHTML を保存。スクリーンショット: `docs/qa/img/sitechain-nagi-s1_generated_hina.png`。
-- 生成ロジック: `build_view_model_for_experience` が `router.href_for_page(detail_page, base)` で相対 href を作成（base は出力ディレクトリ）【F:sitegen/build.py†L251-L270】。`relative_route` はベースパスをファイル扱いするため末尾スラッシュを欠くと親ディレクトリ解釈になる【F:sitegen/routing.py†L17-L33】。
+- 生成ロジック: ルーティングの相対解決は `relative_route` が担当し、末尾スラッシュを欠くと base をファイル扱いして親ディレクトリ解釈になる【F:sitegen/routing.py†L17-L33】。home/list/detail の href は `build_view_model_for_experience` に集約され、そこから nav・CTA・エピソードカードの href が組み立てられる【F:sitegen/build.py†L228-L373】。
 
 ### 2) `/nagi-s1/generated/list` （referer: `/nagi-s1/generated/hina`）
 - DOM 証拠: ナビと CTA がどちらも `href="list/"`【F:nagi-s1/generated/hina/index.html†L25-L46】。
@@ -28,13 +28,13 @@
   - ブラウザ解決: `/nagi-s1/generated/hina/list`
   - brokenResolvedPath: `/nagi-s1/generated/list`
 - JSON 記録: sitechain-link-evidence.json 内の target `/nagi-s1/generated/list` に raw / resolved / brokenResolvedPath / outerHTML を保存。スクリーンショット: `docs/qa/img/sitechain-nagi-s1_generated_hina.png`。
-- 生成ロジック: nav_links も list_href も `router.href_for_page(..., base)` で相対出力【F:sitegen/build.py†L251-L341】→ 末尾スラッシュ欠落ケースで hina セグメントが脱落。
+- 生成ロジック: nav_links も list_href も `build_view_model_for_experience` 内で一括生成される【F:sitegen/build.py†L228-L373】。相対解決は `relative_route` のロジックに依存するため、ベース URL がファイル扱いになると hina セグメントが脱落する【F:sitegen/routing.py†L17-L33】。
 
 ### 3) `/nagi-s1/_buildinfo.json` （referer: `/nagi-s1/generated`）
 - 証拠: ディレクトリ listing の `<a href="_buildinfo.json">_buildinfo.json</a>` が `brokenResolvedPath` として `/nagi-s1/_buildinfo.json` に解決（sitechain-link-evidence.json に raw/outerHTML 記録、スクリーンショット `docs/qa/img/sitechain-nagi-s1_generated.png`）。
-- 背景: `/nagi-s1/generated/` に index.html が無く python -m http.server の listing へフォールバック。末尾スラッシュ無しで参照するとリンクが親パス解釈され 404 に落ちる。
+- 背景: `/nagi-s1/generated/` に index.html が無く python -m http.server の listing へフォールバック。末尾スラッシュ無しで参照するとリンクが親パス解釈され 404 に落ちる。out_root 直下に置くインデックスはビルド終盤の `write_generated_root_index` で生成する想定【F:sitegen/build.py†L477-L515】。
 
 ## まとめ
 - すべての 404 は「相対パスを末尾スラッシュ無しの URL で解決した場合」に hina / generated セグメントが脱落することが原因。
-- 生成 HTML 自体は存在し、/nagi-s1/generated/hina/... へ到達すれば 200 を返す。リンク生成はすべて相対 href で、`relative_route` / `href_for_page` の計算結果に依存している。
-- ディレクトリ listing 由来のリンクも同じ問題で親ディレクトリへ解決されている。index を吐き出すか、リンクを out_root 起点の絶対パスにすることで防げる。
+- 生成 HTML 自体は存在し、/nagi-s1/generated/hina/... へ到達すれば 200 を返す。リンク生成は `build_view_model_for_experience` に集約されているため、ここで out_root 起点の絶対パスへ寄せれば再発を抑止できる【F:sitegen/build.py†L228-L373】。
+- ディレクトリ listing 由来のリンクも同じ問題で親ディレクトリへ解決されている。out_root 直下に index.html を吐き出し、リンクを out_root 基準の絶対パスにすることで防げる【F:sitegen/build.py†L477-L515】。

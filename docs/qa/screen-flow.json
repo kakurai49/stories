@@ -4,13 +4,11 @@
     "startPath": "/",
     "maxPages": 200,
     "maxDepth": 10,
-    "generatedAt": "2026-01-02T00:56:50.295Z"
+    "generatedAt": "2026-01-02T05:09:16.754Z"
   },
   "pages": [
     "/",
     "/index.html",
-    "/nagi-s1/_buildinfo.json",
-    "/nagi-s1/generated",
     "/nagi-s1/generated/hina",
     "/nagi-s1/generated/hina/index.html",
     "/nagi-s1/generated/hina/list",
@@ -26,25 +24,7 @@
     "/nagi-s1/generated/hina/posts/ep10",
     "/nagi-s1/generated/hina/posts/ep11",
     "/nagi-s1/generated/hina/posts/ep12",
-    "/nagi-s1/generated/list",
-    "/nagi-s1/generated/posts/ep01",
-    "/nagi-s1/generated/posts/ep02",
-    "/nagi-s1/generated/posts/ep03",
-    "/nagi-s1/generated/posts/ep04",
-    "/nagi-s1/generated/posts/ep05",
-    "/nagi-s1/generated/posts/ep06",
-    "/nagi-s1/generated/posts/ep07",
-    "/nagi-s1/generated/posts/ep08",
-    "/nagi-s1/generated/posts/ep09",
-    "/nagi-s1/generated/posts/ep10",
-    "/nagi-s1/generated/posts/ep11",
-    "/nagi-s1/generated/posts/ep12",
-    "/nagi-s1/hina",
-    "/nagi-s1/immersive",
     "/nagi-s1/index.html",
-    "/nagi-s1/magazine",
-    "/nagi-s1/routes.json",
-    "/nagi-s1/shared",
     "/nagi-s1/story1.html",
     "/nagi-s1/story10.html",
     "/nagi-s1/story11.html",
@@ -94,84 +74,60 @@
       "to": "/nagi-s3/index.html"
     },
     {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/_buildinfo.json"
-    },
-    {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/hina"
-    },
-    {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/immersive"
-    },
-    {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/magazine"
-    },
-    {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/routes.json"
-    },
-    {
-      "from": "/nagi-s1/generated",
-      "to": "/nagi-s1/shared"
+      "from": "/nagi-s1/generated/hina",
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/posts/ep01"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep01"
+      "to": "/nagi-s1/generated/hina/posts/ep02"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep02"
+      "to": "/nagi-s1/generated/hina/posts/ep03"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep03"
+      "to": "/nagi-s1/generated/hina/posts/ep04"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep04"
+      "to": "/nagi-s1/generated/hina/posts/ep05"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep05"
+      "to": "/nagi-s1/generated/hina/posts/ep06"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep06"
+      "to": "/nagi-s1/generated/hina/posts/ep07"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep07"
+      "to": "/nagi-s1/generated/hina/posts/ep08"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep08"
+      "to": "/nagi-s1/generated/hina/posts/ep09"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep09"
+      "to": "/nagi-s1/generated/hina/posts/ep10"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep10"
+      "to": "/nagi-s1/generated/hina/posts/ep11"
     },
     {
       "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep11"
-    },
-    {
-      "from": "/nagi-s1/generated/hina",
-      "to": "/nagi-s1/generated/posts/ep12"
+      "to": "/nagi-s1/generated/hina/posts/ep12"
     },
     {
       "from": "/nagi-s1/generated/hina/index.html",
@@ -231,155 +187,155 @@
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated"
-    },
-    {
-      "from": "/nagi-s1/generated/hina/list",
       "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep01"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep02"
+      "to": "/nagi-s1/generated/hina/posts/ep01"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep03"
+      "to": "/nagi-s1/generated/hina/posts/ep02"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep04"
+      "to": "/nagi-s1/generated/hina/posts/ep03"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep05"
+      "to": "/nagi-s1/generated/hina/posts/ep04"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep06"
+      "to": "/nagi-s1/generated/hina/posts/ep05"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep07"
+      "to": "/nagi-s1/generated/hina/posts/ep06"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep08"
+      "to": "/nagi-s1/generated/hina/posts/ep07"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep09"
+      "to": "/nagi-s1/generated/hina/posts/ep08"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep10"
+      "to": "/nagi-s1/generated/hina/posts/ep09"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep11"
+      "to": "/nagi-s1/generated/hina/posts/ep10"
     },
     {
       "from": "/nagi-s1/generated/hina/list",
-      "to": "/nagi-s1/generated/posts/ep12"
+      "to": "/nagi-s1/generated/hina/posts/ep11"
+    },
+    {
+      "from": "/nagi-s1/generated/hina/list",
+      "to": "/nagi-s1/generated/hina/posts/ep12"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep01",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep01",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep02",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep02",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep03",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep03",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep04",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep04",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep05",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep05",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep06",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep06",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep07",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep07",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep08",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep08",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep09",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep09",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep10",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep10",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep11",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep11",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep12",
-      "to": "/nagi-s1/generated"
+      "to": "/nagi-s1/generated/hina"
     },
     {
       "from": "/nagi-s1/generated/hina/posts/ep12",
-      "to": "/nagi-s1/generated/list"
+      "to": "/nagi-s1/generated/hina/list"
     },
     {
       "from": "/nagi-s1/index.html",
@@ -486,103 +442,7 @@
       "to": "/index.html"
     }
   ],
-  "broken": [
-    {
-      "from": "/nagi-s1/generated/list",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/list",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep01",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep01",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep02",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep02",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep03",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep03",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep04",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep04",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep05",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep05",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep06",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep06",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep07",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep07",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep08",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep08",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep09",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep09",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep10",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep10",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep11",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep11",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/generated/posts/ep12",
-      "href": "http://127.0.0.1:3000/nagi-s1/generated/posts/ep12",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/_buildinfo.json",
-      "href": "http://127.0.0.1:3000/nagi-s1/_buildinfo.json",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/hina",
-      "href": "http://127.0.0.1:3000/nagi-s1/hina",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/immersive",
-      "href": "http://127.0.0.1:3000/nagi-s1/immersive",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/magazine",
-      "href": "http://127.0.0.1:3000/nagi-s1/magazine",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/routes.json",
-      "href": "http://127.0.0.1:3000/nagi-s1/routes.json",
-      "reason": "HTTP 404"
-    },
-    {
-      "from": "/nagi-s1/shared",
-      "href": "http://127.0.0.1:3000/nagi-s1/shared",
-      "reason": "HTTP 404"
-    }
-  ],
+  "broken": [],
   "consoleErrors": [
     "console: Failed to load resource: net::ERR_FAILED",
     "console: Failed to load resource: net::ERR_FAILED",
@@ -619,26 +479,7 @@
     "console: Failed to load resource: net::ERR_FAILED",
     "console: Failed to load resource: net::ERR_FAILED",
     "console: Failed to load resource: net::ERR_FAILED",
-    "console: Failed to load resource: net::ERR_FAILED",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
-    "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    "console: Failed to load resource: net::ERR_FAILED"
   ],
   "blockedExternalRequests": [
     "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",

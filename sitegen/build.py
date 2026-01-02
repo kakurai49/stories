@@ -246,10 +246,10 @@ def build_view_model_for_experience(
 
     output_dir = ctx.output_dir(experience)
     manifest_meta = _load_manifest_meta(experience, ctx)
-    routes_href = relative_href(ctx.routes_path, base)
+    routes_href = router.absolute_href_for_path(ctx.routes_path)
 
-    home_href = router.href_for_page(router.home(experience.key), base)
-    list_href = router.href_for_page(router.list_page(experience.key), base)
+    home_href = router.absolute_href_for_page(router.home(experience.key))
+    list_href = router.absolute_href_for_page(router.list_page(experience.key))
 
     groups = _group_content(experience, items)
 
@@ -262,7 +262,7 @@ def build_view_model_for_experience(
                 "order": index,
                 "title": item.title,
                 "summary": item.summary or item.excerpt or "",
-                "href": router.href_for_page(detail_page, base),
+                "href": router.absolute_href_for_page(detail_page),
                 "tags": item.tags,
                 "data_href": item.data_href,
             }
@@ -303,12 +303,12 @@ def build_view_model_for_experience(
         if path.is_absolute() or "://" in raw_href:
             return raw_href
         if raw_href in router.content_ids(experience.key):
-            return router.href_for_page(
-                router.content_page(experience.key, raw_href), base
+            return router.absolute_href_for_page(
+                router.content_page(experience.key, raw_href)
             )
         if raw_href.rstrip("/") == "list":
             return list_href
-        href = relative_href(output_dir / raw_href, base)
+        href = router.absolute_href_for_path(output_dir / raw_href)
         if raw_href.endswith("/") and not href.endswith("/"):
             href += "/"
         return href
@@ -463,6 +463,61 @@ def build_home(
     return [output_file]
 
 
+def write_generated_root_index(
+    ctx: BuildContext, router: SiteRouter, experiences: list[ExperienceSpec]
+) -> Path:
+    """Write an index under the generated out_root to avoid directory listings."""
+
+    ensure_dir(ctx.out_root)
+    entries: list[tuple[str, str]] = []
+    for exp in experiences:
+        if exp.kind != "generated":
+            continue
+        home = router.home(exp.key)
+        href = router.absolute_href_for_page(home)
+        if not href:
+            output_dir = ctx.output_dir(exp)
+            href = router.absolute_href_for_path(output_dir)
+            if not href.endswith("/"):
+                href += "/"
+        label = exp.name or exp.key
+        entries.append((label, href))
+
+    links = "\n".join(
+        f'        <li><a href="{href}">{label}</a></li>' for label, href in entries if href
+    )
+    routes_href = ""
+    if ctx.routes_path.exists():
+        routes_href = (
+            f'        <p><a href="{router.absolute_href_for_path(ctx.routes_path)}">routes.json</a></p>\n'
+        )
+
+    html = "\n".join(
+        [
+            "<!doctype html>",
+            '<html lang="ja">',
+            "  <head>",
+            '    <meta charset="utf-8">',
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+            "    <title>Generated experiences</title>",
+            "  </head>",
+            "  <body>",
+            "    <main>",
+            "      <h1>Generated experiences</h1>",
+            "      <p>末尾スラッシュ無しでも壊れないよう、絶対パスのリンクを掲載しています。</p>",
+            "      <ul>",
+            links or "        <li>リンク先が見つかりませんでした。</li>",
+            "      </ul>",
+            routes_href + "    </main>",
+            "  </body>",
+            "</html>",
+        ]
+    )
+    index_path = ctx.out_root / "index.html"
+    index_path.write_text(html, encoding="utf-8")
+    return index_path
+
+
 def build_list(
     experience: ExperienceSpec,
     ctx: BuildContext,
@@ -551,7 +606,6 @@ def build_detail(
     output_dir = ctx.output_dir(experience)
     detail_dir = ensure_dir(output_dir / "posts" / item.content_id)
     output_file = page_spec.out_file if page_spec else detail_dir / "index.html"
-    routes_href = relative_href(ctx.routes_path, output_file.parent)
     ctx.copy_assets(experience)
     asset_prefix = relative_href(output_dir, output_file.parent)
     micro_css_href = (
@@ -579,7 +633,7 @@ def build_detail(
     rendered = template.render(
         experience=experience,
         content=item,
-        routes_href=routes_href,
+        routes_href=view_model["switcher"]["routes_href"],
         asset_prefix=asset_prefix,
         features_init_href=features_init_href,
         switcher_css_href=ctx.shared_asset_href("switcher.css", output_file.parent),
@@ -673,6 +727,7 @@ def build_site_from_micro_v2(
                 )
 
     written.extend(router.render_aliases())
+    written.append(write_generated_root_index(ctx, router, experiences))
 
     if generate_all:
         routes_payload = router.routes_payload()
@@ -713,4 +768,5 @@ __all__ = [
     "build_home",
     "build_list",
     "load_content_items",
+    "write_generated_root_index",
 ]

@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-12-30T16:17:25.660535+00:00",
+  "timestamp": "2026-01-02T05:08:08.217208+00:00",
   "git": {
-    "sha": "bd485b9e2ebd99db451206a7bed3bbbae78bb68b"
+    "sha": "60d97f952842b5116f2a6892a7657542f633e8a9"
   },
-  "out": "generated",
+  "out": "nagi-s1/generated",
   "content": {
     "total": 20,
     "pageTypes": {
@@ -16,7 +16,7 @@
   "experiences": [
     {
       "key": "hina",
-      "outputDir": "generated/hina",
+      "outputDir": "nagi-s1/generated/hina",
       "content": {
         "total": 20,
         "pageTypes": {
@@ -29,7 +29,7 @@
     },
     {
       "key": "immersive",
-      "outputDir": "generated/immersive",
+      "outputDir": "nagi-s1/generated/immersive",
       "content": {
         "total": 20,
         "pageTypes": {
@@ -42,7 +42,7 @@
     },
     {
       "key": "magazine",
-      "outputDir": "generated/magazine",
+      "outputDir": "nagi-s1/generated/magazine",
       "content": {
         "total": 20,
         "pageTypes": {
@@ -140,6 +140,7 @@
     "immersive/posts/site-meta.html",
     "immersive/posts/welcome-post/index.html",
     "immersive/posts/welcome-post.html",
+    "index.html",
     "magazine/index.html",
     "magazine/list/index.html",
     "magazine/posts/about-世界観/index.html",
@@ -185,9 +186,9 @@
     "routes.json",
     "shared/switcher.css",
     "shared/switcher.js",
-    "index.html",
+    "nagi-s1/index.html",
+    "nagi-s1/story1.html",
     "shared/switcher.css",
-    "shared/switcher.js",
-    "story1.html"
+    "shared/switcher.js"
   ]
 }

@@ -70,6 +70,7 @@ class SiteRouter:
         self.ctx = ctx
         self.experiences = experiences
         self.items = items
+        self._out_href_prefix = self._compute_out_href_prefix()
         self.pages: list[PageSpec] = []
         self.aliases: list[PageAlias] = []
         self._home: Dict[str, PageSpec] = {}
@@ -77,6 +78,22 @@ class SiteRouter:
         self._content: Dict[str, Dict[str, PageSpec]] = {}
         self._legacy_routes: Dict[str, Dict[str, str]] = {}
         self._build()
+
+    def _compute_out_href_prefix(self) -> str:
+        out_root = self.ctx.out_root
+        if out_root.is_absolute():
+            try:
+                out_root = out_root.relative_to(Path.cwd())
+            except ValueError:
+                out_root = Path(out_root.name)
+        prefix = "/" + out_root.as_posix().lstrip("./")
+        return prefix.rstrip("/")
+
+    def _absolute_from_url_path(self, url_path: str) -> str:
+        cleaned = url_path.lstrip("./")
+        if cleaned and not cleaned.startswith("/"):
+            cleaned = "/" + cleaned
+        return f"{self._out_href_prefix}{cleaned or '/'}"
 
     def _targeted_items(self, experience: ExperienceSpec) -> list[ContentItem]:
         targeted = [item for item in self.items if item.experience == experience.key]
@@ -212,6 +229,18 @@ class SiteRouter:
 
     def detail_template_for(self, experience: ExperienceSpec, page_type: str) -> str:
         return self._detail_template_name(experience, page_type)
+
+    def absolute_href_for_page(self, spec: PageSpec | None) -> str:
+        if not spec:
+            return ""
+        return self._absolute_from_url_path(spec.url_path)
+
+    def absolute_href_for_path(self, target: Path) -> str:
+        try:
+            relative = target.relative_to(self.ctx.out_root)
+        except ValueError:
+            relative = target
+        return self._absolute_from_url_path(relative.as_posix())
 
     def href_for_page(self, spec: PageSpec | None, base: Path) -> str:
         if not spec:
