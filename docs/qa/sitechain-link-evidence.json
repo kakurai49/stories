@@ -1,0 +1,746 @@
+{
+  "generatedAt": "2026-01-02T01:05:26.905Z",
+  "baseURL": "http://127.0.0.1:3000",
+  "brokenSource": "docs/qa/broken-with-referers.json",
+  "results": [
+    {
+      "target": "/nagi-s1/_buildinfo.json",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "_buildinfo.json",
+          "hrefRaw": "_buildinfo.json",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/_buildinfo.json",
+          "resolvedPath": "/nagi-s1/generated/_buildinfo.json",
+          "brokenResolvedPath": "/nagi-s1/_buildinfo.json",
+          "outerHTML": "<a href=\"_buildinfo.json\">_buildinfo.json</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"list/\">一覧</a>"
+        },
+        {
+          "text": "一覧を見る",
+          "hrefRaw": "list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a class=\"sg-button\" href=\"list/\">一覧を見る</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep01",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep01",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep01.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep02",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep02",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep02.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep03",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep03",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep03.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep04",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep04",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep04.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep05",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep05",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep05.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep06",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep06",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep06.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep07",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep07",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep07.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep08",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep08",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep08.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep09",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep09",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep09.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep10",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep10",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep10.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep11",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep11",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep11.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/list",
+      "referer": "/nagi-s1/generated/hina/posts/ep12",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep12",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_posts_ep12.png",
+      "matches": [
+        {
+          "text": "一覧",
+          "hrefRaw": "../../list/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/list/",
+          "resolvedPath": "/nagi-s1/generated/hina/list",
+          "brokenResolvedPath": "/nagi-s1/generated/list",
+          "outerHTML": "<a href=\"../../list/\">一覧</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep01",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP01: 開幕、魔界喫茶《∞（インフィニティ）》",
+          "hrefRaw": "posts/ep01/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep01/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep01",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep01",
+          "outerHTML": "<a href=\"posts/ep01/\">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep01",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP01: 開幕、魔界喫茶《∞（インフィニティ）》",
+          "hrefRaw": "../posts/ep01/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep01/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep01",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep01",
+          "outerHTML": "<a href=\"../posts/ep01/\">EP01: 開幕、魔界喫茶《∞（インフィニティ）》</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep02",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP02: 世界 W は、仕様書の外に広がってる",
+          "hrefRaw": "posts/ep02/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep02/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep02",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep02",
+          "outerHTML": "<a href=\"posts/ep02/\">EP02: 世界 W は、仕様書の外に広がってる</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep02",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP02: 世界 W は、仕様書の外に広がってる",
+          "hrefRaw": "../posts/ep02/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep02/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep02",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep02",
+          "outerHTML": "<a href=\"../posts/ep02/\">EP02: 世界 W は、仕様書の外に広がってる</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep03",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP03: 同値クラスという、お守りの石",
+          "hrefRaw": "posts/ep03/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep03/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep03",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep03",
+          "outerHTML": "<a href=\"posts/ep03/\">EP03: 同値クラスという、お守りの石</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep03",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP03: 同値クラスという、お守りの石",
+          "hrefRaw": "../posts/ep03/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep03/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep03",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep03",
+          "outerHTML": "<a href=\"../posts/ep03/\">EP03: 同値クラスという、お守りの石</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep04",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP04: 境界線を、一緒に歩いた夜",
+          "hrefRaw": "posts/ep04/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep04/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep04",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep04",
+          "outerHTML": "<a href=\"posts/ep04/\">EP04: 境界線を、一緒に歩いた夜</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep04",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP04: 境界線を、一緒に歩いた夜",
+          "hrefRaw": "../posts/ep04/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep04/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep04",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep04",
+          "outerHTML": "<a href=\"../posts/ep04/\">EP04: 境界線を、一緒に歩いた夜</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep05",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP05: 分岐の森と、先輩の地図",
+          "hrefRaw": "posts/ep05/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep05/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep05",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep05",
+          "outerHTML": "<a href=\"posts/ep05/\">EP05: 分岐の森と、先輩の地図</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep05",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP05: 分岐の森と、先輩の地図",
+          "hrefRaw": "../posts/ep05/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep05/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep05",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep05",
+          "outerHTML": "<a href=\"../posts/ep05/\">EP05: 分岐の森と、先輩の地図</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep06",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP06: 関係は、状態遷移で語れる",
+          "hrefRaw": "posts/ep06/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep06/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep06",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep06",
+          "outerHTML": "<a href=\"posts/ep06/\">EP06: 関係は、状態遷移で語れる</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep06",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP06: 関係は、状態遷移で語れる",
+          "hrefRaw": "../posts/ep06/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep06/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep06",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep06",
+          "outerHTML": "<a href=\"../posts/ep06/\">EP06: 関係は、状態遷移で語れる</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep07",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP07: 全部は試せない、という優しさ",
+          "hrefRaw": "posts/ep07/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep07/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep07",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep07",
+          "outerHTML": "<a href=\"posts/ep07/\">EP07: 全部は試せない、という優しさ</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep07",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP07: 全部は試せない、という優しさ",
+          "hrefRaw": "../posts/ep07/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep07/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep07",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep07",
+          "outerHTML": "<a href=\"../posts/ep07/\">EP07: 全部は試せない、という優しさ</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep08",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP08: カバレッジの虹を見上げて",
+          "hrefRaw": "posts/ep08/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep08/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep08",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep08",
+          "outerHTML": "<a href=\"posts/ep08/\">EP08: カバレッジの虹を見上げて</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep08",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP08: カバレッジの虹を見上げて",
+          "hrefRaw": "../posts/ep08/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep08/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep08",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep08",
+          "outerHTML": "<a href=\"../posts/ep08/\">EP08: カバレッジの虹を見上げて</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep09",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP09: ログは、システムからのラブレター",
+          "hrefRaw": "posts/ep09/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep09/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep09",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep09",
+          "outerHTML": "<a href=\"posts/ep09/\">EP09: ログは、システムからのラブレター</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep09",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP09: ログは、システムからのラブレター",
+          "hrefRaw": "../posts/ep09/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep09/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep09",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep09",
+          "outerHTML": "<a href=\"../posts/ep09/\">EP09: ログは、システムからのラブレター</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep10",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP10: 魔導書と職人の手、Fθと G",
+          "hrefRaw": "posts/ep10/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep10/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep10",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep10",
+          "outerHTML": "<a href=\"posts/ep10/\">EP10: 魔導書と職人の手、Fθと G</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep10",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP10: 魔導書と職人の手、Fθと G",
+          "hrefRaw": "../posts/ep10/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep10/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep10",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep10",
+          "outerHTML": "<a href=\"../posts/ep10/\">EP10: 魔導書と職人の手、Fθと G</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep11",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP11: 先輩も、迷っていた",
+          "hrefRaw": "posts/ep11/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep11/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep11",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep11",
+          "outerHTML": "<a href=\"posts/ep11/\">EP11: 先輩も、迷っていた</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep11",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP11: 先輩も、迷っていた",
+          "hrefRaw": "../posts/ep11/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep11/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep11",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep11",
+          "outerHTML": "<a href=\"../posts/ep11/\">EP11: 先輩も、迷っていた</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep12",
+      "referer": "/nagi-s1/generated/hina",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina.png",
+      "matches": [
+        {
+          "text": "EP12: 次の子に渡す、G の地図",
+          "hrefRaw": "posts/ep12/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep12/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep12",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep12",
+          "outerHTML": "<a href=\"posts/ep12/\">EP12: 次の子に渡す、G の地図</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/generated/posts/ep12",
+      "referer": "/nagi-s1/generated/hina/list",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated/hina/list",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated_hina_list.png",
+      "matches": [
+        {
+          "text": "EP12: 次の子に渡す、G の地図",
+          "hrefRaw": "../posts/ep12/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/posts/ep12/",
+          "resolvedPath": "/nagi-s1/generated/hina/posts/ep12",
+          "brokenResolvedPath": "/nagi-s1/generated/posts/ep12",
+          "outerHTML": "<a href=\"../posts/ep12/\">EP12: 次の子に渡す、G の地図</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/hina",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "hina/",
+          "hrefRaw": "hina/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/hina/",
+          "resolvedPath": "/nagi-s1/generated/hina",
+          "brokenResolvedPath": "/nagi-s1/hina",
+          "outerHTML": "<a href=\"hina/\">hina/</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/immersive",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "immersive/",
+          "hrefRaw": "immersive/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/immersive/",
+          "resolvedPath": "/nagi-s1/generated/immersive",
+          "brokenResolvedPath": "/nagi-s1/immersive",
+          "outerHTML": "<a href=\"immersive/\">immersive/</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/magazine",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "magazine/",
+          "hrefRaw": "magazine/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/magazine/",
+          "resolvedPath": "/nagi-s1/generated/magazine",
+          "brokenResolvedPath": "/nagi-s1/magazine",
+          "outerHTML": "<a href=\"magazine/\">magazine/</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/routes.json",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "routes.json",
+          "hrefRaw": "routes.json",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/routes.json",
+          "resolvedPath": "/nagi-s1/generated/routes.json",
+          "brokenResolvedPath": "/nagi-s1/routes.json",
+          "outerHTML": "<a href=\"routes.json\">routes.json</a>"
+        }
+      ]
+    },
+    {
+      "target": "/nagi-s1/shared",
+      "referer": "/nagi-s1/generated",
+      "refererUrl": "http://127.0.0.1:3000/nagi-s1/generated",
+      "refererStatus": 200,
+      "screenshot": "docs/qa/img/sitechain-nagi-s1_generated.png",
+      "matches": [
+        {
+          "text": "shared/",
+          "hrefRaw": "shared/",
+          "hrefResolved": "http://127.0.0.1:3000/nagi-s1/generated/shared/",
+          "resolvedPath": "/nagi-s1/generated/shared",
+          "brokenResolvedPath": "/nagi-s1/shared",
+          "outerHTML": "<a href=\"shared/\">shared/</a>"
+        }
+      ]
+    }
+  ]
+}

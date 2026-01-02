@@ -18,6 +18,7 @@
     "qa:flow:analyze": "playwright test -c .qa/playwright.config.ts .qa/tests/flow/flow-analyze.spec.ts",
     "qa:flow:analyze:publish": "QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow/flow-analyze.spec.ts",
     "qa:fixlist": "QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow/screen-flow.spec.ts && QA_FLOW_PUBLISH=1 playwright test -c .qa/playwright.config.ts .qa/tests/flow/flow-analyze.spec.ts",
+    "qa:sitechain:evidence": "playwright test -c .qa/playwright.config.ts .qa/tests/flow/sitechain-evidence.spec.ts",
     "qa:explore:guided": "playwright test -c .qa/playwright.config.ts .qa/tests/exploratory/guided-coverage.spec.ts",
     "devcontainer:setup": "bash .devcontainer/post-create.sh"
   },

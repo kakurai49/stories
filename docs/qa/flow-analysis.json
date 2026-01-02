@@ -4,7 +4,7 @@
     "startPath": "/",
     "flowJsonPath": "/workspace/stories/.qa/artifacts/flow/screen-flow.json",
     "knownRoutesSource": "file:/workspace/stories/.qa/known-routes.txt",
-    "generatedAt": "2026-01-02T00:41:03.280Z"
+    "generatedAt": "2026-01-02T00:56:53.412Z"
   },
   "counts": {
     "knownRoutes": 5,
