@@ -242,15 +242,30 @@ def build_view_model_for_experience(
     Ensures all expected keys exist to satisfy StrictUndefined.
     """
 
+    def _normalize_href(href: str, *, trailing_slash: bool = False) -> str:
+        if not href:
+            return ""
+        if trailing_slash and not href.endswith("/"):
+            return href + "/"
+        return href
+
+    def _absolute_page_href(spec: PageSpec | None, *, trailing_slash: bool = False) -> str:
+        href = router.absolute_href_for_page(spec)
+        return _normalize_href(href, trailing_slash=trailing_slash)
+
+    def _absolute_path_href(target: Path, *, trailing_slash: bool = False) -> str:
+        href = router.absolute_href_for_path(target)
+        return _normalize_href(href, trailing_slash=trailing_slash)
+
     if router is None:
         raise ValueError("router is required to build the view model")
 
     output_dir = ctx.output_dir(experience)
     manifest_meta = _load_manifest_meta(experience, ctx)
-    routes_href = router.absolute_href_for_path(ctx.routes_path)
+    routes_href = _absolute_path_href(ctx.routes_path)
 
-    home_href = router.absolute_href_for_page(router.home(experience.key))
-    list_href = router.absolute_href_for_page(router.list_page(experience.key))
+    home_href = _absolute_page_href(router.home(experience.key), trailing_slash=True)
+    list_href = _absolute_page_href(router.list_page(experience.key), trailing_slash=True)
 
     groups = _group_content(experience, items)
 
@@ -263,7 +278,7 @@ def build_view_model_for_experience(
                 "order": index,
                 "title": item.title,
                 "summary": item.summary or item.excerpt or "",
-                "href": router.absolute_href_for_page(detail_page),
+                "href": _absolute_page_href(detail_page, trailing_slash=True),
                 "tags": item.tags,
                 "data_href": item.data_href,
             }
@@ -304,15 +319,14 @@ def build_view_model_for_experience(
         if path.is_absolute() or "://" in raw_href:
             return raw_href
         if raw_href in router.content_ids(experience.key):
-            return router.absolute_href_for_page(
-                router.content_page(experience.key, raw_href)
+            return _absolute_page_href(
+                router.content_page(experience.key, raw_href), trailing_slash=True
             )
         if raw_href.rstrip("/") == "list":
             return list_href
-        href = router.absolute_href_for_path(output_dir / raw_href)
-        if raw_href.endswith("/") and not href.endswith("/"):
-            href += "/"
-        return href
+        return _absolute_path_href(
+            output_dir / raw_href, trailing_slash=raw_href.endswith("/")
+        )
 
     site_title = experience.name or manifest_meta.get("label") or experience.key
     site_description = manifest_meta.get("description") or experience.description or ""
@@ -670,7 +684,6 @@ def build_site_from_micro_v2(
 
     if generate_shared or generate_all:
         ctx.shared_init_features = generate_init_features_js(ctx.out_root)
-    if generate_all:
         ctx.shared_assets_dir = ensure_dir(ctx.out_root / "shared")
 
     if compiled.css_text:
@@ -727,14 +740,15 @@ def build_site_from_micro_v2(
                     )
                 )
 
-    written.extend(router.render_aliases())
-    written.append(write_generated_root_index(ctx, router, experiences))
-
-    if generate_all:
+    if generate_shared or generate_all:
         routes_payload = router.routes_payload()
         route_targets = [ctx.routes_path]
         written.extend(write_routes_payload(routes_payload, route_targets))
-        written.extend(generate_switcher_assets([Path("."), ctx.out_root]))
+        switcher_roots = [ctx.out_root]
+        if generate_all:
+            switcher_roots.insert(0, Path("."))
+        written.extend(generate_switcher_assets(switcher_roots))
+    if generate_all:
         written.extend(
             patch_legacy_pages(
                 Path(legacy_base or "."),
@@ -743,6 +757,9 @@ def build_site_from_micro_v2(
                 js_href=str(Path(ctx.out_root.name) / "shared" / "switcher.js"),
             )
         )
+
+    written.extend(router.render_aliases())
+    written.append(write_generated_root_index(ctx, router, experiences))
 
     build_info_path = ctx.out_root / "_buildinfo.json"
     ctx.build_info["writtenFiles"] = [

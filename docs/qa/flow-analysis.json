@@ -4,15 +4,15 @@
     "startPath": "/",
     "flowJsonPath": "/workspace/stories/.qa/artifacts/flow/screen-flow.json",
     "knownRoutesSource": "file:/workspace/stories/.qa/known-routes.txt",
-    "generatedAt": "2026-01-02T05:09:23.208Z"
+    "generatedAt": "2026-01-02T07:58:12.245Z"
   },
   "counts": {
-    "knownRoutes": 5,
-    "crawledPages": 32,
-    "edges": 100,
+    "knownRoutes": 11,
+    "crawledPages": 94,
+    "edges": 362,
     "unreachable": 0,
-    "deadEnds": 0,
-    "deadEndsOk": 0,
+    "deadEnds": 1,
+    "deadEndsOk": 1,
     "orphans": 0,
     "broken": 0,
     "brokenRaw": 0,
@@ -24,6 +24,30 @@
     "blockedExternalRequestsUnique": 3
   },
   "hubs": [
+    {
+      "page": "/nagi-s2/generated_v2/hina",
+      "out": 15
+    },
+    {
+      "page": "/nagi-s2/generated_v2/hina/list",
+      "out": 15
+    },
+    {
+      "page": "/nagi-s2/generated/hina",
+      "out": 15
+    },
+    {
+      "page": "/nagi-s3/generated_v2/hina",
+      "out": 15
+    },
+    {
+      "page": "/nagi-s3/generated_v2/hina/list",
+      "out": 15
+    },
+    {
+      "page": "/nagi-s3/generated/hina",
+      "out": 15
+    },
     {
       "page": "/nagi-s1/generated/hina",
       "out": 14
@@ -37,35 +61,16 @@
       "out": 14
     },
     {
-      "page": "/nagi-s1/index.html",
-      "out": 12
-    },
-    {
-      "page": "/",
-      "out": 4
-    },
-    {
-      "page": "/index.html",
-      "out": 4
-    },
-    {
-      "page": "/nagi-s1/generated/hina/posts/ep01",
-      "out": 2
-    },
-    {
-      "page": "/nagi-s1/generated/hina/posts/ep02",
-      "out": 2
-    },
-    {
-      "page": "/nagi-s1/generated/hina/posts/ep03",
-      "out": 2
-    },
-    {
-      "page": "/nagi-s1/generated/hina/posts/ep04",
-      "out": 2
+      "page": "/nagi-s1/generated/immersive",
+      "out": 14
     }
   ],
   "orphans": [],
-  "deadEnds": [],
+  "deadEnds": [
+    {
+      "page": "/nagi-s1/generated/routes.json",
+      "out": 0
+    }
+  ],
   "unreachable": []
 }

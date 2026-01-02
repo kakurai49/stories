@@ -1,0 +1,14 @@
+:root {
+  --mw-font-size-base: 16px;
+  --mw-font-family: sans-serif;
+  --mw-text-color: #222;
+}
+.mw-heading { font-family: var(--mw-font-family); color: var(--mw-text-color); }
+.mw-paragraph { font-family: var(--mw-font-family); color: var(--mw-text-color); line-height: 1.6; }
+.mw-link { color: #0a6cff; text-decoration: underline; }
+.mw-image { margin: 1em 0; }
+.mw-image-img { max-width: 100%; height: auto; display: block; }
+.mw-image-caption { font-size: 0.9em; color: #555; }
+.mw-section { margin: 1.5em 0; }
+.mw-raw { margin: 1em 0; }
+.mw-md { margin: 1em 0; }

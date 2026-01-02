@@ -62,14 +62,20 @@ def build_preview_for_season(
     extra_tags: Iterable[str],
     force: bool,
     clean_html: bool,
+    alias_out: str | None,
 ) -> None:
     if not spec.markdown.exists():
         raise FileNotFoundError(f"Markdown input not found: {spec.markdown}")
 
+    alias_dir = spec.html_out.parent / alias_out if alias_out else None
+
     if force:
         _clean_outputs(spec.micro_out)
     if clean_html:
-        _clean_outputs(spec.html_out)
+        targets = (spec.html_out, alias_dir) if alias_dir else (spec.html_out,)
+        _clean_outputs(*targets)
+    elif alias_dir and alias_dir.exists():
+        _clean_outputs(alias_dir)
 
     micro_cmd = [
         sys.executable,
@@ -114,6 +120,11 @@ def build_preview_for_season(
     episode_html = _count_episode_html(spec.html_out, spec.key)
     print(f"[{spec.key}] episodes rendered: {episode_html} (expected {expected_blocks})")
 
+    if alias_dir:
+        _clean_outputs(alias_dir)
+        shutil.copytree(spec.html_out, alias_dir)
+        print(f"[{spec.key}] aliased output copied to {alias_dir}")
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build preview HTML from nagi-s2/nagi-s3 markdown via v2 flow.")
@@ -132,12 +143,23 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip cleaning HTML output before build (defaults to cleaning).",
     )
+    parser.add_argument(
+        "--alias-out",
+        default="generated",
+        help="Copy generated_v2 output into this sibling directory as an alias (default: generated).",
+    )
+    parser.add_argument(
+        "--no-alias",
+        action="store_true",
+        help="Skip creating an alias copy of the generated output.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     seasons = args.season or sorted(SEASONS.keys())
+    alias_out = None if args.no_alias else (args.alias_out or None)
 
     for season in seasons:
         spec = SEASONS[season]
@@ -148,6 +170,7 @@ def main() -> None:
             extra_tags=args.tags,
             force=args.force,
             clean_html=not args.no_clean_html,
+            alias_out=alias_out,
         )
 
 

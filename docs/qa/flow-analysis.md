@@ -2,27 +2,31 @@
 
 - baseURL: http://127.0.0.1:3000
 - startPath: /
-- knownRoutes: 5（source: file:/workspace/stories/.qa/known-routes.txt）
-- crawledPages: 32
-- edges: 100
+- knownRoutes: 11（source: file:/workspace/stories/.qa/known-routes.txt）
+- crawledPages: 94
+- edges: 362
 - unreachable: 0
-- deadEndsOk: 0
+- deadEndsOk: 1
 - broken: 0 (raw: 0)
 - consoleErrors: uniq 1 / total 36
 - blockedExternalRequests: uniq 3 / total 36
 
 ## Top Hubs（リンクが多いページ）
 
+- /nagi-s2/generated_v2/hina (out=15)
+- /nagi-s2/generated_v2/hina/list (out=15)
+- /nagi-s2/generated/hina (out=15)
+- /nagi-s3/generated_v2/hina (out=15)
+- /nagi-s3/generated_v2/hina/list (out=15)
+- /nagi-s3/generated/hina (out=15)
 - /nagi-s1/generated/hina (out=14)
 - /nagi-s1/generated/hina/index.html (out=14)
 - /nagi-s1/generated/hina/list (out=14)
-- /nagi-s1/index.html (out=12)
-- / (out=4)
-- /index.html (out=4)
-- /nagi-s1/generated/hina/posts/ep01 (out=2)
-- /nagi-s1/generated/hina/posts/ep02 (out=2)
-- /nagi-s1/generated/hina/posts/ep03 (out=2)
-- /nagi-s1/generated/hina/posts/ep04 (out=2)
+- /nagi-s1/generated/immersive (out=14)
+
+## Dead Ends OK（broken を除く、遷移先リンクが見つからないページ）
+
+- /nagi-s1/generated/routes.json
 
 ## Console Errors（ユニーク）
 
