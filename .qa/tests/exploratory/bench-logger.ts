@@ -181,6 +181,7 @@ export function createBenchmarkRecorder(options: {
             flowJsonPath: config.flowJsonPath,
             publish: config.publish,
             runDir,
+            allowedPathPrefixes: config.allowedPathPrefixes,
             runStartedAt: new Date(startedAt).toISOString(),
             runEndedAt: new Date(endedAt).toISOString(),
             durationSeconds: Math.round((endedAt - startedAt) / 10) / 100,

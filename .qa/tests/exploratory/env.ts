@@ -8,6 +8,19 @@ function parseNumber(input: string | undefined, fallback: number): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function parseAllowedPrefixes(input: string | undefined, fallback?: string[]): string[] | undefined {
+  if (!input) return fallback;
+  const prefixes = input
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((p) => {
+      const withSlash = p.startsWith("/") ? p : `/${p}`;
+      return withSlash.length > 1 && withSlash.endsWith("/") ? withSlash.replace(/\/+$/, "") : withSlash;
+    });
+  return prefixes.length > 0 ? prefixes : fallback;
+}
+
 export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultStrategy?: string }): ExploreConfig {
   const seconds = parseNumber(process.env.QA_EXPLORE_SECONDS, defaults?.seconds ?? 120);
   const seed = parseNumber(process.env.QA_EXPLORE_SEED, defaults?.seed ?? Date.now());
@@ -21,6 +34,7 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
     process.env.QA_EXPLORE_START_PATH ??
     defaults?.startPath ??
     (qa.routes?.[0] ?? "/");
+  const allowedPathPrefixes = parseAllowedPrefixes(process.env.QA_EXPLORE_ALLOWED_PATH_PREFIXES, defaults?.allowedPathPrefixes);
 
   const artifactsDir =
     process.env.QA_EXPLORE_OUTPUT_DIR ??
@@ -35,6 +49,7 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
     seconds,
     seed,
     startPath,
+    allowedPathPrefixes,
     publish,
     restartEvery,
     flowJsonPath,

@@ -184,6 +184,7 @@ async function main() {
     .filter((n) => Number.isFinite(n));
   const seconds = parseNumber(process.env.QA_EXPLORE_BENCH_SECONDS, 60);
   const startPath = process.env.QA_EXPLORE_BENCH_START_PATH?.trim() || undefined;
+  const allowedPathPrefixes = parseList(process.env.QA_EXPLORE_ALLOWED_PATH_PREFIXES, []);
   const parallel = Math.max(1, parseNumber(process.env.QA_EXPLORE_BENCH_PARALLEL, 1));
   const outDir = process.env.QA_EXPLORE_BENCH_OUT_DIR || path.join(".qa", "artifacts", "explore-bench", timestamp());
   const runsDir = path.join(outDir, "runs");
@@ -240,6 +241,8 @@ async function main() {
     seconds,
     seeds,
     strategies,
+    startPath,
+    allowedPathPrefixes,
     outDir,
     runs: runsByStrategy,
     aggregates: buildSummary(strategies, runsByStrategy),

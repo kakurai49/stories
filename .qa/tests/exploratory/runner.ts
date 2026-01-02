@@ -229,6 +229,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
         dedupeByPath: strategy.dedupeByPath,
         skipSelf: strategy.skipSelf,
         skipBeforeSlice: strategy.skipBeforeSlice,
+        allowedPathPrefixes: config.allowedPathPrefixes,
       });
       recordCandidateSeen(coverage, candidates);
 

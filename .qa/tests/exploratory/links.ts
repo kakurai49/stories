@@ -23,10 +23,21 @@ export type CollectOptions = {
   dedupeByPath: boolean;
   skipSelf: boolean;
   skipBeforeSlice: boolean;
+  allowedPathPrefixes?: string[];
 };
 
 export async function collectCandidates(options: CollectOptions): Promise<ExploreCandidate[]> {
-  const { page, baseOrigin, currentUrl, currentPath, limit, dedupeByPath, skipSelf, skipBeforeSlice } = options;
+  const {
+    page,
+    baseOrigin,
+    currentUrl,
+    currentPath,
+    limit,
+    dedupeByPath,
+    skipSelf,
+    skipBeforeSlice,
+    allowedPathPrefixes,
+  } = options;
 
   const hrefs = await page.$$eval("a[href]", (as) => as.map((a) => a.getAttribute("href") || "").filter(Boolean));
   const trimmed = hrefs.map((h) => h.trim());
@@ -35,6 +46,11 @@ export async function collectCandidates(options: CollectOptions): Promise<Explor
 
   const byPath = new Map<string, ExploreCandidate>();
   const results: ExploreCandidate[] = [];
+  const normalizedAllowedPrefixes =
+    allowedPathPrefixes
+      ?.map((p) => (p.startsWith("/") ? p : `/${p}`))
+      .map((p) => (p.length > 1 && p.endsWith("/") ? p.replace(/\/+$/, "") : p))
+      .filter(Boolean) ?? [];
 
   for (const rawHref of sliced) {
     const href = rawHref.trim();
@@ -57,6 +73,12 @@ export async function collectCandidates(options: CollectOptions): Promise<Explor
     if (origin !== baseOrigin) continue;
 
     const path = normalizePathFromUrl(abs);
+    if (
+      normalizedAllowedPrefixes.length > 0 &&
+      !normalizedAllowedPrefixes.some((prefix) => prefix === "/" ? true : path === prefix || path.startsWith(`${prefix}/`))
+    ) {
+      continue;
+    }
     if (skipSelf && currentPath && path === currentPath) continue;
 
     const candidate: ExploreCandidate = { href, abs, path };
