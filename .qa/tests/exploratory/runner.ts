@@ -11,6 +11,7 @@ import type {
   FlowData,
 } from "./types";
 import { normalizePathFromUrl } from "./types";
+import { createBenchmarkRecorder } from "./bench-logger";
 
 export type RunExploreOptions = {
   page: Page;
@@ -43,12 +44,17 @@ function createNavigator(
   mode: "random" | "guided",
   errors: string[],
   blockedFromTestInfo: string[],
-  resetCoverage: () => void
+  resetCoverage: () => void,
+  recordBenchError?: (err: { type: "http" | "console" | "pageerror" | "navigation"; message: string; url?: string; status?: number }) => void
 ): Navigator {
   const blockedExternalRequests: string[] = [];
 
   if (mode === "random") {
-    page.on("pageerror", (e) => errors.push(`pageerror: ${String(e)}`));
+    page.on("pageerror", (e) => {
+      const msg = `pageerror: ${String(e)}`;
+      errors.push(msg);
+      recordBenchError?.({ type: "pageerror", message: msg });
+    });
     page.on("console", (msg) => {
       if (msg.type() !== "error") return;
 
@@ -57,6 +63,7 @@ function createNavigator(
       if (isBlockedErr && blockedFromTestInfo.length > 0) return;
 
       errors.push(`console: ${text}`);
+      recordBenchError?.({ type: "console", message: text });
     });
 
     return {
@@ -69,10 +76,12 @@ function createNavigator(
 
         const status = resp?.status?.();
         if (typeof status === "number" && status >= 400) {
+          recordBenchError?.({ type: "http", message: `HTTP ${status} at ${url}`, url, status });
           throw new Error(`HTTP ${status} at ${url}`);
         }
 
         if (errors.length > 0) {
+          recordBenchError?.({ type: "navigation", message: errors.join(" | "), url });
           throw new Error(`Console/Page error at ${url}: ${errors.join(" | ")}`);
         }
       },
@@ -81,9 +90,17 @@ function createNavigator(
     };
   }
 
-  page.on("pageerror", (e) => errors.push(`pageerror: ${String(e)}`));
+  page.on("pageerror", (e) => {
+    const msg = `pageerror: ${String(e)}`;
+    errors.push(msg);
+    recordBenchError?.({ type: "pageerror", message: msg });
+  });
   page.on("console", (msg) => {
-    if (msg.type() === "error") errors.push(`console: ${msg.text()}`);
+    if (msg.type() === "error") {
+      const text = msg.text();
+      errors.push(`console: ${text}`);
+      recordBenchError?.({ type: "console", message: text });
+    }
   });
   page.on("requestfailed", (req) => {
     try {
@@ -103,12 +120,14 @@ function createNavigator(
 
       const status = resp?.status?.();
       if (typeof status === "number" && status >= 400) {
+        recordBenchError?.({ type: "http", message: `HTTP ${status} at ${url}`, url, status });
         throw new Error(`HTTP ${status} at ${url}`);
       }
 
       if (errors.length > 0) {
         const nonNoise = errors.filter((e) => !/Failed to load resource/i.test(e));
         if (nonNoise.length > 0) {
+          recordBenchError?.({ type: "navigation", message: nonNoise.join(" | "), url });
           throw new Error(`Console/Page error at ${url}: ${nonNoise.join(" | ")}`);
         }
         errors.length = 0;
@@ -130,6 +149,8 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
   const blockedFromTestInfo = ((testInfo as any)._blockedRequests ?? []) as string[];
   const coverage = createCoverageState();
   const observedSinceLastGoto = new Set<string>();
+  const bench = createBenchmarkRecorder({ config, strategyName: strategy.name });
+  let stepIndex = 0;
 
   page.on("requestfinished", (req) => {
     try {
@@ -140,8 +161,15 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       const resourceType = req.resourceType();
       if (resourceType === "xhr" || resourceType === "fetch") {
         observedSinceLastGoto.add(`api:${req.method().toUpperCase()} ${path}`);
+        bench.recordRequest(path, "api", req.method().toUpperCase());
       } else if (resourceType === "script" || resourceType === "stylesheet") {
         observedSinceLastGoto.add(`asset:${path}`);
+        bench.recordRequest(path, "asset", req.method().toUpperCase());
+      } else if (resourceType === "document") {
+        observedSinceLastGoto.add(`route:${path}`);
+        bench.recordRequest(path, "route", req.method().toUpperCase());
+      } else {
+        bench.recordRequest(path, "other", req.method().toUpperCase());
       }
     } catch {
       // ignore malformed URLs
@@ -165,7 +193,17 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
     strategy.name === "random-walk" ? "random" : "guided",
     errors,
     blockedFromTestInfo,
-    () => observedSinceLastGoto.clear()
+    () => observedSinceLastGoto.clear(),
+    bench.enabled
+      ? (err) =>
+          bench.recordError({
+            type: err.type,
+            message: err.message,
+            url: err.url,
+            status: err.status,
+            at: new Date().toISOString(),
+          })
+      : undefined
   );
 
   const perform = async () => {
@@ -180,6 +218,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       observedSinceLastGoto.clear();
       visited.add(currentPath);
       rememberRecent(recent, currentPath);
+      bench.recordVisit(currentPath);
 
       const candidates = await collectCandidates({
         page,
@@ -215,6 +254,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       };
 
       const action = strategy.nextAction(ctx);
+      bench.recordStep({ stepIndex, from: currentPath, action, candidates, coverage, visited });
       if (action.action === "stop") break;
 
       if (action.action === "restart") {
@@ -222,6 +262,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
           steps.push({ from: currentPath, to: startPathNormalized, via: action.via ?? "goto(start)" });
         }
         await navigator.goto(startUrl);
+        stepIndex += 1;
         continue;
       }
 
@@ -231,51 +272,80 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       }
 
       await navigator.goto(action.url);
+      stepIndex += 1;
     }
   };
+
+  let runError: unknown;
 
   if (strategy.name === "random-walk") {
     try {
       await perform();
+    } catch (err) {
+      runError = err;
+      throw err;
     } finally {
       await attachText(testInfo, "explore-seed.txt", String(config.seed));
       await attachText(testInfo, "explore-history.txt", history.join("\n"));
       if (errors.length > 0) {
         await attachText(testInfo, "explore-errors.txt", errors.join("\n"));
       }
+      await bench.finish({
+        coverage,
+        visited,
+        targetSet,
+        blockedRequests: navigator.blockedExternalRequests,
+        status: runError ? "failed" : "passed",
+        error: runError,
+        history,
+      });
     }
     return;
   }
 
-  await perform();
+  try {
+    await perform();
+  } catch (err) {
+    runError = err;
+    throw err;
+  } finally {
+    const visitedList = Array.from(visited).sort();
+    const targets = Array.from(targetSet ?? new Set<string>()).sort();
+    const uncovered = targets.filter((p) => !visited.has(p));
+    const coverageRatio =
+      targets.length === 0 ? 1 : visitedList.filter((p) => targetSet?.has(p)).length / targets.length;
 
-  const visitedList = Array.from(visited).sort();
-  const targets = Array.from(targetSet ?? new Set<string>()).sort();
-  const uncovered = targets.filter((p) => !visited.has(p));
-  const coverageRatio =
-    targets.length === 0 ? 1 : visitedList.filter((p) => targetSet?.has(p)).length / targets.length;
+    const report = {
+      meta: {
+        baseURL: config.baseURL,
+        seed: config.seed,
+        seconds: config.seconds,
+        startPath: config.startPath,
+        restartEvery: config.restartEvery,
+        generatedAt: new Date().toISOString(),
+        flowJsonPath: config.flowJsonPath,
+      },
+      targetsCount: targets.length,
+      visitedCount: visitedList.length,
+      coverage: coverageRatio,
+      visited: visitedList,
+      uncovered,
+      steps,
+      blockedExternalRequests: Array.from(new Set(navigator.blockedExternalRequests)).sort(),
+    };
 
-  const report = {
-    meta: {
-      baseURL: config.baseURL,
-      seed: config.seed,
-      seconds: config.seconds,
-      startPath: config.startPath,
-      restartEvery: config.restartEvery,
-      generatedAt: new Date().toISOString(),
-      flowJsonPath: config.flowJsonPath,
-    },
-    targetsCount: targets.length,
-    visitedCount: visitedList.length,
-    coverage: coverageRatio,
-    visited: visitedList,
-    uncovered,
-    steps,
-    blockedExternalRequests: Array.from(new Set(navigator.blockedExternalRequests)).sort(),
-  };
-
-  await writeGuidedCoverage(report, config, testInfo);
-  await attachText(testInfo, "guided-seed.txt", String(config.seed));
-  await attachText(testInfo, "guided-visited.txt", visitedList.join("\n"));
-  await attachText(testInfo, "guided-uncovered.txt", uncovered.join("\n"));
+    await writeGuidedCoverage(report, config, testInfo);
+    await attachText(testInfo, "guided-seed.txt", String(config.seed));
+    await attachText(testInfo, "guided-visited.txt", visitedList.join("\n"));
+    await attachText(testInfo, "guided-uncovered.txt", uncovered.join("\n"));
+    await bench.finish({
+      coverage,
+      visited,
+      targetSet,
+      blockedRequests: navigator.blockedExternalRequests,
+      status: runError ? "failed" : "passed",
+      error: runError,
+      history,
+    });
+  }
 }

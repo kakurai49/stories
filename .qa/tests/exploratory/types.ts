@@ -28,6 +28,8 @@ export type ExploreConfig = {
   artifactsDir: string;
   baseURL: string;
   waitAfterGotoMs: number;
+  benchMode: boolean;
+  benchRunDir?: string;
 };
 
 export type ExploreContext = {

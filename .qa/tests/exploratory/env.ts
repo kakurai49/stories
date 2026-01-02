@@ -22,6 +22,15 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
     defaults?.startPath ??
     (qa.routes?.[0] ?? "/");
 
+  const artifactsDir =
+    process.env.QA_EXPLORE_OUTPUT_DIR ??
+    defaults?.artifactsDir ??
+    path.join(qa.artifactsDir, "explore");
+
+  const benchRunDirEnv = process.env.QA_EXPLORE_BENCH_RUN_DIR;
+  const benchMode = (process.env.QA_EXPLORE_BENCH ?? "0") === "1" || Boolean(benchRunDirEnv);
+  const benchRunDir = benchRunDirEnv || (benchMode ? artifactsDir : undefined);
+
   return {
     seconds,
     seed,
@@ -30,7 +39,9 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
     restartEvery,
     flowJsonPath,
     strategyName,
-    artifactsDir: defaults?.artifactsDir ?? path.join(qa.artifactsDir, "explore"),
+    artifactsDir,
+    benchMode,
+    benchRunDir,
     baseURL: defaults?.baseURL ?? qa.baseURL,
     waitAfterGotoMs: defaults?.waitAfterGotoMs ?? qa.waitAfterGotoMs,
   };
