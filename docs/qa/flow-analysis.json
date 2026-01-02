@@ -4,21 +4,21 @@
     "startPath": "/",
     "flowJsonPath": "/workspace/stories/.qa/artifacts/flow/screen-flow.json",
     "knownRoutesSource": "file:/workspace/stories/.qa/known-routes.txt",
-    "generatedAt": "2026-01-02T00:56:53.412Z"
+    "generatedAt": "2026-01-02T05:09:23.208Z"
   },
   "counts": {
     "knownRoutes": 5,
-    "crawledPages": 52,
-    "edges": 106,
+    "crawledPages": 32,
+    "edges": 100,
     "unreachable": 0,
-    "deadEnds": 19,
+    "deadEnds": 0,
     "deadEndsOk": 0,
     "orphans": 0,
-    "broken": 19,
-    "brokenRaw": 19,
-    "consoleErrors": 2,
-    "consoleErrorsTotal": 55,
-    "consoleErrorsUnique": 2,
+    "broken": 0,
+    "brokenRaw": 0,
+    "consoleErrors": 1,
+    "consoleErrorsTotal": 36,
+    "consoleErrorsUnique": 1,
     "blockedExternalRequests": 3,
     "blockedExternalRequestsTotal": 36,
     "blockedExternalRequestsUnique": 3
@@ -41,10 +41,6 @@
       "out": 12
     },
     {
-      "page": "/nagi-s1/generated",
-      "out": 6
-    },
-    {
       "page": "/",
       "out": 4
     },
@@ -63,86 +59,13 @@
     {
       "page": "/nagi-s1/generated/hina/posts/ep03",
       "out": 2
+    },
+    {
+      "page": "/nagi-s1/generated/hina/posts/ep04",
+      "out": 2
     }
   ],
   "orphans": [],
-  "deadEnds": [
-    {
-      "page": "/nagi-s1/_buildinfo.json",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/list",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep01",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep02",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep03",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep04",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep05",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep06",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep07",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep08",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep09",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep10",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep11",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/generated/posts/ep12",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/hina",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/immersive",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/magazine",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/routes.json",
-      "out": 0
-    },
-    {
-      "page": "/nagi-s1/shared",
-      "out": 0
-    }
-  ],
+  "deadEnds": [],
   "unreachable": []
 }
