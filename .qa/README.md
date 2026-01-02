@@ -53,6 +53,7 @@ Outputs:
 - `QA_EXPLORE_SECONDS=120 npm run qa:explore`
 - Reproduce with seed:
   - `QA_EXPLORE_SEED=123 QA_EXPLORE_SECONDS=60 npm run qa:explore`
+- Strategy can be switched with `QA_EXPLORE_STRATEGY=random-walk|guided-coverage` (default depends on the spec you run). Strategies live under `.qa/tests/exploratory/strategies/` and are driven by the common runner in `.qa/tests/exploratory/runner.ts`.
 
 This test fails on:
 - HTTP >= 400
@@ -102,4 +103,3 @@ Outputs (committable):
 - `docs/qa/guided-coverage.json`
 - `docs/qa/QA_POCKET_RUNLOG.md`
 <!-- QA_FLOW_COVERAGE_END -->
-

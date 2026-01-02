@@ -6,22 +6,27 @@
 - ランダムウォーク（時間制限付き）: `QA_EXPLORE_SECONDS=120 npm run qa:explore`
 - ガイド付き探索（未訪問優先＋リスタート）: `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`
 - docs/qa へ JSON を公開: 上記に `QA_EXPLORE_PUBLISH=1` を付与
+- Strategy 切替: `QA_EXPLORE_STRATEGY=random-walk|guided-coverage`。`.qa/tests/exploratory/strategies/` に追加するだけで拡張可能です。【F:.qa/tests/exploratory/strategies/index.ts†L1-L16】
+
+## 実装構成
+- RNG・リンク収集・成果物生成は共通の runner（`.qa/tests/exploratory/runner.ts`）で管理し、探索先の選択ロジックのみ Strategy として差し替えます。【F:.qa/tests/exploratory/runner.ts†L1-L180】
+- Strategy は `name/candidateLimit/dedupe/skipSelf/skipBeforeSlice` と `nextAction` を持ち、`QA_EXPLORE_STRATEGY` で選択されます。【F:.qa/tests/exploratory/types.ts†L40-L76】【F:.qa/tests/exploratory/strategies/index.ts†L1-L16】
 
 ## ランダムウォーク（`npm run qa:explore`）
-- xorshift ベースの RNG をシード（`QA_EXPLORE_SEED`、未指定なら現在時刻）で初期化し、リンク選択にのみ乱数を使用します。【F:.qa/tests/exploratory/random-walk.spec.ts†L4-L107】
-- 開始パスは `QA_EXPLORE_START_PATH`（デフォルトはルートリストの先頭または `/`）。開始 URL に遷移後、`a[href]` から最大 200 件を取得し、`mailto:`, `tel:`, `javascript:` などを除外してランダムに 1 件選びます。【F:.qa/tests/exploratory/random-walk.spec.ts†L27-L107】
-- 外部ドメインはスキップし、リンク先が HTTP 400 以上またはコンソール/ページエラーを出した時点で失敗扱い。行き止まりでは開始地点に戻って再探索します。【F:.qa/tests/exploratory/random-walk.spec.ts†L57-L107】
-- 実行後にシード・移動履歴（必要ならエラー）を添付します（`explore-seed.txt`, `explore-history.txt`, `explore-errors.txt`）。【F:.qa/tests/exploratory/random-walk.spec.ts†L108-L123】
+- xorshift RNG（`QA_EXPLORE_SEED`、未指定は現在時刻）で候補リンクの選択のみ乱数化します。【F:.qa/tests/exploratory/rng.ts†L1-L17】【F:.qa/tests/exploratory/strategies/random-walk.ts†L1-L17】
+- 開始パスは `QA_EXPLORE_START_PATH`（デフォルトはルートリストの先頭または `/`）。`a[href]` から最大 200 件取得し、`mailto:`/`tel:`/`javascript:` などを除外した上でランダムに 1 件を内部リンクから選択します。【F:.qa/tests/exploratory/links.ts†L1-L75】【F:.qa/tests/exploratory/strategies/random-walk.ts†L8-L17】
+- 外部ドメインや自己リンクは除外し、HTTP 400+ や console/pageerror が発生した時点で失敗扱い。行き止まりでは開始地点へ戻ります。【F:.qa/tests/exploratory/runner.ts†L46-L103】【F:.qa/tests/exploratory/strategies/random-walk.ts†L8-L17】
+- 実行後にシード・履歴・エラーを添付します（`explore-seed.txt`, `explore-history.txt`, `explore-errors.txt`）。【F:.qa/tests/exploratory/runner.ts†L130-L144】
 
 ## ガイド付き探索（`npm run qa:explore:guided`）
-- 事前生成された `screen-flow.json`（既定は `.qa/artifacts/flow/`）を読み込み、到達目標ページ集合をターゲットとして保持します。【F:.qa/tests/exploratory/guided-coverage.spec.ts†L45-L66】
-- RNG はランダムウォークと同じ xorshift シード方式。リンク候補を最大 400 件収集し、外部・自己リンク・スキップ対象を除外したうえで、以下の優先順位で選択します。【F:.qa/tests/exploratory/guided-coverage.spec.ts†L125-L175】
-  1. フローに存在し未訪問のページ
+- `.qa/artifacts/flow/screen-flow.json`（`QA_FLOW_JSON` で変更可）を読み、`pages` をターゲット集合として保持します。【F:.qa/tests/exploratory/strategies/guided-coverage.ts†L1-L17】
+- リンク候補を最大 400 件収集し（外部・自己リンク・スキップ対象を除外、重複はパス単位で排除）、以下を優先します。【F:.qa/tests/exploratory/links.ts†L1-L75】【F:.qa/tests/exploratory/strategies/guided-coverage.ts†L19-L42】
+  1. targetSet に存在し未訪問のページ
   2. 未訪問のページ
   3. それ以外（重複除外済みの全候補）
-- 直近 5 ステップのパスは避けるようフィルタリングし、候補が空なら回避前の集合からランダムに選びます。【F:.qa/tests/exploratory/guided-coverage.spec.ts†L164-L175】
-- `QA_EXPLORE_RESTART_EVERY`（デフォルト 15）ステップごとに開始ページへ戻り、袋小路を緩和します。【F:.qa/tests/exploratory/guided-coverage.spec.ts†L118-L123】
-- 実行結果は訪問率や未訪問一覧を含む `guided-coverage.json`（`.qa/artifacts/explore/`、`QA_EXPLORE_PUBLISH=1` で `docs/qa/` にも出力）として保存されます。【F:.qa/tests/exploratory/guided-coverage.spec.ts†L177-L218】
+- 直近 5 ステップのパスは避け、空になった場合のみ回避前の集合から選択します。【F:.qa/tests/exploratory/strategies/guided-coverage.ts†L31-L42】
+- `QA_EXPLORE_RESTART_EVERY`（既定 15）ステップごとに開始地点へ戻り、候補ゼロ時も開始に戻ります。【F:.qa/tests/exploratory/strategies/guided-coverage.ts†L20-L30】【F:.qa/tests/exploratory/runner.ts†L110-L125】
+- 実行結果は `guided-coverage.json` として `.qa/artifacts/explore/` に保存（`QA_EXPLORE_PUBLISH=1` で `docs/qa/` にも出力）。シード・訪問・未訪問一覧も添付します。【F:.qa/tests/exploratory/runner.ts†L146-L178】
 
 ## よく使う環境変数
 - `QA_EXPLORE_SECONDS`: 探索時間（秒）。共通
@@ -30,7 +35,13 @@
 - `QA_EXPLORE_PUBLISH`: `1` で guided の JSON を `docs/qa/` に書き出し
 - `QA_EXPLORE_RESTART_EVERY`: guided のリスタート間隔（ステップ数）
 - `QA_FLOW_JSON`: guided が参照する flow JSON のパス（省略時は `.qa/artifacts/flow/screen-flow.json`）
+- `QA_EXPLORE_STRATEGY`: 使用する探索戦略（`random-walk` または `guided-coverage`）。デフォルトは実行する spec に応じて自動設定。【F:.qa/tests/exploratory/env.ts†L16-L42】
 
 ## 成果物の場所
 - ランダムウォーク: `.qa/artifacts/explore/` に履歴・シード（テスト実行時に添付）。
 - ガイド付き: `.qa/artifacts/explore/guided-coverage.json`（`QA_EXPLORE_PUBLISH=1` 時は `docs/qa/guided-coverage.json`）。
+
+## 手動確認のスモーク
+- `QA_EXPLORE_SECONDS=60 QA_EXPLORE_SEED=123 npm run qa:explore`
+- `QA_EXPLORE_SECONDS=60 QA_EXPLORE_SEED=123 npm run qa:explore:guided`
+いずれもエラーで落ちずに走り、従来通りの成果物（guided は `guided-coverage.json` 生成、publish 時は `docs/qa/` への出力）を確認します。【F:.qa/tests/exploratory/runner.ts†L130-L178】
