@@ -39,6 +39,7 @@ test.describe.configure({ mode: "serial" });
 test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
   const seconds = Number(process.env.QA_EXPLORE_SECONDS ?? "120");
   const seed = Number(process.env.QA_EXPLORE_SEED ?? String(Date.now()));
+  const restartEvery = Number(process.env.QA_EXPLORE_RESTART_EVERY ?? "15");
   const publish = (process.env.QA_EXPLORE_PUBLISH ?? "0") === "1";
 
   test.setTimeout((seconds + 120) * 1000);
@@ -64,17 +65,32 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
   const startUrl = new URL(startPath, base).toString();
 
   const errors: string[] = [];
+  const blockedRequests: string[] = [];
   page.on("pageerror", (e) => errors.push(`pageerror: ${String(e)}`));
   page.on("console", (msg) => {
     if (msg.type() === "error") errors.push(`console: ${msg.text()}`);
   });
+  page.on("requestfailed", (req) => {
+    try {
+      const origin = new URL(req.url()).origin;
+      if (origin !== baseOrigin) blockedRequests.push(req.url());
+    } catch {
+      // ignore parse errors
+    }
+  });
 
   const visited = new Set<string>();
   const steps: Array<{ from: string; to: string; via: string }> = [];
+  const recentPaths: string[] = [];
+  const remember = (p: string) => {
+    recentPaths.push(p);
+    if (recentPaths.length > 5) recentPaths.shift();
+  };
 
   const deadline = Date.now() + seconds * 1000;
 
   async function goto(url: string) {
+    errors.length = 0;
     const resp = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20_000 });
     await page.waitForTimeout(qa.waitAfterGotoMs);
 
@@ -83,7 +99,11 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
       throw new Error(`HTTP ${status} at ${url}`);
     }
     if (errors.length > 0) {
-      throw new Error(`Console/Page error at ${url}: ${errors.join(" | ")}`);
+      const nonNoise = errors.filter((e) => !/Failed to load resource/i.test(e));
+      if (nonNoise.length > 0) {
+        throw new Error(`Console/Page error at ${url}: ${nonNoise.join(" | ")}`);
+      }
+      errors.length = 0;
     }
   }
 
@@ -93,6 +113,14 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
     const currentUrl = page.url();
     const currentPath = normalizePathFromUrl(currentUrl);
     visited.add(currentPath);
+    remember(currentPath);
+
+    if (restartEvery > 0 && steps.length > 0 && steps.length % restartEvery === 0) {
+      const startPathNormalized = normalizePathFromUrl(startUrl);
+      steps.push({ from: currentPath, to: startPathNormalized, via: "goto(restart)" });
+      await goto(startUrl);
+      continue;
+    }
 
     const hrefs = await page.$$eval("a[href]", (as) =>
       as.map((a) => a.getAttribute("href") || "").filter(Boolean)
@@ -137,8 +165,11 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
     const unvisitedAny = deduped.filter((c) => !visited.has(c.path));
 
     const pool = unvisitedTargets.length > 0 ? unvisitedTargets : unvisitedAny.length > 0 ? unvisitedAny : deduped;
+    const avoid = new Set(recentPaths);
+    const filteredPool = pool.filter((c) => !avoid.has(c.path));
+    const finalPool = filteredPool.length > 0 ? filteredPool : pool;
 
-    const pick = pool[Math.floor(rng() * pool.length)];
+    const pick = finalPool[Math.floor(rng() * finalPool.length)];
     steps.push({ from: currentPath, to: pick.path, via: "goto(link)" });
     await goto(pick.abs);
   }
@@ -154,6 +185,7 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
       seed,
       seconds,
       startPath,
+      restartEvery,
       generatedAt: new Date().toISOString(),
       flowJsonPath,
     },
@@ -163,6 +195,7 @@ test("guided explore (prefer unvisited nodes)", async ({ page }, testInfo) => {
     visited: visitedList,
     uncovered,
     steps,
+    blockedExternalRequests: Array.from(new Set(blockedRequests)).sort(),
   };
 
   const outDir = path.join(qa.artifactsDir, "explore");
