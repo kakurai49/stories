@@ -21,6 +21,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+
+      - name: Install frontend dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+
+      - name: QA screen flow
+        run: pnpm run qa:flow
+
+      - name: QA flow analyze
+        run: pnpm run qa:flow:analyze
+
+      - name: QA sitechain evidence
+        run: pnpm run qa:sitechain:evidence
+
       - name: Verify sitegen flow script
         run: bash scripts/verify_sitegen_flow.sh
 

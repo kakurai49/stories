@@ -2,7 +2,7 @@
 
 - baseURL: http://127.0.0.1:3000
 - startPath: /
-- knownRoutes: 11（source: file:/workspace/stories/.qa/known-routes.txt）
+- knownRoutes: 12（source: file:/workspace/stories/.qa/known-routes.txt）
 - unreachable: 0
 - deadEndsOk: 1
 - broken: 0
