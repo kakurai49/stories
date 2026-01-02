@@ -27,6 +27,7 @@ const path = require("path");
 
 const root = process.cwd();
 const analysisPath = path.resolve(root, ".qa", "artifacts", "flow", "flow-analysis.json");
+const guidedPath = path.resolve(root, ".qa", "artifacts", "explore", "guided-coverage.json");
 const runlogPath = path.resolve(root, "docs", "qa", "QA_POCKET_RUNLOG.md");
 
 let analysis = null;
@@ -35,6 +36,13 @@ try {
 } catch (e) {
   console.error("ERROR: flow-analysis.json not found. Did qa:fixlist succeed?");
   process.exit(1);
+}
+
+let guided = null;
+try {
+  guided = JSON.parse(fs.readFileSync(guidedPath, "utf8"));
+} catch (e) {
+  console.warn("WARN: guided-coverage.json not found (qa:explore:guided may have failed).");
 }
 
 const now = new Date().toISOString();
@@ -58,9 +66,15 @@ block += `- knownRoutes: ${counts.knownRoutes ?? "?"} (source: ${analysis.meta?.
 block += `- crawledPages: ${counts.crawledPages ?? "?"}\n`;
 block += `- edges: ${counts.edges ?? "?"}\n`;
 block += `- unreachable: ${counts.unreachable ?? "?"}\n`;
-block += `- deadEnds: ${counts.deadEnds ?? "?"}\n`;
-block += `- broken: ${counts.broken ?? "?"}\n`;
-block += `- blockedExternalRequests: ${counts.blockedExternalRequests ?? "?"}\n\n`;
+block += `- deadEndsOk: ${counts.deadEndsOk ?? counts.deadEnds ?? "?"}\n`;
+block += `- broken: ${counts.broken ?? "?"} (raw: ${counts.brokenRaw ?? "?"})\n`;
+block += `- consoleErrors: uniq ${counts.consoleErrorsUnique ?? counts.consoleErrors ?? "?"} / total ${counts.consoleErrorsTotal ?? "?"}\n`;
+block += `- blockedExternalRequests: uniq ${counts.blockedExternalRequestsUnique ?? counts.blockedExternalRequests ?? "?"} / total ${counts.blockedExternalRequestsTotal ?? "?"}\n`;
+if (guided) {
+  const pct = guided.coverage != null ? (guided.coverage * 100).toFixed(1) : "?";
+  block += `- coverage: ${pct}% (visited ${guided.visitedCount ?? "?"}/${guided.targetsCount ?? "?"})\n`;
+}
+block += `\n`;
 
 if (unreachable.length > 0) {
   block += `Top unreachable (first ${unreachable.length}):\n`;

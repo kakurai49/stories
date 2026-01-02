@@ -4,7 +4,7 @@
     "startPath": "/",
     "maxPages": 200,
     "maxDepth": 10,
-    "generatedAt": "2026-01-01T21:54:21.776Z"
+    "generatedAt": "2026-01-02T00:41:00.409Z"
   },
   "pages": [
     "/",
@@ -63,11 +63,11 @@
   "edges": [
     {
       "from": "/",
-      "to": "/nagi-s1/index.html"
+      "to": "/nagi-s1/generated/hina/index.html"
     },
     {
       "from": "/",
-      "to": "/nagi-s1/generated/hina/index.html"
+      "to": "/nagi-s1/index.html"
     },
     {
       "from": "/",
@@ -79,11 +79,11 @@
     },
     {
       "from": "/index.html",
-      "to": "/nagi-s1/index.html"
+      "to": "/nagi-s1/generated/hina/index.html"
     },
     {
       "from": "/index.html",
-      "to": "/nagi-s1/generated/hina/index.html"
+      "to": "/nagi-s1/index.html"
     },
     {
       "from": "/index.html",
@@ -387,6 +387,18 @@
     },
     {
       "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story10.html"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story11.html"
+    },
+    {
+      "from": "/nagi-s1/index.html",
+      "to": "/nagi-s1/story12.html"
+    },
+    {
+      "from": "/nagi-s1/index.html",
       "to": "/nagi-s1/story2.html"
     },
     {
@@ -416,18 +428,6 @@
     {
       "from": "/nagi-s1/index.html",
       "to": "/nagi-s1/story9.html"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story10.html"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story11.html"
-    },
-    {
-      "from": "/nagi-s1/index.html",
-      "to": "/nagi-s1/story12.html"
     },
     {
       "from": "/nagi-s1/story1.html",
