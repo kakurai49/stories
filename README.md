@@ -196,6 +196,19 @@ python scripts/build_preview_v2.py --force
 python scripts/build_preview_v2.py --season nagi-s2 --force
 ```
 
+- `etc/index.html` を micro v2 に落として HTML 断片も吐き出したい場合（決定性あり）:
+```bash
+python scripts/html_to_micro_v2.py \
+  --input etc/index.html \
+  --out content/micro/etc \
+  --entity-id etc-home \
+  --variant etc \
+  --page-type page \
+  --compiled-out etc/generated_micro_v2 \
+  --force
+```
+- `content/micro/etc` に micro store（index.json / entities / blocks）、`etc/generated_micro_v2` に `etc-home.html` と `micro.css` が出力される。
+
 ### 補助コマンド
 - 雛形生成: `python -m sitegen scaffold --experiences config/experiences.yaml --src experience_src --out-root generated`
 - manifest 出力: `python -m sitegen gen-manifests --experiences config/experiences.yaml --src experience_src`
