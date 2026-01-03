@@ -1,11 +1,11 @@
 # Stories explore benchmark (summary 01)
-- Generated at: 2026-01-02T19:24:13.972Z
-- Commit hash: eaa778968a73bf83c1a5bea3fee0437e8c7c5bd3
+- Generated at: 2026-01-03T05:41:19.193Z
+- Commit hash: ac4c20430598fb1125b7c60ac9ab86f155e7fd25
 - Base URL: http://127.0.0.1:3000
 - Start path: /nagi-s1/generated/hina/
 - Allowed path prefixes: /nagi-s1/generated, /nagi-s2/generated_v2, /nagi-s3/generated_v2
 - Seconds per run: 60
 - Seeds: 1, 2, 3, 4, 5
-- Strategies: random-walk, guided-coverage, set-cover-greedy
-- Output directory: .qa/artifacts/explore-bench/stories/main-20260102-1910
-- Command: `QA_WEB_CMD="cd /workspace/stories && python -m http.server 3000 --bind 0.0.0.0 --directory /workspace/stories >/tmp/qa_web.log 2>&1" QA_EXPLORE_BENCH_START_PATH=/nagi-s1/generated/hina/ QA_EXPLORE_ALLOWED_PATH_PREFIXES=/nagi-s1/generated,/nagi-s2/generated_v2,/nagi-s3/generated_v2 QA_FLOW_JSON=docs/qa/screen-flow.json QA_EXPLORE_BENCH_SECONDS=60 QA_EXPLORE_BENCH_SEEDS=1,2,3,4,5 QA_EXPLORE_BENCH_OUT_DIR=.qa/artifacts/explore-bench/stories/main-20260102-1910 pnpm run qa:explore:bench`
+- Strategies: random-walk, guided-coverage, set-cover-greedy, rl-bandit
+- Output directory: .qa/artifacts/explore-bench/stories/20260103-053007
+- Command: `QA_WEB_CMD="cd /workspace/stories && python -m http.server 3000 --bind 0.0.0.0 --directory /workspace/stories >/tmp/qa_web.log 2>&1" QA_EXPLORE_BENCH_START_PATH=/nagi-s1/generated/hina/ QA_EXPLORE_ALLOWED_PATH_PREFIXES=/nagi-s1/generated,/nagi-s2/generated_v2,/nagi-s3/generated_v2 QA_FLOW_JSON=docs/qa/screen-flow.json QA_EXPLORE_BENCH_SECONDS=60 QA_EXPLORE_BENCH_SEEDS=1,2,3,4,5 QA_EXPLORE_BENCH_STRATEGIES=random-walk,guided-coverage,set-cover-greedy,rl-bandit QA_EXPLORE_BENCH_OUT_DIR=.qa/artifacts/explore-bench/stories/20260103-053007 QA_EXPLORE_BENCH_PARALLEL=2 pnpm run qa:explore:bench`

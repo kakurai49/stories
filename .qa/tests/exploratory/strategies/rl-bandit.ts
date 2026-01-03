@@ -26,6 +26,26 @@ export type RLBanditOptions = {
   rewardMode: RewardMode;
 };
 
+export type RLBanditSnapshot = {
+  algo: BanditModel["algo"];
+  params: BanditModel["params"];
+  createdAt: string;
+  updatedAt: string;
+  summary: {
+    states: number;
+    totalArms: number;
+    totalPulls: number;
+    maxArmsPerState: number;
+  };
+  states: Array<{
+    state: string;
+    arms: number;
+    totalPulls: number;
+    bestArm?: { path: string; mean: number; pulls: number };
+  }>;
+  table: BanditModel["table"];
+};
+
 function parseNumberEnv(value: string | undefined, fallback: number): number {
   if (!value) return fallback;
   const parsed = Number(value);
@@ -195,6 +215,41 @@ export class RLBanditLearner {
   async onEnd(): Promise<void> {
     await this.persistIfNeeded(true);
   }
+
+  snapshot(): RLBanditSnapshot {
+    const tableClone: BanditModel["table"] = JSON.parse(JSON.stringify(this.model.table ?? {}));
+    const stateSummaries = Object.entries(tableClone).map(([state, arms]) => {
+      let bestArm: { path: string; mean: number; pulls: number } | undefined;
+      let totalPulls = 0;
+      for (const [path, stats] of Object.entries(arms)) {
+        totalPulls += stats.n;
+        if (!bestArm || stats.mean > bestArm.mean) {
+          bestArm = { path, mean: stats.mean, pulls: stats.n };
+        }
+      }
+      return {
+        state,
+        arms: Object.keys(arms).length,
+        totalPulls,
+        bestArm,
+      };
+    });
+
+    return {
+      algo: this.model.algo,
+      params: { ...this.model.params },
+      createdAt: this.model.createdAt,
+      updatedAt: this.model.updatedAt,
+      summary: {
+        states: stateSummaries.length,
+        totalArms: stateSummaries.reduce((acc, curr) => acc + curr.arms, 0),
+        totalPulls: stateSummaries.reduce((acc, curr) => acc + curr.totalPulls, 0),
+        maxArmsPerState: this.options.maxArmsPerState,
+      },
+      states: stateSummaries,
+      table: tableClone,
+    };
+  }
 }
 
 function readOptionsFromEnv(): RLBanditOptions {
@@ -219,6 +274,11 @@ async function ensureLearner(): Promise<RLBanditLearner> {
     await learner.init();
   }
   return learner;
+}
+
+export function getBanditSnapshot(): RLBanditSnapshot | null {
+  if (!learner) return null;
+  return learner.snapshot();
 }
 
 export const rlBanditStrategy: ExploreStrategy = {

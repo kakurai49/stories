@@ -9,7 +9,7 @@ const { spawn } = require("node:child_process");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
-const DEFAULT_STRATEGIES = ["random-walk", "guided-coverage", "set-cover-greedy"];
+const DEFAULT_STRATEGIES = ["random-walk", "guided-coverage", "set-cover-greedy", "rl-bandit"];
 const DEFAULT_SEEDS = [1, 2, 3, 4, 5];
 
 function parseList(input, fallback) {

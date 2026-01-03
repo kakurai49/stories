@@ -11,7 +11,7 @@
 - 主な環境変数（すべて省略可）
   - `QA_EXPLORE_BENCH_SECONDS` (default: `60`)
   - `QA_EXPLORE_BENCH_SEEDS` (default: `1,2,3,4,5`)
-  - `QA_EXPLORE_BENCH_STRATEGIES` (default: `random-walk,guided-coverage,set-cover-greedy`)
+  - `QA_EXPLORE_BENCH_STRATEGIES` (default: `random-walk,guided-coverage,set-cover-greedy,rl-bandit`)
   - `QA_EXPLORE_BENCH_START_PATH` (任意)
   - `QA_EXPLORE_BENCH_OUT_DIR` (default: `.qa/artifacts/explore-bench/<timestamp>`)
   - `QA_EXPLORE_BENCH_PARALLEL` (default: `1`)
