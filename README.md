@@ -208,6 +208,10 @@ python scripts/html_to_micro_v2.py \
   --force
 ```
 - `content/micro/etc` に micro store（index.json / entities / blocks）、`etc/generated_micro_v2` に `etc-home.html` と `micro.css` が出力される。
+- アンカー（`<a href=...>`）が見出しや段落をラップしている場合、ラップしているアンカー自体を `Link` ブロックとして追加し、内側の見出し／段落ブロックはそのまま保持する。ラップではなくインラインの `<a>` は既存通り `InlineLink` に変換される。
+- 再生成手順の定石
+  1. コンバータを変更したら、上記コマンドで `--force` 付き再生成を実行する。
+  2. `content/micro/etc`（store）と `etc/generated_micro_v2`（コンパイル済み HTML/CSS）の両方をコミット対象として確認する。
 
 ### 補助コマンド
 - 雛形生成: `python -m sitegen scaffold --experiences config/experiences.yaml --src experience_src --out-root generated`
