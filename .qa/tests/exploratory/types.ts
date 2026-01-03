@@ -17,6 +17,8 @@ export type ExploreCandidate = {
   path: string;
 };
 
+export type RewardMode = "coverage" | "bughunt";
+
 export type ExploreConfig = {
   seconds: number;
   seed: number;
@@ -31,6 +33,7 @@ export type ExploreConfig = {
   waitAfterGotoMs: number;
   benchMode: boolean;
   benchRunDir?: string;
+  rewardMode: RewardMode;
 };
 
 export type ExploreContext = {
@@ -52,6 +55,31 @@ export type ExploreContext = {
   targetSet?: Set<string>;
   stepIndex: number;
   coverage: CoverageState;
+};
+
+export type StepGain = {
+  newPages: number;
+  newRoutes: number;
+  newApis: number;
+  newAssets: number;
+};
+
+export type StepErrors = {
+  httpStatusGE400?: boolean;
+  pageerror?: boolean;
+  consoleError?: boolean;
+};
+
+export type StepFeedback = {
+  fromPath: string;
+  toPath: string;
+  reward: number;
+  gain: StepGain;
+  errors?: StepErrors;
+  revisited: boolean;
+  recentLoop: boolean;
+  stepIndex: number;
+  rewardMode: RewardMode;
 };
 
 export type FlowData = {
@@ -77,6 +105,8 @@ export type ExploreStrategy = {
   skipBeforeSlice: boolean;
   init?: (options: ExploreInitOptions) => Promise<ExploreInitResult | void> | ExploreInitResult | void;
   nextAction: (ctx: ExploreContext) => ExploreAction;
+  onFeedback?: (fb: StepFeedback) => void | Promise<void>;
+  onEnd?: () => void | Promise<void>;
 };
 
 export function normalizePathFromUrl(urlLike: string): string {

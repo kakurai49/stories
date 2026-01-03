@@ -6,12 +6,13 @@ import { loadExploreConfig } from "./env";
 import { runExplore } from "./runner";
 import { guidedCoverageStrategy } from "./strategies/guided-coverage";
 import { randomWalkStrategy } from "./strategies/random-walk";
+import type { ExploreStrategy } from "./types";
 
 function startTestServer(routes: Record<string, string>): Promise<{ server: http.Server; url: string }> {
   return new Promise((resolve) => {
     const server = http.createServer((req, res) => {
       const url = req.url || "/";
-      if (url === "/bad") {
+      if (url === "/bad" || url === "/fail") {
         res.statusCode = 500;
         res.end("bad");
         return;
@@ -101,6 +102,56 @@ test("guided-coverage runner writes coverage artifact and visits targets", async
   const report = JSON.parse(content);
   expect(report.visited).toContain("/c");
   expect(report.meta.startPath).toBe("/start");
+
+  await context.close();
+  await new Promise((resolve) => server.close(resolve));
+});
+
+test("runner forwards feedback and onEnd even on failures", async ({ browser }, testInfo) => {
+  const { server, url } = await startTestServer({
+    "/start": '<a href="/fail">fail</a>',
+    "/fail": "",
+  });
+
+  const context = await browser.newContext({ baseURL: url });
+  const page = await context.newPage();
+
+  const feedback: any[] = [];
+  let ended = false;
+  const strategy: ExploreStrategy = {
+    name: "feedback-probe",
+    candidateLimit: 50,
+    dedupeByPath: true,
+    skipSelf: true,
+    skipBeforeSlice: true,
+    nextAction: ({ candidates }) => {
+      return { action: "goto", url: candidates[0].abs, targetPath: candidates[0].path, via: "goto(link)" };
+    },
+    onFeedback: (fb) => {
+      feedback.push(fb);
+    },
+    onEnd: () => {
+      ended = true;
+    },
+  };
+
+  const config = loadExploreConfig({
+    defaultStrategy: strategy.name,
+    baseURL: url,
+    artifactsDir: testInfo.outputPath("artifacts"),
+    startPath: "/start",
+    seconds: 2,
+    seed: 99,
+    waitAfterGotoMs: 0,
+  });
+
+  const run = runExplore({ page, testInfo, strategy, config });
+  await expect(run).rejects.toThrow();
+
+  expect(feedback).toHaveLength(1);
+  expect(feedback[0].toPath).toBe("/fail");
+  expect(feedback[0].errors?.httpStatusGE400).toBe(true);
+  expect(ended).toBe(true);
 
   await context.close();
   await new Promise((resolve) => server.close(resolve));

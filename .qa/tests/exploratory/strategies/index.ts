@@ -1,6 +1,7 @@
 import type { ExploreStrategy } from "../types";
 import { guidedCoverageStrategy } from "./guided-coverage";
 import { randomWalkStrategy } from "./random-walk";
+import { rlBanditStrategy } from "./rl-bandit";
 import { setCoverGreedyStrategy } from "./set-cover-greedy";
 
 const strategies: Record<string, ExploreStrategy> = {
@@ -8,6 +9,8 @@ const strategies: Record<string, ExploreStrategy> = {
   [guidedCoverageStrategy.name]: guidedCoverageStrategy,
   [setCoverGreedyStrategy.name]: setCoverGreedyStrategy,
   ["set-cover"]: setCoverGreedyStrategy,
+  [rlBanditStrategy.name]: rlBanditStrategy,
+  ["bandit"]: rlBanditStrategy,
 };
 
 export function getStrategy(name: string): ExploreStrategy {
