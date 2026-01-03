@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import type { CoverageState } from "./coverage";
-import type { ExploreAction, ExploreCandidate, ExploreConfig } from "./types";
+import type { ExploreAction, ExploreCandidate, ExploreConfig, StepFeedback } from "./types";
 
 type BenchErrorType = "http" | "console" | "pageerror" | "navigation" | "other";
 type RequestKind = "api" | "asset" | "route" | "other";
@@ -20,12 +20,22 @@ type BenchStep = {
   action: ExploreAction["action"];
   from: string;
   to?: string;
+  targetPath?: string;
   reason?: string;
   via?: string;
   candidates: number;
+  candidatePathsSample: string[];
+  deltaUniqueRoutes: number;
+  deltaCoverage: number;
   restart: boolean;
   coverageCount: number;
   uniqueRoutes: number;
+  reward?: number;
+  gain?: StepFeedback["gain"];
+  revisited?: boolean;
+  recentLoop?: boolean;
+  rewardMode?: StepFeedback["rewardMode"];
+  errors?: StepFeedback["errors"];
 };
 
 type RequestKey = `${RequestKind}:${string}:${string}`;
@@ -35,6 +45,7 @@ function noOpRecorder(): BenchmarkRecorder {
     enabled: false,
     recordVisit() {},
     recordStep() {},
+    recordFeedback() {},
     recordError() {},
     recordRequest() {},
     async finish() {},
@@ -83,7 +94,9 @@ export type BenchmarkRecorder = {
     candidates: ExploreCandidate[];
     coverage: CoverageState;
     visited: Set<string>;
+    recent: string[];
   }) => void;
+  recordFeedback: (fb: StepFeedback) => void;
   recordError: (error: BenchError) => void;
   recordRequest: (path: string, kind: RequestKind, method?: string) => void;
   finish: (params: {
@@ -94,6 +107,7 @@ export type BenchmarkRecorder = {
     status: "passed" | "failed";
     error?: unknown;
     history: string[];
+    strategyState?: { name: string; data: unknown };
   }) => Promise<void>;
 };
 
@@ -109,8 +123,11 @@ export function createBenchmarkRecorder(options: {
   const visits: string[] = [];
   const errors: BenchError[] = [];
   const steps: BenchStep[] = [];
+  const stepByIndex = new Map<number, BenchStep>();
   const requests = new Map<RequestKey, number>();
   const commit = gitCommit();
+  let lastUniqueRoutes = 0;
+  let lastCoverageCount = 0;
 
   return {
     enabled: true,
@@ -119,18 +136,39 @@ export function createBenchmarkRecorder(options: {
     },
     recordStep: ({ stepIndex, from, action, candidates, coverage, visited }) => {
       const to = action.action === "goto" ? action.targetPath ?? action.url : undefined;
-      steps.push({
+      const uniqueRoutes = visited.size;
+      const coverageCount = coverage.covered.size;
+      const candidatePathsSample = candidates.slice(0, 10).map((c) => c.path);
+      const step: BenchStep = {
         stepIndex,
         action: action.action,
         from,
         to,
+        targetPath: action.action === "goto" ? action.targetPath : undefined,
         reason: action.reason,
         via: action.via,
         candidates: candidates.length,
+        candidatePathsSample,
+        deltaUniqueRoutes: uniqueRoutes - lastUniqueRoutes,
+        deltaCoverage: coverageCount - lastCoverageCount,
         restart: action.action === "restart",
-        coverageCount: coverage.covered.size,
-        uniqueRoutes: visited.size,
-      });
+        coverageCount,
+        uniqueRoutes,
+      };
+      steps.push(step);
+      stepByIndex.set(stepIndex, step);
+      lastUniqueRoutes = uniqueRoutes;
+      lastCoverageCount = coverageCount;
+    },
+    recordFeedback: (fb) => {
+      const step = stepByIndex.get(fb.stepIndex);
+      if (!step) return;
+      step.reward = fb.reward;
+      step.gain = fb.gain;
+      step.revisited = fb.revisited;
+      step.recentLoop = fb.recentLoop;
+      step.rewardMode = fb.rewardMode;
+      step.errors = fb.errors;
     },
     recordError: (error) => {
       errors.push(error);
@@ -139,7 +177,7 @@ export function createBenchmarkRecorder(options: {
       const key: RequestKey = `${kind}:${path}:${method ?? ""}`;
       requests.set(key, (requests.get(key) ?? 0) + 1);
     },
-    async finish({ coverage, visited, targetSet, blockedRequests, status, error, history }) {
+    async finish({ coverage, visited, targetSet, blockedRequests, status, error, history, strategyState }) {
       try {
         await ensureDir(runDir);
         const endedAt = Date.now();
@@ -169,6 +207,7 @@ export function createBenchmarkRecorder(options: {
 
         const apiCount = countPrefix(coverage.covered, "api:");
         const assetCount = countPrefix(coverage.covered, "asset:");
+        const strategyStateFile = strategyState ? `${strategyState.name}-state.json` : undefined;
 
         const runJson = {
           meta: {
@@ -180,6 +219,7 @@ export function createBenchmarkRecorder(options: {
             baseURL: config.baseURL,
             flowJsonPath: config.flowJsonPath,
             publish: config.publish,
+            rewardMode: config.rewardMode,
             runDir,
             allowedPathPrefixes: config.allowedPathPrefixes,
             runStartedAt: new Date(startedAt).toISOString(),
@@ -214,6 +254,7 @@ export function createBenchmarkRecorder(options: {
             errors: "errors.jsonl",
             steps: "steps.jsonl",
             requestsTop: "requests-top.json",
+            ...(strategyStateFile ? { strategyState: strategyStateFile } : {}),
           },
         };
 
@@ -227,6 +268,9 @@ export function createBenchmarkRecorder(options: {
           ),
           safeWriteFile(path.join(runDir, "steps.jsonl"), steps.map((s) => JSON.stringify(s)).join("\n")),
           safeWriteFile(path.join(runDir, "requests-top.json"), JSON.stringify(topRequests, null, 2)),
+          ...(strategyStateFile
+            ? [safeWriteFile(path.join(runDir, strategyStateFile), JSON.stringify(strategyState.data, null, 2))]
+            : []),
           safeWriteFile(path.join(runDir, "run.json"), JSON.stringify(runJson, null, 2)),
         ]);
       } catch (err) {

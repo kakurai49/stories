@@ -15,6 +15,7 @@ import type {
 } from "./types";
 import { normalizePathFromUrl } from "./types";
 import { createBenchmarkRecorder } from "./bench-logger";
+import { getBanditSnapshot } from "./strategies/rl-bandit";
 
 export type RunExploreOptions = {
   page: Page;
@@ -326,6 +327,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       stepIndex: pending.stepIndex,
       rewardMode: config.rewardMode,
     };
+    bench.recordFeedback(feedback);
     await strategy.onFeedback?.(feedback);
   };
 
@@ -392,7 +394,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       };
 
       const action = strategy.nextAction(ctx);
-      bench.recordStep({ stepIndex, from: currentPath, action, candidates, coverage, visited });
+      bench.recordStep({ stepIndex, from: currentPath, action, candidates, coverage, visited, recent });
       if (action.action === "stop") break;
 
       const beforeSnapshot = snapshotCoverage(coverage);
@@ -474,6 +476,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
         if (errors.length > 0) {
           await attachText(testInfo, "explore-errors.txt", errors.join("\n"));
         }
+        const strategyState = strategy.name === "rl-bandit" ? getBanditSnapshot() : undefined;
         await bench.finish({
           coverage,
           visited,
@@ -482,6 +485,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
           status: runError ? "failed" : "passed",
           error: runError,
           history,
+          strategyState: strategyState ? { name: strategy.name, data: strategyState } : undefined,
         });
       } finally {
         await strategy.onEnd?.();
@@ -526,6 +530,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
       await attachText(testInfo, "guided-seed.txt", String(config.seed));
       await attachText(testInfo, "guided-visited.txt", visitedList.join("\n"));
       await attachText(testInfo, "guided-uncovered.txt", uncovered.join("\n"));
+      const strategyState = strategy.name === "rl-bandit" ? getBanditSnapshot() : undefined;
       await bench.finish({
         coverage,
         visited,
@@ -534,6 +539,7 @@ export async function runExplore({ page, testInfo, strategy, config }: RunExplor
         status: runError ? "failed" : "passed",
         error: runError,
         history,
+        strategyState: strategyState ? { name: strategy.name, data: strategyState } : undefined,
       });
     } finally {
       await strategy.onEnd?.();
