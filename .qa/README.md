@@ -1,105 +1,118 @@
-# QA Pocket (Playwright / Offline / Codespaces)
+# QA Pocket (Playwright / オフライン / Codespaces)
 
-## What this provides
-- Local dev server boot via Playwright `webServer`
-- Screenshot capture for routes
-- Visual Regression (Playwright snapshots)
-- External network requests blocked (offline-friendly)
+## 提供機能
+- Playwright の `webServer` によるローカル開発サーバー起動
+- ルートごとのスクリーンショット取得
+- ビジュアルリグレッション（Playwright スナップショット）
+- 外部ネットワークアクセスのブロック（オフラインフレンドリー）
 
-## Commands (from repo root)
-- Capture screenshots:
+## コマンド（リポジトリルートから）
+- スクリーンショット取得:
   - `npm run qa:shots`
-- Visual regression (first time: create baselines):
+- ビジュアルリグレッション（初回はベースライン作成）:
   - `npm run qa:visual:update`
-- Visual regression (compare):
+- ビジュアルリグレッション（比較）:
   - `npm run qa:visual`
 
-## Routes
-Edit `.qa/routes.txt` (1 route per line).
+## ルート設定
+`.qa/routes.txt` を編集（1 行 1 ルート）。
 
-## Artifacts
-- Screenshots: `.qa/artifacts/shots/*.png`
-- Test results / diffs: `.qa/artifacts/test-results/`
-- HTML report: `.qa/artifacts/playwright-report/`
+## 生成物
+- スクリーンショット: `.qa/artifacts/shots/*.png`
+- テスト結果 / 差分: `.qa/artifacts/test-results/`
+- HTML レポート: `.qa/artifacts/playwright-report/`
 
-## Env overrides (optional)
+## 環境変数（任意）
 - `QA_PROFILE=next|vite|generic`
 - `QA_PORT=3000` / `QA_BASE_URL=http://127.0.0.1:3000`
 - `QA_WEB_CMD="npm run dev -- --host 0.0.0.0 --port 3000"`
-- `QA_BLOCK_EXTERNAL=0` (allow external requests)
-- `QA_STRICT_EXTERNAL=1` (fail if any external request is attempted)
+- `QA_BLOCK_EXTERNAL=0`（外部リクエストを許可）
+- `QA_STRICT_EXTERNAL=1`（外部リクエスト発生で失敗）
 
 <!-- QA_FLOW_EXPLORE_START -->
-## Extensions: Screen Flow & Exploratory
+## 拡張: スクリーンフロー & エクスプロラトリ
 
-### Screen Flow (BFS crawl → Mermaid/JSON)
-- Generate into artifacts:
+### スクリーンフロー（BFS クロール → Mermaid/JSON）
+- アーティファクト生成:
   - `npm run qa:flow`
-- Publish to docs/qa as well:
+- docs/qa へも公開:
   - `npm run qa:flow:publish`
 
-Env:
-- QA_FLOW_START_PATH (default "/")
-- QA_FLOW_MAX_PAGES (default 200)
-- QA_FLOW_MAX_DEPTH (default 10)
-- QA_FLOW_PUBLISH (default 0)
+環境変数:
+- QA_FLOW_START_PATH (デフォルト "/")
+- QA_FLOW_MAX_PAGES (デフォルト 200)
+- QA_FLOW_MAX_DEPTH (デフォルト 10)
+- QA_FLOW_PUBLISH (デフォルト 0)
 
-Outputs:
+出力:
 - `.qa/artifacts/flow/screen-flow.md`
 - `.qa/artifacts/flow/screen-flow.json`
-- (optional) `docs/qa/screen-flow.md`, `docs/qa/screen-flow.json`
+- （任意）`docs/qa/screen-flow.md`, `docs/qa/screen-flow.json`
 
-### Exploratory (random walk, timeboxed)
+### エクスプロラトリ（ランダムウォーク、時間制限あり）
 - `QA_EXPLORE_SECONDS=120 npm run qa:explore`
-- Reproduce with seed:
+- シードで再現:
   - `QA_EXPLORE_SEED=123 QA_EXPLORE_SECONDS=60 npm run qa:explore`
-- Strategy can be switched with `QA_EXPLORE_STRATEGY=random-walk|guided-coverage` (default depends on the spec you run). Strategies live under `.qa/tests/exploratory/strategies/` and are driven by the common runner in `.qa/tests/exploratory/runner.ts`.
+- `QA_EXPLORE_STRATEGY=random-walk|guided-coverage|set-cover-greedy|set-cover` で戦略を切り替え（デフォルトは実行する spec に依存）。戦略は `.qa/tests/exploratory/strategies/` にあり、共通ランナー `.qa/tests/exploratory/runner.ts` で実行されます。
 
-This test fails on:
-- HTTP >= 400
+テスト失敗条件:
+- HTTP ステータス >= 400
 - pageerror / console error
 
-It attaches:
+添付するもの:
 - explore-seed.txt
 - explore-history.txt
-- explore-errors.txt (if any)
+- explore-errors.txt（あれば）
 <!-- QA_FLOW_EXPLORE_END -->
 
 
 <!-- QA_FLOW_COVERAGE_START -->
-## Extensions: Flow / Fix List / Guided Explore
+## 拡張: フロー / Fix List / ガイド付き Explore
 
-### Flow (screen-flow.json/md)
-- Generate flow artifacts:
+### Flow（screen-flow.json/md）
+- フローのアーティファクト生成:
   - `npm run qa:flow`
-- Publish to docs/qa as well:
+- docs/qa へも公開:
   - `npm run qa:flow:publish`
 
-### Flow Analyze (unreachable + fix list)
-- Analyze flow and generate fix list:
+### Flow Analyze（到達不能 + Fix List）
+- フローを解析して Fix List を生成:
   - `npm run qa:flow:analyze`
-- Publish docs:
+- ドキュメント公開:
   - `npm run qa:flow:analyze:publish`
-- One-shot fixlist (flow + analyze, publish docs):
+- ワンショット（flow + analyze + docs 公開）:
   - `npm run qa:fixlist`
 
-Unreachable is computed as:
-- `.qa/known-routes.txt` (expected routes)
-  minus
-- `screen-flow.json` pages (reachable via links)
+到達不能の判定:
+- `.qa/known-routes.txt`（期待ルート）
+  から
+- `screen-flow.json` のページ（リンク経由で到達できるページ）
+  を差し引いたもの
 
-### Guided Explore (prefer unvisited)
+### ガイド付き Explore（未訪問優先）
 - `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`
-- Publish JSON to docs:
-  - set `QA_EXPLORE_PUBLISH=1`
+- JSON を docs に公開:
+  - `QA_EXPLORE_PUBLISH=1` を設定
 
-### One command run (recommended)
+### まとめて実行（推奨）
 - `bash .qa/run-flow-coverage.sh`
 
-Outputs (committable):
+出力（コミット対象）:
 - `docs/qa/screen-flow.md|json`
 - `docs/qa/flow-analysis.md|json`
 - `docs/qa/link-fix-list.md`
 - `docs/qa/guided-coverage.json`
 - `docs/qa/QA_POCKET_RUNLOG.md`
 <!-- QA_FLOW_COVERAGE_END -->
+
+## エクスプロラトリ戦略プラグイン
+
+エクスプロラトリテストは `QA_EXPLORE_STRATEGY` でナビゲーション戦略を指定し、`.qa/tests/exploratory/strategies/` の実装を `index.ts` の `getStrategy` 経由で読み込みます。利用可能な戦略（エイリアス `set-cover` を含む）は `random-walk`、`guided-coverage`、`set-cover-greedy` の 3 種です。
+
+- **共通入力:** 各戦略は現在ページから収集したリンク候補、`QA_EXPLORE_SEED` 由来の RNG、直近/訪問済みパス、カバレッジ状態を含む `ExploreContext` を受け取ります。`config.restartEvery` を見て、一定間隔でスタート URL へ戻ることもあります。  
+
+- **random-walk** (`random-walk.ts`): 最大 200 件の生候補を保持（`skipBeforeSlice=true`, `dedupeByPath=false`）。候補がなければ開始ページへリスタート、あれば一様ランダムに選んで遷移します。  
+
+- **guided-coverage** (`guided-coverage.ts`): `init` で `screen-flow.json` を読み、既知ページのターゲット集合を構築しつつフローのメタデータから `startPath` を上書きする場合があります。パスで重複排除し、自己リンクを除外、最大 400 件を処理。各ステップで (1) 設定された周期や行き止まりでリスタートし、(2) 未訪問のターゲットを優先、(3) 次に未訪問全般、(4) それ以外を選択し、直近パスは可能なら避けます。  
+
+- **set-cover-greedy** (`set-cover-greedy.ts`): カバレッジモデルを用いて、どの候補が新しいカバレッジ（ルート/API/アセット）を最も増やすかを推定。guided と同様にパス重複排除・自己リンク除外・最大 400 件・任意の周期リスタートに対応。カバレッジ増分が最大の候補を選び、全候補が同程度なら直近を避けつつランダムにフォールバックします。
