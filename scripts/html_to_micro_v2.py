@@ -150,9 +150,6 @@ def _link_block(tag: Tag) -> dict | None:
     href = tag.get("href")
     if not href:
         return None
-    # Avoid duplicating anchors that wrap full blocks; children will be handled separately.
-    if tag.find(["p", "h1", "h2", "h3", "li"]):
-        return None
     label = _normalize_text(tag.get_text(" ", strip=True))
     if not label:
         return None
