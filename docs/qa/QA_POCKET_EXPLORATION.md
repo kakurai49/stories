@@ -6,12 +6,13 @@
 - ランダムウォーク（時間制限付き）: `QA_EXPLORE_SECONDS=120 npm run qa:explore`
 - ガイド付き探索（未訪問優先＋リスタート）: `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`
 - 集合被覆優先（セットカバー）: `QA_EXPLORE_SECONDS=60 QA_EXPLORE_SEED=123 QA_EXPLORE_STRATEGY=set-cover-greedy npm run qa:explore`
+- 強化学習バンディット（UCB1/ε-greedy）: `QA_EXPLORE_STRATEGY=rl-bandit QA_EXPLORE_SECONDS=60 QA_EXPLORE_RL_PERSIST=1 npm run qa:explore`
 - docs/qa へ JSON を公開: 上記に `QA_EXPLORE_PUBLISH=1` を付与
-- Strategy 切替: `QA_EXPLORE_STRATEGY=random-walk|guided-coverage|set-cover-greedy`（alias: `set-cover`）。`.qa/tests/exploratory/strategies/` に追加するだけで拡張可能です。【F:.qa/tests/exploratory/strategies/index.ts†L1-L16】
+- Strategy 切替: `QA_EXPLORE_STRATEGY=random-walk|guided-coverage|set-cover-greedy|rl-bandit`（alias: `set-cover` / `bandit`）。`.qa/tests/exploratory/strategies/` に追加するだけで拡張可能です。【F:.qa/tests/exploratory/strategies/index.ts†L1-L18】
 
 ## 実装構成
-- RNG・リンク収集・成果物生成は共通の runner（`.qa/tests/exploratory/runner.ts`）で管理し、探索先の選択ロジックのみ Strategy として差し替えます。【F:.qa/tests/exploratory/runner.ts†L1-L180】
-- Strategy は `name/candidateLimit/dedupe/skipSelf/skipBeforeSlice` と `nextAction` を持ち、`QA_EXPLORE_STRATEGY` で選択されます。【F:.qa/tests/exploratory/types.ts†L40-L76】【F:.qa/tests/exploratory/strategies/index.ts†L1-L16】
+- RNG・リンク収集・成果物生成は共通の runner（`.qa/tests/exploratory/runner.ts`）で管理し、探索先の選択ロジックのみ Strategy として差し替えます。各遷移の後にカバレッジ差分とエラー有無から報酬を算出し、`onFeedback` を通じて Strategy へ直接渡します。【F:.qa/tests/exploratory/runner.ts†L1-L213】【F:.qa/tests/exploratory/runner.ts†L226-L321】
+- Strategy は `name/candidateLimit/dedupe/skipSelf/skipBeforeSlice` と `nextAction` を持ち、`QA_EXPLORE_STRATEGY` で選択されます。強化学習が必要な場合は optional hook `onFeedback` / `onEnd` も実装できます。【F:.qa/tests/exploratory/types.ts†L40-L87】【F:.qa/tests/exploratory/types.ts†L89-L103】
 
 ## ランダムウォーク（`npm run qa:explore`）
 - xorshift RNG（`QA_EXPLORE_SEED`、未指定は現在時刻）で候補リンクの選択のみ乱数化します。【F:.qa/tests/exploratory/rng.ts†L1-L17】【F:.qa/tests/exploratory/strategies/random-walk.ts†L1-L17】
@@ -36,7 +37,9 @@
 - `QA_EXPLORE_PUBLISH`: `1` で guided の JSON を `docs/qa/` に書き出し
 - `QA_EXPLORE_RESTART_EVERY`: guided のリスタート間隔（ステップ数）
 - `QA_FLOW_JSON`: guided が参照する flow JSON のパス（省略時は `.qa/artifacts/flow/screen-flow.json`）
-- `QA_EXPLORE_STRATEGY`: 使用する探索戦略（`random-walk` / `guided-coverage` / `set-cover-greedy`）。デフォルトは実行する spec に応じて自動設定。【F:.qa/tests/exploratory/env.ts†L16-L42】
+- `QA_EXPLORE_STRATEGY`: 使用する探索戦略（`random-walk` / `guided-coverage` / `set-cover-greedy` / `rl-bandit`）。デフォルトは実行する spec に応じて自動設定。【F:.qa/tests/exploratory/env.ts†L16-L44】
+- `QA_EXPLORE_RL_ALGO|QA_EXPLORE_RL_EPS|QA_EXPLORE_RL_UCB_C|QA_EXPLORE_RL_REWARD_MODE`: rl-bandit の選択アルゴリズムと報酬計算モード。
+- `QA_EXPLORE_RL_PERSIST|QA_EXPLORE_RL_MODEL_PATH|QA_EXPLORE_RL_RESET|QA_EXPLORE_RL_MAX_ARMS_PER_STATE|QA_EXPLORE_RL_PERSIST_EVERY`: rl-bandit の永続化設定とステート上限。
 
 ## 成果物の場所
 - ランダムウォーク: `.qa/artifacts/explore/` に履歴・シード（テスト実行時に添付）。
@@ -51,6 +54,12 @@
   - `random-walk`: まず広く当たりたいときの手軽なランダム探索
   - `guided-coverage`: flow のターゲット（未訪問ページ）を優先して埋めたいとき
   - `set-cover-greedy`: 共有リソースに偏らず、新規要素の被覆を最大化したいとき（seed 指定推奨）
+
+## 強化学習（`QA_EXPLORE_STRATEGY=rl-bandit` / alias: `bandit`）
+- 腕は `(fromPath → toPath)` 単位で管理し、各ステップの報酬（カバレッジ増分やエラー検出）を逐次平均で更新します。【F:.qa/tests/exploratory/strategies/rl-bandit.ts†L1-L196】【F:.qa/tests/exploratory/runner.ts†L170-L321】
+- アルゴリズムは `QA_EXPLORE_RL_ALGO=ucb1|eps-greedy`（デフォルト ucb1）。`QA_EXPLORE_RL_EPS` / `QA_EXPLORE_RL_UCB_C` でパラメータ調整、`QA_EXPLORE_RL_REWARD_MODE=coverage|bughunt` でエラー重み付けを切替可能。【F:.qa/tests/exploratory/strategies/rl-bandit.ts†L1-L196】【F:.qa/tests/exploratory/runner.ts†L55-L88】
+- モデル保存: `QA_EXPLORE_RL_PERSIST=1` で `.qa/artifacts/explore/rl-bandit-model.json` に保存し、`QA_EXPLORE_RL_MODEL_PATH` でパス変更、`QA_EXPLORE_RL_RESET=1` でロードせず初期化。ステートが大きくなった場合は `QA_EXPLORE_RL_MAX_ARMS_PER_STATE` で枝刈りします。【F:.qa/tests/exploratory/strategies/rl-bandit.ts†L26-L196】
+- 保存頻度は `QA_EXPLORE_RL_PERSIST_EVERY`（デフォルト 10 ステップ）と `onEnd` 時にまとめて行われるため、HTTP/console エラーで失敗しても直前の `onFeedback` まで学習結果を反映できます。【F:.qa/tests/exploratory/strategies/rl-bandit.ts†L126-L194】【F:.qa/tests/exploratory/runner.ts†L170-L321】
 
 ## 手動確認のスモーク
 - `QA_EXPLORE_SECONDS=60 QA_EXPLORE_SEED=123 npm run qa:explore`

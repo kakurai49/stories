@@ -24,6 +24,7 @@ QA Pocket は、Playwright ベースの QA 用ツールキットです。ロー�
 - 到達不能分析 + リンク修正リスト: `npm run qa:flow:analyze`（公開付きは `npm run qa:flow:analyze:publish`）。【F:.qa/README.md†L78-L83】
 - 探索的テスト（ランダム）: `QA_EXPLORE_SECONDS=120 npm run qa:explore`。【F:.qa/README.md†L52-L66】
 - 探索的テスト（未訪問優先 guided）: `QA_EXPLORE_SECONDS=120 npm run qa:explore:guided`（`QA_EXPLORE_PUBLISH=1` で JSON を `docs/qa` へ）。【F:.qa/README.md†L91-L104】
+- 強化学習バンディット探索: `QA_EXPLORE_STRATEGY=rl-bandit QA_EXPLORE_SECONDS=60 QA_EXPLORE_RL_PERSIST=1 npm run qa:explore`（モデルは `.qa/artifacts/explore/rl-bandit-model.json` に保存）。【F:.qa/README.md†L52-L66】【F:.qa/tests/exploratory/strategies/rl-bandit.ts†L152-L196】
 - まとめて実行（推奨）: `bash .qa/run-flow-coverage.sh`。【F:.qa/README.md†L96-L104】
 
 ### 生成物の例

@@ -53,7 +53,8 @@
 - `QA_EXPLORE_SECONDS=120 npm run qa:explore`
 - シードで再現:
   - `QA_EXPLORE_SEED=123 QA_EXPLORE_SECONDS=60 npm run qa:explore`
-- `QA_EXPLORE_STRATEGY=random-walk|guided-coverage|set-cover-greedy|set-cover` で戦略を切り替え（デフォルトは実行する spec に依存）。戦略は `.qa/tests/exploratory/strategies/` にあり、共通ランナー `.qa/tests/exploratory/runner.ts` で実行されます。
+- `QA_EXPLORE_STRATEGY=random-walk|guided-coverage|set-cover-greedy|set-cover|rl-bandit` で戦略を切り替え（デフォルトは実行する spec に依存）。戦略は `.qa/tests/exploratory/strategies/` にあり、共通ランナー `.qa/tests/exploratory/runner.ts` で実行されます。
+- 強化学習バンディット（UCB1 / ε-greedy）を試す場合: `QA_EXPLORE_STRATEGY=rl-bandit QA_EXPLORE_SECONDS=60 QA_EXPLORE_RL_PERSIST=1 npm run qa:explore`
 
 テスト失敗条件:
 - HTTP ステータス >= 400
@@ -107,7 +108,7 @@
 
 ## エクスプロラトリ戦略プラグイン
 
-エクスプロラトリテストは `QA_EXPLORE_STRATEGY` でナビゲーション戦略を指定し、`.qa/tests/exploratory/strategies/` の実装を `index.ts` の `getStrategy` 経由で読み込みます。利用可能な戦略（エイリアス `set-cover` を含む）は `random-walk`、`guided-coverage`、`set-cover-greedy` の 3 種です。
+エクスプロラトリテストは `QA_EXPLORE_STRATEGY` でナビゲーション戦略を指定し、`.qa/tests/exploratory/strategies/` の実装を `index.ts` の `getStrategy` 経由で読み込みます。利用可能な戦略（エイリアス `set-cover` / `bandit` を含む）は `random-walk`、`guided-coverage`、`set-cover-greedy`、`rl-bandit` の 4 種です。
 
 - **共通入力:** 各戦略は現在ページから収集したリンク候補、`QA_EXPLORE_SEED` 由来の RNG、直近/訪問済みパス、カバレッジ状態を含む `ExploreContext` を受け取ります。`config.restartEvery` を見て、一定間隔でスタート URL へ戻ることもあります。  
 
@@ -116,3 +117,4 @@
 - **guided-coverage** (`guided-coverage.ts`): `init` で `screen-flow.json` を読み、既知ページのターゲット集合を構築しつつフローのメタデータから `startPath` を上書きする場合があります。パスで重複排除し、自己リンクを除外、最大 400 件を処理。各ステップで (1) 設定された周期や行き止まりでリスタートし、(2) 未訪問のターゲットを優先、(3) 次に未訪問全般、(4) それ以外を選択し、直近パスは可能なら避けます。  
 
 - **set-cover-greedy** (`set-cover-greedy.ts`): カバレッジモデルを用いて、どの候補が新しいカバレッジ（ルート/API/アセット）を最も増やすかを推定。guided と同様にパス重複排除・自己リンク除外・最大 400 件・任意の周期リスタートに対応。カバレッジ増分が最大の候補を選び、全候補が同程度なら直近を避けつつランダムにフォールバックします。
+- **rl-bandit** (`rl-bandit.ts`, alias: `bandit`): `(fromPath → toPath)` の腕を学習し、報酬（カバレッジ増分/エラー検出）を逐次平均で更新します。`QA_EXPLORE_RL_ALGO=ucb1|eps-greedy`（デフォルト ucb1）でアルゴリズムを選択し、`QA_EXPLORE_RL_PERSIST=1` で `.qa/artifacts/explore/rl-bandit-model.json` に保存します。モデル破損時は自動リセットします。

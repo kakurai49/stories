@@ -21,6 +21,11 @@ function parseAllowedPrefixes(input: string | undefined, fallback?: string[]): s
   return prefixes.length > 0 ? prefixes : fallback;
 }
 
+function parseRewardMode(input: string | undefined): ExploreConfig["rewardMode"] {
+  const normalized = (input ?? "").trim().toLowerCase();
+  return normalized === "bughunt" ? "bughunt" : "coverage";
+}
+
 export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultStrategy?: string }): ExploreConfig {
   const seconds = parseNumber(process.env.QA_EXPLORE_SECONDS, defaults?.seconds ?? 120);
   const seed = parseNumber(process.env.QA_EXPLORE_SEED, defaults?.seed ?? Date.now());
@@ -44,6 +49,7 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
   const benchRunDirEnv = process.env.QA_EXPLORE_BENCH_RUN_DIR;
   const benchMode = (process.env.QA_EXPLORE_BENCH ?? "0") === "1" || Boolean(benchRunDirEnv);
   const benchRunDir = benchRunDirEnv || (benchMode ? artifactsDir : undefined);
+  const rewardMode = parseRewardMode(process.env.QA_EXPLORE_RL_REWARD_MODE ?? defaults?.rewardMode);
 
   return {
     seconds,
@@ -59,5 +65,6 @@ export function loadExploreConfig(defaults?: Partial<ExploreConfig> & { defaultS
     benchRunDir,
     baseURL: defaults?.baseURL ?? qa.baseURL,
     waitAfterGotoMs: defaults?.waitAfterGotoMs ?? qa.waitAfterGotoMs,
+    rewardMode: rewardMode ?? "coverage",
   };
 }
